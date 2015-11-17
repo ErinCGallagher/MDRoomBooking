@@ -29,14 +29,15 @@ $scope.events = [
   });
 
   console.log("hello");
-
       $scope.emptyClick = function(date, jsEvent, view){
-      console.log("empty timeslot: " + date._d);
+      $scope.day = date.format("YYYY-MM-DD h:mm");
+      console.log("empty timeslot: " +$scope.day);
     }
 
  /* alert on eventClick */
     $scope.alertOnEventClick = function(date, jsEvent, view){
       console.log("booked timeslot: " + date.title);
+      console.log(date._start._d);
     };
 
 	/* config object */
@@ -48,7 +49,7 @@ $scope.events = [
         maxTime : "23:00:00",
         slotEventOverlap:false,
         allDaySlot:false,
-        Timezone: 'EST',
+        Timezone: 'UTC -5',
         //slotDuration:'00:30:00:00',//default
         header:{ //buttons at the top
           //left: 'month basicWeek basicDay agendaWeek agendaDay'
