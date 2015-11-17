@@ -3,18 +3,18 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 function CalendarCtrl($scope, uiCalendarConfig){
-		$scope.events = [
-		{
-		    title: 'Test Birthday Party',
-	        start: new Date(2015, 11, 11 + 1, 19, 0),
-	        end: new Date(2015, 11, 11 + 1, 22, 30),
-	        allDay: false
-	    }
-	];
-	$scope.eventSources = [$scope.events];
 
+  var date = new Date();
+  var d = date.getDate();
+  var m = date.getMonth();
+  var y = date.getFullYear();
 
-
+$scope.events = [
+    {
+        title: 'All Day Event',start: new Date(y, m, d)
+      }
+  ];
+  $scope.eventSources = [$scope.events];
 
 	/* config object */
     $scope.uiConfig = {
