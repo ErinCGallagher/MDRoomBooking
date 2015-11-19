@@ -62,6 +62,8 @@ function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
     }
   };
 
+  /*
+
   $scope.search = function(){
     var q = $q.defer();
     CalendarService.search($scope.keywords)
@@ -73,5 +75,7 @@ function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
         q.reject();
       };
   };
+
+  */
 
 }
