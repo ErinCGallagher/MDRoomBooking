@@ -12,14 +12,30 @@
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
         <script type="text/javascript" src="mainApp.js"></script>
         <script type="text/javascript" src="calendarCtrl.js"></script>
+<<<<<<< HEAD
         <script type="text/javascript" src="bookingsService.js"></script>
         <script type="text/javascript" src="commService.js"></script>
+=======
+        <script type="text/javascript" src="calendarService.js"></script>
+>>>>>>> d3c4b6fc548de7be8366cd3adce8d77451685f81
         <title>Room Booking System</title>
 
     </head>
 
     <body ng-app="mainApp" ng-controller="CalendarCtrl">
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+
+    <div>
+    <form class="well form-search">
+        <label>Search:</label>
+        <input type="text" ng-model="keywords" class="input-medium search-query" placeholder="Keywords...">
+        <button type="submit" class="btn" ng-click="search()">Search</button>
+        <p class="help-block">Try for example: "php" or "angularjs" or "asdfg"</p>      
+    </form>
+    <pre ng-model="result">
+    {{result}}
+    </pre>
+   </div>
 
     </body>
 </html>
