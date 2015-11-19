@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('CalendarCtrl', CalendarCtrl);
 
-function CalendarCtrl($scope, uiCalendarConfig){
+function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
 
   var date = new Date();
   var d = date.getDate();
@@ -30,8 +30,7 @@ $scope.events = [
 
   console.log("hello");
       $scope.emptyClick = function(date, jsEvent, view){
-      $scope.day = date.format("YYYY-MM-DD h:mm");
-      console.log("empty timeslot: " +$scope.day);
+      console.log("empty timeslot: " + date._d);
     }
 
  /* alert on eventClick */
