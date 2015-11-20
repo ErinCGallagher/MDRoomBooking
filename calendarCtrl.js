@@ -3,7 +3,7 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
+function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
 
   var date = new Date();
   var d = date.getDate();
