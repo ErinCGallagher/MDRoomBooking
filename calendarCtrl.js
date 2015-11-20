@@ -42,6 +42,32 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     console.log("empty timeslot: " +$scope.day);
     $scope.date = date.format("YYYY-MM-DD");
     $scope.startTime = date.format("h:mm");
+
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'bookRoom.html',
+      controller: 'ModalInstanceCtrl',
+      resolve: {
+        reasons: function () {
+          return $scope.reasons;
+        },
+        selectedReason: function () {
+          return $scope.selectedReason;
+        },
+        durations: function () {
+          return $scope.durations;
+        },
+        selectedDuration: function () {
+          return $scope.selectedDuration;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
   }
 
  /* alert on eventClick */
@@ -87,54 +113,10 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   */
 
-  $scope.items = ['item1', 'item2', 'item3'];
-
-  $scope.animationsEnabled = true;
-
-  $scope.open = function (size) {
-
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'bookRoom.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-  };
-
-  $scope.toggleAnimation = function () {
-    $scope.animationsEnabled = !$scope.animationsEnabled;
-  };
+  
 
 };
 
 
-// Please note that $modalInstance represents a modal window (instance) dependency.
-// It is not the same as the $uibModal service used above.
 
-angular.module('mainApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
-
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-
-  $scope.ok = function () {
-    $uibModalInstance.close($scope.selected.item);
-  };
-
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
 
