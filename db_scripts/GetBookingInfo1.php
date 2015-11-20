@@ -17,4 +17,6 @@
 
    		$query3 = "SELECT * FROM Bookings WHERE bookingID = '$BID';"
 		$bookingInfo = my_sqli_query($cxn, $query3);
+		
+		$json = json_encode($bookingInfo);
 ?>
