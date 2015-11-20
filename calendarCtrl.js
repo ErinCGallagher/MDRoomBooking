@@ -10,6 +10,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   var m = date.getMonth();
   var y = date.getFullYear();
 
+  $scope.events = BookingsService.dailyBookings;
+  /*
   $scope.events = [{
     title: 'Erins Ballin party',
     start: new Date(y, m, d , 14, 30, 0), 
@@ -17,17 +19,9 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     allDay: false
     }
   ];
+  */
   $scope.eventSources = [$scope.events];
-
-  //add an event to the eventSource to be displayed on the calendar
-  $scope.events.push({
-    title: 'Lauras Fantastic Event',
-    start: new Date(y, m, d , 10, 30, 0), 
-    end: new Date(y, m, d, 12, 0, 0),
-    allDay: false
-
-  });
-
+  
   console.log("hello");
 
   $scope.emptyClick = function(date, jsEvent, view){
