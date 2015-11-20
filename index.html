@@ -15,7 +15,8 @@
         <script type="text/javascript" src="calendarCtrl.js"></script>
         <script type="text/javascript" src="bookingsService.js"></script>
         <script type="text/javascript" src="commService.js"></script>
-        <script type="text/javascript" src="modalInstanceCtrl.js"></script>
+        <script type="text/javascript" src="makeBookingPopupCtrl.js"></script>
+        <script type="text/javascript" src="viewBookingPopupCtrl.js"></script>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,8 +35,10 @@
     <body ng-app="mainApp" ng-controller="CalendarCtrl">
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
        
+
+        <!-- Make Booking Popup Template -->
         <div>
-            <script type="text/ng-template" id="bookRoom.html">
+            <script type="text/ng-template" id="makeBookingPopup.html">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -55,6 +58,10 @@
                                 <select ng-model="selectedDuration" ng-options="duration as duration for duration in durations"></select>
                             </p>
                             <p>
+                                <strong>Number of People: </strong>
+                                <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
+                            </p>
+                            <p>
                                 <strong>Reason</strong>
                                 <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons"></select>
                             </p>
@@ -67,6 +74,38 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn" ng-click="cancel()">Cancel</button>
                         <button type="submit" class="btn" ng-click="cancel()">Submit</button>
+                    </div>
+                </div>
+            </script>  
+        </div>
+
+
+        <!-- View Booking Popup Template -->
+        <div>
+            <script type="text/ng-template" id="viewBookingPopup.html">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="cancel()">&times;</button>
+                        <h4 class="modal-title">Booking Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="book-Room">
+                            <div class="book-room-info">
+                                <p><strong>Building:</strong> Harrison-LeCaine Hall</p>
+                                <p><strong>Room #:</strong> 101</p>
+                                <p><strong>Date:</strong> {{date}}</p>
+                                <p><strong>Start Time:</strong> {{startTime}}</p>
+                            <p><strong>Duration: </strong> {{duration}}</p>
+                            <p><strong>Number of People: </strong> {{numPeople}}</p>
+                            <p><strong>Reason</strong> {{reason}}</p>
+                            <div ng-show="selectedReason=='Other'">
+                                <p><Strong>Description: </Strong> {{description}}</p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn" ng-click="cancel()">Ok</button>
                     </div>
                 </div>
             </script>  

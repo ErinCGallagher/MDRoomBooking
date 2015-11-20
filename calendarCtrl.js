@@ -10,13 +10,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   var m = date.getMonth();
   var y = date.getFullYear();
 
-  $scope.selectedDuration = "30 minutes"; //initializes the duration dropdown
-  $scope.selectedReason = "Individual Rehearsal"; //initializes the reason dropdown
-  $scope.reasons = ["Individual Rehearsal", "Ensemble Rehearsal", "Coursework", "Performance", "Meetings", "Other"];
-  $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
-  $scope.date = "";
-  $scope.startTime = "";
-
   $scope.events = [{
     title: 'Erins Ballin party',
     start: new Date(y, m, d , 14, 30, 0), 
@@ -40,33 +33,18 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.emptyClick = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm");
     console.log("empty timeslot: " +$scope.day);
-    $scope.date = date.format("YYYY-MM-DD");
-    $scope.startTime = date.format("h:mm");
 
-    var modalInstance = $uibModal.open({
-      animation: true,
-      templateUrl: 'bookRoom.html',
-      controller: 'ModalInstanceCtrl',
+    var makeBookingPopupInstance = $uibModal.open({
+      templateUrl: 'makeBookingPopup.html',
+      controller: 'MakeBookingPopupCtrl',
       resolve: {
-        reasons: function () {
-          return $scope.reasons;
+        date: function () {
+          return date.format("YYYY-MM-DD");
         },
-        selectedReason: function () {
-          return $scope.selectedReason;
-        },
-        durations: function () {
-          return $scope.durations;
-        },
-        selectedDuration: function () {
-          return $scope.selectedDuration;
+        startTime: function () {
+          return date.format("h:mm");
         }
       }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
     });
   }
 
@@ -74,6 +52,28 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.alertOnEventClick = function(date, jsEvent, view){
     console.log("booked timeslot: " + date.title);
     console.log(date._start._d);
+
+    var viewBookingPopupInstance = $uibModal.open({
+      templateUrl: 'viewBookingPopup.html',
+      controller: 'ViewBookingPopupCtrl',
+      resolve: {
+        duration: function () {
+          return "30 min";
+        },
+        reason: function () {
+          return "Coursework";
+        },
+        numPeople: function () {
+          return "5";
+        },
+        date: function () {
+          return date.start.format("YYYY-MM-DD");
+        },
+        startTime: function () {
+          return date.start.format("h:mm");
+        }
+      }
+    });
   };
 
 	/* config object */
