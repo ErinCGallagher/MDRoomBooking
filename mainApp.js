@@ -1,3 +1,4 @@
 angular
 .module('mainApp', 
-	['ui.calendar']);
+	['ui.calendar',
+	'ui.bootstrap']);
