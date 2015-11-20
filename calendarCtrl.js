@@ -38,10 +38,10 @@ function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
   console.log("hello");
 
   $scope.emptyClick = function(date, jsEvent, view){
-  $scope.day = date.format("YYYY-MM-DD h:mm");
-  console.log("empty timeslot: " +$scope.day);
-  $scope.date = date.format("YYYY-MM-DD");
-  $scope.startTime = date.format("h:mm");
+    $scope.day = date.format("YYYY-MM-DD h:mm");
+    console.log("empty timeslot: " +$scope.day);
+    $scope.date = date.format("YYYY-MM-DD");
+    $scope.startTime = date.format("h:mm");
   }
 
  /* alert on eventClick */

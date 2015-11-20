@@ -1,4 +1,3 @@
 angular
-.module('mainApp', [
-	'ui.calendar'
-	]);
+.module('mainApp', 
+	['ui.calendar']);
