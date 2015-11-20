@@ -10,6 +10,13 @@ function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
   var m = date.getMonth();
   var y = date.getFullYear();
 
+  $scope.selectedDuration = "30 minutes"; //initializes the duration dropdown
+  $scope.selectedReason = "Individual Rehearsal"; //initializes the reason dropdown
+  $scope.reasons = ["Individual Rehearsal", "Ensemble Rehearsal", "Coursework", "Performance", "Meetings", "Other"];
+  $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
+  $scope.date = "";
+  $scope.startTime = "";
+
   $scope.events = [{
     title: 'Erins Ballin party',
     start: new Date(y, m, d , 14, 30, 0), 
@@ -33,6 +40,8 @@ function CalendarCtrl($scope, uiCalendarConfig, BookingsService){
   $scope.emptyClick = function(date, jsEvent, view){
   $scope.day = date.format("YYYY-MM-DD h:mm");
   console.log("empty timeslot: " +$scope.day);
+  $scope.date = date.format("YYYY-MM-DD");
+  $scope.startTime = date.format("h:mm");
   }
 
  /* alert on eventClick */

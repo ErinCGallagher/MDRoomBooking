@@ -21,6 +21,32 @@
     <body ng-app="mainApp" ng-controller="CalendarCtrl">
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 
+        <form class="book-Room">
+            <div class="book-room-info">
+                <p><strong>Building:</strong> Harrison-LeCain Hall</p>
+                <p><strong>Room #:</strong> 101</p>
+                <p><strong>Date:</strong> {{date}}</p>
+                <p><strong>start Time:</strong> {{startTime}}</p>
+            </div>
+            <strong>Duration: </strong>
+            <select ng-model="selectedDuration" ng-options="duration as duration for duration in durations">
+            </select>
+            </br>
+            <strong>Reason</strong>
+            <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons">
+            </select>
+            </br>
+            <div ng-show="selectedReason=='Other'">
+                <Strong>Description: </Strong>
+                <input type="text" name="input" ng-model="description">
+            </div>
+
+            <div id="button-bar">
+                <button type="submit" class="btn" ng-click="cancel()">Cancel</button>
+                <button type="submit" class="btn" ng-click="submitRoomBooking()">Submit</button>
+            </div>
+        </form>
+
     <!--
     <div>
 
