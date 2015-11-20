@@ -5,11 +5,17 @@ angular
 function BookingsService(CommService){
 
 	var bookingsService = {};
-	var dailyBookings = {}; 
-	//{
-	//	B1:{date:x, roomNum:x, startTime:x, endTime:x, reason:x, people:x, description:x},
-	//	B2:{date:y, roomNum:y, startTime:y, endTime:y, reason:y, people:y, description:y}
-	//};
+	bookingsService.dailyBookings = []; 
+
+bookingsService.dailyBookings.push(
+		{title:"Other", start:new Date(2015, 10, 20 , 8, 30, 0), end:new Date(2015, 10, 20 , 10, 00, 0), allDay:false, bookingID:"B4", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
+		{title:"Coursework", start:new Date(2015, 10, 20 , 14, 30, 0), end:new Date(2015, 10, 20 , 15, 00, 0),allDay:false, bookingID:"B2", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
+		{title:"Rehearsal",start:new Date(2015, 10, 20 ,17, 30, 0), end:new Date(2015, 10, 20 , 18, 30, 0),allDay:false, bookingID:"B3", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
+
+	bookingsService.addEvent = function(){
+		bookingsService.dailyBookings.push(
+		{title:"Other", start:new Date(2015, 10, 20 , 11, 00, 0),  end:new Date(2015, 10, 20 , 12, 30, 0), allDay:false});
+	}
 
 	//retrieves the daily bookings given a date
 	bookingsService.getDailyBookings = function(date){
