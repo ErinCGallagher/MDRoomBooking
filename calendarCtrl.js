@@ -10,13 +10,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   var m = date.getMonth();
   var y = date.getFullYear();
 
-  $scope.selectedDuration = "30 minutes"; //initializes the duration dropdown
-  $scope.selectedReason = "Individual Rehearsal"; //initializes the reason dropdown
-  $scope.reasons = ["Individual Rehearsal", "Ensemble Rehearsal", "Coursework", "Performance", "Meetings", "Other"];
-  $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
-  $scope.date = "";
-  $scope.startTime = "";
-
   $scope.events = [{
     title: 'Erins Ballin party',
     start: new Date(y, m, d , 14, 30, 0), 
@@ -40,14 +33,47 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.emptyClick = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm");
     console.log("empty timeslot: " +$scope.day);
-    $scope.date = date.format("YYYY-MM-DD");
-    $scope.startTime = date.format("h:mm");
+
+    var makeBookingPopupInstance = $uibModal.open({
+      templateUrl: 'makeBookingPopup.html',
+      controller: 'MakeBookingPopupCtrl',
+      resolve: {
+        date: function () {
+          return date.format("YYYY-MM-DD");
+        },
+        startTime: function () {
+          return date.format("h:mm");
+        }
+      }
+    });
   }
 
  /* alert on eventClick */
   $scope.alertOnEventClick = function(date, jsEvent, view){
     console.log("booked timeslot: " + date.title);
     console.log(date._start._d);
+
+    var viewBookingPopupInstance = $uibModal.open({
+      templateUrl: 'viewBookingPopup.html',
+      controller: 'ViewBookingPopupCtrl',
+      resolve: {
+        duration: function () {
+          return "30 min";
+        },
+        reason: function () {
+          return "Coursework";
+        },
+        numPeople: function () {
+          return "5";
+        },
+        date: function () {
+          return date.start.format("YYYY-MM-DD");
+        },
+        startTime: function () {
+          return date.start.format("h:mm");
+        }
+      }
+    });
   };
 
 	/* config object */
@@ -87,54 +113,10 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   */
 
-  $scope.items = ['item1', 'item2', 'item3'];
-
-  $scope.animationsEnabled = true;
-
-  $scope.open = function (size) {
-
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'bookRoom.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-  };
-
-  $scope.toggleAnimation = function () {
-    $scope.animationsEnabled = !$scope.animationsEnabled;
-  };
+  
 
 };
 
 
-// Please note that $modalInstance represents a modal window (instance) dependency.
-// It is not the same as the $uibModal service used above.
 
-angular.module('mainApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
-
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-
-  $scope.ok = function () {
-    $uibModalInstance.close($scope.selected.item);
-  };
-
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
 
