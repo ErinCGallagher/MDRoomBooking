@@ -33,7 +33,16 @@ bookingsService.dailyBookings.push(
 		return bookingInfo;
 	}
 
-	
+	//return an array with the list of possible durations given a booking start time
+	//used for the duration dropdown in the popup
+	bookingsService.getPossibleDurations = function(startTime){
+		for(var i=0; i<bookingsService.dailyBookings.length; i++){
+			if(bookingsService.dailyBookings[i].start >= startTime){
+
+			}
+		}
+		return bookingInfo;
+	}
 
 	//sends info to database to book a room
 	//waits until a successful or non-successful response is returned
@@ -60,12 +69,14 @@ bookingsService.dailyBookings.push(
 	//return true if no conflicts
 	//return false if there are conflicts
 	bookingsService.confirmNoBookingConflicts = function(startTime, endTime){
+
+		var len = bookingsService.dailyBookings.length;
 		//loop through the daily bookings
 		for(var i=0; i<bookingsService.dailyBookings.length; i++){
 			//if the start times match
 			if((bookingsService.dailyBookings[i].end).getTime() == startTime.getTime()){
 				//if the next booked time occurs after the end time of the current booking
-				if(bookingsService.dailyBookings[i+1].start >= endTime ){
+				if(i == (len-1) || bookingsService.dailyBookings[i+1].start >= endTime ){
 					return true; //no conflict
 				}
 				else{
@@ -88,6 +99,8 @@ bookingsService.dailyBookings.push(
 				}
 			}
 		}
+
+		return true; //no bookings or they all occur before your booking do whatever you want
 
 	}
 
