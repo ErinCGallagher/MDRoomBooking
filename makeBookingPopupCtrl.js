@@ -19,7 +19,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     var isSuccessful = BookingsService.bookRoom({
       title: $scope.selectedReason,
       start: new Date(dateTime),
-      end: new Date(dateTime),
+      end: $scope.calcEndTime(),
       allDay: false,
       building: building, 
       roomNum: roomNum,
@@ -32,6 +32,10 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     $uibModalInstance.close();
   };
 
+  $scope.calcEndTime = function () {
+    var end = moment(dateTime).add(1.5, 'h');
+    return end;
+  }
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };

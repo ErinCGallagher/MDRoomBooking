@@ -52,6 +52,7 @@ bookingsService.dailyBookings.push(
 
 		//var response = CommService.bookRoomInDB(roomInformation);
 
+		console.log(newBookingInfo);
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
