@@ -74,31 +74,20 @@ bookingsService.dailyBookings.push(
 		var len = bookingsService.dailyBookings.length;
 		//loop through the daily bookings
 		for(var i=0; i<bookingsService.dailyBookings.length; i++){
-			//if the start times match
-			if((bookingsService.dailyBookings[i].end).getTime() == startTime.getTime()){
-				//if the next booked time occurs after the end time of the current booking
-				if(i == (len-1) || bookingsService.dailyBookings[i+1].start >= endTime ){
-					return true; //no conflict
-				}
-				else{
-					return false; //conflict!
-				}
+
+			if((bookingsService.dailyBookings[i].start).getTime() == startTime.getTime()){
+				return false;
 			}
-			//no booking occurs before the current one
-			else if((bookingsService.dailyBookings[i].start).getTime() > (startTime).getTime()){
-				
-				//if the current booking starts before the booked one ends
-				if((startTime).getTime() < (bookingsService.dailyBookings[i].end).getTime() ){
-					return false; //no conflict
-				}
-				//if the next booked time occurs after the end time of the current booking
-				else if((bookingsService.dailyBookings[i].end).getTime() >= (endTime).getTime()){
-					return true; //no conflict
-				}
-				else{
-					return false; //conflict!
-				}
+			//if the start time is in between
+			else if(startTime.getTime() >= (bookingsService.dailyBookings[i].start).getTime() &&
+				 startTime.getTime() < (bookingsService.dailyBookings[i].end).getTime()){
+				return false;
 			}
+			else if(endTime.getTime() > (bookingsService.dailyBookings[i].start).getTime() &&
+				 endTime.getTime() <= (bookingsService.dailyBookings[i].end).getTime()){
+				return false;
+			}
+
 		}
 
 		return true; //no bookings or they all occur before your booking do whatever you want

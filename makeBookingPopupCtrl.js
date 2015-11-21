@@ -15,17 +15,18 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.date = dateTime.format("YYYY-MM-DD");
   $scope.startTime = dateTime.format("h:mm");
 
+
   $scope.submitBooking = function () {
     var isSuccessful = BookingsService.bookRoom({
       title: $scope.selectedReason,
       start: new Date(dateTime),
-      end: $scope.calcEndTime(),
+      end: new Date($scope.calcEndTime()),
       allDay: false,
       building: building, 
       roomNum: roomNum,
       duration: $scope.selectedDuration,  
       numPeople: $scope.selectedNumPeople, 
-      description: $scope.description
+      description: $scope.description,
     });
     
     console.log(isSuccessful);

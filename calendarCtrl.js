@@ -5,10 +5,6 @@ angular
 
 function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
 
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
 
   $scope.events = BookingsService.dailyBookings;
 
@@ -17,7 +13,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   console.log("hello");
 
   $scope.emptyClick = function(date, jsEvent, view){
-    $scope.day = date.format("YYYY-MM-DD h:mm");
+    $scope.day = date.format("YYYY-MM-DD h:mm z");
     console.log("empty timeslot: " +$scope.day);
 
     var makeBookingPopupInstance = $uibModal.open({
@@ -80,7 +76,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       maxTime : "23:00:00",
       slotEventOverlap:false,
       allDaySlot:false,
-      Timezone: 'UTC -5',
+      timezone: 'local',
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         //left: 'month basicWeek basicDay agendaWeek agendaDay'
