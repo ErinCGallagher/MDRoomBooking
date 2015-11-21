@@ -27,6 +27,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       duration: $scope.selectedDuration,  
       numPeople: $scope.selectedNumPeople, 
       description: $scope.description,
+      stick:true
     });
     
     console.log(isSuccessful);
