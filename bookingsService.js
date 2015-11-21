@@ -33,29 +33,64 @@ bookingsService.dailyBookings.push(
 		return bookingInfo;
 	}
 
+	
 
 	//sends info to database to book a room
 	//waits until a successful or non-successful response is returned
 	//newBookingInfo may be an array with all the attributes
 	bookingsService.bookRoom = function(newBookingInfo){
 		var roomInformation = {};
-		var response = CommService.bookRoomInDB(roomInformation);
-		if(response){
+
+		//var response = CommService.bookRoomInDB(roomInformation);
+
+		//determine if there are conflicts
+		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
-			return response;
+			bookingsService.dailyBookings.push(newBookingInfo);
+
+			return true;
 		}
 		else{
 			//don't add and inform the user there was an error
-			return 'could not create your room booking';
+			return false;
 		}
-		
 	}
 
-	//may not use
 	//confirms that the booking does not conflict with other bookings
-	bookingsService.confirmNoBookingConflicts = function(date, startTime, endTime){
-		return true;
+	//return true if no conflicts
+	//return false if there are conflicts
+	bookingsService.confirmNoBookingConflicts = function(startTime, endTime){
+		//loop through the daily bookings
+		for(var i=0; i<bookingsService.dailyBookings.length; i++){
+			//if the start times match
+			if((bookingsService.dailyBookings[i].end).getTime() == startTime.getTime()){
+				//if the next booked time occurs after the end time of the current booking
+				if(bookingsService.dailyBookings[i+1].start >= endTime ){
+					return true; //no conflict
+				}
+				else{
+					return false; //conflict!
+				}
+			}
+			//no booking occurs before the current one
+			else if((bookingsService.dailyBookings[i].start).getTime() > (startTime).getTime()){
+				
+				//if the current booking starts before the booked one ends
+				if((startTime).getTime() < (bookingsService.dailyBookings[i].end).getTime() ){
+					return false; //no conflict
+				}
+				//if the next booked time occurs after the end time of the current booking
+				else if((bookingsService.dailyBookings[i].end).getTime() >= (endTime).getTime()){
+					return true; //no conflict
+				}
+				else{
+					return false; //conflict!
+				}
+			}
+		}
+
 	}
+
 
 
 //check for conflicts
