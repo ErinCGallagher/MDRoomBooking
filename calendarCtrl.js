@@ -13,7 +13,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   console.log("hello");
 
-  $scope.emptyClick = function(date, jsEvent, view){
+  $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
     console.log("empty timeslot: " +$scope.day);
 
@@ -35,7 +35,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   }
 
  /* alert on eventClick */
-  $scope.alertOnEventClick = function(date, jsEvent, view){
+  $scope.viewBookingInformation = function(date, jsEvent, view){
     console.log("booked timeslot: " + date.title);
     console.log(date._start._d);
 
@@ -80,12 +80,13 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       timezone: 'local',
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
-        //left: 'month basicWeek basicDay agendaWeek agendaDay'
-        center: 'Drama & Music Room Booking System',
-        right: 'today prev,next'
+        left: '',
+        //center: 'today prev, title next',
+        center: 'prev, title next',
+        right: ''
       },
-      dayClick : $scope.emptyClick,
-      eventClick: $scope.alertOnEventClick,
+      dayClick : $scope.bookRoomInCalendar,
+      eventClick: $scope.viewBookingInformation,
     }
   };
 
