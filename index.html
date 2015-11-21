@@ -3,6 +3,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+        <link rel="stylesheet" href="stylesheet.css"/>
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
@@ -33,6 +34,12 @@
     </head>
 
     <body ng-app="mainApp" ng-controller="CalendarCtrl">
+       <div class="building-search-bar">
+            <p class="building-selection-title"><strong>Building:</strong></p>
+            <select ng-model="selectedBuilding" ng-options="building as building for building in buildings" class="building-select"></select>
+            <button class="building-go-button"> Go </button>
+       </div>
+
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
        
 

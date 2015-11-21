@@ -5,7 +5,8 @@ angular
 
 function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
 
-
+  $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
+  $scope.selectedBuilding = "Harrison-LeCaine Hall";
   $scope.events = BookingsService.dailyBookings;
 
   $scope.eventSources = [$scope.events];
