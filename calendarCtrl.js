@@ -11,17 +11,9 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   var y = date.getFullYear();
 
   $scope.events = BookingsService.dailyBookings;
-  /*
-  $scope.events = [{
-    title: 'Erins Ballin party',
-    start: new Date(y, m, d , 14, 30, 0), 
-    end: new Date(y, m, d, 15, 0, 0),
-    allDay: false
-    }
-  ];
-  */
+
   $scope.eventSources = [$scope.events];
-  
+
   console.log("hello");
 
   $scope.emptyClick = function(date, jsEvent, view){
@@ -32,6 +24,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       templateUrl: 'makeBookingPopup.html',
       controller: 'MakeBookingPopupCtrl',
       resolve: {
+        building: function () {
+          return "Harrison-LeCaine Hall";
+        },
+        roomNum: function () {
+          return "101";
+        },
         date: function () {
           return date.format("YYYY-MM-DD");
         },
@@ -51,14 +49,20 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       templateUrl: 'viewBookingPopup.html',
       controller: 'ViewBookingPopupCtrl',
       resolve: {
+        building: function () {
+          return date.building;
+        },
+        roomNum: function () {
+          return date.roomNum;
+        },
         duration: function () {
-          return "30 min";
+          return date.duration;
         },
         reason: function () {
-          return "Coursework";
+          return date.reason;
         },
         numPeople: function () {
-          return "5";
+          return date.numPeople;
         },
         date: function () {
           return date.start.format("YYYY-MM-DD");

@@ -2,8 +2,10 @@ angular
 .module('mainApp')
 .controller('MakeBookingPopupCtrl', MakeBookingPopupCtrl);
 
-function MakeBookingPopupCtrl ($scope, $uibModalInstance, date, startTime) {
+function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, date, startTime) {
 
+  $scope.building = building;
+  $scope.roomNum = roomNum;
   $scope.selectedDuration = "30 minutes"; //initializes the duration dropdown
   $scope.selectedReason = "Individual Rehearsal"; //initializes the reason dropdown
   $scope.reasons = ["Individual Rehearsal", "Ensemble Rehearsal", "Coursework", "Performance", "Meetings", "Other"];

@@ -8,9 +8,9 @@ function BookingsService(CommService){
 	bookingsService.dailyBookings = []; 
 
 bookingsService.dailyBookings.push(
-		{title:"Other", start:new Date(2015, 10, 20 , 8, 30, 0), end:new Date(2015, 10, 20 , 10, 00, 0), allDay:false, bookingID:"B4", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
-		{title:"Coursework", start:new Date(2015, 10, 20 , 14, 30, 0), end:new Date(2015, 10, 20 , 15, 00, 0),allDay:false, bookingID:"B2", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
-		{title:"Rehearsal",start:new Date(2015, 10, 20 ,17, 30, 0), end:new Date(2015, 10, 20 , 18, 30, 0),allDay:false, bookingID:"B3", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
+		{title:"Other", start:new Date(2015, 10, 20 , 8, 30, 0), end:new Date(2015, 10, 20 , 10, 00, 0), allDay:false, bookingID:"B4", building: "Harrison-LeCaine Hall", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
+		{title:"Coursework", start:new Date(2015, 10, 20 , 14, 30, 0), end:new Date(2015, 10, 20 , 15, 00, 0),allDay:false, bookingID:"B2", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
+		{title:"Rehearsal",start:new Date(2015, 10, 20 ,17, 30, 0), end:new Date(2015, 10, 20 , 18, 30, 0),allDay:false, bookingID:"B3", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
 
 	bookingsService.addEvent = function(){
 		bookingsService.dailyBookings.push(
@@ -18,12 +18,14 @@ bookingsService.dailyBookings.push(
 	}
 
 	//retrieves the daily bookings given a date
+	//called when the page first loads
 	bookingsService.getDailyBookings = function(date){
 		//call communication Service
 		var room = '100HLH';
 		dailyBookings = CommService.getDailyBookingsFromDb(date,room);
 		return dailyBookings;
 	}
+	//bookingsService.getDailyBookings();
 
 	//retrieves booking information given a booking ID and a date
 	bookingsService.getBookingInformation = function(bookingID, date){
@@ -55,5 +57,9 @@ bookingsService.dailyBookings.push(
 		return true;
 	}
 
+
+//check for conflicts
+
+//determine possible durations
 	return bookingsService;
 }
