@@ -30,11 +30,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         roomNum: function () {
           return "101";
         },
-        date: function () {
-          return date.format("YYYY-MM-DD");
-        },
-        startTime: function () {
-          return date.format("h:mm");
+        dateTime: function () {
+          return date;
         }
       }
     });
