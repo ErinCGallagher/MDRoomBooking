@@ -52,7 +52,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
           return date.duration;
         },
         reason: function () {
-          return date.reason;
+          return date.title;
         },
         numPeople: function () {
           return date.numPeople;
