@@ -32,4 +32,6 @@
   
    		mysqli_close($cxn);
 
+      echo $query1;
+
 ?>

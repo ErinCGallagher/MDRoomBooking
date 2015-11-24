@@ -14,6 +14,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.numPeople = ["1", "2", "3", "4", "5-9", "10-19", "20+"]
   $scope.date = dateTime.format("YYYY-MM-DD");
   $scope.startTime = dateTime.format("h:mm");
+  $scope.description = "";
 
 
   $scope.submitBooking = function () {

@@ -74,9 +74,17 @@ bookingsService.dailyBookings.push(
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
-			bookingsService.dailyBookings.push(newBookingInfo);
 
-			return true;
+			var q = $q.defer();
+			CommService.bookRoomInDB(newBookingInfo)
+				.then(function(){
+					q.resolve(true);
+					bookingsService.dailyBookings.push(newBookingInfo);
+				},
+				function(err){
+					q.reject(false);
+				});
+			return q.promise;
 		}
 		else{
 			//don't add and inform the user there was an error

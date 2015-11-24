@@ -39,20 +39,42 @@ function CommService($http){
 	//call the php script that adds a booking to the DB
 	//
 	commService.bookRoomInDB = function(roomInformation){
-		$http.post('script.php', { "data" : roomInformation})
+		var endTime = roomInformation.end.toTimeString();
+		endTime = endTime.split(' ')[0];
+		console.log(endTime);
+
+		var startTime = roomInformation.start.toTimeString();
+		startTime = startTime.split(' ')[0];
+		console.log(startTime);
+
+		var date = roomInformation.end.toDateString();
+		console.log(date);
+
+		var data = {
+			  UID:"11ecg5",
+		      Reason: roomInformation.title,
+		      start: startTime,
+		      end: endTime,
+		      date: date,
+		      building: roomInformation.building, 
+		      RoomID: roomInformation.roomNum,
+		      duration: roomInformation.duration,  
+		      numParticipants: roomInformation.numPeople, 
+		      OtherDesc:roomInformation.description,
+		    };
+		    		console.log(data);
+		var promisePost =  $http.post('db_scripts/MakeBooking1.php', data)
 		    .success(function(data, status) {
-		    	if(data = 'success'){
-		    		return true; //successfully added the booking
-		    	}
-		    	else{
-		    		return false; //could not add the booking
-		    	}
+		    	console.log(data);
+		    	return true;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
 		    	return 'error';
 		      //$rootScope.data = data || "Request failed";
 		      //$rootScope.status = status;     
 		    });
+		 return promisePost;
+
 	}
 
 
