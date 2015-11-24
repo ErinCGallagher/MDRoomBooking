@@ -11,7 +11,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.eventSources = [$scope.events];
 
-  console.log("hello");
 
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
@@ -33,6 +32,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       }
     });
   }
+
+  $scope.go = function(){
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
+  }
+
+
 
  /* alert on eventClick */
   $scope.viewBookingInformation = function(date, jsEvent, view){
@@ -64,6 +69,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     });
   };
 
+
 	/* config object */
   $scope.uiConfig = {
     calendar:{
@@ -77,8 +83,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
-        //center: 'today prev, title next',
-        center: 'prev, title next',
+        //center: 'prev, title next',
+        center: '',
         right: ''
       },
       dayClick : $scope.bookRoomInCalendar,
