@@ -28,5 +28,5 @@
         $json = json_encode( $result );
 
         // echo the json string
-        //echo $json;
+        echo $json;
 ?>
