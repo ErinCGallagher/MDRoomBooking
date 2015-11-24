@@ -22,15 +22,32 @@ bookingsService.dailyBookings.push(
 	bookingsService.getDailyBookings = function(date){
 		//call communication Service
 		var room = '100HLH';
-		dailyBookings = CommService.getDailyBookingsFromDb(date,room);
-		return dailyBookings;
+		var q = $q.defer();
+		
+		CommService.getDailyBookingsFromDb(date,room)
+			.then(function(dailyBookings){
+				q.resolve(dailyBookings);
+			},
+			function(err){
+				alert("could not retrieve daily bookings from database");
+				q.resolve(err);
+			});
+		return q.promise;
 	}
 	//bookingsService.getDailyBookings();
 
-	//retrieves booking information given a booking ID and a date
-	bookingsService.getBookingInformation = function(bookingID, date){
-		var bookingInfo = {};
-		return bookingInfo;
+	bookingsService.getBookingInformation = function(bookingID){
+		var q = $q.defer();
+		CommService.getBookingInformation(bookingID)
+			.then(function(bookingInfo){
+				//console.log(bookingInfo);
+				q.resolve(bookingInfo);
+			},
+			function(err){
+				alert("error with PHP script Booking Service line 104");
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	//return an array with the list of possible durations given a booking start time
@@ -94,19 +111,7 @@ bookingsService.dailyBookings.push(
 	
 	}
 
-	bookingsService.getBookingInformation = function(bookingID){
-		var q = $q.defer();
-		CommService.getBookingInformation(bookingID)
-			.then(function(bookingInfo){
-				//console.log(bookingInfo);
-				q.resolve(bookingInfo);
-			},
-			function(err){
-				alert("error with PHP script Booking Service line 104");
-				q.reject();
-			});
-		return q.promise;
-	}
+
 	
 
 
