@@ -21,8 +21,9 @@ function CommService($http){
 		}
 
 	commService.getBookingInformation = function(bookingId){
-		$http.post('GetBookingInfo1.php', { "BookingID" : bookingId})
+		$http.post('db_scripts/GetBookingInfo1.php', { "BookingID" : bookingId})
 		    .success(function(data, status) {
+		    	 console.log(data);
 		      return data; //all the bookings for the given date and room
 		    })
 		    .error(function(data, status) {
@@ -31,8 +32,8 @@ function CommService($http){
 		      //$rootScope.status = status;     
 		    });
 
-		    console.log(data);
-		}	
+		   
+		}		
 
 	//call the php script that adds a booking to the DB
 	//

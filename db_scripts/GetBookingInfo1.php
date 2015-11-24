@@ -15,13 +15,20 @@
   			die();
   		}
 
-   		$query3 = "SELECT * FROM Bookings WHERE bookingID = '$BID';"
-		$bookingInfo = my_sqli_query($cxn, $query3);
-		
+   		$query3 = "SELECT * FROM Bookings WHERE BookingID = '$BID';";
+        
+        echo $query3;
+		$bookingInfo = mysqli_query($cxn, $query3);
+        
 		// convert to json
-        	$json = json_encode( $bookingInfo);
+        $json = json_encode( $bookingInfo);
 
+        while ($row = mysqli_fetch_assoc($bookingInfo)){
+            echo $row['UID'];
+        }
+        
 		// echo the json string
-        	echo $json;
+        echo $json;
+            
 		
 ?>
