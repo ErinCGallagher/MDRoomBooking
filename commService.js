@@ -20,6 +20,20 @@ function CommService($http){
 
 		}
 
+	commService.getBookingInformation = function(bookingId){
+		$http.post('GetBookingInfo1.php', { "BookingID" : bookingId})
+		    .success(function(data, status) {
+		      return data; //all the bookings for the given date and room
+		    })
+		    .error(function(data, status) {
+		    	return 'error';
+		      //$rootScope.data = data || "Request failed";
+		      //$rootScope.status = status;     
+		    });
+
+		    console.log(data);
+		}	
+
 	//call the php script that adds a booking to the DB
 	//
 	commService.bookRoomInDB = function(roomInformation){

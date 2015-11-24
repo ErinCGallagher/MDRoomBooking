@@ -3,7 +3,7 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
+function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService, CommService){
 
   $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
@@ -38,6 +38,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.viewBookingInformation = function(date, jsEvent, view){
     console.log("booked timeslot: " + date.title);
     console.log(date._start._d);
+
+    CommService.getBookingInformation(3);
 
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
