@@ -5,19 +5,27 @@ angular
 function BookingsService(CommService){
 
 	var bookingsService = {};
-	var dailyBookings = {}; 
-	//{
-	//	B1:{date:x, roomNum:x, startTime:x, endTime:x, reason:x, people:x, description:x},
-	//	B2:{date:y, roomNum:y, startTime:y, endTime:y, reason:y, people:y, description:y}
-	//};
+	bookingsService.dailyBookings = []; 
+
+bookingsService.dailyBookings.push(
+		{title:"Other", start:new Date(2015, 10, 20 , 8, 30, 0), end:new Date(2015, 10, 20 , 10, 00, 0), allDay:false, bookingID:"B4", building: "Harrison-LeCaine Hall", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
+		{title:"Coursework", start:new Date(2015, 10, 20 , 14, 30, 0), end:new Date(2015, 10, 20 , 15, 00, 0),allDay:false, bookingID:"B2", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
+		{title:"Rehearsal",start:new Date(2015, 10, 20 ,17, 30, 0), end:new Date(2015, 10, 20 , 18, 30, 0),allDay:false, bookingID:"B3", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
+
+	bookingsService.addEvent = function(){
+		bookingsService.dailyBookings.push(
+		{title:"Other", start:new Date(2015, 10, 20 , 11, 00, 0),  end:new Date(2015, 10, 20 , 12, 30, 0), allDay:false});
+	}
 
 	//retrieves the daily bookings given a date
+	//called when the page first loads
 	bookingsService.getDailyBookings = function(date){
 		//call communication Service
 		var room = '100HLH';
 		dailyBookings = CommService.getDailyBookingsFromDb(date,room);
 		return dailyBookings;
 	}
+	//bookingsService.getDailyBookings();
 
 	//retrieves booking information given a booking ID and a date
 	bookingsService.getBookingInformation = function(bookingID, date){
@@ -25,29 +33,71 @@ function BookingsService(CommService){
 		return bookingInfo;
 	}
 
+	//return an array with the list of possible durations given a booking start time
+	//used for the duration dropdown in the popup
+	bookingsService.getPossibleDurations = function(startTime){
+		for(var i=0; i<bookingsService.dailyBookings.length; i++){
+			if(bookingsService.dailyBookings[i].start >= startTime){
+
+			}
+		}
+		return bookingInfo;
+	}
 
 	//sends info to database to book a room
 	//waits until a successful or non-successful response is returned
 	//newBookingInfo may be an array with all the attributes
 	bookingsService.bookRoom = function(newBookingInfo){
 		var roomInformation = {};
-		var response = CommService.bookRoomInDB(roomInformation);
-		if(response){
+
+		//var response = CommService.bookRoomInDB(roomInformation);
+
+		console.log(newBookingInfo);
+		//determine if there are conflicts
+		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
-			return response;
+			bookingsService.dailyBookings.push(newBookingInfo);
+
+			return true;
 		}
 		else{
 			//don't add and inform the user there was an error
-			return 'could not create your room booking';
+			return false;
 		}
-		
 	}
 
-	//may not use
 	//confirms that the booking does not conflict with other bookings
-	bookingsService.confirmNoBookingConflicts = function(date, startTime, endTime){
-		return true;
+	//return true if no conflicts
+	//return false if there are conflicts
+	bookingsService.confirmNoBookingConflicts = function(startTime, endTime){
+
+		var len = bookingsService.dailyBookings.length;
+		//loop through the daily bookings
+		for(var i=0; i<bookingsService.dailyBookings.length; i++){
+
+			if((bookingsService.dailyBookings[i].start).getTime() == startTime.getTime()){
+				return false;
+			}
+			//if the start time is in between
+			else if(startTime.getTime() >= (bookingsService.dailyBookings[i].start).getTime() &&
+				 startTime.getTime() < (bookingsService.dailyBookings[i].end).getTime()){
+				return false;
+			}
+			else if(endTime.getTime() > (bookingsService.dailyBookings[i].start).getTime() &&
+				 endTime.getTime() <= (bookingsService.dailyBookings[i].end).getTime()){
+				return false;
+			}
+
+		}
+
+		return true; //no bookings or they all occur before your booking do whatever you want
+
 	}
 
+
+
+//check for conflicts
+
+//determine possible durations
 	return bookingsService;
 }

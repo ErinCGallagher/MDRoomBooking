@@ -3,6 +3,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+        <link rel="stylesheet" href="stylesheet.css"/>
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
@@ -15,6 +16,8 @@
         <script type="text/javascript" src="calendarCtrl.js"></script>
         <script type="text/javascript" src="bookingsService.js"></script>
         <script type="text/javascript" src="commService.js"></script>
+        <script type="text/javascript" src="makeBookingPopupCtrl.js"></script>
+        <script type="text/javascript" src="viewBookingPopupCtrl.js"></script>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,31 +34,39 @@
     </head>
 
     <body ng-app="mainApp" ng-controller="CalendarCtrl">
+       <div class="building-search-bar">
+            <p class="building-selection-title"><strong>Building:</strong></p>
+            <select ng-model="selectedBuilding" ng-options="building as building for building in buildings" class="building-select"></select>
+            <button class="building-go-button"> Go </button>
+       </div>
+
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+       
 
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-
+        <!-- Make Booking Popup Template -->
+        <div>
+            <script type="text/ng-template" id="makeBookingPopup.html">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" ng-click="cancel()">&times;</button>
                         <h4 class="modal-title">Book Room</h4>
                     </div>
                     <div class="modal-body">
                         <form class="book-Room">
                             <div class="book-room-info">
-                                <p><strong>Building:</strong> Harrison-LeCaine Hall</p>
-                                <p><strong>Room #:</strong> 101</p>
+                                <p><strong>Building:</strong> {{building}}</p>
+                                <p><strong>Room #:</strong> {{roomNum}}</p>
                                 <p><strong>Date:</strong> {{date}}</p>
                                 <p><strong>Start Time:</strong> {{startTime}}</p>
                             </div>
                             <p>
                                 <strong>Duration: </strong>
                                 <select ng-model="selectedDuration" ng-options="duration as duration for duration in durations"></select>
+                            </p>
+                            <p>
+                                <strong>Number of People: </strong>
+                                <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
                             </p>
                             <p>
                                 <strong>Reason</strong>
@@ -68,31 +79,43 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn" ng-click="submitRoomBooking()">Submit</button>
+                        <button type="submit" class="btn" ng-click="cancel()">Cancel</button>
+                        <button type="submit" class="btn" ng-click="submitBooking()">Book Room</button>
                     </div>
                 </div>
-            </div>
-        </div> 
+            </script>  
+        </div>
+
+
+        <!-- View Booking Popup Template -->
         <div>
-            <script type="text/ng-template" id="bookRoom.html">
-                <div class="modal-header">
-                    <h3 class="modal-title">"I'm a modal!"</h3>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li ng-repeat="item in items">
-                            <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-                        </li>
-                    </ul>
-                    Selected: <b>{{ selected.item }}</b>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-                    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            <script type="text/ng-template" id="viewBookingPopup.html">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="cancel()">&times;</button>
+                        <h4 class="modal-title">Booking Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="book-Room">
+                            <div class="book-room-info">
+                                <p><strong>Building:</strong> {{building}}</p>
+                                <p><strong>Room #:</strong> {{roomNum}}</p>
+                                <p><strong>Date:</strong> {{date}}</p>
+                                <p><strong>Start Time:</strong> {{startTime}}</p>
+                            <p><strong>Duration: </strong> {{duration}}</p>
+                            <p><strong>Number of People: </strong> {{numPeople}}</p>
+                            <p><strong>Reason</strong> {{reason}}</p>
+                            <div ng-show="selectedReason=='Other'">
+                                <p><Strong>Description: </Strong> {{description}}</p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn" ng-click="cancel()">Ok</button>
+                    </div>
                 </div>
             </script>  
-            <button type="button" class="btn btn-default" ng-click="open()">Open me!</button>
         </div>
 
    
