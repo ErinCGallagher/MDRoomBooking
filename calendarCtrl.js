@@ -83,8 +83,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
-        //center: 'prev, title next',
-        center: '',
+        center: 'prev, title next',
         right: ''
       },
       dayClick : $scope.bookRoomInCalendar,

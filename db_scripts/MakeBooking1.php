@@ -11,18 +11,6 @@
 		$numP = mysql_real_escape_string($data->numParticipants);
 		$startTime = mysql_real_escape_string($data->start);
 		$endTime = mysql_real_escape_string($data->end);
-		
-		//separate start and end to separate date and time variables
-		/*$convertStart = strtotime($start);
-		$convertEnd = strtotime($end);
-		if ($convertStart !== false) {
-			$startDate = date('Y-m-d', $convertStart);
-			$startTime = date('h:i:s', $convertStart);
-		}
-		if ($convertEnd !== false){
-			$endDate = date('Y-m-d', $convertEnd);
-			$endTime = date('h:i:s', $convertEnd);
-		}		*/
 
 		$startDate = strtotime($Date);
 		$startDate = date('Y-m-d', $startDate);
@@ -41,9 +29,7 @@
   		}
 		
 		$query = "SELECT blockID, endTime FROM blocks WHERE startTime = '$startTime'";
-		echo $query;
 		$rows = mysqli_query($cxn, $query);
-		echo '$endTime =' . $endTime . '<br>';
 		foreach ($rows as $row) {
 			$block = $row['blockID'];
 			$blocks[] = $block;
@@ -55,7 +41,6 @@
 			$block = $block + 1;
 			$blocks[] = $block;
 			$query = "SELECT endTime FROM blocks WHERE blockID = $block";
-			echo $query;
 			$rows = mysqli_query($cxn, $query);
 			foreach ($rows as $row) {
 				$blockend = $row['endTime'];
@@ -73,7 +58,6 @@
 		
    		//create a booking 
    		$query2 = "INSERT INTO Bookings (UID, Reason, OtherDesc, AcademicYr, NumParticipants) VALUES ('$UID','$Reason','$Desc','$year','$numP');";		
-   		echo $query2;
    		$makeBooking = mysqli_query($cxn, $query2);
 		$bookingID = mysqli_insert_id($cxn);
 
@@ -82,7 +66,6 @@
 		//add to blocks to BookingSlots
 		foreach ($blocks as $blockID){
 			$query = "INSERT INTO BookingSlots VALUES ($bookingID, $blockID, '$startDate', '$Room')";
-			echo $query;
 			mysqli_query($cxn, $query);
 		}
 		
