@@ -19,10 +19,10 @@
   		}
    		
    		//get daily bookings
-   		$query1 = "SELECT Bookings.BookingID, BookingSlots.BlockID, UID, BookingDate, BookingSlots.RoomID, StartTime, EndTime FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.BookingID = BookingSlots.BookingID AND BookingSlots.BlockID = Blocks.BlockID WHERE BookingDate = '$day' AND RoomID = '$room';";
-   		$dailyBookings = mysqli_query($cxn, $query1);
+   		$query1 = "SELECT Bookings.BookingID, BookingSlots.BlockID, UID, BookingDate, BookingSlots.RoomID, StartTime, EndTime, Reason FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.BookingID = BookingSlots.BookingID AND BookingSlots.BlockID = Blocks.BlockID WHERE BookingDate = '$day' AND RoomID = '$room';";
+      $dailyBookings = mysqli_query($cxn, $query1);
    		
-   		$results = array();
+   		$result = array();
    		while ($row = mysqli_fetch_assoc($dailyBookings)) {
    			$result[] = $row;
    		}

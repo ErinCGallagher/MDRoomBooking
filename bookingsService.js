@@ -21,12 +21,13 @@ bookingsService.dailyBookings.push(
 	//called when the page first loads
 	bookingsService.getDailyBookings = function(date){
 		//call communication Service
-		var room = '100HLH';
+		var room = 'Chown 7';
 		var q = $q.defer();
 		
 		CommService.getDailyBookingsFromDb(date,room)
 			.then(function(dailyBookings){
 				q.resolve(dailyBookings);
+				console.log(dailyBookings);
 			},
 			function(err){
 				alert("could not retrieve daily bookings from database");
@@ -34,7 +35,7 @@ bookingsService.dailyBookings.push(
 			});
 		return q.promise;
 	}
-	//bookingsService.getDailyBookings();
+	bookingsService.getDailyBookings(new Date("2015-11-24"));
 
 	bookingsService.getBookingInformation = function(bookingID){
 		var q = $q.defer();

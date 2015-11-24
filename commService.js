@@ -8,7 +8,7 @@ function CommService($http){
 	var commService = {};
 
 	commService.getDailyBookingsFromDb = function(date, room){
-		var promisePost = $http.post('script.php', { "date" : room, "roomNum":room })
+		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" : date, "Room":room })
 		    .success(function(data, status) {
 		      return data; //all the bookings for the given date and room
 		    })
