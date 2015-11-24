@@ -21,9 +21,9 @@ function CommService($http){
 		}
 
 	commService.getBookingInformation = function(bookingId){
-		$http.post('db_scripts/GetBookingInfo1.php', { "BookingID" : bookingId})
+		var promisePost = $http.post('db_scripts/GetBookingInfo1.php', { "BookingID" : bookingId})
 		    .success(function(data, status) {
-		    	 console.log(data);
+		    	 //console.log(data);
 		      return data; //all the bookings for the given date and room
 		    })
 		    .error(function(data, status) {
@@ -31,7 +31,7 @@ function CommService($http){
 		      //$rootScope.data = data || "Request failed";
 		      //$rootScope.status = status;     
 		    });
-
+		return promisePost;
 		   
 		}		
 

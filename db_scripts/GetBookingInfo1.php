@@ -17,15 +17,15 @@
 
    		$query3 = "SELECT * FROM Bookings WHERE BookingID = '$BID';";
         
-        echo $query3;
 		$bookingInfo = mysqli_query($cxn, $query3);
-        
+        $result = array();
 		// convert to json
-        $json = json_encode( $bookingInfo);
+        
 
         while ($row = mysqli_fetch_assoc($bookingInfo)){
-            echo $row['UID'];
+            $result[] = $row;
         }
+		$json = json_encode( $result);
         
 		// echo the json string
         echo $json;

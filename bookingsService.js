@@ -2,19 +2,19 @@ angular
 .module('mainApp')
 .service('BookingsService', BookingsService);
 
-function BookingsService(CommService){
+function BookingsService(CommService, $q){
 
 	var bookingsService = {};
 	bookingsService.dailyBookings = []; 
 
 bookingsService.dailyBookings.push(
-		{title:"Other", start:new Date(2015, 10, 20 , 8, 30, 0), end:new Date(2015, 10, 20 , 10, 00, 0), allDay:false, bookingID:"B4", building: "Harrison-LeCaine Hall", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
-		{title:"Coursework", start:new Date(2015, 10, 20 , 14, 30, 0), end:new Date(2015, 10, 20 , 15, 00, 0),allDay:false, bookingID:"B2", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
-		{title:"Rehearsal",start:new Date(2015, 10, 20 ,17, 30, 0), end:new Date(2015, 10, 20 , 18, 30, 0),allDay:false, bookingID:"B3", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
+		{title:"Other", start:new Date(2015, 10, 24 , 8, 30, 0), end:new Date(2015, 10, 24 , 10, 00, 0), allDay:false, bookingID:"B4", building: "Harrison-LeCaine Hall", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
+		{title:"Coursework", start:new Date(2015, 10, 24 , 14, 30, 0), end:new Date(2015, 10, 24 , 15, 00, 0),allDay:false, bookingID:"B2", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
+		{title:"Rehearsal",start:new Date(2015, 10, 24 ,17, 30, 0), end:new Date(2015, 10, 24 , 18, 30, 0),allDay:false, bookingID:"B3", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
 
 	bookingsService.addEvent = function(){
 		bookingsService.dailyBookings.push(
-		{title:"Other", start:new Date(2015, 10, 20 , 11, 00, 0),  end:new Date(2015, 10, 20 , 12, 30, 0), allDay:false});
+		{title:"Other", start:new Date(2015, 10, 24 , 11, 00, 0),  end:new Date(2015, 10, 24 , 12, 30, 0), allDay:false});
 	}
 
 	//retrieves the daily bookings given a date
@@ -91,9 +91,23 @@ bookingsService.dailyBookings.push(
 		}
 
 		return true; //no bookings or they all occur before your booking do whatever you want
-
+	
 	}
 
+	bookingsService.getBookingInformation = function(bookingID){
+		var q = $q.defer();
+		CommService.getBookingInformation(bookingID)
+			.then(function(bookingInfo){
+				//console.log(bookingInfo);
+				q.resolve(bookingInfo);
+			},
+			function(err){
+				alert("error with PHP script Booking Service line 104");
+				q.reject();
+			});
+		return q.promise;
+	}
+	
 
 
 //check for conflicts

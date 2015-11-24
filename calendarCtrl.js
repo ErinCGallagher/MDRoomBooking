@@ -39,7 +39,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     console.log("booked timeslot: " + date.title);
     console.log(date._start._d);
 
-    CommService.getBookingInformation(3);
+    
 
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
@@ -51,14 +51,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         roomNum: function () {
           return date.roomNum;
         },
-        duration: function () {
-          return date.duration;
-        },
         reason: function () {
           return date.title;
-        },
-        numPeople: function () {
-          return date.numPeople;
         },
         date: function () {
           return date.start.format("YYYY-MM-DD");
