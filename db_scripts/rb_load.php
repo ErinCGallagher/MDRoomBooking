@@ -29,9 +29,9 @@
 
    mysqli_query($cxn,"CREATE TABLE Rooms(
 					RoomID				VARCHAR(20)	NOT NULL,
-					Building			VARCHAR(20)	NOT NULL,
+					Building			VARCHAR(30)	NOT NULL,
 					Capacity			INTEGER		NOT NULL,
-					ReqKey					VARCHAR(3) 	NOT NULL,
+					ReqKey				VARCHAR(3) 	NOT NULL,
 					Upright				VARCHAR(3)	NOT NULL,	
 					Grand				VARCHAR(3) 	NOT NULL,
 					OpenSpace			VARCHAR(3) 	NOT NULL,
@@ -81,7 +81,7 @@
 				('3','9', '2015-11-26','THEO 118')");
 				
 	mysqli_query($cxn, "INSERT INTO Blocks (BlockID, StartTime, EndTime) VALUES
-				('Block1', '07:30:00', '08:00:00'),
+				('1', '07:30:00', '08:00:00'),
 				('2', '08:00:00', '08:30:00'),
 				('3', '08:30:00', '09:00:00'),
 				('4', '09:00:00', '09:30:00'),
