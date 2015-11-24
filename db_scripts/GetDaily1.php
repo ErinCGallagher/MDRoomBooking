@@ -4,7 +4,7 @@
 		$data = json_decode(file_get_contents("php://input"));
 
 		$room = mysql_real_escape_string($data->Room);
-		$day = mysql_real_escape_string($data->Date);r
+		$day = mysql_real_escape_string($data->Date);
 
 		$host = "localhost";
 		$user = "root";
