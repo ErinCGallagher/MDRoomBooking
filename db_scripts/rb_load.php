@@ -29,9 +29,9 @@
 
    mysqli_query($cxn,"CREATE TABLE Rooms(
 					RoomID				VARCHAR(20)	NOT NULL,
-					Building			VARCHAR(20)	NOT NULL,
+					Building			VARCHAR(30)	NOT NULL,
 					Capacity			INTEGER		NOT NULL,
-					ReqKey					VARCHAR(3) 	NOT NULL,
+					ReqKey				VARCHAR(3) 	NOT NULL,
 					Upright				VARCHAR(3)	NOT NULL,	
 					Grand				VARCHAR(3) 	NOT NULL,
 					OpenSpace			VARCHAR(3) 	NOT NULL,
