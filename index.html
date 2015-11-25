@@ -39,6 +39,11 @@
             <select ng-model="selectedBuilding" ng-options="building as building for building in buildings" class="building-select"></select>
             <button class="building-go-button" ng-click="go()"> Go </button>
        </div>
+       <div class="date-navigation-bar">
+        <button class="previous-date-button" ng-click="previousDate()"> < </button>
+        <h2 class="date-text">{{date}}</h2>
+        <button class="next-date-button" ng-click="nextDate()"> > </button>
+       </div>
 
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
        

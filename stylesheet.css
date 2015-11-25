@@ -7,7 +7,6 @@
 	text-align:center;
 }
 
-
 .building-selection-title{
 	display:inline;
 	font-size:120%;
@@ -24,15 +23,33 @@
 	font-size:100%;
 }
 
+.date-navigation-bar{
+	text-align:center;
+}
+
+.fc-toolbar{
+	margin:0px;
+}
+
+.previous-date-button, .next-date-button{
+	width:40px;
+	font-size:20px;
+	border-radius:5px;
+	margin-right:10px;
+	margin-left:10px;
+}
+
+.date-text {
+	display:inline;
+	font-size:190%;
+}
+
 .fc-view-container{
 	width:90%;
 	margin-right:5%;
 	margin-left:5%;
 }
 
-.fc-center h2{
-	font-size:190%;
-}
 
 @media screen and (max-width: 700px) {
 	.building-search-bar{
@@ -46,7 +63,7 @@
 		margin:20px 3px 20px 3px;
 	}
 
-	.fc-center h2{
+	.date-text {
 		font-size:165%;
 	}
 }

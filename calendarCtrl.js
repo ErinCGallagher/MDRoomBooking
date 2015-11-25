@@ -3,13 +3,28 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService, CommService){
+function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
 
   $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
   $scope.events = BookingsService.dailyBookings;
 
   $scope.eventSources = [$scope.events];
+
+  $scope.previousDate = function(){
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('prev');
+  }
+
+  $scope.$on('$viewContentLoaded', function(){
+    //Here your view content is fully loaded !!
+    $scope.date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
+  });
+
+
+
+  $scope.nextDate = function(){
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
+  }
 
 
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
@@ -31,10 +46,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         }
       }
     });
-  }
-
-  $scope.go = function(){
-      uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
 
 
@@ -83,13 +94,22 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
-        center: 'prev, title next',
+        //center: 'prev, title next',
+        center: '',
         right: ''
       },
+      viewRender: function(view) {
+        //render the date only after the calendar has fully loaded
+        var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
+        $scope.date = date.format("MMMM D, YYYY ")
+      },
+
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,
     }
   };
+
+
 
   /*
 
