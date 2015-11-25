@@ -16,7 +16,7 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
 	.then(function(bookingInfo){
 		console.log(bookingInfo);
 		$scope.numPeople = bookingInfo.data[0].NumParticipants;
-		$scope.desc = bookingInfo.data[0].OtherDesc;
+		$scope.description = bookingInfo.data[0].OtherDesc;
 	},
 	function(){
 		alert("err");
