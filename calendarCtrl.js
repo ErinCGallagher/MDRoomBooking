@@ -21,6 +21,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
 
+  $scope.alerts = [
+  ];
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
 
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
@@ -40,8 +46,15 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         }
       }
     });
+
+    makeBookingPopupInstance.result.then(function (alert) {
+      $scope.alerts.push(alert);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
   }
 
+   
 
 
  /* alert on eventClick */

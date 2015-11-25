@@ -39,6 +39,16 @@
             <select ng-model="selectedBuilding" ng-options="building as building for building in buildings" class="building-select"></select>
             <button class="building-go-button" ng-click="go()"> Go </button>
        </div>
+
+       <!-- alert after attempting to make a booking -->
+         <script type="text/ng-template" id="alert.html">
+           <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+             <div ng-transclude></div>
+           </div>
+         </script>
+
+         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+
        <div class="date-navigation-bar">
         <button class="previous-date-button" ng-click="previousDate()"> < </button>
         <h2 class="date-text">{{date}}</h2>

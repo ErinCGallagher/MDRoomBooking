@@ -16,12 +16,14 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.startTime = dateTime.format("h:mm");
   $scope.description = "";
 
-
   $scope.submitBooking = function () {
+
+    $scope.calcEndTime();
+
     var isSuccessful = BookingsService.bookRoom({
       title: $scope.selectedReason,
       start: new Date(dateTime),
-      end: $scope.calcEndTime(),
+      end: $scope.end,
       allDay: false,
       building: building, 
       roomNum: roomNum,
@@ -31,8 +33,16 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       stick:true
     });
     
-    console.log(isSuccessful);
-    $uibModalInstance.close();
+    console.log("Booking Successful? ", isSuccessful);
+
+    if (isSuccessful) {
+      alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + end +'"'};
+    } else {
+      alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + end + '" conflicted with another booking.'};
+    }
+
+
+    $uibModalInstance.close(alert);
   };
 
   $scope.calcEndTime = function () {
@@ -43,9 +53,10 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       }
     }
 
-    var end = new Date(moment(dateTime).add(durationHours, 'h'));
-    return end;
+    end = new Date(moment(dateTime).add(durationHours, 'h'));
+    $scope.end = end;
   }
+
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
