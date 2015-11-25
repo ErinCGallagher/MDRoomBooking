@@ -11,10 +11,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.eventSources = [$scope.events];
 
+  //change the previous calendar date
   $scope.previousDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('prev');
   }
 
+    //change the next calendar date
   $scope.nextDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
@@ -45,10 +47,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
  /* alert on eventClick */
   $scope.viewBookingInformation = function(date, jsEvent, view){
-    console.log("booked timeslot: " + date.title);
-    console.log(date._start._d);
-
-    
 
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
@@ -103,26 +101,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       eventClick: $scope.viewBookingInformation,
     }
   };
-
-
-
-  /*
-
-  $scope.search = function(){
-    var q = $q.defer();
-    CalendarService.search($scope.keywords)
-      .then(function(response){
-        $scope.result = response;
-        q.resolve();
-      }),
-      function(error){
-        q.reject();
-      };
-  };
-
-  */
-
-  
 
 };
 

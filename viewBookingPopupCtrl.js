@@ -13,7 +13,7 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
 
   BookingsService.getBookingInformation(3)
 	.then(function(bookingInfo){
-		//console.log(bookingInfo);
+		console.log(bookingInfo);
 		$scope.numPeople = bookingInfo.data[0].NumParticipants;
 		$scope.desc = bookingInfo.data[0].OtherDesc;
 	},

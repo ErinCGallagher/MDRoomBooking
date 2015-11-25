@@ -12,10 +12,6 @@ bookingsService.dailyBookings.push(
 		{title:"Coursework", start:new Date(2015, 10, 24 , 14, 30, 0), end:new Date(2015, 10, 24 , 15, 00, 0),allDay:false, bookingID:"B2", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
 		{title:"Rehearsal",start:new Date(2015, 10, 24 ,17, 30, 0), end:new Date(2015, 10, 24 , 18, 30, 0),allDay:false, bookingID:"B3", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
 
-	bookingsService.addEvent = function(){
-		bookingsService.dailyBookings.push(
-		{title:"Other", start:new Date(2015, 10, 24 , 11, 00, 0),  end:new Date(2015, 10, 24 , 12, 30, 0), allDay:false});
-	}
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
@@ -41,7 +37,7 @@ bookingsService.dailyBookings.push(
 			});
 		return q.promise;
 	}
-	//bookingsService.getDailyBookings(new Date("2015-11-24"));
+
 
 	bookingsService.getBookingInformation = function(bookingID){
 		var q = $q.defer();
@@ -119,18 +115,12 @@ bookingsService.dailyBookings.push(
 				 endTime.getTime() <= (bookingsService.dailyBookings[i].end).getTime()){
 				return false;
 			}
-
 		}
 
 		return true; //no bookings or they all occur before your booking do whatever you want
 	
 	}
 
-
-	
-
-
-//check for conflicts
 
 //determine possible durations
 	return bookingsService;

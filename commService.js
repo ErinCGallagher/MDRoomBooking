@@ -25,7 +25,6 @@ function CommService($http){
 		var promisePost = $http.post('db_scripts/GetBookingInfo1.php', { "BookingID" : bookingId})
 		    .success(function(data, status) {
 		    	 //console.log(data);
-		      return data; //all the bookings for the given date and room
 		    })
 		    .error(function(data, status) {
 		    	return 'error';
@@ -37,7 +36,6 @@ function CommService($http){
 		}		
 
 	//call the php script that adds a booking to the DB
-	//
 	commService.bookRoomInDB = function(roomInformation){
 		var endTime = roomInformation.end.toTimeString();
 		endTime = endTime.split(' ')[0];
@@ -70,8 +68,6 @@ function CommService($http){
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
 		    	return 'error';
-		      //$rootScope.data = data || "Request failed";
-		      //$rootScope.status = status;     
 		    });
 		 return promisePost;
 
@@ -81,7 +77,7 @@ function CommService($http){
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.
 	commService.convertToExpectedFormat = function(dailyBookings){
-				
+		//assumes that events have been combined if they have the same booking ID	
 		var formattedDailyBookings = [];
 
 		for(var i = 0; i<dailyBookings.length;i++){
