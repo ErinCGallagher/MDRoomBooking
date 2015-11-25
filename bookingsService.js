@@ -23,12 +23,10 @@ bookingsService.dailyBookings.push(
 		CommService.getDailyBookingsFromDb(date,room)
 			.then(function(retrievedBookings){
 				bookingsService.dailyBookings.length = 0;
-				console.log(retrievedBookings);
 				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
 				for(var i = 0; i<formattedBookings.length;i++){
 					bookingsService.dailyBookings.push(formattedBookings[i]);
 				}
-				console.log(bookingsService.dailyBookings);
 				q.resolve(bookingsService.dailyBookings);
 			},
 			function(err){

@@ -39,14 +39,11 @@ function CommService($http){
 	commService.bookRoomInDB = function(roomInformation){
 		var endTime = roomInformation.end.toTimeString();
 		endTime = endTime.split(' ')[0];
-		console.log(endTime);
 
 		var startTime = roomInformation.start.toTimeString();
 		startTime = startTime.split(' ')[0];
-		console.log(startTime);
 
 		var date = roomInformation.end.toDateString();
-		console.log(date);
 
 		var data = {
 			  UID:"11ecg5",

@@ -24,7 +24,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
-    console.log("empty timeslot: " +$scope.day);
 
     var makeBookingPopupInstance = $uibModal.open({
       templateUrl: 'makeBookingPopup.html',
@@ -94,7 +93,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
         $scope.date = date.format("MMMM D, YYYY ")
         BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
-        console.log($scope.eventSources);
       },
 
       dayClick : $scope.bookRoomInCalendar,
