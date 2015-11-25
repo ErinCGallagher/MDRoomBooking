@@ -72,7 +72,7 @@
 		//mysqli_commit($cxn);
 		mysqli_close($cxn);
 
-   		echo "Made Booking!";
+   		echo $bookingID;
    		
 
 		

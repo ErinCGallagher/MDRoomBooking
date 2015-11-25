@@ -10,6 +10,7 @@ function CommService($http){
 	commService.getDailyBookingsFromDb = function(date, room){
 		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" :date, "Room":room })
 		    .success(function(data, status) {
+		    	console.log("daily bookings from database:");
 		    	console.log(data);
 		    })
 		    .error(function(data, status) {
@@ -24,7 +25,8 @@ function CommService($http){
 	commService.getBookingInformation = function(bookingId){
 		var promisePost = $http.post('db_scripts/GetBookingInfo1.php', { "BookingID" : bookingId})
 		    .success(function(data, status) {
-		    	 //console.log(data);
+		    	 console.log("retrieved booking infromation from database: ");
+		    	 console.log(data);
 		    })
 		    .error(function(data, status) {
 		    	return 'error';
@@ -57,7 +59,7 @@ function CommService($http){
 		      numParticipants: roomInformation.numPeople, 
 		      OtherDesc:roomInformation.description,
 		    };
-		    		console.log(data);
+		    console.log(data);
 		var promisePost =  $http.post('db_scripts/MakeBooking1.php', data)
 		    .success(function(data, status) {
 		    	console.log(data);

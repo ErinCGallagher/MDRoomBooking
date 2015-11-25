@@ -81,6 +81,9 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         },
         endTime: function () {
           return date.end.format("h:mm");
+        },
+        bookingID: function () {
+          return date.bookingID;
         }
       }
     });

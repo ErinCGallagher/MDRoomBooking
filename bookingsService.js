@@ -7,12 +7,6 @@ function BookingsService(CommService, $q){
 	var bookingsService = {};
 	bookingsService.dailyBookings = []; 
 
-bookingsService.dailyBookings.push(
-		{title:"Other", start:new Date(2015, 10, 24 , 8, 30, 0), end:new Date(2015, 10, 24 , 10, 00, 0), allDay:false, bookingID:"B4", building: "Harrison-LeCaine Hall", roomNum:"101",duration:"1", reason:"Other", numPeople:"3", description:"Mischeif"},
-		{title:"Coursework", start:new Date(2015, 10, 24 , 14, 30, 0), end:new Date(2015, 10, 24 , 15, 00, 0),allDay:false, bookingID:"B2", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Coursework", numPeople:"2", description:""},
-		{title:"Rehearsal",start:new Date(2015, 10, 24 ,17, 30, 0), end:new Date(2015, 10, 24 , 18, 30, 0),allDay:false, bookingID:"B3", building: "Harrison-LeCaine Hall", roomNum:"101", duration:"1", reason:"Rehearsal", numPeople:"8", description:""});
-
-
 	//retrieves the daily bookings given a date
 	//called when the page first loads
 	bookingsService.getDailyBookings = function(date){
@@ -41,7 +35,6 @@ bookingsService.dailyBookings.push(
 		var q = $q.defer();
 		CommService.getBookingInformation(bookingID)
 			.then(function(bookingInfo){
-				//console.log(bookingInfo);
 				q.resolve(bookingInfo);
 			},
 			function(err){
@@ -68,17 +61,15 @@ bookingsService.dailyBookings.push(
 	bookingsService.bookRoom = function(newBookingInfo){
 		var roomInformation = {};
 
-		//var response = CommService.bookRoomInDB(roomInformation);
-
-		console.log(newBookingInfo);
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
 
 			var q = $q.defer();
 			CommService.bookRoomInDB(newBookingInfo)
-				.then(function(){
+				.then(function(bookingID){
 					q.resolve(true);
+					newBookingInfo.bookingID = bookingID.data;
 					bookingsService.dailyBookings.push(newBookingInfo);
 				},
 				function(err){
