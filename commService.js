@@ -8,9 +8,8 @@ function CommService($http){
 	var commService = {};
 
 	commService.getDailyBookingsFromDb = function(date, room){
-		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" : date, "Room":room })
+		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" :date, "Room":room })
 		    .success(function(data, status) {
-		      return data; //all the bookings for the given date and room
 		    })
 		    .error(function(data, status) {
 		    	return 'error';
@@ -80,8 +79,27 @@ function CommService($http){
 
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.
-	convertToExpectedFormat = function(){
-		//do some converting baby!
+	commService.convertToExpectedFormat = function(dailyBookings){
+		
+		var formattedDailyBookings = [];
+
+		for(var i = 0; i<dailyBookings.length;i++){
+			var startTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].StartTime;
+			var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
+			
+			formattedDailyBookings[i] =  
+			{title:dailyBookings[i].Reason, 
+			 start:startTime,
+			 end:endTime,
+			 allDay:false, 
+			 bookingID:dailyBookings[i].BookingID, 
+			 building: "Harrison-LeCaine Hall", 
+			 roomNum: dailyBookings[i].RoomID
+			};
+		}
+
+		return formattedDailyBookings;
+
 	}
 
 	return commService;

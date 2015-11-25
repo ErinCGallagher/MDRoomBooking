@@ -15,13 +15,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       uiCalendarConfig.calendars.myCalendar.fullCalendar('prev');
   }
 
-  $scope.$on('$viewContentLoaded', function(){
-    //Here your view content is fully loaded !!
-    $scope.date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
-  });
-
-
-
   $scope.nextDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
@@ -102,6 +95,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         //render the date only after the calendar has fully loaded
         var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
         $scope.date = date.format("MMMM D, YYYY ")
+        BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
+        console.log($scope.eventSources);
       },
 
       dayClick : $scope.bookRoomInCalendar,

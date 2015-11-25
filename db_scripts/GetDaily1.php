@@ -4,12 +4,15 @@
 		$data = json_decode(file_get_contents("php://input"));
 
 		$room = mysql_real_escape_string($data->Room);
-		$day = mysql_real_escape_string($data->Date);
+		$nonFormattedDay = mysql_real_escape_string($data->Date);
 
 		$host = "localhost";
 		$user = "root";
 		$password = "";
 		$database = "mdroombooking";
+
+    $day = strtotime($nonFormattedDay);
+    $day = date('Y-m-d', $day);
 
 		$cxn = mysqli_connect($host,$user,$password, $database);
 		// Check connection
@@ -32,6 +35,6 @@
   
    		mysqli_close($cxn);
 
-      echo $query1;
+  
 
 ?>

@@ -21,13 +21,18 @@ bookingsService.dailyBookings.push(
 	//called when the page first loads
 	bookingsService.getDailyBookings = function(date){
 		//call communication Service
-		var room = 'Chown 7';
+		var room = 'HLH 102';
 		var q = $q.defer();
 		
 		CommService.getDailyBookingsFromDb(date,room)
-			.then(function(dailyBookings){
-				q.resolve(dailyBookings);
-				console.log(dailyBookings);
+			.then(function(retrievedBookings){
+				bookingsService.dailyBookings.length = 0;
+				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
+				for(var i = 0; i<formattedBookings.length;i++){
+					bookingsService.dailyBookings.push(formattedBookings[i]);
+				}
+				console.log(bookingsService.dailyBookings);
+				q.resolve(bookingsService.dailyBookings);
 			},
 			function(err){
 				alert("could not retrieve daily bookings from database");
