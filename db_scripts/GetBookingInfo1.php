@@ -32,4 +32,6 @@
        	// echo the json string
         echo $json;
 	
+	//Close the connection
+	mysqli_close($cxn);
 ?>
