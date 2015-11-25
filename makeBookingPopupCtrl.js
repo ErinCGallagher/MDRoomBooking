@@ -36,9 +36,9 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     console.log("Booking Successful? ", isSuccessful);
 
     if (isSuccessful) {
-      alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + end +'"'};
+      alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
     } else {
-      alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + end + '" conflicted with another booking.'};
+      alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
     }
 
 
@@ -53,8 +53,11 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       }
     }
 
-    end = new Date(moment(dateTime).add(durationHours, 'h'));
-    $scope.end = end;
+    end = moment(dateTime).add(durationHours, 'h');
+
+    $scope.endTime = end.format("h:mm");
+    $scope.end = new Date(moment(dateTime).add(durationHours, 'h'));
+
   }
 
   $scope.cancel = function () {
