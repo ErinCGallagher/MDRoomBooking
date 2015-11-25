@@ -27,6 +27,7 @@ bookingsService.dailyBookings.push(
 		CommService.getDailyBookingsFromDb(date,room)
 			.then(function(retrievedBookings){
 				bookingsService.dailyBookings.length = 0;
+				console.log(retrievedBookings);
 				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
 				for(var i = 0; i<formattedBookings.length;i++){
 					bookingsService.dailyBookings.push(formattedBookings[i]);
@@ -40,7 +41,7 @@ bookingsService.dailyBookings.push(
 			});
 		return q.promise;
 	}
-	bookingsService.getDailyBookings(new Date("2015-11-24"));
+	//bookingsService.getDailyBookings(new Date("2015-11-24"));
 
 	bookingsService.getBookingInformation = function(bookingID){
 		var q = $q.defer();

@@ -32,7 +32,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
           return "Harrison-LeCaine Hall";
         },
         roomNum: function () {
-          return "101";
+          return "HLH 102";
         },
         dateTime: function () {
           return date;
