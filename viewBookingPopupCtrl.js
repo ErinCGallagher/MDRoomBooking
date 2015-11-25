@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('ViewBookingPopupCtrl', ViewBookingPopupCtrl);
 
-function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, BookingsService) {
+function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, endTime, BookingsService) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -10,6 +10,7 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
   $scope.reason = reason;
   $scope.date = date;
   $scope.startTime = startTime;
+  $scope.endTime = endTime;
 
   BookingsService.getBookingInformation(3)
 	.then(function(bookingInfo){
@@ -20,8 +21,6 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
 	function(){
 		alert("err");
 	});
- 
- 
   
   $scope.ok = function () {
     $uibModalInstance.close();
