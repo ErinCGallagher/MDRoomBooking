@@ -3,6 +3,8 @@
 <html>
     <head>
         <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="stylesheet.css"/>
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -50,9 +52,9 @@
          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 
        <div class="date-navigation-bar">
-        <button class="previous-date-button" ng-click="previousDate()"> < </button>
+        <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
         <h2 class="date-text">{{date}}</h2>
-        <button class="next-date-button" ng-click="nextDate()"> > </button>
+        <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
        </div>
 
         <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
