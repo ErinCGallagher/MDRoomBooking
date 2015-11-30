@@ -1,14 +1,21 @@
 .building-search-bar{
+	display:inline-block;
 	margin:20px 10px 20px 20px;
 	padding:10px;
 	/*min-width:30em;*/
-	width:40%;
 	background-color:#c2d2d6;
-	text-align:center;
 }
 
 .building-selection-title{
 	display:inline;
+	font-size:120%;
+	margin-right:7px;
+}
+
+.room{
+	margin-top:7px;
+}
+.room-title{
 	font-size:120%;
 	margin-right:7px;
 }
@@ -66,13 +73,11 @@
 
 @media screen and (max-width: 700px) {
 	.building-search-bar{
-		width:65%;
 		margin:20px 3px 20px 3px;
 	}
 
 @media screen and (max-width: 530px) {
 	.building-search-bar{
-		width:100%;
 		margin:20px 3px 20px 3px;
 	}
 
