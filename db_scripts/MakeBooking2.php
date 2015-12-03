@@ -12,9 +12,9 @@
 		$day = mysql_real_escape_string($data->day);							
 
 		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "mdroombooking";
+ 		$user = "root";
+ 		$password = "";
+ 		$database = "mdroombooking";
 		
 		
 		// connect to the database

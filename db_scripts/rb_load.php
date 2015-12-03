@@ -63,8 +63,8 @@
 					
 	 mysqli_query($cxn,"INSERT INTO Rooms (RoomID, Building, Capacity, ReqKey, Upright, Grand, OpenSpace, Mirror, Projector) VALUES
          		('HLH 102','Harrison LeCaine Hall','100','No','Yes','No','No','Yes', 'No'),
-         		('THEO 118','Theological Hall','50', 'No','No', 'No', 'No', 'No', 'Yes'),
-         		('Chown 7','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
+         		('HLH 102','Harrison LeCaine Hall','50', 'No','No', 'No', 'No', 'No', 'Yes'),
+         		('HLH 102','Harrison LeCaine Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
 	
 	mysqli_query($cxn,"INSERT INTO Bookings (UID, Reason, OtherDesc, AcademicYr, NumParticipants) VALUES
          		('11lmb23','Ensemble','','2015/16','10'),
@@ -75,10 +75,10 @@
          		('1','1', '2015-11-27','HLH 102'),
 				('1','2', '2015-11-27','HLH 102'),
 				('1','3', '2015-11-27','HLH 102'),
-				('2','15', '2015-11-24','Chown 7'),
-				('2','16', '2015-11-24','Chown 7'),
-				('3','8', '2015-11-26','THEO 118'),
-				('3','9', '2015-11-26','THEO 118')");
+				('2','15', '2015-11-24','HLH 102'),
+				('2','16', '2015-11-24','HLH 102'),
+				('3','8', '2015-11-26','HLH 102'),
+				('3','9', '2015-11-26','HLH 102')");
 				
 	mysqli_query($cxn, "INSERT INTO Blocks (BlockID, StartTime, EndTime) VALUES
 				('1', '07:30:00', '08:00:00'),

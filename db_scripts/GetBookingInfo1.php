@@ -1,9 +1,9 @@
 <?php
 	//Set database connection variables
 	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
+ 	$user = "root";
+ 	$password = "";
+ 	$database = "mdroombooking";
 	//Connect to database
 	$cxn = mysqli_connect($host,$user,$password, $database);
 	//Check connection
@@ -15,7 +15,7 @@
 	//Get POST datastream from front-end
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from datastream 
-	$BID = mysql_real_escape_string($data->BookingID);
+	$BID = mysqli_real_escape_string($cxn, $data->BookingID);
 
 	//Get booking info from database
    	$query3 = "SELECT * FROM Bookings WHERE BookingID = '$BID';";

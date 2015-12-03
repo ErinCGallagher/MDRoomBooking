@@ -5,10 +5,10 @@
 		$room = mysql_real_escape_string($data->Room);
 		$day = mysql_real_escape_string($data->Date);r
 
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "mdroombooking";
+   $host = "localhost";
+   $user = "root";
+   $password = "";
+   $database = "mdroombooking";
 
 		
 		// connect to the database

@@ -1,10 +1,10 @@
 <?php
 
 	//Database connection variables
-	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
+	 $host = "localhost";
+	 $user = "root";
+	 $password = "";
+	 $database = "mdroombooking";
 	//Connecy to database
 	$cxn = mysqli_connect($host,$user,$password, $database);
 	//Check connection
@@ -16,21 +16,21 @@
   	//Get post datastream from front end
 	$data = json_decode(file_get_contents("php://input"));
 	//Set parameters from datastream
-	$UID = mysql_real_escape_string($data->UID);
-	$Room = mysql_real_escape_string($data->RoomID);
-	$Reason = mysql_real_escape_string($data->Reason);
-	$Desc = mysql_real_escape_string($data->OtherDesc);
-	$Date = mysql_real_escape_string($data->date);
+	$UID = mysqli_real_escape_string($cxn,$data->UID);
+	$Room = mysqli_real_escape_string($cxn,$data->RoomID);
+	$Reason = mysqli_real_escape_string($cxn,$data->Reason);
+	$Desc = mysqli_real_escape_string($cxn,$data->OtherDesc);
+	$Date = mysqli_real_escape_string($cxn,$data->date);
 	$year = "2015/2016";
-	$numP = mysql_real_escape_string($data->numParticipants);
-	$startTime = mysql_real_escape_string($data->start);
-	$endTime = mysql_real_escape_string($data->end);
+	$numP = mysqli_real_escape_string($cxn,$data->numParticipants);
+	$startTime = mysqli_real_escape_string($cxn,$data->start);
+	$endTime = mysqli_real_escape_string($cxn,$data->end);
 	//Format startdate
 	$startDate = strtotime($Date);
 	$startDate = date('Y-m-d', $startDate);
 	
 	//Get starting block
-	$query = "SELECT blockID, endTime FROM blocks WHERE startTime = '$startTime'";
+	$query = "SELECT blockID, endTime FROM Blocks WHERE startTime = '$startTime'";
 	$rows = mysqli_query($cxn, $query);
 	//Array to hold blocks 
 	$blocks = [];
@@ -44,7 +44,7 @@
 	while ($blockend != $endTime){
 		$block = $block + 1;
 		$blocks[] = $block;
-		$query = "SELECT endTime FROM blocks WHERE blockID = $block";
+		$query = "SELECT endTime FROM Blocks WHERE blockID = $block";
 		$rows = mysqli_query($cxn, $query);
 		foreach ($rows as $row) {
 			$blockend = $row['endTime'];

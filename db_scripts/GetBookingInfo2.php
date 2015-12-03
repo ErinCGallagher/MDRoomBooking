@@ -4,10 +4,10 @@
 
 		$BID = mysql_real_escape_string($data->BookingID);
 
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "mdroombooking";
+        $host = "localhost";
+        $user = "root";
+        $password = "";
+        $database = "mdroombooking";
 
         // connect to the database
         $dbh = new PDO("mysql:host=$host; dbname=$database", $user, $password);

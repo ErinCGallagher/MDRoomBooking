@@ -1,10 +1,10 @@
 <?php
 		
 		//Database connection variables
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "mdroombooking";
+   $host = "localhost";
+   $user = "root";
+   $password = "";
+   $database = "mdroombooking";
 		//Connent to database
 		$cxn = mysqli_connect($host,$user,$password, $database);
 		// Check connection
@@ -15,8 +15,8 @@
   		//Get post data stream 
 		$data = json_decode(file_get_contents("php://input"));
 		//Get parameters from 
-		$room = mysql_real_escape_string($data->Room);
-		$nonFormattedDay = mysql_real_escape_string($data->Date);
+		$room = mysqli_real_escape_string($cxn,$data->Room);
+		$nonFormattedDay = mysqli_real_escape_string($cxn,$data->Date);
 		//Format day
     		$day = strtotime($nonFormattedDay);
     		$day = date('Y-m-d', $day);
@@ -24,6 +24,7 @@
    		//get daily bookings from database
    		$query1 = "SELECT Bookings.BookingID, BookingSlots.BlockID, UID, BookingDate, BookingSlots.RoomID, StartTime, EndTime, Reason, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.BookingID = BookingSlots.BookingID AND BookingSlots.BlockID = Blocks.BlockID WHERE RoomID = '$room' AND BookingDate = '$day' GROUP BY BookingID ASC;";
       		$dailyBookings = mysqli_query($cxn, $query1);
+
    		
    		$result = array();
    		
