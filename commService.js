@@ -40,12 +40,21 @@ function CommService($http){
 	//call the php script that adds a booking to the DB
 	commService.bookRoomInDB = function(roomInformation){
 		var endTime = roomInformation.end.toTimeString();
+		console.log(endTime);
+		/*
 		endTime = endTime.split(' ')[0];
-
+		console.log(endTime);
+	*/
 		var startTime = roomInformation.start.toTimeString();
 		startTime = startTime.split(' ')[0];
 
 		var date = roomInformation.end.toDateString();
+
+		console.log(roomInformation.dateTime);
+
+		var dateTime = roomInformation.dateTime.format("YYYY-MM-dd HH:mm:ss");
+
+		console.log(dateTime);
 
 		var data = {
 			  UID:"11ecg5",
@@ -58,11 +67,18 @@ function CommService($http){
 		      duration: roomInformation.duration,  
 		      numParticipants: roomInformation.numPeople, 
 		      OtherDesc:roomInformation.description,
+		      dateTime:roomInformation.dateTime
 		    };
 		    console.log(data);
 		var promisePost =  $http.post('db_scripts/MakeBooking1.php', data)
 		    .success(function(data, status) {
 		    	console.log(data);
+		    	/*
+		    	//converts the php date to javascript dat in local time
+		    	var dateTimes = new Date(Date.parse(data));
+		    	*/
+		    	//console.log(dateTimes);
+		    	console.log(date);
 		    	return true;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
@@ -82,7 +98,8 @@ function CommService($http){
 		for(var i = 0; i<dailyBookings.length;i++){
 			var startTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].StartTime;
 			var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
-			
+			var startTime = new Date(startTime);
+			console.log(startTime);
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].Reason, 
 			 start:new Date(startTime),

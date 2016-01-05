@@ -30,6 +30,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
+    console.log(date);
 
     var makeBookingPopupInstance = $uibModal.open({
       templateUrl: 'makeBookingPopup.html',
@@ -99,7 +100,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       maxTime : "23:00:00",
       slotEventOverlap:false,
       allDaySlot:false,
-      timezone: 'local',
+      timezone: 'Australia/Currie',
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
@@ -110,7 +111,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       viewRender: function(view) {
         //render the date only after the calendar has fully loaded
         var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
-        $scope.date = date.format("MMMM D, YYYY ")
+        $scope.date = date.format("MMMM D, YYYY")
+        console.log($scope.date);
         BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
       },
 
