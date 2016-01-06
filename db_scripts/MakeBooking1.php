@@ -12,7 +12,10 @@
   		echo "Failed to connect to MySQL: " . mysqli_connect_error();
   		die();
   	}
-  	
+  	//set default time to UTC so it does not count daylight savings
+  	//do not remove!
+  	date_default_timezone_set('UTC');
+
   	//Get post datastream from front end
 	$data = json_decode(file_get_contents("php://input"));
 	//Set parameters from datastream
@@ -20,42 +23,41 @@
 	$Room = mysqli_real_escape_string($cxn,$data->RoomID);
 	$Reason = mysqli_real_escape_string($cxn,$data->Reason);
 	$Desc = mysqli_real_escape_string($cxn,$data->OtherDesc);
-	$Date = mysqli_real_escape_string($cxn,$data->date);
 	$year = "2015/2016";
 	$numP = mysqli_real_escape_string($cxn,$data->numParticipants);
-	$startTime = mysqli_real_escape_string($cxn,$data->start);
-	$endTime = mysqli_real_escape_string($cxn,$data->end);
-	$dateTime = mysqli_real_escape_string($cxn,$data->dateTime);
+	$localStart = mysqli_real_escape_string($cxn,$data->start);
+	$localEnd = mysqli_real_escape_string($cxn,$data->end);
 
-	//echo $dateTime;
-	
-/*
-	//Format startdate
-	$startDate = strtotime($Date);
-	$startDate = date('Y-m-d', $startDate);
-*/
-	$DateTime = strtotime($dateTime);
-	$startDate = date('Y-m-d', $DateTime);
-	$startTime = date('h:i:s', $DateTime);
-	//$endTime = date('h:i:s', $endTime);
+	$utcStart = strtotime($localStart);
+	$startDate = date('Y-m-d', $utcStart);
+	$startTime = date('H:i:s', $utcStart);
 
-	//echo $endTime;
+	$utcEnd = strtotime($localEnd);
+	$endDate = date('Y-m-d', $utcEnd);
+	$endTime = date('H:i:s', $utcEnd);
+
+	echo $startDate;
+	echo " | ".$startTime. " | ";
+	echo $endDate;
+	echo " | ".$endTime;
 
 	//javascript formatted date for echo purposes!!!
-	//echo date('D M d Y H:i:s O',$DateTime);
-
-	/*
+	//echo date('D M d Y H:i:s O',$utcStart);
+	//echo date('D M d Y H:i:s O',$utcEnd);
+	
 	//Get starting block
 	$query = "SELECT blockID, endTime FROM Blocks WHERE startTime = '$startTime'";
 	$rows = mysqli_query($cxn, $query);
 	//Array to hold blocks 
 	$blocks = [];
+
 	//Set starting block
 	foreach ($rows as $row) {
 		$block = $row['blockID'];
 		$blocks[] = $block;
 	$blockend = $row['endTime'];
 	}
+	
 	//Get all blocks for booking 
 	while ($blockend != $endTime){
 		$block = $block + 1;
@@ -79,7 +81,7 @@
 	}
 	//Send bookingID to front end
 	echo $bookingID;
-*/
+	
 	//mysqli_commit($cxn);
 	//Close the connection
 	mysqli_close($cxn);

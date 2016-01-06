@@ -95,12 +95,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.uiConfig = {
     calendar:{
       editable: false, //allows you to drag events
-      defaultView:'agendaDay',
+      defaultView:'agenda',
       minTime : "07:00:00", //earliest time to display
       maxTime : "23:00:00",
       slotEventOverlap:false,
       allDaySlot:false,
-      timezone: 'Australia/Currie',
+      timezone: false,
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',

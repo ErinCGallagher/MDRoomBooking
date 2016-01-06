@@ -12,8 +12,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
   $scope.selectedNumPeople = "1";
   $scope.numPeople = ["1", "2", "3", "4", "5-9", "10-19", "20+"]
-      console.log(dateTime);
-  $scope.date = dateTime.format("YYYY-MM-DD");
   $scope.startTime = dateTime.format("h:mm");
   $scope.description = "";
 
@@ -24,7 +22,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
     var isSuccessful = BookingsService.bookRoom({
       title: $scope.selectedReason,
-      start: new Date(dateTime),
+      start: dateTime,
       end: $scope.end,
       allDay: false,
       building: building, 
@@ -33,7 +31,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       numPeople: $scope.selectedNumPeople, 
       description: $scope.description,
       stick:true,
-      dateTime:dateTime
     });
     
     console.log("Booking Successful? ", isSuccessful);
@@ -59,7 +56,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     end = moment(dateTime).add(durationHours, 'h');
 
     $scope.endTime = end.format("h:mm");
-    $scope.end = new Date(moment(dateTime).add(durationHours, 'h'));
+    $scope.end = moment(dateTime).add(durationHours, 'h');
 
   }
 
