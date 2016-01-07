@@ -112,7 +112,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.uiConfig = {
     calendar:{
       editable: false, //allows you to drag events
-      defaultView:'agenda',
+      defaultView:'agendaWeek',
       minTime : "07:00:00", //earliest time to display
       maxTime : "23:00:00",
       slotEventOverlap:false,
@@ -127,9 +127,11 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       },
       viewRender: function(view) {
         //render the date only after the calendar has fully loaded
-        var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
-        $scope.date = date.format("MMMM D, YYYY");
-        BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
+        var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
+        var start = week.start;
+        var end = week.end;
+        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY")
+        BookingsService.getDailyBookings(start, end);
       },
 
       dayClick : $scope.bookRoomInCalendar,

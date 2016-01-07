@@ -9,12 +9,12 @@ function BookingsService(CommService, $q){
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getDailyBookings = function(date){
+	bookingsService.getDailyBookings = function(start, end){
 		//call communication Service
 		var room = 'HLH 102';
 		var q = $q.defer();
 		
-		CommService.getDailyBookingsFromDb(date,room)
+		CommService.getDailyBookingsFromDb(start, end, room)
 			.then(function(retrievedBookings){
 				bookingsService.dailyBookings.length = 0;
 				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
