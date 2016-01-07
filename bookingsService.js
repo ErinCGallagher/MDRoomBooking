@@ -9,12 +9,12 @@ function BookingsService(CommService, $q){
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getDailyBookings = function(date){
+	bookingsService.getDailyBookings = function(start, end){
 		//call communication Service
 		var room = 'HLH 102';
 		var q = $q.defer();
 		
-		CommService.getDailyBookingsFromDb(date,room)
+		CommService.getDailyBookingsFromDb(start, end, room)
 			.then(function(retrievedBookings){
 				bookingsService.dailyBookings.length = 0;
 				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
@@ -71,7 +71,6 @@ function BookingsService(CommService, $q){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID.data;
 					bookingsService.dailyBookings.push(newBookingInfo);
-					console.log(newBookingInfo);
 				},
 				function(err){
 					q.reject(false);
@@ -90,8 +89,6 @@ function BookingsService(CommService, $q){
 	bookingsService.confirmNoBookingConflicts = function(startTime, endTime){
 
 		var len = bookingsService.dailyBookings.length;
-
-		/*
 		//loop through the daily bookings
 		for(var i=0; i<bookingsService.dailyBookings.length; i++){
 
@@ -108,7 +105,7 @@ function BookingsService(CommService, $q){
 				return false;
 			}
 		}
-		*/
+
 		return true; //no bookings or they all occur before your booking do whatever you want
 	
 	}

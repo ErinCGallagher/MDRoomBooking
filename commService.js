@@ -7,8 +7,8 @@ function CommService($http){
 
 	var commService = {};
 
-	commService.getDailyBookingsFromDb = function(date, room){
-		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" :date, "Room":room })
+	commService.getDailyBookingsFromDb = function(start, end, room){
+		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Start" :start, "End" :end, "Room":room })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
 		    	console.log(data);
@@ -39,29 +39,35 @@ function CommService($http){
 
 	//call the php script that adds a booking to the DB
 	commService.bookRoomInDB = function(roomInformation){
-
-
-		//var endTime = roomInformation.end.toTimeString();
-						/*
+		var endTime = roomInformation.end.toTimeString();
 		console.log(endTime);
-
+		/*
 		endTime = endTime.split(' ')[0];
 		console.log(endTime);
 	*/
-		//var endTime =  roomInformation.end.format("YYYY-MM-dd HH:mm:ss");
+		var startTime = roomInformation.start.toTimeString();
+		startTime = startTime.split(' ')[0];
 
-		//console.log(roomInformation.dateTime);
+		var date = roomInformation.end.toDateString();
+
+		console.log(roomInformation.dateTime);
+
+		var dateTime = roomInformation.dateTime.format("YYYY-MM-dd HH:mm:ss");
+
+		console.log(dateTime);
 
 		var data = {
 			  UID:"11ecg5",
 		      Reason: roomInformation.title,
-		      start: roomInformation.start,
-		      end: roomInformation.end,
+		      start: startTime,
+		      end: endTime,
+		      date: date,
 		      building: roomInformation.building, 
 		      RoomID: roomInformation.roomNum,
 		      duration: roomInformation.duration,  
 		      numParticipants: roomInformation.numPeople, 
 		      OtherDesc:roomInformation.description,
+		      dateTime:roomInformation.dateTime
 		    };
 		    console.log(data);
 		var promisePost =  $http.post('db_scripts/MakeBooking1.php', data)
@@ -70,10 +76,9 @@ function CommService($http){
 		    	/*
 		    	//converts the php date to javascript dat in local time
 		    	var dateTimes = new Date(Date.parse(data));
-		    	
-		    	//console.log(dateTimes);
-		    	console.log(dateTimes);
 		    	*/
+		    	//console.log(dateTimes);
+		    	console.log(date);
 		    	return true;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed

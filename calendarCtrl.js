@@ -7,6 +7,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
+  //only used on initial load, used on view render for other times
   $scope.events = BookingsService.dailyBookings;
 
   $scope.eventSources = [$scope.events];
@@ -95,12 +96,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.uiConfig = {
     calendar:{
       editable: false, //allows you to drag events
-      defaultView:'agenda',
+      defaultView:'agendaWeek',
       minTime : "07:00:00", //earliest time to display
       maxTime : "23:00:00",
       slotEventOverlap:false,
       allDaySlot:false,
-      timezone: false,
+      timezone: 'Australia/Currie',
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
@@ -108,12 +109,14 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         center: '',
         right: ''
       },
+	  firstDay: 1,
       viewRender: function(view) {
         //render the date only after the calendar has fully loaded
-        var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
-        $scope.date = date.format("MMMM D, YYYY")
-        console.log($scope.date);
-        BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
+		var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
+		var start = week.start;
+		var end = week.end;
+		$scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY")
+        BookingsService.getDailyBookings(start, end);
       },
 
       dayClick : $scope.bookRoomInCalendar,
