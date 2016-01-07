@@ -36,11 +36,6 @@
 	$endDate = date('Y-m-d', $utcEnd);
 	$endTime = date('H:i:s', $utcEnd);
 
-	echo $startDate;
-	echo " | ".$startTime. " | ";
-	echo $endDate;
-	echo " | ".$endTime;
-
 	//javascript formatted date for echo purposes!!!
 	//echo date('D M d Y H:i:s O',$utcStart);
 	//echo date('D M d Y H:i:s O',$utcEnd);

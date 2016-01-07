@@ -7,10 +7,27 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
-  //only used on initial load, used on view render for other times
   $scope.events = BookingsService.dailyBookings;
 
   $scope.eventSources = [$scope.events];
+
+  /*
+  //get building hours start time
+  var buildingHoursStart = new Date();
+   console.log(buildingHoursStart);
+   buildingHoursStart.setUTCHours(12);
+   buildingHoursStart.setUTCMinutes(0);
+   buildingHoursStart.setUTCSeconds(0);
+   console.log(buildingHoursStart);
+
+  //get building hours end time
+  var buildingHoursEnd = new Date();
+  console.log(buildingHoursEnd);
+  buildingHoursEnd.setUTCHours(0);
+  buildingHoursEnd.setUTCMinutes(30);
+  buildingHoursEnd.setUTCSeconds(0);
+  console.log(buildingHoursEnd);
+  */
 
   //change the previous calendar date
   $scope.previousDate = function(){
@@ -31,7 +48,6 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
-    console.log(date);
 
     var makeBookingPopupInstance = $uibModal.open({
       templateUrl: 'makeBookingPopup.html',
@@ -96,12 +112,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.uiConfig = {
     calendar:{
       editable: false, //allows you to drag events
-      defaultView:'agendaWeek',
+      defaultView:'agenda',
       minTime : "07:00:00", //earliest time to display
       maxTime : "23:00:00",
       slotEventOverlap:false,
       allDaySlot:false,
-      timezone: 'Australia/Currie',
+      timezone: false,
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
@@ -109,14 +125,11 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         center: '',
         right: ''
       },
-	  firstDay: 1,
       viewRender: function(view) {
         //render the date only after the calendar has fully loaded
-		var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
-		var start = week.start;
-		var end = week.end;
-		$scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY")
-        BookingsService.getDailyBookings(start, end);
+        var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
+        $scope.date = date.format("MMMM D, YYYY");
+        BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
       },
 
       dayClick : $scope.bookRoomInCalendar,

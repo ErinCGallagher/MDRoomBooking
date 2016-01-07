@@ -9,12 +9,12 @@ function BookingsService(CommService, $q){
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getDailyBookings = function(start, end){
+	bookingsService.getDailyBookings = function(date){
 		//call communication Service
 		var room = 'HLH 102';
 		var q = $q.defer();
 		
-		CommService.getDailyBookingsFromDb(start, end, room)
+		CommService.getDailyBookingsFromDb(date,room)
 			.then(function(retrievedBookings){
 				bookingsService.dailyBookings.length = 0;
 				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
@@ -71,6 +71,7 @@ function BookingsService(CommService, $q){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID.data;
 					bookingsService.dailyBookings.push(newBookingInfo);
+					console.log(newBookingInfo);
 				},
 				function(err){
 					q.reject(false);
@@ -83,12 +84,26 @@ function BookingsService(CommService, $q){
 		}
 	}
 
+	//calculate the end timestamp given the selected duration and the startTimestamp
+	bookingsService.calclEndTime = function(durations, selectedDuration, startTimestamp){
+	    var durationHours = 0;
+	    for(var i=0; i<durations.length; i++) {
+	      if (selectedDuration == durations[i]){
+	        durationHours = (i+1) * 0.5;
+	      }
+	    }
+
+	    return moment(startTimestamp).add(durationHours, 'h');
+  }
+
 	//confirms that the booking does not conflict with other bookings
 	//return true if no conflicts
 	//return false if there are conflicts
 	bookingsService.confirmNoBookingConflicts = function(startTime, endTime){
 
 		var len = bookingsService.dailyBookings.length;
+
+		/*
 		//loop through the daily bookings
 		for(var i=0; i<bookingsService.dailyBookings.length; i++){
 
@@ -105,7 +120,7 @@ function BookingsService(CommService, $q){
 				return false;
 			}
 		}
-
+		*/
 		return true; //no bookings or they all occur before your booking do whatever you want
 	
 	}
