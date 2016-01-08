@@ -3,9 +3,13 @@ angular
 .service('CommService', CommService);
 
 //communication Service
-function CommService($http){
+function CommService($http, AdminCommService){
 
 	var commService = {};
+
+	commService.getAllGroups = function() {
+		return AdminCommService.getAllGroups();
+	}
 
 	commService.getDailyBookingsFromDb = function(date, room){
 		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" :date, "Room":room })
