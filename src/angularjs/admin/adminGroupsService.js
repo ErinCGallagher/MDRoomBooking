@@ -21,6 +21,10 @@ function AdminGroupsService(CommService, $q){
 		return CommService.createGroup(groupInfo);
 	}	
 
+	adminGroupsService.getGroupInfo = function(groupId) {
+		return CommService.getGroupInfo(groupId);
+	}	
+
 	return adminGroupsService;
 
 };

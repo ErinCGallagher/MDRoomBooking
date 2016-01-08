@@ -37,6 +37,21 @@ function AdminCommService($http){
 		 return 4;
 	}
 
+	adminCommService.getGroupInfo = function(groupId) {
+		var data = groupId;
+
+		var promisePost =  $http.post('../php/admin/getGroupInfo.php', data)
+		    .success(function(data, status) {
+		    	console.log(data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 // return promisePost;
+		 return {groupId:0, groupName:"Null", hoursPerWeek:0};
+	}
+
 	return adminCommService;
 
 };

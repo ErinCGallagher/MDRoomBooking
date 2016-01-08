@@ -13,15 +13,14 @@ function GroupsCtrl($scope, AdminGroupsService){
 			groupName: newGroupName,
 			hoursPerWeek: newHoursPerWeek
 		}
-		console.log(info);
 		var newGroupId = AdminGroupsService.createGroup(info);
 		$scope.groups.push({groupId:newGroupId, groupName:newGroupName})
 	}
 
 	$scope.getGroupInfo = function(groupId){
-		//var groupInfo = AdminGroupsService.getGroupInfo(groupId);
-		//console.log("getGroupInfo " + groupInfo);
-		console.log("getGroupInfo " + groupId);
+		var groupInfo = AdminGroupsService.getGroupInfo(groupId);
+		$scope.groupName = groupInfo.groupName;
+		$scope.hoursPerWeek = groupInfo.hoursPerWeek;
 	}
 
 };
