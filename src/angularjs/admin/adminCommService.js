@@ -22,6 +22,21 @@ function AdminCommService($http){
 		// return promisePost;
 	}
 
+	adminCommService.createGroup = function(groupInfo) {
+		var data = groupInfo;
+
+		var promisePost =  $http.post('../php/admin/createGroup.php', data)
+		    .success(function(data, status) {
+		    	console.log(data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 // return promisePost;
+		 return 4;
+	}
+
 	return adminCommService;
 
 };

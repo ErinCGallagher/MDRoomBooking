@@ -6,14 +6,19 @@ function AdminGroupsService(CommService, $q){
 	var adminGroupsService = {};
 
 	adminGroupsService.getAllGroups = function() {
-		var groupNames = [];
-		var groups = CommService.getAllGroups();
+		// var groupNames = [];
+		// var groups = CommService.getAllGroups();
 
-		for (var i = 0; i < groups.length; i++){
-			groupNames.push(groups[i].groupName);
-		}
+		// for (var i = 0; i < groups.length; i++){
+		// 	groupNames.push(groups[i].groupName);
+		// }
 
-		return groupNames;
+		// return groupNames;
+		return CommService.getAllGroups();
+	}
+
+	adminGroupsService.createGroup = function(groupInfo) {
+		return CommService.createGroup(groupInfo);
 	}	
 
 	return adminGroupsService;

@@ -32,13 +32,21 @@
             <h1>User Groups</h1>
             <button class="create-group-button" ng-click="createGroup()"> Create Group </button>
 
-            <div >
+            <div class="group-list">
                 <ul>
-                    <li data-ng-repeat="group in groups">
-                        {{ group }}
+                    <li data-ng-repeat="group in groups" ng-click="getGroupInfo(group.groupId)">
+                        {{ group.groupName }}
                     </li>
                 </ul>
             </div>
+
+            <div class="group-info">
+                <p><strong>Group Name:</strong> {{groupName}}</p>
+                <p><strong>Hours Per Week:</strong> {{hoursPerWeek}}</p>
+            </div>
+
+
+
         <div>
       
     </body>

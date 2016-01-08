@@ -11,6 +11,10 @@ function CommService($http, AdminCommService){
 		return AdminCommService.getAllGroups();
 	}
 
+	commService.createGroup = function(groupInfo) {
+		return AdminCommService.createGroup(groupInfo);
+	}
+
 	commService.getDailyBookingsFromDb = function(date, room){
 		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" :date, "Room":room })
 		    .success(function(data, status) {
