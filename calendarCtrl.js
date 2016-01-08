@@ -9,6 +9,8 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
   $scope.events = BookingsService.dailyBookings;
 
+  $scope.pageClass = 'calendar'; //used to change pages in index.html
+
   $scope.eventSources = [$scope.events];
 
   /*
