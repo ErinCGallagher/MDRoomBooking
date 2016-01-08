@@ -23,31 +23,35 @@
         <script type="text/javascript" src="../../bower_components/ui-bootstrap-tpls-0.14.3.min.js"></script>
        
 
+        <link rel="stylesheet" href="groups.css"/>
         <title>Groups</title>
 
     </head>
 
     <body ng-app="mainApp" ng-controller="GroupsCtrl">
-        <div>
-            <h1>User Groups</h1>
-            <button class="create-group-button" ng-click="createGroup()"> Create Group </button>
+        <div class="container groups-container">
+            <span class="title">User Groups</span>
+            <button class="create-group-button" ng-click="newGroup()"> New </button>
 
             <div class="group-list">
-                <ul>
-                    <li data-ng-repeat="group in groups" ng-click="getGroupInfo(group.groupId)">
-                        {{ group.groupName }}
-                    </li>
-                </ul>
+                <div class="group-element" data-ng-repeat="group in groups" ng-click="showGroup(group.groupId)">
+                    {{ group.groupName }}
+                </div>
             </div>
 
+        </div>
+        <div ng-show="showInfo" class="container info-container">    
             <div class="group-info">
                 <p><strong>Group Name:</strong> {{groupName}}</p>
                 <p><strong>Hours Per Week:</strong> {{hoursPerWeek}}</p>
             </div>
-
-
-
-        <div>
+        </div>
+        <div ng-show="showNewGroup" class="container info-container">    
+            <form class="group-info">
+                <p><strong>Group Name:</strong> </p>
+                <p><strong>Hours Per Week:</strong> </p>
+            </form>
+        </div>   
       
     </body>
 </html>

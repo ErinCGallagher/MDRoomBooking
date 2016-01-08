@@ -6,7 +6,16 @@ function GroupsCtrl($scope, AdminGroupsService){
 
 	$scope.groups = AdminGroupsService.getAllGroups();
 
-	$scope.createGroup = function(){
+	$scope.showInfo = false;
+	$scope.showNewGroup = false;
+
+	$scope.newGroup = function(){
+		$scope.showNewGroup = true;
+		$scope.showInfo = false;
+		createGroup();
+	}
+	
+	createGroup = function(){
 		var newGroupName = "New";
 		var newHoursPerWeek = 10;
 		var info = {
@@ -17,7 +26,13 @@ function GroupsCtrl($scope, AdminGroupsService){
 		$scope.groups.push({groupId:newGroupId, groupName:newGroupName})
 	}
 
-	$scope.getGroupInfo = function(groupId){
+	$scope.showGroup = function(groupId) {
+		$scope.showInfo = true;
+		$scope.showNewGroup = false;
+		getGroupInfo(groupId);
+	}
+
+	getGroupInfo = function(groupId){
 		var groupInfo = AdminGroupsService.getGroupInfo(groupId);
 		$scope.groupName = groupInfo.groupName;
 		$scope.hoursPerWeek = groupInfo.hoursPerWeek;
