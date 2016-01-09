@@ -14,7 +14,7 @@
 
  $stmt = $db->query("SELECT * FROM UGroups WHERE GroupID = " . $groupID); 
  
- $stmt2 = $db->query("SELECT COUNT(*) as numParticipants FROM UGroups JOIN Permission ON UGroups.GroupID = Permission.GroupID WHERE Permission.GroupID = " . $groupID . "GROUP BY Permission.GROUPID"); 
+ $stmt2 = $db->query("SELECT COUNT(*) as numUsers FROM UGroups JOIN Permission ON UGroups.GroupID = Permission.GroupID WHERE Permission.GroupID = " . $groupID . "GROUP BY Permission.GROUPID"); 
  
  $result = array();
  
@@ -30,6 +30,5 @@ while($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
  $json = json_encode($result);
  // echo the json string
  echo $json;
-   
    
 ?>
