@@ -6,10 +6,10 @@
 
  $host = "localhost";
  $user = "root";
- $password = "KitKat94";
+ $password = "";
  $database = "mdroombooking";
  
- $db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', 'KitKat94');
+ $db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
  $stmt = $db->query('SELECT GroupID, GroupName FROM UGroups');
  $result = array();
  
