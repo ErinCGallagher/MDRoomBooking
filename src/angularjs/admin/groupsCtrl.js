@@ -4,11 +4,11 @@ angular
 
 function GroupsCtrl($scope, AdminGroupsService){
 
-	$scope.groups = [];
+	$scope.groups = [{GroupID:1, GroupName:"Hey"}];
 	var init = function () {
-		$scope.groups = AdminGroupsService.getAllGroups();
+		//$scope.groups = AdminGroupsService.getAllGroups();
 		console.log("This is groups ", $scope.groups)
-	
+
 	};
 	// and fire it after definition
 	init();
@@ -41,9 +41,16 @@ function GroupsCtrl($scope, AdminGroupsService){
 	}
 
 	getGroupInfo = function(groupId){
-		var groupInfo = AdminGroupsService.getGroupInfo(groupId);
-		$scope.groupName = groupInfo.groupName;
-		$scope.hoursPerWeek = groupInfo.hoursPerWeek;
+		AdminGroupsService.getGroupInfo(groupId)
+			.then(function(groupInfo){
+				console.log("GROUP INFO ", groupInfo);
+				$scope.groupName = groupInfo.data[0].GroupName;
+				$scope.hoursPerWeek = groupInfo.data[0].HrsPerWeek;
+			},
+			function() {
+				alert("err");
+			});
+		
 	}
 
 };

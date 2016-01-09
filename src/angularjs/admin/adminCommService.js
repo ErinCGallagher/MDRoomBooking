@@ -37,10 +37,10 @@ function AdminCommService($http){
 		 return 4;
 	}
 
-	adminCommService.getGroupInfo = function(groupId) {
-		var data = groupId;
+	adminCommService.getGroupInfo = function(id) {
+		var data = {groupId:id};
 
-		var promisePost =  $http.post('../php/admin/getGroupInfo.php', data)
+		var promisePost =  $http.post('../../db_scripts/getGroupInfo.php', data)
 		    .success(function(data, status) {
 		    	console.log(data);
 		    	return data;
@@ -48,8 +48,7 @@ function AdminCommService($http){
 		    .error(function(data, status) { //request to the php scirpt failed
 		    	return 'error';
 		    });
-		 // return promisePost;
-		 return {groupId:0, groupName:"Null", hoursPerWeek:0};
+		 return promisePost;
 	}
 
 	return adminCommService;
