@@ -12,9 +12,9 @@
  //Get parameters from 
  $groupID = data->groupId;
 
- $stmt = $db->query("SELECT * FROM UGroups WHERE GroupID = " . $groupID); 
+ $stmt = $db->query("SELECT * FROM UGroups WHERE GroupID = '$groupID' "); 
  
- $stmt2 = $db->query("SELECT COUNT(*) as numUsers FROM UGroups JOIN Permission ON UGroups.GroupID = Permission.GroupID WHERE Permission.GroupID = " . $groupID . "GROUP BY Permission.GROUPID"); 
+ $stmt2 = $db->query("SELECT COUNT(*) as numUsers FROM UGroups JOIN Permission ON UGroups.GroupID = Permission.GroupID WHERE Permission.GroupID = '$groupID' GROUP BY Permission.GROUPID"); 
  
  $result = array();
  
