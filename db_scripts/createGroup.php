@@ -13,7 +13,7 @@
  $data = json_decode(file_get_contents("php://input"));
  //Get parameters from 
  $groupName = $data->groupName;
- $hoursPerWeek = $data->hours;
+ $hoursPerWeek = $data->hoursPerWeek;
  // $hoursPerSemester = $data->hoursPerSemester
  // $fall = $data->fall;
  // $winter = $data->winter;
