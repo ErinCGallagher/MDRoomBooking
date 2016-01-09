@@ -24,9 +24,9 @@
  $stmt = $db->query($query);
 
  //Convert to json
- $json = json_encode($result);
+// $json = json_encode($result);
  // echo the json string
- echo $json;
+// echo $json;
    
    
 ?>
