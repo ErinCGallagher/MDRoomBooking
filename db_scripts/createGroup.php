@@ -1,4 +1,5 @@
 
+
 <?php
 
  $host = "localhost";
@@ -12,8 +13,8 @@
  //Get post data stream 
  $data = json_decode(file_get_contents("php://input"));
  //Get parameters from 
- $groupName = $data->groupName;
- $hoursPerWeek = $data->hoursPerWeek;
+ $groupName = "TESTTT"; //$data->groupName;
+ $hoursPerWeek = 30; //$data->hours;
  // $hoursPerSemester = $data->hoursPerSemester
  // $fall = $data->fall;
  // $winter = $data->winter;
@@ -23,10 +24,13 @@
  $query = "INSERT INTO UGroups(GroupName, HrsPerWeek) VALUES ('$groupName' , '$hoursPerWeek')";
  $stmt = $db->query($query);
 
+ $groupID = $db->lastInsertId();
+ 
+
  //Convert to json
-// $json = json_encode($result);
+ $json = json_encode($groupID);
  // echo the json string
-// echo $json;
+ echo $json;
    
    
 ?>
