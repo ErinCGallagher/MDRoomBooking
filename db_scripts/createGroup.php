@@ -13,8 +13,8 @@
  //Get post data stream 
  $data = json_decode(file_get_contents("php://input"));
  //Get parameters from 
- $groupName = "TESTTT"; //$data->groupName;
- $hoursPerWeek = 30; //$data->hours;
+ $groupName = $data->groupName;
+ $hoursPerWeek = $data->hours;
  // $hoursPerSemester = $data->hoursPerSemester
  // $fall = $data->fall;
  // $winter = $data->winter;
