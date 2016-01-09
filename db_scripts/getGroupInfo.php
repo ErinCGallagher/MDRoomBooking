@@ -1,7 +1,3 @@
-<html>
-<head><title>Load Room Booking Database</title></head>
-<body>
-
 <?php
 
  $host = "localhost";
@@ -37,4 +33,3 @@ while($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
    
    
 ?>
-</body></html>
