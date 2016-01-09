@@ -31,7 +31,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 			hoursPerWeek: newHoursPerWeek
 		}
 		var newGroupId = AdminGroupsService.createGroup(info);
-		$scope.groups.push({groupId:newGroupId, groupName:newGroupName})
+		//$scope.groups.push({groupId:newGroupId, groupName:newGroupName})
 	}
 
 	$scope.showGroup = function(groupId) {

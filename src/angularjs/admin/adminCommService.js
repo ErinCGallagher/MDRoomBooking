@@ -25,7 +25,7 @@ function AdminCommService($http){
 	adminCommService.createGroup = function(groupInfo) {
 		var data = groupInfo;
 
-		var promisePost =  $http.post('../php/admin/createGroup.php', data)
+		var promisePost =  $http.post('../../db_scripts/createGroup.php', data)
 		    .success(function(data, status) {
 		    	console.log(data);
 		    	return data;
