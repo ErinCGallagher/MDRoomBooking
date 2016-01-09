@@ -4,7 +4,15 @@ angular
 
 function GroupsCtrl($scope, AdminGroupsService){
 
-	$scope.groups = AdminGroupsService.getAllGroups();
+	$scope.groups = [];
+	var init = function () {
+		$scope.groups = AdminGroupsService.getAllGroups();
+		console.log("This is groups ", $scope.groups)
+	
+	};
+	// and fire it after definition
+	init();
+	
 
 	$scope.showInfo = false;
 	$scope.showNewGroup = false;

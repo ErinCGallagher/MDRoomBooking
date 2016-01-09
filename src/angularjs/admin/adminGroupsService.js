@@ -4,6 +4,7 @@ angular
 
 function AdminGroupsService(CommService, $q){
 	var adminGroupsService = {};
+	adminGroupsService.groups = [];	
 
 	adminGroupsService.getAllGroups = function() {
 		// var groupNames = [];
@@ -14,7 +15,22 @@ function AdminGroupsService(CommService, $q){
 		// }
 
 		// return groupNames;
-		return CommService.getAllGroups();
+		var q = $q.defer();
+		CommService.getAllGroups()
+			.then(function(retreivedGroups) {
+				console.log("Here", retreivedGroups.data);
+				for (var i = 0; i < retreivedGroups.data.length; i++){
+					console.log("GroupID", retreivedGroups.data[i].GroupID);
+					adminGroupsService.groups.push(retreivedGroups.data[i])
+					console.log(retreivedGroups.data[i])
+				}
+				q.resolve(adminGroupsService.groups);
+			},
+			function(err) {
+				alert("could not retrieve groups from database");
+				q.resolve(err);
+			});
+		return q.promise;
 	}
 
 	adminGroupsService.createGroup = function(groupInfo) {
