@@ -8,30 +8,39 @@ angular
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
 	$routeProvider
 	
-	.when('/', {
+	.when('/calendar', {
 		templateUrl:"calendar.html",
-		controller:"CalendarCtrl"
+		controller:"CalendarCtrl",
+		activetab: 'calendar'
 	})	
 	.when('/search', {
 		templateUrl:"search.html",
-		controller:"SearchCtrl"
+		controller:"SearchCtrl",
+		activetab: 'search'
 	})
 	.when('/my-bookings', {
 		templateUrl:"myBookings.html",
-		controller:"MyBookingsCtrl"
+		controller:"MyBookingsCtrl",
+		activetab: 'my-bookings'
 	})
-	.when('/user', {
+	.when('/admin/user', {
 		templateUrl:"admin/user.html",
-		controller:"UserCtrl"
+		controller:"UserCtrl",
+		activetab: 'admin',
+		activesubtab: 'user'
 	})
-	.when('/groups', {
+	.when('/admin/groups', {
 		templateUrl:"admin/groups.html",
-		controller:"GroupsCtrl"
+		controller:"GroupsCtrl",
+		activetab: 'admin',
+		activesubtab: 'groups'
 	})
 	//might not be it's own page
 	.when('/other', {
 		templateUrl:"other.html",
-		controller:"OtherCtrl"
+		controller:"OtherCtrl",
+		activetab: 'other'
 	})
+	.otherwise({redirectTo: '/calendar'});
 
 }]);

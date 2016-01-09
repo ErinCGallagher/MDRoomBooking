@@ -75,7 +75,6 @@ commService.getDailyBookingsFromDb = function(start, end, room){
 			var startTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].StartTime;
 			var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
 			var startTime = new Date(startTime);
-			console.log(startTime);
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].Reason, 
 			 start:new Date(startTime),

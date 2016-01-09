@@ -2,10 +2,13 @@ angular
 .module('mainApp')
 .controller('AppCtrl', AppCtrl)
 
-function AppCtrl($scope, $location){
+function AppCtrl($scope, $location, $route){
 
 //may need to handle back button functionality here espeically on phones
   
+  //used for keeping active tabs highlighted in nav bar
+  $scope.$route = $route;
+
   //detect user type (ADMIN OR NOT ADMIN)
   
   //retrieve constant text from service from service
@@ -45,6 +48,5 @@ function AppCtrl($scope, $location){
   $scope.OtherText = function(){
       return "Other";
   }
-
 
 }
