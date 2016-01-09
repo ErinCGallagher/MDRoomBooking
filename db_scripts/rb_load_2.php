@@ -10,7 +10,7 @@
  
  $host = "localhost";
  $user = "root";
- $password = "KitKat94";
+ $password = "";
  $database = "mdroombooking";
  $cxn = mysqli_connect($host,$user,$password, $database);
  // Check connection
