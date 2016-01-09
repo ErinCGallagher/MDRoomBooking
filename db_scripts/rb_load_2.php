@@ -10,7 +10,7 @@
  
  $host = "localhost";
  $user = "root";
- $password = "";
+ $password = "KitKat94";
  $database = "mdroombooking";
  $cxn = mysqli_connect($host,$user,$password, $database);
  // Check connection
@@ -61,13 +61,13 @@
 					PRIMARY KEY(BlockID));");
 					
 	mysqli_query($cxn,"CREATE TABLE UGroups(
-					GroupID				INT			NOT NULL,
+					GroupID				INT			NOT NULL  	AUTO_INCREMENT,
 					GroupName			VARCHAR(35)	NOT NULL,
-					HrsPerWeek			INT			NOT NULL,
-					HrsPerTerm			INT			NOT NULL,
-					Fall				BOOLEAN		NOT NULL,
-					Winter				BOOLEAN		NOT NULL, 
-					Summer				BOOLEAN		NOT NULL,
+					HrsPerWeek		INT			NOT NULL,
+					HrsPerTerm			INT			,
+					Fall				BOOLEAN		,
+					Winter				BOOLEAN		, 
+					Summer				BOOLEAN		,
 					PRIMARY KEY(GroupID));");
 	
 	mysqli_query($cxn,"CREATE TABLE Permission(
@@ -77,7 +77,7 @@
 					PRIMARY KEY(GroupID, UID));");		
 	
 	mysqli_query($cxn,"CREATE TABLE User(
-					UID					INT			NOT NULL,
+					UID					INT			NOT NULL     AUTO_INCREMENT,
 					FirstName			VARCHAR(35)	NOT NULL,
 					LastName			VARCHAR(35)	NOT NULL,
 					PRIMARY KEY(UID));");				
@@ -137,11 +137,11 @@
 				");
 				
 				
-	mysqli_query($cxn, "INSERT INTO UGroups(GroupID, GroupName, HrsPerWeek, HrsPerTerm, Fall, Winter, Summer) VALUES
-				('1', 'MUSC 100', '2', '0', True, True, False),
-				('2', 'Ensemble A', '5', '0', False, True, False),
-				('3', 'DRAM 205', '6', '0', True, False, False),
-				('4', 'DRAM 100', '2', '0', False, False, True) 
+	mysqli_query($cxn, "INSERT INTO UGroups(GroupName, HrsPerWeek, HrsPerTerm, Fall, Winter, Summer) VALUES
+				('MUSC 100', '2', '0', True, True, False),
+				('Ensemble A', '5', '0', False, True, False),
+				('DRAM 205', '6', '0', True, False, False),
+				('DRAM 100', '2', '0', False, False, True) 
 				");
 				
 	mysqli_query($cxn, "INSERT INTO Permission (UID, GroupID, AcademicYr) VALUES
@@ -152,11 +152,11 @@
 				('4', '1', '2016')
 				");
 	
-	mysqli_query($cxn, "INSERT INTO User (UID, FirstName, LastName) VALUES
-				('1', 'Lexi', 'Flynn'),
-				('2', 'Erin', 'Gallagher'),
-				('3', 'Shannon', 'Klett'),
-				('4', 'Laura', 'Brooks')
+	mysqli_query($cxn, "INSERT INTO User (FirstName, LastName) VALUES
+				('Lexi', 'Flynn'),
+				('Erin', 'Gallagher'),
+				('Shannon', 'Klett'),
+				('Laura', 'Brooks')
 				");
 	
    mysqli_close($cxn); 
