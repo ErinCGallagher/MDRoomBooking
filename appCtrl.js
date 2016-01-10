@@ -12,41 +12,27 @@ function AppCtrl($scope, $location, $route){
   //detect user type (ADMIN OR NOT ADMIN)
   
   //retrieve constant text from service from service
-  $scope.calendarText = function(){
-      return "Calendar";
-  }
+  $scope.calendarText = "CALENDAR";
   
   //retrieve constant text from service
-  $scope.searchText = function(){
-      return "Search";
-  }
+  $scope.searchText = "SEARCH";
 
   //retrieve constant text from service
-  $scope.myBookingsText = function(){
-      return "My Bookings";
-  }
+  $scope.myBookingsText = "MY BOOKINGS";
 
   //retrieve constant text from service
   //only display if Admin user
-  $scope.AdminText = function(){
-      return "Admin";
-  }
+  $scope.AdminText = "ADMIN";
 
   //retrieve constant text from service
   //only display if Admin user
-  $scope.UserText = function(){
-      return "User";
-  }
+  $scope.UserText = "User";
 
   //retrieve constant text from service
   //only display if Admin user
-  $scope.GroupsText = function(){
-      return "Groups";
-  }
+  $scope.GroupsText = "GROUPS";
 
   //retrieve constant text from service
-  $scope.OtherText = function(){
-      return "Other";
-  }
+  $scope.OtherText = "OTHER";
 
 }

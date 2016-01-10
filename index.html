@@ -15,6 +15,7 @@
         <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
 
+        <!-- angular scripts, must ramin in this order -->
         <script type="text/javascript" src="mainApp.js"></script>
         <script type="text/javascript" src="angular-route.js"></script> 
 
@@ -62,23 +63,23 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: $route.current.activetab == 'calendar'}">
-                        <a href="#/">CALENDAR</a>
+                        <a href="#/">{{calendarText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
-                        <a href="#/search">SEARCH</a>
+                        <a href="#/search">{{searchText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'my-bookings'}">
-                        <a href="#/my-bookings">MY BOOKINGS</a>
+                        <a href="#/my-bookings">{{myBookingsText}}</a>
                     </li>
                     <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}">
-                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ADMIN <span class="caret"></span></a>
+                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{AdminText}} <span class="caret"></span></a>
                       <ul class="dropdown-menu" >
-                        <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">USER</a></li>
-                        <li ng-class="{ active: $route.current.activesubtab == 'groups'}"><a href="#/admin/groups">GROUPS</a></li>
+                        <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">{{UserText}}</a></li>
+                        <li ng-class="{ active: $route.current.activesubtab == 'groups'}"><a href="#/admin/groups">{{GroupsText}}</a></li>
                       </ul>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'other'}">
-                        <a href="#/other">OTHER</a>
+                        <a href="#/other">{{OtherText}}</a>
                     </li>
                 </ul>
             </div>
@@ -88,15 +89,6 @@
       
     </nav>
 
-<!--
-    <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li ng-class="{ active: $route.current.activetab == 'calendar'}"><a href="#/calendar">CALENDAR</a></li>
-            <li ng-class="{ active: $route.current.activetab == 'search'}"><a href="#/calendar">SEARCH</a></li>
-            <li ng-class="{ active: $route.current.activetab == 'my-bookings'}"><a href="#/calendar">CATS</a></li>
-        </ul>
-    </div>
--->
     <!-- page that appears under navigation bar -->    
             <!--each controller applies a different class here-->
             <div class = "page {{pageClass}}" ng-view></div> 
