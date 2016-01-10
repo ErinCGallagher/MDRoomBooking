@@ -7,8 +7,8 @@ function CommService($http){
 
 	var commService = {};
 
-	commService.getDailyBookingsFromDb = function(date, room){
-		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Date" :date, "Room":room })
+commService.getDailyBookingsFromDb = function(start, end, room){
+		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Start" :start, "End" :end, "Room":room })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
 		    	console.log(data);
@@ -39,20 +39,12 @@ function CommService($http){
 
 	//call the php script that adds a booking to the DB
 	commService.bookRoomInDB = function(roomInformation){
-		var endTime = roomInformation.end.toTimeString();
-		endTime = endTime.split(' ')[0];
-
-		var startTime = roomInformation.start.toTimeString();
-		startTime = startTime.split(' ')[0];
-
-		var date = roomInformation.end.toDateString();
 
 		var data = {
 			  UID:"11ecg5",
 		      Reason: roomInformation.title,
-		      start: startTime,
-		      end: endTime,
-		      date: date,
+		      start: roomInformation.start,
+		      end: roomInformation.end,
 		      building: roomInformation.building, 
 		      RoomID: roomInformation.roomNum,
 		      duration: roomInformation.duration,  
@@ -82,7 +74,7 @@ function CommService($http){
 		for(var i = 0; i<dailyBookings.length;i++){
 			var startTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].StartTime;
 			var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
-			
+			var startTime = new Date(startTime);
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].Reason, 
 			 start:new Date(startTime),

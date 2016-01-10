@@ -9,7 +9,27 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
   $scope.events = BookingsService.dailyBookings;
 
+  $scope.pageClass = 'calendar'; //used to change pages in index.html
+
   $scope.eventSources = [$scope.events];
+
+  /*
+  //get building hours start time
+  var buildingHoursStart = new Date();
+   console.log(buildingHoursStart);
+   buildingHoursStart.setUTCHours(12);
+   buildingHoursStart.setUTCMinutes(0);
+   buildingHoursStart.setUTCSeconds(0);
+   console.log(buildingHoursStart);
+
+  //get building hours end time
+  var buildingHoursEnd = new Date();
+  console.log(buildingHoursEnd);
+  buildingHoursEnd.setUTCHours(0);
+  buildingHoursEnd.setUTCMinutes(30);
+  buildingHoursEnd.setUTCSeconds(0);
+  console.log(buildingHoursEnd);
+  */
 
   //change the previous calendar date
   $scope.previousDate = function(){
@@ -94,12 +114,12 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.uiConfig = {
     calendar:{
       editable: false, //allows you to drag events
-      defaultView:'agendaDay',
+      defaultView:'agendaWeek',
       minTime : "07:00:00", //earliest time to display
       maxTime : "23:00:00",
       slotEventOverlap:false,
       allDaySlot:false,
-      timezone: 'local',
+      timezone: false,
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
@@ -109,9 +129,11 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       },
       viewRender: function(view) {
         //render the date only after the calendar has fully loaded
-        var date = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' );
-        $scope.date = date.format("MMMM D, YYYY ")
-        BookingsService.getDailyBookings(uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getDate' ));
+        var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
+        var start = week.start;
+        var end = week.end;
+        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY")
+        BookingsService.getDailyBookings(start, end);
       },
 
       dayClick : $scope.bookRoomInCalendar,

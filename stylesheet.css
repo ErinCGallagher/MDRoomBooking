@@ -1,87 +1,23 @@
-.building-search-bar{
-	display:inline-block;
-	margin:20px 10px 20px 20px;
-	padding:10px;
-	/*min-width:30em;*/
-	background-color:#c2d2d6;
+.navbar-default{
+	margin-right: auto;
+    margin-left: auto;
+    width: 550px;
+    margin-top:20px;
 }
 
-.building-selection-title{
-	display:inline;
-	font-size:120%;
-	margin-right:7px;
-}
-
-.room{
-	margin-top:7px;
-}
-.room-title{
-	font-size:120%;
-	margin-right:7px;
-}
-
-.building-select{
-	font-size:100%;
-}
-
-.building-go-button{
-	margin-left:10px;
-	width:60px;
-	font-size: 15px;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.fc-content{
-	position: absolute !important;
-    top: 50%;
-    left: 0px;
-    right: 0px;
-    transform: translateY(-50%);
-    font-size:14px;
-    margin-left: 10px;
-}
-
-.date-navigation-bar{
-	text-align:center;
-}
-
-.fc-toolbar{
-	margin:0px;
-}
-
-.previous-date-button, .next-date-button{
-	width:40px;
-	font-size:20px;
-	border-radius:5px;
-	margin-right:10px;
-	margin-left:10px;
-}
-
-.date-text {
-	display:inline;
-	font-size:190%;
-}
-
-.fc-view-container{
-	width:90%;
-	margin-right:5%;
-	margin-left:5%;
-}
-
-
-@media screen and (max-width: 700px) {
-	.building-search-bar{
-		margin:20px 3px 20px 3px;
+@media(min-width:768px){
+	.navbar-centered .navbar-nav{
+		float:none;
+		text-align:center;
 	}
-
-@media screen and (max-width: 530px) {
-	.building-search-bar{
-		margin:20px 3px 20px 3px;
+	.navbar-centered .navbar-nav >li{
+		float:none;
+		display: inline-block;
 	}
-
-	.date-text {
-		font-size:165%;
+	.navbar-center .nav >li {
+		display:inline;
+	}
+	.navbar-centered .nav >li >a{
+		display: inline-block;
 	}
 }

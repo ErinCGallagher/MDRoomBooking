@@ -12,25 +12,27 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
   $scope.selectedNumPeople = "1";
   $scope.numPeople = ["1", "2", "3", "4", "5-9", "10-19", "20+"]
-  $scope.date = dateTime.format("YYYY-MM-DD");
   $scope.startTime = dateTime.format("h:mm");
   $scope.description = "";
 
   $scope.submitBooking = function () {
 
-    $scope.calcEndTime();
+    var endTimestamp = BookingsService.calclEndTime($scope.durations, $scope.selectedDuration, dateTime);
+    $scope.endTime = endTimestamp.format("h:mm");
+
+    console.log(dateTime);
 
     var isSuccessful = BookingsService.bookRoom({
       title: $scope.selectedReason,
-      start: new Date(dateTime),
-      end: $scope.end,
+      start: dateTime,
+      end: endTimestamp,
       allDay: false,
       building: building, 
       roomNum: roomNum,
       duration: $scope.selectedDuration,  
       numPeople: $scope.selectedNumPeople, 
       description: $scope.description,
-      stick:true
+      stick:true,
     });
     
     console.log("Booking Successful? ", isSuccessful);
@@ -45,20 +47,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     $uibModalInstance.close(alert);
   };
 
-  $scope.calcEndTime = function () {
-    var durationHours = 0;
-    for(var i=0; i<$scope.durations.length; i++) {
-      if ($scope.selectedDuration == $scope.durations[i]){
-        durationHours = (i+1) * 0.5;
-      }
-    }
 
-    end = moment(dateTime).add(durationHours, 'h');
-
-    $scope.endTime = end.format("h:mm");
-    $scope.end = new Date(moment(dateTime).add(durationHours, 'h'));
-
-  }
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

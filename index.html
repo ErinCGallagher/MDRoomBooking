@@ -6,6 +6,7 @@
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="stylesheet.css"/>
+        <link rel="stylesheet" href="calendarstyle.css"/>
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
@@ -15,11 +16,18 @@
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
 
         <script type="text/javascript" src="mainApp.js"></script>
+        <script type="text/javascript" src="angular-route.js"></script> 
+
+
+        <!-- Controllers -->
+        <script type="text/javascript" src="AppCtrl.js"></script>
         <script type="text/javascript" src="calendarCtrl.js"></script>
-        <script type="text/javascript" src="bookingsService.js"></script>
-        <script type="text/javascript" src="commService.js"></script>
         <script type="text/javascript" src="makeBookingPopupCtrl.js"></script>
         <script type="text/javascript" src="viewBookingPopupCtrl.js"></script>
+
+        <!-- Services -->
+        <script type="text/javascript" src="commService.js"></script>
+        <script type="text/javascript" src="bookingsService.js"></script>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,129 +37,68 @@
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
         <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="bower_components/ui-bootstrap-tpls-0.14.3.min.js"></script>
-       
+
+       <!--<base href="/MDRoomBooking/"> -->
 
         <title>Room Booking System</title>
 
     </head>
 
-    <body ng-app="mainApp" ng-controller="CalendarCtrl">
-       <div class="building-search-bar">
-            <p class="building-selection-title"><strong>Building:</strong></p>
-            <select ng-model="selectedBuilding" ng-options="building as building for building in buildings" class="building-select"></select>
-            <button class="building-go-button" ng-click="go()"> Go </button>
-            <div class="room">
-                <span class="room-title"><strong>Room:</strong></span> HLH 102
+    <body ng-app="mainApp" ng-controller="AppCtrl">
+
+    <!-- https://github.com/IronSummitMedia/startbootstrap-agency -->
+
+<nav class="navbar navbar-default navbar-centered">
+            <div class="navbar-header page-scroll">
+                <button type"button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>      
+            
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{ active: $route.current.activetab == 'calendar'}">
+                        <a href="#/">CALENDAR</a>
+                    </li>
+                    <li ng-class="{ active: $route.current.activetab == 'search'}">
+                        <a href="#/search">SEARCH</a>
+                    </li>
+                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}">
+                        <a href="#/my-bookings">MY BOOKINGS</a>
+                    </li>
+                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}">
+                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ADMIN <span class="caret"></span></a>
+                      <ul class="dropdown-menu" >
+                        <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">USER</a></li>
+                        <li ng-class="{ active: $route.current.activesubtab == 'groups'}"><a href="#/admin/groups">GROUPS</a></li>
+                      </ul>
+                    </li>
+                    <li ng-class="{ active: $route.current.activetab == 'other'}">
+                        <a href="#/other">OTHER</a>
+                    </li>
+                </ul>
             </div>
-       </div>
 
-       <!-- alert after attempting to make a booking -->
-         <script type="text/ng-template" id="alert.html">
-           <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
-             <div ng-transclude></div>
-           </div>
-         </script>
+            <!-- /.navbar-collapse -->
 
-         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+      
+    </nav>
 
-       <div class="date-navigation-bar">
-        <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
-        <h2 class="date-text">{{date}}</h2>
-        <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
-       </div>
-
-        <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
-       
-
-        <!-- Make Booking Popup Template -->
-        <div>
-            <script type="text/ng-template" id="makeBookingPopup.html">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" ng-click="cancel()">&times;</button>
-                        <h4 class="modal-title">Book Room</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="book-Room">
-                            <div class="book-room-info">
-                                <p><strong>Building:</strong> {{building}}</p>
-                                <p><strong>Room #:</strong> {{roomNum}}</p>
-                                <p><strong>Date:</strong> {{date}}</p>
-                                <p><strong>Start Time:</strong> {{startTime}}</p>
-                            </div>
-                            <p>
-                                <strong>Duration: </strong>
-                                <select ng-model="selectedDuration" ng-options="duration as duration for duration in durations"></select>
-                            </p>
-                            <p>
-                                <strong>Number of People: </strong>
-                                <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
-                            </p>
-                            <p>
-                                <strong>Reason</strong>
-                                <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons"></select>
-                            </p>
-                            <div ng-show="selectedReason=='Other'">
-                                <Strong>Description: </Strong>
-                                <input type="text" name="input" ng-model="description">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn" ng-click="cancel()">Cancel</button>
-                        <button type="submit" class="btn" ng-click="submitBooking()">Book Room</button>
-                    </div>
-                </div>
-            </script>  
-        </div>
-
-
-        <!-- View Booking Popup Template -->
-        <div>
-            <script type="text/ng-template" id="viewBookingPopup.html">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" ng-click="cancel()">&times;</button>
-                        <h4 class="modal-title">Booking Information</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="book-Room">
-                            <div class="book-room-info">
-                                <p><strong>Building:</strong> {{building}}</p>
-                                <p><strong>Room #:</strong> {{roomNum}}</p>
-                                <p><strong>Date:</strong> {{date}}</p>
-                                <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
-                            <p><strong>Number of People: </strong> {{numPeople}}</p>
-                            <p><strong>Reason</strong> {{reason}}</p>
-                            <div ng-show="reason=='Other'">
-                                <p><Strong>Description: </Strong> {{description}}</p>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn" ng-click="cancel()">Ok</button>
-                    </div>
-                </div>
-            </script>  
-        </div>
-
-   
-
-    <!--
-    <div>
-
-    <form class="well form-search">
-        <label>Search:</label>
-        <input type="text" ng-model="keywords" class="input-medium search-query" placeholder="Keywords...">
-        <button type="submit" class="btn" ng-click="search()">Search</button>
-        <p class="help-block">Try for example: "php" or "angularjs" or "asdfg"</p>      
-    </form>
-    <pre ng-model="result">
-    {{result}}
-    </pre>
-   </div>
-    -->
+<!--
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li ng-class="{ active: $route.current.activetab == 'calendar'}"><a href="#/calendar">CALENDAR</a></li>
+            <li ng-class="{ active: $route.current.activetab == 'search'}"><a href="#/calendar">SEARCH</a></li>
+            <li ng-class="{ active: $route.current.activetab == 'my-bookings'}"><a href="#/calendar">CATS</a></li>
+        </ul>
+    </div>
+-->
+    <!-- page that appears under navigation bar -->    
+            <!--each controller applies a different class here-->
+            <div class = "page {{pageClass}}" ng-view></div> 
     </body>
 </html>
