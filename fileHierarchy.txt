@@ -4,37 +4,37 @@ RepoFolderName
 	/src
 		/angularjs
 			/bookings
-                calendarCtrl.js
-                searchCtrl.js
-                myBookingsCtrl.js
-                viewBookingPopupCtrl.js
-                makeBookingPopupCtrl.js
-                bookingsService.js
-                bookingsCommService.js
+                		calendarCtrl.js
+                		searchCtrl.js
+		                myBookingsCtrl.js
+                		viewBookingPopupCtrl.js
+                		makeBookingPopupCtrl.js
+                		bookingsService.js
+		                bookingsCommService.js
 			/admin
-                groupsCtrl.js
-                usersCtrl.js
-                viewUsersPopupCtrl.js
-                adminGroupsService.js
-                fileService.js
-                adminUsersService.js
-                adminCommService.js
-                userCommService.js
+		                groupsCtrl.js
+		                usersCtrl.js
+                		viewUsersPopupCtrl.js
+		                adminGroupsService.js
+		                fileService.js
+                		adminUsersService.js
+		                adminCommService.js
+                		userCommService.js
 			menuCtrl.js
-            mainApp.js
-            constantService.js
-            sharedVariableService.js
-            commService.js
+            		mainApp.js
+            		constantService.js
+            		sharedVariableService.js
+            		commService.js
 		/php
 			/bookings
 			/admin
 			/users
-            rb_load.php
-        /html_css
-            search.html
-            myBookings.html
-            groups.html
-            users.html
-            stylesheet.css
-            index.css
+            		rb_load.php
+        	/html_css
+            		search.html
+            		myBookings.html
+		        groups.html
+            		users.html
+            		stylesheet.css
+            		index.css
         index.html
