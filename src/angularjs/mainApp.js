@@ -14,18 +14,18 @@ angular
 		activetab: 'calendar'
 	})	
 	.when('/search', {
-		templateUrl:"search.html",
+		templateUrl:"src/html_css/search.html",
 		controller:"SearchCtrl",
 		activetab: 'search'
 	})
 	.when('/my-bookings', {
-		templateUrl:"myBookings.html",
+		templateUrl:"src/html_css/myBookings.html",
 		controller:"MyBookingsCtrl",
 		activetab: 'my-bookings'
 	})
 	.when('/admin/user', {
-		templateUrl:"admin/user.html",
-		controller:"UserCtrl",
+		templateUrl:"src/html_css/users.html",
+		controller:"UsersCtrl",
 		activetab: 'admin',
 		activesubtab: 'user'
 	})
