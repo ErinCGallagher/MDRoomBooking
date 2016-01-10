@@ -30,7 +30,7 @@ angular
 		activesubtab: 'user'
 	})
 	.when('/admin/groups', {
-		templateUrl:"admin/groups.html",
+		templateUrl:"src/html_css/groups.html",
 		controller:"GroupsCtrl",
 		activetab: 'admin',
 		activesubtab: 'groups'
