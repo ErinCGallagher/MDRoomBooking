@@ -3,9 +3,31 @@ angular
 .service('CommService', CommService);
 
 //communication Service
-function CommService($http, $q, BookingCommService){
+function CommService($http, $q, BookingCommService, AdminCommService){
 
 	var commService = {};
+
+	commService.getAllGroups = function() {
+		return AdminCommService.getAllGroups();
+	}
+
+	commService.createGroup = function(groupInfo) {
+		var q = $q.defer();
+		AdminCommService.createGroup(groupInfo)
+		.then(function(groupId){
+				// don't know why, but the return from adminCommService is an object
+				q.resolve(groupId.data);
+			},
+			function(err){
+				alert("error with createGroup");
+				q.reject();
+			});
+		return q.promise;
+	}
+
+	commService.getGroupInfo = function(groupId) {
+		return AdminCommService.getGroupInfo(groupId);
+	}
 
 	commService.getDailyBookingsFromDb = function(start, end, room){
 		var q = $q.defer();
