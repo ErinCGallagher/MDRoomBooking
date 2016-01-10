@@ -26,7 +26,7 @@ function AppCtrl($scope, $location, $route){
 
   //retrieve constant text from service
   //only display if Admin user
-  $scope.UserText = "User";
+  $scope.UserText = "USER";
 
   //retrieve constant text from service
   //only display if Admin user

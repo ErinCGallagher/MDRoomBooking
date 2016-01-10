@@ -9,7 +9,7 @@ angular
 	$routeProvider
 	
 	.when('/calendar', {
-		templateUrl:"calendar.html",
+		templateUrl:"src/html_css/calendar.html",
 		controller:"CalendarCtrl",
 		activetab: 'calendar'
 	})	

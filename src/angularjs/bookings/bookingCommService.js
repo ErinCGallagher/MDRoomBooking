@@ -8,7 +8,7 @@ function BookingCommService($http){
 	var bookingCommService = {};
 
 bookingCommService.getDailyBookingsFromDb = function(start, end, room){
-		var promisePost = $http.post('db_scripts/GetDaily1.php', { "Start" :start, "End" :end, "Room":room })
+		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "Start" :start, "End" :end, "Room":room })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
 		    	console.log(data);
@@ -23,7 +23,7 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		}
 
 	bookingCommService.getBookingInformation = function(bookingId){
-		var promisePost = $http.post('db_scripts/GetBookingInfo1.php', { "BookingID" : bookingId})
+		var promisePost = $http.post('src/php/bookings/getBookingInfo.php', { "BookingID" : bookingId})
 		    .success(function(data, status) {
 		    	 console.log("retrieved booking infromation from database: ");
 		    	 console.log(data);
@@ -52,7 +52,7 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		      OtherDesc:roomInformation.description,
 		    };
 		    console.log(data);
-		var promisePost =  $http.post('db_scripts/MakeBooking1.php', data)
+		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(data, status) {
 		    	console.log(data);
 		    	return true;

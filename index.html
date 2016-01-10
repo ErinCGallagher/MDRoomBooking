@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="stylesheet.css"/>
-        <link rel="stylesheet" href="calendarstyle.css"/>
+        <link rel="stylesheet" href="src/html_css/stylesheet.css"/>
+        <link rel="stylesheet" href="src/html_css/calendar.css"/>
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
@@ -16,20 +16,20 @@
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
 
         <!-- angular scripts, must ramin in this order -->
-        <script type="text/javascript" src="mainApp.js"></script>
-        <script type="text/javascript" src="angular-route.js"></script> 
+        <script type="text/javascript" src="src/angularjs/mainApp.js"></script>
+        <script type="text/javascript" src="src/angularjs/angular-route.js"></script> 
 
 
         <!-- Controllers -->
-        <script type="text/javascript" src="AppCtrl.js"></script>
-        <script type="text/javascript" src="calendarCtrl.js"></script>
-        <script type="text/javascript" src="makeBookingPopupCtrl.js"></script>
-        <script type="text/javascript" src="viewBookingPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/AppCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/calendarCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/makeBookingPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/viewBookingPopupCtrl.js"></script>
 
         <!-- Services -->
-        <script type="text/javascript" src="commService.js"></script>
-        <script type="text/javascript" src="bookingsService.js"></script>
-        <script type="text/javascript" src="bookingCommService.js"></script>
+        <script type="text/javascript" src="src/angularjs/commService.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/bookingsService.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/bookingCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminCommService.js"></script>
 
         <meta charset="utf-8">
