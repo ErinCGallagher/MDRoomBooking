@@ -10,7 +10,7 @@ function AdminCommService($http){
 
 		// return [{groupId:1, groupName:"Hey"}, {groupId:2, groupName:"Yo"}, {groupId:3, groupName:"Sup"}];
 
-		var promisePost = $http.post('../../db_scripts/GetAllGroups.php')
+		var promisePost = $http.post('../php/admin/getAllGroups.php')
 		    .success(function(data, status) {
 		    	return data;
 		    })
@@ -23,7 +23,7 @@ function AdminCommService($http){
 
 	adminCommService.createGroup = function(groupInfo) {
 
-		var promisePost =  $http.post('../../db_scripts/createGroup.php', groupInfo)
+		var promisePost =  $http.post('../php/admin/createGroup.php', groupInfo)
 		    .success(function(data, status) {
 		    	return data;
 		    })
@@ -36,7 +36,7 @@ function AdminCommService($http){
 	adminCommService.getGroupInfo = function(id) {
 		var data = {groupId:id};
 
-		var promisePost =  $http.post('../../db_scripts/getGroupInfo.php', data)
+		var promisePost =  $http.post('../php/admin/getGroupInfo.php', data)
 		    .success(function(data, status) {
 		    	return data;
 		    })
