@@ -4,15 +4,9 @@ angular
 
 function GroupsCtrl($scope, AdminGroupsService){
 
-	$scope.groups = [{GroupID:1, GroupName:"Hey"}];
-	var init = function () {
-		//$scope.groups = AdminGroupsService.getAllGroups();
-		console.log("This is groups ", $scope.groups)
-
-	};
-	// and fire it after definition
-	init();
+	$scope.groups = AdminGroupsService.groups;
 	
+	AdminGroupsService.getAllGroups();
 
 	$scope.showInfo = false;
 	$scope.showNewGroup = false;
@@ -30,8 +24,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 			groupName: newGroupName,
 			hoursPerWeek: newHoursPerWeek
 		}
-		var newGroupId = AdminGroupsService.createGroup(info);
-		//$scope.groups.push({groupId:newGroupId, groupName:newGroupName})
+		AdminGroupsService.createGroup(info);
 	}
 
 	$scope.showGroup = function(groupId) {
@@ -43,7 +36,6 @@ function GroupsCtrl($scope, AdminGroupsService){
 	getGroupInfo = function(groupId){
 		AdminGroupsService.getGroupInfo(groupId)
 			.then(function(groupInfo){
-				console.log("GROUP INFO ", groupInfo);
 				$scope.groupName = groupInfo.data[0].GroupName;
 				$scope.hoursPerWeek = groupInfo.data[0].HrsPerWeek;
 			},

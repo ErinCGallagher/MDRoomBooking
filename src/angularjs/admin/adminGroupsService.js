@@ -7,22 +7,11 @@ function AdminGroupsService(CommService, $q){
 	adminGroupsService.groups = [];	
 
 	adminGroupsService.getAllGroups = function() {
-		// var groupNames = [];
-		// var groups = CommService.getAllGroups();
-
-		// for (var i = 0; i < groups.length; i++){
-		// 	groupNames.push(groups[i].groupName);
-		// }
-
-		// return groupNames;
 		var q = $q.defer();
 		CommService.getAllGroups()
 			.then(function(retreivedGroups) {
-				console.log("Here", retreivedGroups.data);
 				for (var i = 0; i < retreivedGroups.data.length; i++){
-					console.log("GroupID", retreivedGroups.data[i].GroupID);
 					adminGroupsService.groups.push(retreivedGroups.data[i])
-					console.log(retreivedGroups.data[i])
 				}
 				q.resolve(adminGroupsService.groups);
 			},
@@ -33,8 +22,16 @@ function AdminGroupsService(CommService, $q){
 		return q.promise;
 	}
 
+
 	adminGroupsService.createGroup = function(groupInfo) {
-		return CommService.createGroup(groupInfo);
+		CommService.createGroup(groupInfo)
+		.then(function(newGroupId){
+				newGroupName = groupInfo.groupName;
+				adminGroupsService.groups.push({GroupID:newGroupId, GroupName:newGroupName})
+			},
+			function(err){
+				alert("error with createGroup");
+			});
 	}	
 
 	adminGroupsService.getGroupInfo = function(groupId) {

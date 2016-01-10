@@ -12,8 +12,7 @@ function AdminCommService($http){
 
 		var promisePost = $http.post('../../db_scripts/GetAllGroups.php')
 		    .success(function(data, status) {
-		    	console.log("all groups from database:");
-		    	console.log(data);
+		    	return data;
 		    })
 		    .error(function(data, status) {
 		    	return 'error';   
@@ -23,18 +22,15 @@ function AdminCommService($http){
 	}
 
 	adminCommService.createGroup = function(groupInfo) {
-		var data = groupInfo;
 
-		var promisePost =  $http.post('../../db_scripts/createGroup.php', data)
+		var promisePost =  $http.post('../../db_scripts/createGroup.php', groupInfo)
 		    .success(function(data, status) {
-		    	console.log(data);
 		    	return data;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
 		    	return 'error';
 		    });
-		 // return promisePost;
-		 return 4;
+		 return promisePost;
 	}
 
 	adminCommService.getGroupInfo = function(id) {
@@ -42,7 +38,6 @@ function AdminCommService($http){
 
 		var promisePost =  $http.post('../../db_scripts/getGroupInfo.php', data)
 		    .success(function(data, status) {
-		    	console.log(data);
 		    	return data;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed

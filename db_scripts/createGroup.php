@@ -1,5 +1,3 @@
-
-
 <?php
 
  $host = "localhost";
@@ -25,12 +23,9 @@
  $stmt = $db->query($query);
 
  $groupID = $db->lastInsertId();
- 
 
- //Convert to json
- $json = json_encode($groupID);
- // echo the json string
- echo $json;
+ // don't need to encode value
+ echo $groupID
    
    
 ?>

@@ -3,7 +3,7 @@ angular
 .service('CommService', CommService);
 
 //communication Service
-function CommService($http, AdminCommService){
+function CommService($http, AdminCommService, $q){
 
 	var commService = {};
 
@@ -12,7 +12,17 @@ function CommService($http, AdminCommService){
 	}
 
 	commService.createGroup = function(groupInfo) {
-		return AdminCommService.createGroup(groupInfo);
+		var q = $q.defer();
+		AdminCommService.createGroup(groupInfo)
+		.then(function(groupId){
+				// don't know why, but the return from adminCommService is an object
+				q.resolve(groupId.data);
+			},
+			function(err){
+				alert("error with createGroup");
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	commService.getGroupInfo = function(groupId) {
