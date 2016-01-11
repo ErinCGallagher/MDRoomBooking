@@ -51,10 +51,8 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		      numParticipants: roomInformation.numPeople, 
 		      OtherDesc:roomInformation.description,
 		    };
-		    console.log(data);
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(data, status) {
-		    	console.log(data);
 		    	return true;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
@@ -85,44 +83,7 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 			 roomNum: dailyBookings[i].RoomID
 			};
 		}
-		/*
-		var formattedDailyBookings = [];
-		var formattedArrayPos = 0;
-		for(var i = 0; i<dailyBookings.length-1;i++){
-			//console.log(dailyBookings[i]);
-			console.log(dailyBookings[i].BookingID);
-			if(i!=0 && dailyBookings[i].BookingID == dailyBookings[i-1].BookingID){
-				console.log(dailyBookings[i-1].BookingID);
-				var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
-				console.log("same booking id" + formattedArrayPos);
-				formattedDailyBookings[formattedArrayPos].end = endTime;
-				console.log(formattedDailyBookings);
-			}
-			else{
-				var startTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].StartTime;
-				var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
-				console.log(formattedArrayPos);
-				formattedDailyBookings[formattedArrayPos] =  
-					{title:dailyBookings[i].Reason, 
-					 start:startTime,
-					 end:endTime,
-					 allDay:false, 
-					 bookingID:dailyBookings[i].BookingID, 
-					 building: "Harrison-LeCaine Hall", 
-					 roomNum: dailyBookings[i].RoomID,
-					 bookingID: dailyBookings[i].BookingID
-					};
-					if(dailyBookings[i].BookingID != dailyBookings[i+1].BookingID){
-						formattedArrayPos +=1;
-					}
-				console.log(formattedDailyBookings);
-
-			}
-
-			
-		}
-		console.log(formattedDailyBookings);
-	*/
+		
 		return formattedDailyBookings;
 
 	}

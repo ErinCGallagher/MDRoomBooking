@@ -71,7 +71,6 @@ function BookingsService(CommService, $q){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID.data;
 					bookingsService.dailyBookings.push(newBookingInfo);
-					console.log(newBookingInfo);
 				},
 				function(err){
 					q.reject(false);

@@ -12,16 +12,20 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
   $scope.selectedNumPeople = "1";
   $scope.numPeople = ["1", "2", "3", "4", "5-9", "10-19", "20+"]
+  $scope.date = dateTime.format("MMM D, YYYY");
   $scope.startTime = dateTime.format("h:mm");
   $scope.description = "";
 
+  //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function () {
 
+    //calculate the end time & date given the duration
+    //only works for 30m, 1h & 1.5h
     var endTimestamp = BookingsService.calclEndTime($scope.durations, $scope.selectedDuration, dateTime);
     $scope.endTime = endTimestamp.format("h:mm");
 
-    console.log(dateTime);
 
+   //call booking service to send booking info to the database
     var isSuccessful = BookingsService.bookRoom({
       title: $scope.selectedReason,
       start: dateTime,
@@ -34,20 +38,16 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       description: $scope.description,
       stick:true,
     });
-    
-    console.log("Booking Successful? ", isSuccessful);
 
+    //user booking notifications
     if (isSuccessful) {
       alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-    } else {
+    } else { //not successful
       alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
     }
 
-
     $uibModalInstance.close(alert);
   };
-
-
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

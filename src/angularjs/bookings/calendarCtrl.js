@@ -11,32 +11,16 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.pageClass = 'calendar'; //used to change pages in index.html
 
-  $scope.eventSources = [$scope.events];
-
-  /*
-  //get building hours start time
-  var buildingHoursStart = new Date();
-   console.log(buildingHoursStart);
-   buildingHoursStart.setUTCHours(12);
-   buildingHoursStart.setUTCMinutes(0);
-   buildingHoursStart.setUTCSeconds(0);
-   console.log(buildingHoursStart);
-
-  //get building hours end time
-  var buildingHoursEnd = new Date();
-  console.log(buildingHoursEnd);
-  buildingHoursEnd.setUTCHours(0);
-  buildingHoursEnd.setUTCMinutes(30);
-  buildingHoursEnd.setUTCSeconds(0);
-  console.log(buildingHoursEnd);
-  */
+  //stores the current events displayed on the calendar
+  //updated by the bookingServce
+  $scope.eventSources = [$scope.events]; 
 
   //change the previous calendar date
   $scope.previousDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('prev');
   }
 
-    //change the next calendar date
+  //change the next calendar date
   $scope.nextDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
@@ -48,6 +32,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     $scope.alerts.splice(index, 1);
   };
 
+  //called when emtpy calendar timeslot is selected
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     $scope.day = date.format("YYYY-MM-DD h:mm z");
 
@@ -74,10 +59,9 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     });
   }
 
-   
-
 
  /* alert on eventClick */
+ //called when a booking is clicked
   $scope.viewBookingInformation = function(date, jsEvent, view){
 
     var viewBookingPopupInstance = $uibModal.open({
@@ -94,7 +78,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
           return date.title;
         },
         date: function () {
-          return date.start.format("YYYY-MM-DD");
+          return date.start.format("MMM D, YYYY");
         },
         startTime: function () {
           return date.start.format("h:mm");
