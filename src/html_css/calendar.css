@@ -1,4 +1,4 @@
-.building-search-bar{
+.calendar .building-search-bar{
 	display:inline-block;
 	margin:20px 10px 20px 20px;
 	padding:10px;
@@ -6,25 +6,25 @@
 	background-color:#c2d2d6;
 }
 
-.building-selection-title{
+.calendar .building-selection-title{
 	display:inline;
 	font-size:120%;
 	margin-right:7px;
 }
 
-.room{
+.calendar .room{
 	margin-top:7px;
 }
-.room-title{
+.calendar .room-title{
 	font-size:120%;
 	margin-right:7px;
 }
 
-.building-select{
+.calendar .building-select{
 	font-size:100%;
 }
 
-.building-go-button{
+.calendar .building-go-button{
 	margin-left:10px;
 	width:60px;
 	font-size: 15px;
@@ -33,7 +33,7 @@
     margin-left: 10px;
 }
 
-.fc-content{
+.calendar .fc-content{
 	position: absolute !important;
     top: 50%;
     left: 0px;
@@ -43,15 +43,15 @@
     margin-left: 10px;
 }
 
-.date-navigation-bar{
+.calendar .date-navigation-bar{
 	text-align:center;
 }
 
-.fc-toolbar{
+.calendar .fc-toolbar{
 	margin:0px;
 }
 
-.previous-date-button, .next-date-button{
+.calendar .previous-date-button, .calendar .next-date-button{
 	width:40px;
 	font-size:20px;
 	border-radius:5px;
@@ -59,12 +59,12 @@
 	margin-left:10px;
 }
 
-.date-text {
+.calendar .date-text {
 	display:inline;
 	font-size:190%;
 }
 
-.fc-view-container{
+.calendar .fc-view-container{
 	width:90%;
 	margin-right:5%;
 	margin-left:5%;
@@ -72,16 +72,16 @@
 
 
 @media screen and (max-width: 700px) {
-	.building-search-bar{
+	.calendar .building-search-bar{
 		margin:20px 3px 20px 3px;
 	}
 
 @media screen and (max-width: 530px) {
-	.building-search-bar{
+	.calendar .building-search-bar{
 		margin:20px 3px 20px 3px;
 	}
 
-	.date-text {
+	.calendar .date-text {
 		font-size:165%;
 	}
 }
