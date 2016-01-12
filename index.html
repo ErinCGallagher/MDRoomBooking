@@ -70,19 +70,19 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: $route.current.activetab == 'calendar'}">
-                        <a href="#/">{{calendarText}}</a>
+                        <a id="calendar-nav" href="#/">{{calendarText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
-                        <a href="#/search">{{searchText}}</a>
+                        <a id="search-nav" href="#/search">{{searchText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'my-bookings'}">
-                        <a href="#/my-bookings">{{myBookingsText}}</a>
+                        <a id="myBookings-nav" href="#/my-bookings">{{myBookingsText}}</a>
                     </li>
                     <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}">
-                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{AdminText}} <span class="caret"></span></a>
+                      <a id='admin-nav' class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{AdminText}} <span class="caret"></span></a>
                       <ul class="dropdown-menu" >
-                        <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">{{UserText}}</a></li>
-                        <li ng-class="{ active: $route.current.activesubtab == 'groups'}"><a href="#/admin/groups">{{GroupsText}}</a></li>
+                        <li id='user-nav' ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">{{UserText}}</a></li>
+                        <li id='groups-nav' ng-class="{ active: $route.current.activesubtab == 'groups'}"><a href="#/admin/groups">{{GroupsText}}</a></li>
                       </ul>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'other'}">
