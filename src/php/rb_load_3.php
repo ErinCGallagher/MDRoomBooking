@@ -38,20 +38,20 @@
   	
   	//Create all tables 
 	mysqli_query($cxn,"CREATE TABLE Blocks(
-					blockID				INT(3)		NOT NULL,			
+					blockID				INT(3)		  NOT NULL,			
 					startTime			TIME		  NOT NULL,
 					endTime				TIME		  NOT NULL,
 					PRIMARY KEY(blockID));");
   
 	mysqli_query($cxn,"CREATE TABLE User(
-					uID					  VARCHAR(10)	NOT NULL,
+					uID			 	VARCHAR(10)	NOT NULL,
 					firstName			VARCHAR(35)	NOT NULL,
 					lastName			VARCHAR(35)	NOT NULL,
-					class				  VARCHAR(35) NOT NULL,
-					defaultHrs		INT			    NOT NULL,
+					class				VARCHAR(35) 	NOT NULL,
+					defaultHrs			INT		NOT NULL,
 					addHrs				INT,
-					usedHrs				INT			    NOT NULL,
-					academicYr		INT			    NOT NULL,
+					usedHrs				INT		NOT NULL,
+					academicYr			INT		NOT NULL,
 					PRIMARY KEY(uID));");				
 
 	mysqli_query($cxn,"CREATE TABLE UGroups(
@@ -64,9 +64,9 @@
 					PRIMARY KEY(groupID));");
   
 	mysqli_query($cxn,"CREATE TABLE Permission(
-					uID					VARCHAR(10)	NOT NULL,
-					groupID			INT			    NOT NULL,
-					academicYr	INT			    NOT NULL,
+					uID		VARCHAR(10)	NOT NULL,
+					groupID		INT		NOT NULL,
+					academicYr	INT		NOT NULL,
 					PRIMARY KEY(groupID, uID));");						
  
 	mysqli_query($cxn,"CREATE TABLE BookingSlots(
