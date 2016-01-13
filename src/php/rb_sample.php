@@ -66,11 +66,11 @@
 				");		
 				
 				
-	mysqli_query($cxn, "INSERT INTO UGroups(groupName, hours, fall, winter, summer) VALUES
-				('MUSC 100', '2', True, True, False),
-				('Ensemble A', '5', False, True, False),
-				('DRAM 205', '6', True, False, False),
-				('DRAM 100', '2', False, False, True) 
+	mysqli_query($cxn, "INSERT INTO UGroups(groupName, addHrsType, hours) VALUES
+				('MUSC 100', 'week', '2'),
+				('Ensemble A', 'week', '5' ),
+				('DRAM 205', 'week', '6' ),
+				('DRAM 100', 'week', '2') 
 				");
 		
 					
