@@ -12,14 +12,14 @@
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from 
 	$groupName = $data->groupName;
-	$hoursPerWeek = $data->hoursPerWeek;
+	$hours = $data->hours;
 	// $hoursPerSemester = $data->hoursPerSemester
 	// $fall = $data->fall;
 	// $winter = $data->winter;
 	//$summer = $data->summer);
 
 
-	$query = "INSERT INTO UGroups(GroupName, HrsPerWeek) VALUES ('$groupName' , '$hoursPerWeek')";
+	$query = "INSERT INTO UGroups(groupName, hours) VALUES ('$groupName' , '$hoursPerWeek')";
 	$stmt = $db->query($query);
 
 	$groupID = $db->lastInsertId();
