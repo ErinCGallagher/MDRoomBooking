@@ -12,7 +12,7 @@
 	//Get parameters from 
 	$groupID = $data->groupId);
 
-	$stmt = $db->query('SELECT User.UID, FirstName, LastName FROM Permission JOIN User ON Permission.UID = User.UID WHERE GroupID =' . $groupID); 
+	$stmt = $db->query('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID =' . $groupID); 
 
 
 	$result = array();
