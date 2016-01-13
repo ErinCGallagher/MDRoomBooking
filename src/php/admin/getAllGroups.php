@@ -6,7 +6,7 @@
 	$database = "mdroombooking";
 
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
-	$stmt = $db->query('SELECT GroupID, GroupName FROM UGroups');
+	$stmt = $db->query('SELECT groupID, groupName FROM UGroups');
 	$result = array();
 
 	while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
