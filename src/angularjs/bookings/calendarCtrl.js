@@ -81,10 +81,10 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
           return date.start.format("MMM D, YYYY");
         },
         startTime: function () {
-          return date.start.format("h:mm");
+          return date.start.format("h:mm a");
         },
         endTime: function () {
-          return date.end.format("h:mm");
+          return date.end.format("h:mm a");
         },
         bookingID: function () {
           return date.bookingID;

@@ -103,7 +103,7 @@ function BookingsService(CommService, $q){
 		var len = bookingsService.dailyBookings.length;
 
 		/*
-		//loop through the daily bookings
+		//loop through the bookings for that day
 		for(var i=0; i<bookingsService.dailyBookings.length; i++){
 
 			if((bookingsService.dailyBookings[i].start).getTime() == startTime.getTime()){

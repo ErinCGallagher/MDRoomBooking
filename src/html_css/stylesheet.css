@@ -5,6 +5,18 @@
     margin-top:20px;
 }
 
+.side-by-side .center{
+	float:left !important;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.float-right: {
+	float:right  !important;
+}
+
+
 @media(min-width:768px){
 	.navbar-centered .navbar-nav{
 		float:none;
