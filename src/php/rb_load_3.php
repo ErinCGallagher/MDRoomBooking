@@ -55,13 +55,10 @@
 					PRIMARY KEY(uID));");				
 
 	mysqli_query($cxn,"CREATE TABLE UGroups(
-					groupID				INT			    NOT NULL  	AUTO_INCREMENT,
+					groupID				INT		NOT NULL  	AUTO_INCREMENT,
 					groupName			VARCHAR(35)	NOT NULL,
-					addHrsType		VARCHAR(35),
-					hours				  INT			    NOT NULL,
-					fall				  BOOLEAN,
-					winter				BOOLEAN, 
-					summer				BOOLEAN,
+					addHrsType			VARCHAR(35),
+					hours				INT		NOT NULL,
 					startDate			DATE,
 					endDate				DATE,		
 					PRIMARY KEY(groupID));");
