@@ -17,7 +17,8 @@ function GroupsCtrl($scope, AdminGroupsService){
 	}
 	
 	$scope.createGroup = function(){
-		var newGroupName = "New";
+		var newGroupName = $scope.newName;
+		console.log("newGroupName ", newGroupName);
 		var newHoursPerWeek = 10;
 		var info = {
 			groupName: newGroupName,
