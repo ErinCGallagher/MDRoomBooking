@@ -8,6 +8,10 @@
 	margin: 20px;
 }
 
+.group-info {
+	margin: 10px;
+}
+
 .group-element {
 	border: solid 1px #CCCCCC; 
 	border-top-width: 0px ;
@@ -23,8 +27,14 @@
 	margin: 10px;
 }
 
-.create-group-button {
-	border-radius: 5px;
+.new-group-button {
+	border-radius: 25px;
+}
+
+.textbox {
+	max-width: 200px;
+	margin: 2px;
+	display: inline;
 }
 
 

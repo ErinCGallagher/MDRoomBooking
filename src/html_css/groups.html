@@ -1,6 +1,8 @@
 <div class="container groups-container">
     <span class="title">User Groups</span>
-    <button class="create-group-button" ng-click="newGroup()"> New </button>
+            <button class="new-group-button" ng-click="newGroup()"> 
+                <span class="glyphicon glyphicon-plus" aria-label="New Group"></span>
+            </button>
 
     <div class="group-list">
         <div class="group-element" data-ng-repeat="group in groups" ng-click="showGroup(group.groupID)">
@@ -17,7 +19,11 @@
 </div>
 <div ng-show="showNewGroup" class="container info-container">    
     <form class="group-info">
-        <p><strong>Group Name:</strong> </p>
-        <p><strong>Hours Per Week:</strong> </p>
+                <span class="title">New Group</span>
+                <p><strong>Group Name:</strong> 
+                    <input type="text" ng-model="newName" class="form-control textbox"> </p>
+                <p><strong>Hours Per Week:</strong>
+                    <input type="number" ng-model="newHoursPerWeek" min=0 max=168 value=1 class="form-control textbox"> </p>
+                 <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
     </form>
 </div>
