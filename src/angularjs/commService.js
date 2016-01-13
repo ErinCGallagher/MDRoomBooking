@@ -14,9 +14,9 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 	commService.createGroup = function(groupInfo) {
 		var q = $q.defer();
 		AdminCommService.createGroup(groupInfo)
-		.then(function(groupId){
+		.then(function(groupID){
 				// don't know why, but the return from adminCommService is an object
-				q.resolve(groupId.data);
+				q.resolve(groupID.data);
 			},
 			function(err){
 				alert("error with createGroup");
@@ -25,8 +25,8 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return q.promise;
 	}
 
-	commService.getGroupInfo = function(groupId) {
-		return AdminCommService.getGroupInfo(groupId);
+	commService.getGroupInfo = function(groupID) {
+		return AdminCommService.getGroupInfo(groupID);
 	}
 
 	commService.getDailyBookingsFromDb = function(start, end, room){

@@ -12,6 +12,7 @@ function AdminGroupsService(CommService, $q){
 			.then(function(retreivedGroups) {
 				for (var i = 0; i < retreivedGroups.data.length; i++){
 					adminGroupsService.groups.push(retreivedGroups.data[i])
+					console.log(retreivedGroups.data[i]);
 				}
 				q.resolve(adminGroupsService.groups);
 			},
@@ -27,7 +28,7 @@ function AdminGroupsService(CommService, $q){
 		CommService.createGroup(groupInfo)
 		.then(function(newGroupId){
 				newGroupName = groupInfo.groupName;
-				adminGroupsService.groups.push({GroupID:newGroupId, GroupName:newGroupName})
+				adminGroupsService.groups.push({groupID:newGroupId, groupName:newGroupName})
 			},
 			function(err){
 				alert("error with createGroup");

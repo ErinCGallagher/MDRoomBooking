@@ -36,8 +36,8 @@ function GroupsCtrl($scope, AdminGroupsService){
 	getGroupInfo = function(groupId){
 		AdminGroupsService.getGroupInfo(groupId)
 			.then(function(groupInfo){
-				$scope.groupName = groupInfo.data[0].GroupName;
-				$scope.hoursPerWeek = groupInfo.data[0].HrsPerWeek;
+				$scope.groupName = groupInfo.data[0].groupName;
+				$scope.hoursPerWeek = groupInfo.data[0].hours;
 			},
 			function() {
 				alert("err");

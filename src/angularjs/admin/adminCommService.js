@@ -8,10 +8,9 @@ function AdminCommService($http){
 	// returns list of groupID:groupName
 	adminCommService.getAllGroups = function(){
 
-		// return [{groupId:1, groupName:"Hey"}, {groupId:2, groupName:"Yo"}, {groupId:3, groupName:"Sup"}];
-
 		var promisePost = $http.post('src/php/admin/getAllGroups.php')
 		    .success(function(data, status) {
+		    	console.log("getAllGroups ", data);
 		    	return data;
 		    })
 		    .error(function(data, status) {
@@ -25,6 +24,7 @@ function AdminCommService($http){
 
 		var promisePost =  $http.post('src/php/admin/createGroup.php', groupInfo)
 		    .success(function(data, status) {
+		    	console.log("createGroup  ", data);
 		    	return data;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
@@ -38,6 +38,7 @@ function AdminCommService($http){
 
 		var promisePost =  $http.post('src/php/admin/getGroupInfo.php', data)
 		    .success(function(data, status) {
+		    	console.log("getGroupInfo ", data);
 		    	return data;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
