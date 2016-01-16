@@ -1,37 +1,37 @@
-.title {
+.groups .title {
 	font-size: 36px;
 }
 
-.container {
+.groups .container {
 	border-style:solid;
 	border-radius: 25px;
 	margin: 20px;
 }
 
-.group-info {
+.groups .group-info {
 	margin: 10px;
 }
 
-.group-element {
+.groups .group-element {
 	border: solid 1px #CCCCCC; 
 	border-top-width: 0px ;
 	text-align: center;
 	padding: 2px;
 }
 
-.group-element:first-child {
+.groups .group-element:first-child {
 	border-top-width: 1px ;
 }
 
-.group-list {
+.groups .group-list {
 	margin: 10px;
 }
 
-.new-group-button {
+.groups .new-group-button {
 	border-radius: 25px;
 }
 
-.textbox {
+.groups .textbox {
 	max-width: 200px;
 	margin: 2px;
 	display: inline;

@@ -3,6 +3,7 @@ angular
 .controller('GroupsCtrl', GroupsCtrl);
 
 function GroupsCtrl($scope, AdminGroupsService){
+	$scope.pageClass = 'groups';  //used to change pages in index.html
 
 	$scope.groups = AdminGroupsService.groups;
 	
