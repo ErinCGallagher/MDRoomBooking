@@ -5,16 +5,13 @@
     margin-top:20px;
 }
 
-.side-by-side .center{
-	float:left !important;
+
+.end-time {
 	display: flex;
-    flex-direction: column;
-    justify-content: center;
+	justify-content: flex-start;
+	align-items: center;
 }
 
-.float-right: {
-	float:right  !important;
-}
 
 
 @media(min-width:768px){
