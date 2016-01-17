@@ -10,7 +10,7 @@
 	//Get post data stream 
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from 
-	$groupID = $data->groupId;
+	$groupID = $data->groupID;
 
 	$stmt = $db->query("SELECT groupID, groupName, addHrsType, hours, startDate, endDate FROM UGroups WHERE GroupID = '$groupID' "); 
 

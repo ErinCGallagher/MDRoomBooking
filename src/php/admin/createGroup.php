@@ -19,7 +19,7 @@
 	//$summer = $data->summer);
 
 
-	$query = "INSERT INTO UGroups(groupName, hours) VALUES ('$groupName' , '$hoursPerWeek')";
+	$query = "INSERT INTO UGroups(groupName, hours) VALUES ('$groupName' , '$hours')";
 	$stmt = $db->query($query);
 
 	$groupID = $db->lastInsertId();

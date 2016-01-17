@@ -34,7 +34,7 @@ function AdminCommService($http){
 	}
 
 	adminCommService.getGroupInfo = function(id) {
-		var data = {groupId:id};
+		var data = {groupID:id};
 
 		var promisePost =  $http.post('src/php/admin/getGroupInfo.php', data)
 		    .success(function(data, status) {

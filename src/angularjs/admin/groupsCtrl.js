@@ -23,7 +23,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 		var newHoursPerWeek = 10;
 		var info = {
 			groupName: newGroupName,
-			hoursPerWeek: newHoursPerWeek
+			hours: newHoursPerWeek
 		}
 		AdminGroupsService.createGroup(info);
 	}
