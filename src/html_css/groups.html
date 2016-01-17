@@ -15,6 +15,11 @@
     <div class="group-info">
         <p><strong>Group Name:</strong> {{groupName}}</p>
         <p><strong>Hours Per Week:</strong> {{hoursPerWeek}}</p>
+        <form action="src/php/admin/addUsers.php" method="post" enctype="multipart/form-data">
+            <strong>Add Users</strong>
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload User List" name="submit">
+        </form>
     </div>
 </div>
 <div ng-show="showNewGroup" class="container info-container">    
