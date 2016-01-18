@@ -7,7 +7,7 @@
 
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
 
-	// reads in file and stores lines in $lines
+	// reads in file and stores contents in $contents
 	require '../uploadFile.php';
 
 	$groupID = 1;
@@ -16,8 +16,9 @@
 	//add users to group
 	$valueString = "";
 
-	foreach ($lines as $line) {
+	foreach ($contents as $line) {
 		//want format ('uID', 'groupID', 'year'),
+		echo("LINE\n".$line);
 		$valueString .= "('" . $line . "', '" . $groupID . "', '" . $year . "'),\n";
 	}
 

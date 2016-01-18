@@ -1,50 +1,31 @@
 <?php
 
-	$save_dir = "../../user_files/";
-	// $_FILES is a global variable that gets the files from HTTP POST
-	$target_file = $save_dir . basename($_FILES["fileToUpload"]["name"]);
 	$uploadOk = 1;
-	$fileType = pathinfo($target_file,PATHINFO_EXTENSION);
-	$lines = "hey";
-	// Check file selected
-	if($_FILES["fileToUpload"]["tmp_name"] = 0) {
-        echo "No file selected.";
-        $uploadOk = 0;
-	}
-
-	// Check if file already exists
-	if (file_exists($target_file)) {
-	    echo "Sorry, file already exists.";
-	    $uploadOk = 0;
-	}
+	// $_FILES is a global variable that gets the files from HTTP POST
+	$fileType = pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION);
 	
 	// Check file size
 	if ($_FILES["fileToUpload"]["size"] > 500000) {
 	    echo "Sorry, your file is too large.";
 	    $uploadOk = 0;
 	}
-	// Allow certain file formats
+	// Check file format
 	if($fileType != "csv") {
-	    echo "User List must be a .csv file.";
+	    echo "File must be a .csv file.";
 	    $uploadOk = 0;
 	}
+
+	// Check that we are processig the correct file (not being hacked)
+	if (!is_uploaded_file(realpath($_FILES['fileToUpload']['tmp_name']))) {
+    	echo "Not processing expected file.";
+	    $uploadOk = 0;
+    }
+
 	// Check if $uploadOk is set to 0 by an error
 	if ($uploadOk == 0) {
 	    echo "Sorry, your file was not uploaded.";
-	// if everything is ok, try to upload file
+	// if everything is ok, read in file to $contents
 	} else {
-
-		echo $_FILES["fileToUpload"]["tmp_name"];
-
-	    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-	        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-
-	        
-			$lines = str_getcsv(file_get_contents('$target_file'));
-
-
-	    } else {
-	        echo "Sorry, there was an error uploading your file: " . $_FILES["fileToUpload"]['error'];
-	    }
+         $contents = str_getcsv(file_get_contents($_FILES["fileToUpload"]["tmp_name"]));
 	}
 ?>
