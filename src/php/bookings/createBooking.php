@@ -70,15 +70,19 @@
 		$sth->execute(array($bookingID, $blockID, $startDate, $Room));
 		$inserted = $inserted + $sth->rowCount();
 	}
-	echo '$totalB: ' . $totalB . '<br>$inserted: ' . $inserted . '<br>'; 
+
+	//echo '$totalB: ' . $totalB . '<br>$inserted: ' . $inserted . '<br>'; 
+	
 	//If not all blocks inserted, delete booking
 	if ($totalB != $inserted) {
 		$sth = $db->prepare("DELETE FROM bookingslots WHERE BookingID = ?");
 		$sth->execute(array($bookingID));
 		$sth = $db->prepare("DELETE FROM bookings WHERE BookingID = ?");
 		$sth->execute(array($bookingID));
+		http_response_code(409); //conflict
 		$msg = "Your booking could not be completed. Please try making another booking.";
 	} else {
+		http_response_code(200); //success
 		$msg = 'Successfully booked: "' . $Room . ', ' . $startDate . ' ' . $startTime . '-' . $endDate . ' ' . $endTime;
 	}
 	

@@ -58,7 +58,7 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		var q = $q.defer();
 		BookingCommService.bookRoomInDB(roomInformation)
 			.then(function(bookingObject){
-				q.resolve(bookingObject);
+				q.resolve(bookingObject.data);
 			},			function(err){
 				q.reject();
 			});

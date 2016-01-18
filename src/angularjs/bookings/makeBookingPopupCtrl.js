@@ -33,7 +33,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
 
    //call booking service to send booking info to the database
-    var isSuccessful = BookingsService.bookRoom({
+    BookingsService.bookRoom({
       title: $scope.selectedReason,
       start: dateTime,
       end: endTimestamp,
@@ -43,18 +43,16 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       duration: $scope.selectedDuration,  
       numPeople: $scope.selectedNumPeople, 
       description: $scope.description,
-      stick:true,
-    });
-
-    //user booking notifications
-    if (isSuccessful) {
-      alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-    } else { //not successful
-      alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
-    }
-
-    $uibModalInstance.close(alert);
-
+      stick:true
+      })
+      .then(function(response){
+        alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+        $uibModalInstance.close(alert);
+      },
+        function(response){
+          alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
+          $uibModalInstance.close(alert);
+        });
     
   };
 

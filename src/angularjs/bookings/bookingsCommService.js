@@ -52,10 +52,11 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		      OtherDesc:roomInformation.description,
 		    };
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
-		    .success(function(data, status) {
-		    	return true;
+		    .success(function(response) {
+		    	var hello = response;
+		    	return hello;
 		    })
-		    .error(function(data, status) { //request to the php scirpt failed
+		    .error(function(responseDate) { //request to the php scirpt failed
 		    	return 'error';
 		    });
 		 return promisePost;

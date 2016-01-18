@@ -60,27 +60,25 @@ function BookingsService(CommService, $q){
 	//newBookingInfo may be an array with all the attributes
 	bookingsService.bookRoom = function(newBookingInfo){
 		var roomInformation = {};
-
+		var q = $q.defer();
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
-
-			var q = $q.defer();
 			CommService.bookRoomInDB(newBookingInfo)
 				.then(function(bookingID){
 					q.resolve(true);
-					newBookingInfo.bookingID = bookingID.data;
+					newBookingInfo.bookingID = bookingID;
 					bookingsService.dailyBookings.push(newBookingInfo);
 				},
 				function(err){
 					q.reject(false);
 				});
-			return q.promise;
 		}
 		else{
 			//don't add and inform the user there was an error
-			return false;
+			q.reject(false);
 		}
+					return q.promise;
 	}
 
 	//calculate the end timestamp given the selected duration and the startTimestamp
