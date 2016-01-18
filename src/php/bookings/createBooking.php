@@ -42,7 +42,7 @@
 	}
 	
 	//Get all blocks for booking 
-	$totalB = 0;
+	$totalB = 1;
 	while ($blockend != $endTime){
 		$block = $block + 1;
 		$totalB = $totalB + 1;
@@ -70,7 +70,7 @@
 		$sth->execute(array($bookingID, $blockID, $startDate, $Room));
 		$inserted = $inserted + $sth->rowCount();
 	}
-	
+	echo '$totalB: ' . $totalB . '<br>$inserted: ' . $inserted . '<br>'; 
 	//If not all blocks inserted, delete booking
 	if ($totalB != $inserted) {
 		$sth = $db->prepare("DELETE FROM bookingslots WHERE BookingID = ?");
