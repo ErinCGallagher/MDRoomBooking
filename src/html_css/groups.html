@@ -26,9 +26,27 @@
     <form class="group-info">
                 <span class="title">New Group</span>
                 <p><strong>Group Name:</strong> 
-                    <input type="text" ng-model="newName" class="form-control textbox"> </p>
-                <p><strong>Hours Per Week:</strong>
-                    <input type="number" ng-model="newHoursPerWeek" min=0 max=168 value=1 class="form-control textbox"> </p>
+					 <input type="text" ng-model="newName" class="form-control textbox"> </p>
+				 <p><strong>Number of Users:</strong>
+					 <input type="number" ng-model="newNumOfUsers" min=1 max=50 value=1 class="form-control textbox"> </p>
+				 <p><strong>Has Booking Duration Restriction:</strong>
+					 <input type="checkbox" name="hasBookingRestriction" value="Yes">Yes </p>
+				 <p><strong>Active:</strong>
+					 <input type="checkbox" name="activeFall" value="Fall">Fall
+					 <input type="checkbox" name="activeWinter" value="Winter">Winter 
+					 <input type="checkbox" name="activeSummer" value="Summer">Summer<br></p>
+				 <p><strong>Hours Per Week:</strong>
+					 <input type="number" ng-model="newHoursPerWeek" min=0 max=168 value=1 class="form-control textbox"> </p>
+				<!--This is a c <p><strong>OR</strong></p>
+				 <p><strong>Total Hours per Semester:</strong>
+					 <input type="number" ng-model="newHoursPerSem" min=0 max=168 value=1 class="form-control textbox"> </p>
+				 <p><strong>OR</strong></p> -->
+				 <p><strong>Hours:</strong>
+					 <input type="number" ng-model="newHoursPerTime" min=0 max=168 value=1 class="form-control textbox"> </p>
+				 <p><strong>Start Date:</strong>
+					 <input type="date" ng-model="startDate"> </p>
+				 <p><strong>End Date:</strong>
+					 <input type="date" ng-model="endDate"> </p>
                  <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
     </form>
 </div>
