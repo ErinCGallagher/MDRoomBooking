@@ -46,8 +46,7 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		      start: roomInformation.start,
 		      end: roomInformation.end,
 		      building: roomInformation.building, 
-		      RoomID: roomInformation.roomNum,
-		      duration: roomInformation.duration,  
+		      RoomID: roomInformation.roomNum,  
 		      numParticipants: roomInformation.numPeople, 
 		      OtherDesc:roomInformation.description,
 		    };

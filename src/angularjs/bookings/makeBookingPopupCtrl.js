@@ -20,7 +20,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.submitBooking = function () {
 
     /* convert end time from local (with offset added) back to UTC moment object*/
-    var endTimestamp = $scope.mytime - offset;
+    var endTimestamp = $scope.mytime - BookingsService.generateOffset(dateTime);
     endTimestamp =moment(endTimestamp).utc();
     console.log(endTimestamp);
 
@@ -40,7 +40,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       allDay: false,
       building: building, 
       roomNum: roomNum,
-      duration: $scope.selectedDuration,  
       numPeople: $scope.selectedNumPeople, 
       description: $scope.description,
       stick:true
@@ -68,13 +67,8 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
   $scope.ismeridian = true;
 
-  //date manipulation crap
-  var jsDate = new Date(dateTime); //converts to javascript date object
-  var offset = jsDate.getTimezoneOffset() * 60000; //retrieves offset from utc time
+  var TimeZoned = BookingsService.convertoUTCForDisplay(dateTime);
 
-  var selectedTime = jsDate.getTime(); //retrieves the time selected
-  var utc = selectedTime + offset; //convert to UTC time by adding the offset
-  var TimeZoned = new Date(utc) //create new date object with this time
   //add 30 minutes because the minimum booking time is 30 minutes
   var TimeZoned = TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
 
