@@ -19,13 +19,25 @@
 	//add users to group
 	$insertString = "";
 	$updateString = "";
+	$unexpectedUserString = "";
 
 	foreach ($contents as $user) {
 		//need to check that user is in master list
-		$insertString .= "('$user', '$groupID', '$year'), ";
-		$updateString .= "uID ='$user' OR ";
+		$checkUserQuery = "SELECT uID FROM User WHERE uID = '$user'";
+		$checkUserStmt = $db->query($checkUserQuery);
+		
+		$row = $checkUserStmt->fetch(PDO::FETCH_ASSOC);
+		if ($row) {
+			//user is in master list
+			$insertString .= "('$user', '$groupID', '$year'), ";
+			$updateString .= "uID ='$user' OR ";
+		} else {
+			$unexpectedUserString .= "$user, ";
+		}	
 	}
-	
+
+	echo "Unexpected Users: " . $unexpectedUserString;
+
 	//remove extra characters
 	$insertString = chop($insertString, ", ");
 	$updateString = chop($updateString, " OR ");
@@ -35,6 +47,8 @@
 
 	$insertQuery = "INSERT IGNORE INTO Permission (uID, groupID, academicYr) VALUES $insertString";
 	$insertStmt = $db->query($insertQuery);
+
+	// only update hours if user inserted
 
 	if ($insertStmt) {
 		// insert successful
