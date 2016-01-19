@@ -8,40 +8,46 @@
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
 
 	// reads in file and stores contents in $contents
+	// each element is the userID of a user to be added to the group
 	require '../uploadFile.php';
 
 	// NEED TO GET THESE VALUES from frontend
-	$groupID = 2; 
+	$groupID = 1; 
 	$year = 2016;
+	$hours = 3;
 	
 	//add users to group
-	$valueString = "";
+	$insertString = "";
+	$updateString = "";
 
 	foreach ($contents as $user) {
-		//want format ('uID', 'groupID', 'year'),
-		
-		// need to check that user doesn't already have permission!!!!
-		$valueString .= "('" . $user . "', '" . $groupID . "', '" . $year . "'),\n";
+		//need to check that user is in master list
+		$insertString .= "('$user', '$groupID', '$year'), ";
+		$updateString .= "uID ='$user' OR ";
 	}
+	
+	//remove extra characters
+	$insertString = chop($insertString, ", ");
+	$updateString = chop($updateString, " OR ");
 
-	$valueString = chop($valueString, ",\n"); //remove extra characters
-	echo $valueString;
+	echo $insertString;
+	echo $updateString;
 
-	// Update the permissions of each member of the group
- 	// foreach($contents as $user) {
-		// $query = "INSERT INTO Permission (uID, groupId, acdemicYr) VALUES ('$user', '$groupID', '$year')";
-		// $stmt = $db->query($query);
-		// //Give
-		// //user is not in user table??
-		// $query = "UPDATE User SET addHrs = addHrs + '$hours' WHERE uID = '$user'";
-		// $stmt = $db->query($query);
-  // 	}
+	$insertQuery = "INSERT IGNORE INTO Permission (uID, groupID, academicYr) VALUES $insertString";
+	$insertStmt = $db->query($insertQuery);
 
+	if ($insertStmt) {
+		// insert successful
+		$updateQuery = "UPDATE User SET addHrs = addHrs + '$hours' WHERE $updateString";
+		$updateStmt = $db->query($updateQuery);
 
-	$query = "INSERT INTO Permission (uID, groupID, academicYr) VALUES $valueString";
-	$stmt = $db->query($query);
+		if ($updateStmt) {
+			// update successful
+			echo "Successful";
+		}
 
-	// return if insert was successful or not
-	//echo ("RESULT ".$stmt);
+	} else {
+		echo "Unsuccessful";
+	}
 
 ?>
