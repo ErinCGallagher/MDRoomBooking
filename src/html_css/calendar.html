@@ -1,11 +1,8 @@
 <!-- calendarCtrl -->
    <div class="building-search-bar">
         <p class="building-selection-title"><strong>Building:</strong></p>
-        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings" class="building-select"></select>
-        <button class="building-go-button" ng-click="go()"> Go </button>
-        <div class="room">
-            <span class="room-title"><strong>Room:</strong></span> HLH 102
-        </div>
+        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select"></select>
+        <button class="building-go-button" ng-click="retrieveRooms()"> Go </button>
    </div>
 
    <!-- alert after attempting to make a booking -->
@@ -22,9 +19,15 @@
     <h2 class="date-text">{{date}}</h2>
     <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
    </div>
+   </br>
 
-    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
-   
+    <uib-tabset>
+        <uib-tab ng-repeat="tab in tabs track by tab.title" heading="{{tab.title}}" active="tab.active" disable="tab.disabled" select="changeRoom(tab.title)">
+        </uib-tab>
+  </uib-tabset>
+
+   <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
+
 
     <!-- Make Booking Popup Template -->
     <div>

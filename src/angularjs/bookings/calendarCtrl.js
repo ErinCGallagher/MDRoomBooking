@@ -7,7 +7,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
   $scope.selectedBuilding = "Harrison-LeCaine Hall";
-  $scope.events = BookingsService.dailyBookings;
+  $scope.events = BookingsService.weeklyBookings;
 
   $scope.pageClass = 'calendar'; //used to change pages in index.html
 
@@ -116,14 +116,32 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
         var start = week.start;
         var end = week.end;
-        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY")
-        BookingsService.getDailyBookings(start, end);
+        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
+        //retirve bookings for default room Harrison-LeCaine Hall
+        BookingsService.setUpRoomTabs();
+        BookingsService.getWeeklyBookings(start, end);
       },
 
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,
     }
   };
+
+  //retirves the selected building when the go button is pressed
+  //sets the selected building
+  $scope.retrieveRooms = function(){
+    BookingsService.selectedBuilding = $scope.selectedBuilding;
+    BookingsService.setUpRoomTabs();
+  }
+
+  //detects when a tab is changed and provides the room id
+  $scope.changeRoom=function(roomID){
+   console.log(roomID);
+  }
+
+
+  /*tabs*/
+  $scope.tabs = BookingsService.RoomTabs;
 
 };
 

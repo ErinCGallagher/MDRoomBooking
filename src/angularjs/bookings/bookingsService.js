@@ -5,23 +5,97 @@ angular
 function BookingsService(CommService, $q){
 
 	var bookingsService = {};
-	bookingsService.dailyBookings = []; 
+	bookingsService.selectedBuilding = "Harrison-LeCaine Hall";
+	bookingsService.selectedroom = "HLH 102";
+	bookingsService.weeklyBookings = []; 
+	bookingsService.RoomTabs = [];
+
+	var buildingWeeklyBookings = [
+		{"HLH 102" : [
+			{BlockID: "3",
+			BookingDate: "2016-01-19",
+			BookingID: "4",
+			EndTime: "09:00:00",
+			Reason: "Individual Rehearsal",
+			RoomID: "HLH 102",
+			StartTime: "08:30:00",
+			UID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 103" : [
+			{BlockID: "4",
+			BookingDate: "2016-01-20",
+			BookingID: "4",
+			EndTime: "10:30:00",
+			Reason: "Individual Rehearsal",
+			RoomID: "HLH 102",
+			StartTime: "09:30:00",
+			UID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 104" : [
+			{BlockID: "4",
+			BookingDate: "2016-01-21",
+			BookingID: "4",
+			EndTime: "11:30:00",
+			Reason: "Individual Rehearsal",
+			RoomID: "HLH 102",
+			StartTime: "10:30:00",
+			UID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 105" : [
+			{BlockID: "4",
+			BookingDate: "2016-01-21",
+			BookingID: "4",
+			EndTime: "11:30:00",
+			Reason: "Individual Rehearsal",
+			RoomID: "HLH 102",
+			StartTime: "10:30:00",
+			UID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 106" : [
+			{BlockID: "4",
+			BookingDate: "2016-01-21",
+			BookingID: "4",
+			EndTime: "11:30:00",
+			Reason: "Individual Rehearsal",
+			RoomID: "HLH 102",
+			StartTime: "10:30:00",
+			UID: "11ecg5",
+			numBlocks: "1"},
+		]}
+	];
+
+	bookingsService.setUpRoomTabs =function(){
+		var numRooms = bookingsService.RoomTabs.length;
+		bookingsService.RoomTabs.splice(0,numRooms);
+
+		//add the rooms back into the roomsTab array
+		numRooms = buildingWeeklyBookings.length;
+		for(var i = 0; i<numRooms; i++){
+			var roomName = Object.keys(buildingWeeklyBookings[i]);
+			bookingsService.RoomTabs.push({title:roomName[0]});
+		}
+		console.log(bookingsService.RoomTabs);
+	}
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getDailyBookings = function(start, end){
+	bookingsService.getWeeklyBookings = function(start, end){
 		//call communication Service
 		var room = 'HLH 102';
 		var q = $q.defer();
 		
 		CommService.getDailyBookingsFromDb(start, end, room)
 			.then(function(retrievedBookings){
-				bookingsService.dailyBookings.length = 0;
+				bookingsService.weeklyBookings.length = 0;
 				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
 				for(var i = 0; i<formattedBookings.length;i++){
-					bookingsService.dailyBookings.push(formattedBookings[i]);
+					bookingsService.weeklyBookings.push(formattedBookings[i]);
 				}
-				q.resolve(bookingsService.dailyBookings);
+				q.resolve(bookingsService.weeklyBookings);
 			},
 			function(err){
 				alert("could not retrieve daily bookings from database");
@@ -47,8 +121,8 @@ function BookingsService(CommService, $q){
 	//return an array with the list of possible durations given a booking start time
 	//used for the duration dropdown in the popup
 	bookingsService.getPossibleDurations = function(startTime){
-		for(var i=0; i<bookingsService.dailyBookings.length; i++){
-			if(bookingsService.dailyBookings[i].start >= startTime){
+		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
+			if(bookingsService.weeklyBookings[i].start >= startTime){
 
 			}
 		}
@@ -68,7 +142,7 @@ function BookingsService(CommService, $q){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
-					bookingsService.dailyBookings.push(newBookingInfo);
+					bookingsService.weeklyBookings.push(newBookingInfo);
 				},
 				function(err){
 					q.reject(false);
@@ -135,13 +209,13 @@ function BookingsService(CommService, $q){
 	//return false if there are conflicts
 	bookingsService.confirmNoBookingConflicts = function(potentialStartTime, potentialEndTime){
 
-		var len = bookingsService.dailyBookings.length;
+		var len = bookingsService.weeklyBookings.length;
 
 		//loop through the bookings for that day
-		for(var i=0; i<bookingsService.dailyBookings.length; i++){
+		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.dailyBookings[i].start));
-			var checkEnd = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.dailyBookings[i].end));
+			var checkStart = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].start));
+			var checkEnd = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].end));
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
