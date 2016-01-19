@@ -69,6 +69,14 @@ function BookingsService(CommService, $q){
 	];
 
 	bookingsService.setUpRoomTabs =function(){
+		//this way retrieves the room ids and then the will get the data
+		var rooms = CommService.getRooms(bookingsService.selectedBuilding);
+		var numRooms = rooms.length;
+		for(var i = 0; i<numRooms; i++){
+			bookingsService.RoomTabs.push({title:rooms[i]});
+		}
+		//this way retrieves it from in one database connection
+		/*
 		var numRooms = bookingsService.RoomTabs.length;
 		bookingsService.RoomTabs.splice(0,numRooms);
 
@@ -79,6 +87,17 @@ function BookingsService(CommService, $q){
 			bookingsService.RoomTabs.push({title:roomName[0]});
 		}
 		console.log(bookingsService.RoomTabs);
+		*/
+	}
+
+	//remove all current events in weeklyBookings and 
+	//replace with events for the selected rom
+	bookingsService.setUpRoomsWeeklyEvents = function(){
+		var numEvents = bookingsService.weeklyBookings.length;
+		bookingsService.weeklyBookings.splice(0,numRnumEventsooms);
+
+		var numNewEvents = buildingWeeklyBookings
+
 	}
 
 	//retrieves the daily bookings given a date

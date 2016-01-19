@@ -132,6 +132,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   $scope.retrieveRooms = function(){
     BookingsService.selectedBuilding = $scope.selectedBuilding;
     BookingsService.setUpRoomTabs();
+    bookingsService.setUpRoomsWeeklyEvents();
   }
 
   //detects when a tab is changed and provides the room id

@@ -62,6 +62,10 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 
 	}
 
+	bookingCommService.getRooms = function(building){
+		return ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106",];
+	}
+
 
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need bookingCommService.

@@ -65,6 +65,10 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return q.promise;
 	}
 
+	commService.getRooms = function(building){
+		return BookingCommService.getRooms(building);
+	}
+
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.
 	commService.convertToExpectedFormat = function(dailyBookings){
