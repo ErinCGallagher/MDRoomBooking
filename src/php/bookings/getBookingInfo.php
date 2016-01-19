@@ -14,7 +14,7 @@
 	$result = array();
 	
 	//Put result in an array 
-	foreach($rows as $row) 
+	foreach($rows as $row) {
 		$result[] = $row;
 	}
 	
@@ -22,7 +22,7 @@
 	$db = NULL;
 	
 	//Convert to json
-	$json = json_encode( $result);
+	$json = json_encode($result);
 	
 	// echo the json string
 	echo $json;
