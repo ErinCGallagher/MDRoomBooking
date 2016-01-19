@@ -30,7 +30,7 @@ function BookingsService(CommService, $q){
 		return q.promise;
 	}
 
-
+	//retirve booking information from the database
 	bookingsService.getBookingInformation = function(bookingID){
 		var q = $q.defer();
 		CommService.getBookingInformation(bookingID)
