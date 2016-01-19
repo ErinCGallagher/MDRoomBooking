@@ -6,20 +6,20 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
 
   $scope.building = building;
   $scope.roomNum = roomNum;
-  $scope.duration = 0;
   $scope.reason = reason;
   $scope.date = date;
   $scope.startTime = startTime;
   $scope.endTime = endTime;
 
+  //retrieve booking information from the database
   BookingsService.getBookingInformation(bookingID)
   	.then(function(bookingInfo){
   		$scope.numPeople = bookingInfo.data[0].NumParticipants;
   		$scope.description = bookingInfo.data[0].OtherDesc;
   	},
-	function(){
-		alert("err");
-	});
+	  function(){
+		  alert("err");
+	  });
   
   $scope.ok = function () {
     $uibModalInstance.close();

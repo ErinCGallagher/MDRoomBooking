@@ -29,6 +29,7 @@
     <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
+
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -40,13 +41,19 @@
                         <div class="book-room-info">
                             <p><strong>Building:</strong> {{building}}</p>
                             <p><strong>Room #:</strong> {{roomNum}}</p>
-                            <p><strong>Date:</strong> {{date}}</p>
-                            <p><strong>Start Time:</strong> {{startTime}}</p>
+                            <Table>
+                                <tr>
+                                    <td><strong>Start Date:</strong> {{date}}</td>
+                                    <td><strong>Start Time:</strong> {{startTime}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>End Date:</strong> {{date}}</td>
+                                    <td class="end-time"><div><strong>End Time: </strong></div>
+                                    <div><uib-timepicker ng-model="mytime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
+                                    </td>
+                                </tr>
+                        </table>
                         </div>
-                        <p>
-                            <strong>Duration: </strong>
-                            <select ng-model="selectedDuration" ng-options="duration as duration for duration in durations"></select>
-                        </p>
                         <p>
                             <strong>Number of People: </strong>
                             <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
@@ -57,7 +64,7 @@
                         </p>
                         <div ng-show="selectedReason=='Other'">
                             <Strong>Description: </Strong>
-                            <input type="text" name="input" ng-model="description">
+                            <textarea name="textareaDescription" ng-model="description" ng-maxlength="150"></textarea>
                         </div>
                     </form>
                 </div>
