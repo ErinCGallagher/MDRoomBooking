@@ -26,6 +26,7 @@
 	    echo "Sorry, your file was not uploaded.";
 	// if everything is ok, read in file to $contents
 	} else {
-         $contents = str_getcsv(file_get_contents($_FILES["fileToUpload"]["tmp_name"]));
+		// $contents is an array with an element for each line of the file (newlines removed)
+    	$contents=file($_FILES["fileToUpload"]["tmp_name"], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 	}
 ?>
