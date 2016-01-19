@@ -86,10 +86,9 @@
 		$msg = 'Successfully booked: "' . $Room . ', ' . $startDate . ' ' . $startTime . '-' . $endDate . ' ' . $endTime;
 	}
 	
-	//Send bookingID to front end
-	echo $bookingID;
-	
 	//Close the connection
 	$db = NULL;
-
+	
+	//Send bookingID to front end
+	echo $bookingID;
 ?>
