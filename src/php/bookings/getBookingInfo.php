@@ -1,37 +1,29 @@
 <?php
-	//Set database connection variables
-	$host = "localhost";
- 	$user = "root";
- 	$password = "";
- 	$database = "mdroombooking";
-	//Connect to database
-	$cxn = mysqli_connect($host,$user,$password, $database);
-	//Check connection
-	if (mysqli_connect_errno()){
-  		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  		die();
-  	}
+	include('../connection.php');
 	
 	//Get POST datastream from front-end
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from datastream 
-	$BID = mysqli_real_escape_string($cxn, $data->BookingID);
+	$BID = $data->BookingID;
 
 	//Get booking info from database
-   	$query3 = "SELECT * FROM Bookings WHERE BookingID = '$BID';";
-	$bookingInfo = mysqli_query($cxn, $query3);
-        $result = array();
-        
-        //Put result in an array 
-        while ($row = mysqli_fetch_assoc($bookingInfo)){
-            $result[] = $row;
-        }
+   	$sth = $db->prepare("SELECT * FROM Bookings WHERE BookingID = ?;");
+	$sth->execute(array($BID));
+	$rows = $sth->fetchAll();
+
+	$result = array();
+	
+	//Put result in an array 
+	foreach($rows as $row) 
+		$result[] = $row;
+	}
+	
+	//Close the connection
+	$db = NULL;
 	
 	//Convert to json
 	$json = json_encode( $result);
-       	// echo the json string
-        echo $json;
 	
-	//Close the connection
-	mysqli_close($cxn);
+	// echo the json string
+	echo $json;
 ?>
