@@ -22,18 +22,30 @@
 	$unexpectedUserString = "";
 
 	foreach ($contents as $user) {
-		//need to check that user is in master list
-		$checkUserQuery = "SELECT uID FROM User WHERE uID = '$user'";
-		$checkUserStmt = $db->query($checkUserQuery);
+		// check that user is not already in group
+		$checkGroupQuery = "SELECT uID FROM Permission WHERE uID = '$user' AND groupID = '$groupID'";
+		$checkGroupStmt = $db->query($checkGroupQuery);
 		
-		$row = $checkUserStmt->fetch(PDO::FETCH_ASSOC);
-		if ($row) {
-			//user is in master list
-			$insertString .= "('$user', '$groupID', '$year'), ";
-			$updateString .= "uID ='$user' OR ";
+		if ($checkGroupStmt->rowCount() == 0) {
+			// user is NOT in group, continue with addition
+
+			// check that user is in master list
+			$checkUserQuery = "SELECT uID FROM User WHERE uID = '$user'";
+			$checkUserStmt = $db->query($checkUserQuery);
+			
+			if ($checkUserStmt->rowCount() > 0) {
+				//user is in master list, continue with addition
+
+				$insertString .= "('$user', '$groupID', '$year'), ";
+				$updateString .= "uID ='$user' OR ";
+			} else {
+				$unexpectedUserString .= "$user, ";
+			}
+
 		} else {
-			$unexpectedUserString .= "$user, ";
-		}	
+			// user is in group, don't re-add
+			echo "User $user is already in group $groupID.";
+		}
 	}
 
 	echo "Unexpected Users: " . $unexpectedUserString;
@@ -45,10 +57,8 @@
 	echo $insertString;
 	echo $updateString;
 
-	$insertQuery = "INSERT IGNORE INTO Permission (uID, groupID, academicYr) VALUES $insertString";
+	$insertQuery = "INSERT INTO Permission (uID, groupID, academicYr) VALUES $insertString";
 	$insertStmt = $db->query($insertQuery);
-
-	// only update hours if user inserted
 
 	if ($insertStmt) {
 		// insert successful
