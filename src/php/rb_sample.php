@@ -25,6 +25,13 @@
 	
 	//Insert sample data into tables
 	
+    mysqli_query($cxn, "INSERT INTO Master(uID, class) VALUES
+				('12af', 'DStudent'),
+				('13eg', 'DStudent'),
+				('14sk', 'MStudent'),
+				('15lb', 'MStudent') 
+				");
+                
 	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, defaultHrs, addHrs, usedHrs, academicYr) VALUES
 				('12af', 'Lexi', 'Flynn', 'DStudent', '5', '0', '0', '2016'),
 				('13eg', 'Erin', 'Gallagher', 'DStudent', '5', '0', '0', '2016'),
