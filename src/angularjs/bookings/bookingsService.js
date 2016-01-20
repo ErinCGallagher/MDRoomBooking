@@ -72,6 +72,7 @@ function BookingsService(CommService, $q){
 		//this way retrieves the room ids and then the will get the data
 		var rooms = CommService.getRooms(bookingsService.selectedBuilding);
 		var numRooms = rooms.length;
+		bookingsService.RoomTabs.splice(0,numRooms);
 		for(var i = 0; i<numRooms; i++){
 			bookingsService.RoomTabs.push({title:rooms[i]});
 		}
