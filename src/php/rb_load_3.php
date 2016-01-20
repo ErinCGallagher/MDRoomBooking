@@ -26,12 +26,12 @@
   
   	//Drop all tables
   	mysqli_query($cxn,"drop table Blocks;");
+    mysqli_query($cxn,"drop table Master;");
   	mysqli_query($cxn,"drop table User;");
   	mysqli_query($cxn,"drop table UGroups;");
   	mysqli_query($cxn,"drop table Permission;");
   	mysqli_query($cxn,"drop table BookingSlots;");
   	mysqli_query($cxn,"drop table Bookings;");
-  	mysqli_query($cxn,"drop table User;");
   	mysqli_query($cxn,"drop table Building;");
   	mysqli_query($cxn,"drop table Rooms;");
   	
@@ -42,6 +42,11 @@
 					startTime			TIME		  NOT NULL,
 					endTime				TIME		  NOT NULL,
 					PRIMARY KEY(blockID));");
+                    
+    mysqli_query($cxn,"CREATE TABLE Master(
+					uID			 	VARCHAR(10)	NOT NULL,		
+					class			VARCHAR(35) 	NOT NULL,
+					PRIMARY KEY(uID, class));"); 
   
 	mysqli_query($cxn,"CREATE TABLE User(
 					uID			 	VARCHAR(10)	NOT NULL,
