@@ -11,10 +11,10 @@
 	$data = json_decode(file_get_contents("php://input"));
 
 	//Set parameters from datastream
-	$UID = $data->UID;
-	$Room = $data->RoomID;
-	$Reason = $data->Reason;
-	$Desc = $data->OtherDesc;
+	$UID = $data->uID;
+	$Room = $data->roomID;
+	$Reason = $data->reason;
+	$Desc = $data->otherDesc;
 	$year = "2015/2016";
 	$numP = $data->numParticipants;
 	$localStart = $data->start;

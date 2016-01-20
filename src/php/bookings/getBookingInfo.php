@@ -4,10 +4,10 @@
 	//Get POST datastream from front-end
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from datastream 
-	$BID = $data->BookingID;
+	$BID = $data->bookingID;
 
 	//Get booking info from database
-   	$sth = $db->prepare("SELECT * FROM Bookings WHERE BookingID = ?;");
+   	$sth = $db->prepare("SELECT * FROM Bookings WHERE bookingID = ?;");
 	$sth->execute(array($BID));
 	$rows = $sth->fetchAll();
 

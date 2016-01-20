@@ -23,9 +23,9 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		}
 
 	bookingCommService.getBookingInformation = function(bookingId){
-		var promisePost = $http.post('src/php/bookings/getBookingInfo.php', { "BookingID" : bookingId})
+		var promisePost = $http.post('src/php/bookings/getBookingInfo.php', { "bookingID" : bookingId})
 		    .success(function(data, status) {
-		    	 console.log("retrieved booking infromation from database: ");
+		    	 console.log("retrieved booking information from database: ");
 		    	 console.log(data);
 		    })
 		    .error(function(data, status) {
@@ -41,14 +41,14 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 	bookingCommService.bookRoomInDB = function(roomInformation){
 
 		var data = {
-			  UID:"11ecg5",
-		      Reason: roomInformation.title,
+			  uID:"11ecg5",
+		      reason: roomInformation.title,
 		      start: roomInformation.start,
 		      end: roomInformation.end,
 		      building: roomInformation.building, 
-		      RoomID: roomInformation.roomNum,  
+		      roomID: roomInformation.roomNum,  
 		      numParticipants: roomInformation.numPeople, 
-		      OtherDesc:roomInformation.description,
+		      otherDesc:roomInformation.description,
 		    };
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(response) {
@@ -74,17 +74,17 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		var formattedDailyBookings = [];
 
 		for(var i = 0; i<dailyBookings.length;i++){
-			var startTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].StartTime;
-			var endTime = dailyBookings[i].BookingDate + " " + dailyBookings[i].EndTime;
+			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
+			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
 			var startTime = new Date(startTime);
 			formattedDailyBookings[i] =  
-			{title:dailyBookings[i].Reason, 
+			{title:dailyBookings[i].reason, 
 			 start:new Date(startTime),
 			 end:new Date(endTime),
 			 allDay:false, 
-			 bookingID:dailyBookings[i].BookingID, 
+			 bookingID:dailyBookings[i].bookingID, 
 			 building: "Harrison-LeCaine Hall", 
-			 roomNum: dailyBookings[i].RoomID
+			 roomNum: dailyBookings[i].roomID
 			};
 		}
 		

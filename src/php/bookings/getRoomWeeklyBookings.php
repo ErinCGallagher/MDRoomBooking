@@ -22,7 +22,7 @@ date_default_timezone_set('America/New_York');
 while ($start <= $end){
 
 	//get daily bookings from database
-	$sth = $db->prepare("SELECT Bookings.BookingID, BookingSlots.BlockID, UID, BookingDate, BookingSlots.RoomID, StartTime, EndTime, Reason, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.BookingID = BookingSlots.BookingID AND BookingSlots.BlockID = Blocks.BlockID WHERE RoomID = ? AND BookingDate = ? GROUP BY BookingID ASC;");
+	$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID WHERE roomID = ? AND bookingDate = ? GROUP BY bookingID ASC;");
 	$sth->execute(array($room,$start));
 	$rows = $sth->fetchAll();
 	
@@ -35,7 +35,7 @@ while ($start <= $end){
 		//Add thirty minutes to start time for each 
 		//block in booking if there is more than one
 		if ($numBlocks != 1) {
-			$startTime = $row['StartTime'];
+			$startTime = $row['startTime'];
 			$endTime =  strtotime($startTime);
 		
 			while ($numBlocks >= 1) {
@@ -45,7 +45,7 @@ while ($start <= $end){
 			}
 
 			//change the endtime to appropriate value
-			$row['EndTime'] = date("H:i:s", $endTime);
+			$row['endTime'] = date("H:i:s", $endTime);
 		}
 		//Add row to result 
 		$result[] = $row;
