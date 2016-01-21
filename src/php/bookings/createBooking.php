@@ -1,4 +1,5 @@
 <?php
+	session_start();
 
 	//Database connection
 	include('../connection.php');
@@ -14,6 +15,7 @@
 	$uID = $data->uID;
 	$room = $data->roomID;
 	$reason = $data->reason;
+	$building = $data->building;
 	$desc = $data->otherDesc;
 	$year = "2015/2016";
 	$numP = $data->numParticipants;
@@ -22,10 +24,16 @@
 	
 	include('../whitelist/checkBooking.php');
 	
+	$allBuildings = $_SESSION["buildings"];
+	
 	if (!in_array($reason, $reasonsList)) {
-		http_response_code(410); //Invalid Entry
+		http_response_code(403); //Invalid Entry
 	} else if (!in_array($numP, $numPeople)) {
-		http_response_code(410); //Invalid Entry
+		http_response_code(403); //Invalid Entry
+	} else if (!array_key_exists($building, $allBuildings)) {
+		http_response_code(403); //Invalid Entry (building)
+	} else if (!in_array($room, $_SESSION["buildings"][$building]['rooms'])) {
+		http_response_code(403); //Invalid Entry (room)
 	} else {
 		$utcStart = strtotime($localStart);
 		$startDate = date('Y-m-d', $utcStart);

@@ -51,6 +51,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		      numParticipants: roomInformation.numPeople, 
 		      otherDesc:roomInformation.description,
 		    };
+		console.log(data);
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(response) {
 		    	var hello = response;
@@ -94,7 +95,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 end:new Date(endTime),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
-			 building: "Harrison-LeCaine Hall", 
+			 building: "Harrison LeCaine Hall", 
 			 roomNum: dailyBookings[i].roomID
 			};
 		}

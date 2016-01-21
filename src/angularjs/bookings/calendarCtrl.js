@@ -5,8 +5,8 @@ angular
 
 function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
 
-  $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
-  $scope.selectedBuilding = "Harrison-LeCaine Hall";
+  $scope.buildings = ["Harrison LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
+  $scope.selectedBuilding = "Harrison LeCaine Hall";
   $scope.events = BookingsService.weeklyBookings;
 
   $scope.pageClass = 'calendar'; //used to change pages in index.html
@@ -41,7 +41,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       controller: 'MakeBookingPopupCtrl',
       resolve: {
         building: function () {
-          return "Harrison-LeCaine Hall";
+          return "Harrison LeCaine Hall";
         },
         roomNum: function () {
           return "HLH 102";

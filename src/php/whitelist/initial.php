@@ -31,15 +31,13 @@ $db = NULL;
 
 $_SESSION["buildings"] = $allBuildings;
 
-/*
-foreach($allBuildings as $building => $info){
+/*foreach($allBuildings as $building => $info){
 	echo "Building: " . $building . " Open: " . $info['openTime'] . " Close: " . $info['closeTime'] . "<br>";
 	echo "Rooms: ";
 	foreach ($info['rooms'] as $room){
 		echo $room . "<br>";
 	}
-}
-*/
+}*/
 
 
 ?>

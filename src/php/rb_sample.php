@@ -69,7 +69,7 @@
          		('HLH 104','Harrison LeCaine Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
          			
   	mysqli_query($cxn,"INSERT INTO Building (buildingID, openTime, closeTime) VALUES
-         		('HarrisonLecaine', '9:00', '8:00')");
+         		('Harrison LeCaine Hall', '9:00', '8:00')");
   	
   	
   	
