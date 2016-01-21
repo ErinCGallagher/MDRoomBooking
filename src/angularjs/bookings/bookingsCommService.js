@@ -7,8 +7,9 @@ function BookingCommService($http){
 
 	var bookingCommService = {};
 
-bookingCommService.getDailyBookingsFromDb = function(start, end, room){
-		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "Start" :start, "End" :end, "Room":room })
+
+bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
+		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "start" :start, "end" :end, "building":building })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
 		    	console.log(data);
@@ -62,8 +63,18 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 
 	}
 
-	bookingCommService.getRooms = function(building){
-		return ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106",];
+	bookingCommService.getRooms = function(){
+		return rooms = [{"Harrison LeCaine Hall" : ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106"]}];
+	}
+
+	bookingCommService.formatRooms = function(rooms){
+		var fomattedRooms = [];
+		for(var i = 0; i<rooms.length; i++){
+			for(var key in rooms[i]){
+				fomattedRooms[key] = rooms[i][key];
+			}
+		}
+		return fomattedRooms;
 	}
 
 
@@ -89,6 +100,16 @@ bookingCommService.getDailyBookingsFromDb = function(start, end, room){
 		}
 		
 		return formattedDailyBookings;
+
+	}
+	//loop through the object of weekly bookings for all rooms in a building and format it appropriately
+	bookingCommService.formatBuildingWeeklyBookings = function(buildingWeeklyBookings){
+		var formattedBookings = [];
+		for(var key in buildingWeeklyBookings){
+			formattedBookings[key] = bookingCommService.convertToExpectedFormat(buildingWeeklyBookings[key]);
+		}
+
+		return formattedBookings;
 
 	}
 

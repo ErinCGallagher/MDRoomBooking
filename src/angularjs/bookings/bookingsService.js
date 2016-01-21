@@ -5,123 +5,53 @@ angular
 function BookingsService(CommService, $q){
 
 	var bookingsService = {};
-	bookingsService.selectedBuilding = "Harrison-LeCaine Hall";
-	bookingsService.selectedroom = "HLH 102";
+	bookingsService.selectedBuilding = "Harrison LeCaine Hall"; //default
+	bookingsService.selectedroom = "HLH 102"; //default
 	bookingsService.weeklyBookings = []; 
 	bookingsService.RoomTabs = [];
-
-	var buildingWeeklyBookings = [
-		{"HLH 102" : [
-			{BlockID: "3",
-			BookingDate: "2016-01-19",
-			BookingID: "4",
-			EndTime: "09:00:00",
-			Reason: "Individual Rehearsal",
-			RoomID: "HLH 102",
-			StartTime: "08:30:00",
-			UID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 103" : [
-			{BlockID: "4",
-			BookingDate: "2016-01-20",
-			BookingID: "4",
-			EndTime: "10:30:00",
-			Reason: "Individual Rehearsal",
-			RoomID: "HLH 102",
-			StartTime: "09:30:00",
-			UID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 104" : [
-			{BlockID: "4",
-			BookingDate: "2016-01-21",
-			BookingID: "4",
-			EndTime: "11:30:00",
-			Reason: "Individual Rehearsal",
-			RoomID: "HLH 102",
-			StartTime: "10:30:00",
-			UID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 105" : [
-			{BlockID: "4",
-			BookingDate: "2016-01-21",
-			BookingID: "4",
-			EndTime: "11:30:00",
-			Reason: "Individual Rehearsal",
-			RoomID: "HLH 102",
-			StartTime: "10:30:00",
-			UID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 106" : [
-			{BlockID: "4",
-			BookingDate: "2016-01-21",
-			BookingID: "4",
-			EndTime: "11:30:00",
-			Reason: "Individual Rehearsal",
-			RoomID: "HLH 102",
-			StartTime: "10:30:00",
-			UID: "11ecg5",
-			numBlocks: "1"},
-		]}
-	];
+	var buildingWeeklyBookings = [];
+	var rooms = CommService.getRooms();
 
 	bookingsService.setUpRoomTabs =function(){
 		//this way retrieves the room ids and then the will get the data
-		var rooms = CommService.getRooms(bookingsService.selectedBuilding);
-		var numRooms = rooms.length;
+		var buildingRooms = rooms[bookingsService.selectedBuilding];
+		var numRooms = buildingRooms.length;
 		bookingsService.RoomTabs.splice(0,numRooms);
 		for(var i = 0; i<numRooms; i++){
-			bookingsService.RoomTabs.push({title:rooms[i]});
+			bookingsService.RoomTabs.push({title:buildingRooms[i]});
 		}
-		//this way retrieves it from in one database connection
-		/*
-		var numRooms = bookingsService.RoomTabs.length;
-		bookingsService.RoomTabs.splice(0,numRooms);
 
-		//add the rooms back into the roomsTab array
-		numRooms = buildingWeeklyBookings.length;
-		for(var i = 0; i<numRooms; i++){
-			var roomName = Object.keys(buildingWeeklyBookings[i]);
-			bookingsService.RoomTabs.push({title:roomName[0]});
-		}
-		console.log(bookingsService.RoomTabs);
-		*/
 	}
 
 	//remove all current events in weeklyBookings and 
 	//replace with events for the selected rom
 	bookingsService.setUpRoomsWeeklyEvents = function(){
 		var numEvents = bookingsService.weeklyBookings.length;
-		bookingsService.weeklyBookings.splice(0,numRnumEventsooms);
+		bookingsService.weeklyBookings.splice(0,numEvents);
+		//ensure the room number exsists in the building
+		if(buildingWeeklyBookings[bookingsService.selectedroom] !=  undefined){
 
-		var numNewEvents = buildingWeeklyBookings
-
+			for(var i = 0; i<buildingWeeklyBookings[bookingsService.selectedroom].length; i++){
+				bookingsService.weeklyBookings.push(buildingWeeklyBookings[bookingsService.selectedroom][i]);
+			}
+		}
 	}
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
 	bookingsService.getWeeklyBookings = function(start, end){
 		//call communication Service
-		var room = 'HLH 102';
-		var q = $q.defer();
-		
-		CommService.getDailyBookingsFromDb(start, end, room)
+		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
 			.then(function(retrievedBookings){
 				bookingsService.weeklyBookings.length = 0;
-				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
-				for(var i = 0; i<formattedBookings.length;i++){
-					bookingsService.weeklyBookings.push(formattedBookings[i]);
-				}
-				q.resolve(bookingsService.weeklyBookings);
+				buildingWeeklyBookings = retrievedBookings;
+
+				bookingsService.setUpRoomsWeeklyEvents();
+				
 			},
 			function(err){
 				alert("could not retrieve daily bookings from database");
-				q.resolve(err);
 			});
-		return q.promise;
 	}
 
 	//retirve booking information from the database

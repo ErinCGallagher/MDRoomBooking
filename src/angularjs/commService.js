@@ -7,6 +7,73 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 
 	var commService = {};
 
+	var buildingWeeklyBookingss = [
+		{"HLH 102" : [
+			{blockID: "3",
+			bookingDate: "2016-01-19",
+			bookingID: "4",
+			endTime: "09:00:00",
+			reason: "Individual Rehearsal",
+			roomID: "HLH 102",
+			startTime: "08:30:00",
+			uID: "11ecg5",
+			numBlocks: "1"},
+			{blockID: "3",
+			bookingDate: "2016-01-19",
+			bookingID: "5",
+			endTime: "09:30:00",
+			reason: "Individual Rehearsal",
+			roomID: "HLH 102",
+			startTime: "09:00:00",
+			uID: "11ecg5",
+			numBlocks: "1"}
+		]},
+		{"HLH 103" : [
+			{blockID: "4",
+			bookingDate: "2016-01-20",
+			bookingID: "4",
+			endTime: "10:30:00",
+			reason: "Individual Rehearsal",
+			roomID: "HLH 102",
+			startTime: "09:30:00",
+			uID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 104" : [
+			{blockID: "4",
+			bookingDate: "2016-01-18",
+			bookingID: "4",
+			endTime: "10:30:00",
+			reason: "Individual Rehearsal",
+			roomID: "HLH 102",
+			startTime: "09:30:00",
+			uID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 105" : [
+			{blockID: "4",
+			bookingDate: "2016-01-19",
+			bookingID: "4",
+			endTime: "10:30:00",
+			reason: "Individual Rehearsal",
+			roomID: "HLH 102",
+			startTime: "09:30:00",
+			uID: "11ecg5",
+			numBlocks: "1"},
+		]},
+		{"HLH 106" : [
+			{blockID: "4",
+			bookingDate: "2016-01-22",
+			bookingID: "4",
+			endTime: "10:30:00",
+			reason: "Individual Rehearsal",
+			roomID: "HLH 102",
+			startTime: "09:30:00",
+			uID: "11ecg5",
+			numBlocks: "1"},
+		]}
+	];
+
 	commService.getAllGroups = function() {
 		return AdminCommService.getAllGroups();
 	}
@@ -29,11 +96,12 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return AdminCommService.getGroupInfo(groupID);
 	}
 
-	commService.getDailyBookingsFromDb = function(start, end, room){
+	commService.getWeeklyBookingsFromDb = function(start, end, building){
 		var q = $q.defer();
-		BookingCommService.getDailyBookingsFromDb(start, end, room)
-			.then(function(dailyBookingObjects){
-				q.resolve(dailyBookingObjects);
+		BookingCommService.getWeeklyBookingsFromDb(start, end, building)
+			.then(function(buildingWeeklyBookings){
+				var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(buildingWeeklyBookings.data);
+				q.resolve(formattedBuildingWeeklyBookings);
 			},
 			function(err){
 				q.reject();
@@ -65,8 +133,9 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return q.promise;
 	}
 
-	commService.getRooms = function(building){
-		return BookingCommService.getRooms(building);
+	commService.getRooms = function(){
+		var unFormattedRooms = BookingCommService.getRooms();
+		return BookingCommService.formatRooms(unFormattedRooms);
 	}
 
 	//convert the daily bookings information to the correct font end format
