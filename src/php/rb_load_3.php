@@ -82,7 +82,7 @@
 					reason				VARCHAR(50) 	NOT NULL,
 					otherDesc			VARCHAR(100),
 					academicYr		VARCHAR(9)	  NOT NULL,	
-					numParticipants		INTEGER		NOT NULL,
+					numParticipants		VARCHAR(9)		NOT NULL,
 					PRIMARY KEY(bookingID));");
 
 	mysqli_query($cxn,"CREATE TABLE Building(
@@ -94,10 +94,10 @@
 	mysqli_query($cxn,"CREATE TABLE Rooms(
 					roomID				VARCHAR(20)	NOT NULL,
 					building			VARCHAR(30)	NOT NULL,
-					capacity			INTEGER		  NOT NULL,
+					capacity			INTEGER		NOT NULL,
 					reqKey				VARCHAR(3) 	NOT NULL,
 					upright				VARCHAR(3)	NOT NULL,	
-					grand				  VARCHAR(3) 	  NOT NULL,
+					grand				VARCHAR(3) 	NOT NULL,
 					openSpace			VARCHAR(3) 	NOT NULL,
 					mirror				VARCHAR(3) 	NOT NULL,
 					projector			VARCHAR(3) 	NOT NULL,
