@@ -44,7 +44,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
           return "Harrison LeCaine Hall";
         },
         roomNum: function () {
-          return "HLH 102";
+          return BookingsService.selectedroom;
         },
         dateTime: function () {
           return date;
