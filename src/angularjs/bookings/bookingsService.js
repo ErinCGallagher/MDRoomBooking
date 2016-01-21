@@ -30,7 +30,6 @@ function BookingsService(CommService, $q){
 		bookingsService.weeklyBookings.splice(0,numEvents);
 		//ensure the room number exsists in the building
 		if(buildingWeeklyBookings[bookingsService.selectedroom] !=  undefined){
-
 			for(var i = 0; i<buildingWeeklyBookings[bookingsService.selectedroom].length; i++){
 				bookingsService.weeklyBookings.push(buildingWeeklyBookings[bookingsService.selectedroom][i]);
 			}
@@ -85,6 +84,8 @@ function BookingsService(CommService, $q){
 	bookingsService.bookRoom = function(newBookingInfo){
 		var roomInformation = {};
 		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = bookingsService.selectedroom;
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
@@ -92,6 +93,7 @@ function BookingsService(CommService, $q){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
+					buildingWeeklyBookings[room].push(newBookingInfo);
 					bookingsService.weeklyBookings.push(newBookingInfo);
 				},
 				function(err){
