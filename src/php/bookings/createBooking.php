@@ -37,7 +37,6 @@
 
 		//Array to hold blocks 
 		$blocks = [];
-		
 		$sth = $db->prepare("SELECT blockID, endTime FROM Blocks WHERE startTime = ?");
 		$sth->execute(array($startTime));
 		$rows = $sth->fetchAll();
@@ -88,7 +87,7 @@
 			$msg = "Your booking could not be completed. Please try making another booking.";
 		} else {
 			http_response_code(200); //success
-			$msg = 'Successfully booked: "' . $Room . ', ' . $startDate . ' ' . $startTime . '-' . $endDate . ' ' . $endTime;
+			$msg = 'Successfully booked: "' . $room . ', ' . $startDate . ' ' . $startTime . '-' . $endDate . ' ' . $endTime;
 		}
 			
 		//Send bookingID to front end
