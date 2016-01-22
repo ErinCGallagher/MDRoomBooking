@@ -30,7 +30,7 @@
 			// user is NOT in group, continue with addition
 
 			// check that user is in master list
-			$checkUserQuery = "SELECT uID FROM User WHERE uID = '$user'";
+			$checkUserQuery = "SELECT uID FROM Master WHERE uID = '$user'";
 			$checkUserStmt = $db->query($checkUserQuery);
 			
 			if ($checkUserStmt->rowCount() > 0) {
@@ -53,9 +53,6 @@
 	//remove extra characters
 	$insertString = chop($insertString, ", ");
 	$updateString = chop($updateString, " OR ");
-
-	echo $insertString;
-	echo $updateString;
 
 	$insertQuery = "INSERT INTO Permission (uID, groupID, academicYr) VALUES $insertString";
 	$insertStmt = $db->query($insertQuery);
