@@ -32,7 +32,7 @@ function BookingsService(CommService, $q){
 	}
 
 	//remove all current events in weeklyBookings and 
-	//replace with events for the selected rom
+	//replace with events for the selected room
 	bookingsService.setUpRoomsWeeklyEvents = function(){
 		var numEvents = bookingsService.weeklyBookings.length;
 		bookingsService.weeklyBookings.splice(0,numEvents);

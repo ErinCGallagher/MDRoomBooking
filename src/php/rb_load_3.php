@@ -150,7 +150,7 @@
      		('THEO 119','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('THEO 102','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('THEO 330','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('ISABEL 101','The Isabel','50', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('ISABEL 104','The Isabel','50', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 104','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 105','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),

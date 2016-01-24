@@ -41,7 +41,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       controller: 'MakeBookingPopupCtrl',
       resolve: {
         building: function () {
-          return "Harrison LeCaine Hall";
+          return $scope.selectedBuilding;
         },
         roomNum: function () {
           return BookingsService.selectedroom;
@@ -131,7 +131,9 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
   //retirves the selected building when the go button is pressed
   //sets the selected building
   $scope.retrieveRooms = function(){
+    var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
     BookingsService.selectedBuilding = $scope.selectedBuilding;
+    BookingsService.getWeeklyBookings(week.start, week.end);
     $scope.calRender = BookingsService.setUpRoomTabs();
     BookingsService.setUpRoomsWeeklyEvents();
   }

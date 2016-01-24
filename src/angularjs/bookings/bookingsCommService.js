@@ -65,7 +65,10 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 	}
 
 	bookingCommService.getRooms = function(){
-		return rooms = [{"Harrison LeCaine Hall" : ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106"]}];
+		return rooms = [{"Harrison LeCaine Hall" : ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106"]},
+						{"Theological Hall" : ["THEO 102","THEO 119","THEO 330"]},
+						{"Chown Hall" : ["CHOWN 104","CHOWN 105","CHOWN 106","CHOWN 107"]},
+						{"The Isabel" : ["ISABEL 104"]}];
 	}
 
 	bookingCommService.formatRooms = function(rooms){
