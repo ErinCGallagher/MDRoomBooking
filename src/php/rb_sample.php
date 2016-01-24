@@ -62,14 +62,6 @@
          		('11lmb23','Ensemble','','2015/16','10'),
          		('11lmb23','Individual Rehearsal','','2015/16','1'),
          		('12ajf','Other','Mostly Mischief','2015/16','4')");
-         		
-	 mysqli_query($cxn,"INSERT INTO Rooms (roomID, building, capacity, reqKey, upright, grand, openSpace, mirror, projector) VALUES
-         		('HLH 102','Harrison LeCaine Hall','100','No','Yes','No','No','Yes', 'No'),
-         		('HLH 103','Harrison LeCaine Hall','50', 'No','No', 'No', 'No', 'No', 'Yes'),
-         		('HLH 104','Harrison LeCaine Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
-         			
-  	mysqli_query($cxn,"INSERT INTO Building (buildingID, openTime, closeTime) VALUES
-         		('Harrison LeCaine Hall', '9:00', '8:00')");
   	
   	
   	

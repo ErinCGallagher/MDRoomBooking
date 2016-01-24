@@ -87,8 +87,8 @@
 
 	mysqli_query($cxn,"CREATE TABLE Building(
 					buildingID			VARCHAR(50)		NOT NULL,				 
-					openTime			VARCHAR(4)	    NOT NULL,
-					closeTime			VARCHAR(4)	    NOT NULL,
+					openTime			VARCHAR(5)	    NOT NULL,
+					closeTime			VARCHAR(5)	    NOT NULL,
 					PRIMARY KEY(buildingID));");
 					
 	mysqli_query($cxn,"CREATE TABLE Rooms(
@@ -136,6 +136,25 @@
 			('30', '22:00:00', '22:30:00'),
 			('31', '22:30:00', '23:00:00')
 			");
+
+	mysqli_query($cxn,"INSERT INTO Building (buildingID, openTime, closeTime) VALUES
+         		('Harrison LeCaine Hall', '7:30', '11:00'),
+         		('Theological Hall', '7:30', '11:00'),
+         		('Chown Hall', '7:30', '11:00'),
+         		('The Isabel', '7:30', '11:00')");
+
+	mysqli_query($cxn,"INSERT INTO Rooms (roomID, building, capacity, reqKey, upright, grand, openSpace, mirror, projector) VALUES
+     		('HLH 102','Harrison LeCaine Hall','100','No','Yes','No','No','Yes', 'No'),
+     		('HLH 103','Harrison LeCaine Hall','50', 'No','No', 'No', 'No', 'No', 'Yes'),
+     		('HLH 104','Harrison LeCaine Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('THEO 119','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('THEO 102','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('THEO 330','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('ISABEL 101','The Isabel','50', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('CHOWN 104','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('CHOWN 105','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
+     		('CHOWN 107','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
 					
 						
 
