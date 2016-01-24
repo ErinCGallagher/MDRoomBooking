@@ -13,14 +13,22 @@ function BookingsService(CommService, $q){
 	var rooms = CommService.getRooms();
 
 	bookingsService.setUpRoomTabs =function(){
+		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
+
+		var buildingRooms = [];
 		//this way retrieves the room ids and then the will get the data
-		var buildingRooms = rooms[bookingsService.selectedBuilding];
+		if (rooms[bookingsService.selectedBuilding] != undefined){
+			buildingRooms = rooms[bookingsService.selectedBuilding];
+		}
+
 		var numRooms = buildingRooms.length;
-		bookingsService.RoomTabs.splice(0,numRooms);
+		if(numRooms == 0){
+			return false; //don't render the calendar because there are no rooms
+		}
 		for(var i = 0; i<numRooms; i++){
 			bookingsService.RoomTabs.push({title:buildingRooms[i]});
 		}
-
+		return true;
 	}
 
 	//remove all current events in weeklyBookings and 

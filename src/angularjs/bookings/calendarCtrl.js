@@ -118,7 +118,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         var end = week.end;
         $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
         //retirve bookings for default room Harrison-LeCaine Hall
-        BookingsService.setUpRoomTabs();
+        $scope.calRender = BookingsService.setUpRoomTabs();
         BookingsService.getWeeklyBookings(start, end);
       },
 
@@ -127,12 +127,13 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     }
   };
 
+  $scope.calRender = false; //if there are no rooms for the building hide the calendar
   //retirves the selected building when the go button is pressed
   //sets the selected building
   $scope.retrieveRooms = function(){
     BookingsService.selectedBuilding = $scope.selectedBuilding;
-    BookingsService.setUpRoomTabs();
-    bookingsService.setUpRoomsWeeklyEvents();
+    $scope.calRender = BookingsService.setUpRoomTabs();
+    BookingsService.setUpRoomsWeeklyEvents();
   }
 
   //detects when a tab is changed and provides the room id
