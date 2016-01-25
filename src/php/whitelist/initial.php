@@ -39,5 +39,7 @@ $_SESSION["buildings"] = $allBuildings;
 	}
 }*/
 
+$json = json_encode($allBuildings);
+echo $json;
 
 ?>

@@ -3,76 +3,9 @@ angular
 .service('CommService', CommService);
 
 //communication Service
-function CommService($http, $q, BookingCommService, AdminCommService){
+function CommService($http, $q, BookingCommService, AdminCommService, UserCommService){
 
 	var commService = {};
-
-	var buildingWeeklyBookingss = [
-		{"HLH 102" : [
-			{blockID: "3",
-			bookingDate: "2016-01-19",
-			bookingID: "4",
-			endTime: "09:00:00",
-			reason: "Individual Rehearsal",
-			roomID: "HLH 102",
-			startTime: "08:30:00",
-			uID: "11ecg5",
-			numBlocks: "1"},
-			{blockID: "3",
-			bookingDate: "2016-01-19",
-			bookingID: "5",
-			endTime: "09:30:00",
-			reason: "Individual Rehearsal",
-			roomID: "HLH 102",
-			startTime: "09:00:00",
-			uID: "11ecg5",
-			numBlocks: "1"}
-		]},
-		{"HLH 103" : [
-			{blockID: "4",
-			bookingDate: "2016-01-20",
-			bookingID: "4",
-			endTime: "10:30:00",
-			reason: "Individual Rehearsal",
-			roomID: "HLH 102",
-			startTime: "09:30:00",
-			uID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 104" : [
-			{blockID: "4",
-			bookingDate: "2016-01-18",
-			bookingID: "4",
-			endTime: "10:30:00",
-			reason: "Individual Rehearsal",
-			roomID: "HLH 102",
-			startTime: "09:30:00",
-			uID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 105" : [
-			{blockID: "4",
-			bookingDate: "2016-01-19",
-			bookingID: "4",
-			endTime: "10:30:00",
-			reason: "Individual Rehearsal",
-			roomID: "HLH 102",
-			startTime: "09:30:00",
-			uID: "11ecg5",
-			numBlocks: "1"},
-		]},
-		{"HLH 106" : [
-			{blockID: "4",
-			bookingDate: "2016-01-22",
-			bookingID: "4",
-			endTime: "10:30:00",
-			reason: "Individual Rehearsal",
-			roomID: "HLH 102",
-			startTime: "09:30:00",
-			uID: "11ecg5",
-			numBlocks: "1"},
-		]}
-	];
 
 	commService.getAllGroups = function() {
 		return AdminCommService.getAllGroups();
@@ -157,6 +90,21 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 			});
 		return q.promise;
 	}
+
+	// USER COMM SERVICE FUNCTIONS
+	commService.initialRetrival = function(){
+		var q = $q.defer();
+		UserCommService.initialRetrival()
+			.then(function(response){
+				q.resolve(response.data);
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
+
 
 	return commService;
 }
