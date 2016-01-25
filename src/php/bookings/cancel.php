@@ -15,7 +15,8 @@
 	$bookingID = $data->bookingID;
 	$start = $data->start;
 	
-	$utcStart = strtotime($localStart);
+	$utcStart = strtotime($start);
+
 	$startDate = date('Y-m-d', $utcStart);
 	$startTime = date('H:i:s', $utcStart);
 

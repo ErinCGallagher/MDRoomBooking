@@ -105,7 +105,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" ng-click="cancel()">Ok</button>
+                    <button type="submit" class="btn cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">Cancel Booking</button>
+                    <button type="submit" class="btn" ng-click="cancel()">Back</button>
+
                 </div>
             </div>
         </script>  

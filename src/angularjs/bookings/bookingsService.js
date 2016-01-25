@@ -2,14 +2,14 @@ angular
 .module('mainApp')
 .service('BookingsService', BookingsService);
 
-function BookingsService(CommService, $q){
+function BookingsService(CommService, $q, SharedVariableService){
 
 	var bookingsService = {};
 	bookingsService.selectedBuilding = "Harrison LeCaine Hall"; //default
 	bookingsService.selectedroom = "HLH 102"; //default
-	bookingsService.weeklyBookings = []; 
+	bookingsService.weeklyBookings = []; //for a specific room
 	bookingsService.RoomTabs = [];
-	var buildingWeeklyBookings = [];
+	var buildingWeeklyBookings = []; //for the entire building
 	var rooms = CommService.getRooms();
 
 	bookingsService.setUpRoomTabs =function(){
@@ -112,7 +112,7 @@ function BookingsService(CommService, $q){
 			//don't add and inform the user there was an error
 			q.reject(false);
 		}
-					return q.promise;
+		return q.promise;
 	}
 
 	//calculate the end timestamp given the selected duration and the startTimestamp
@@ -199,6 +199,26 @@ function BookingsService(CommService, $q){
 
 		return true; //no bookings or they all occur before your booking do whatever you want
 	
+	}
+
+	//remove bookings from claendar display
+	bookingsService.updateDisplayBookings = function(bookingID){
+
+
+	}
+
+	//cancels a booking
+	bookingsService.cancelBooking = function(bookingID,startTime) {
+		var q = $q.defer();
+		CommService.cancelBooking(bookingID,startTime)
+			.then(function(){
+				q.resolve();
+				updateDisplayBookings(bookingID);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	//determine possible durations

@@ -117,5 +117,18 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 	}
 
+	bookingCommService.cancelBooking = function(bookingID,startTime) {
+
+		var data = {bookingID:bookingID, start:startTime};
+		var promisePost =  $http.post('src/php/bookings/cancel.php', data)
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+
+		    });
+		 return promisePost;
+	}
+
 	return bookingCommService;
 }

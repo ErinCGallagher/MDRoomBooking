@@ -146,5 +146,17 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 
 	}
 
+	commService.cancelBooking = function(bookingID,startTime) {
+		var q = $q.defer();
+		BookingCommService.cancelBooking(bookingID,startTime)
+			.then(function(){
+				q.resolve();
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
 	return commService;
 }
