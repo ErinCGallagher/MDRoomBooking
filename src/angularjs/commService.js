@@ -3,7 +3,7 @@ angular
 .service('CommService', CommService);
 
 //communication Service
-function CommService($http, $q, BookingCommService, AdminCommService){
+function CommService($http, $q, BookingCommService, AdminCommService, UserCommService){
 
 	var commService = {};
 
@@ -29,11 +29,12 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return AdminCommService.getGroupInfo(groupID);
 	}
 
-	commService.getDailyBookingsFromDb = function(start, end, room){
+	commService.getWeeklyBookingsFromDb = function(start, end, building){
 		var q = $q.defer();
-		BookingCommService.getDailyBookingsFromDb(start, end, room)
-			.then(function(dailyBookingObjects){
-				q.resolve(dailyBookingObjects);
+		BookingCommService.getWeeklyBookingsFromDb(start, end, building)
+			.then(function(buildingWeeklyBookings){
+				var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(buildingWeeklyBookings.data);
+				q.resolve(formattedBuildingWeeklyBookings);
 			},
 			function(err){
 				q.reject();
@@ -65,6 +66,11 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return q.promise;
 	}
 
+	commService.getRooms = function(){
+		var unFormattedRooms = BookingCommService.getRooms();
+		return BookingCommService.formatRooms(unFormattedRooms);
+	}
+
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.
 	commService.convertToExpectedFormat = function(dailyBookings){
@@ -72,6 +78,33 @@ function CommService($http, $q, BookingCommService, AdminCommService){
 		return BookingCommService.convertToExpectedFormat(dailyBookings);
 
 	}
+
+	commService.cancelBooking = function(bookingID,startTime) {
+		var q = $q.defer();
+		BookingCommService.cancelBooking(bookingID,startTime)
+			.then(function(){
+				q.resolve();
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
+	// USER COMM SERVICE FUNCTIONS
+	commService.initialRetrival = function(){
+		var q = $q.defer();
+		UserCommService.initialRetrival()
+			.then(function(response){
+				q.resolve(response.data);
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
+
 
 	return commService;
 }

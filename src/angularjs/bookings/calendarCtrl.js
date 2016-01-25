@@ -3,12 +3,11 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService){
+function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService, SharedVariableService){
 
-  $scope.buildings = ["Harrison-LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
-  $scope.selectedBuilding = "Harrison-LeCaine Hall";
-  $scope.events = BookingsService.dailyBookings;
-
+  $scope.buildings = ["Harrison LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
+  $scope.selectedBuilding = "Harrison LeCaine Hall";
+  $scope.events = BookingsService.weeklyBookings;
   $scope.pageClass = 'calendar'; //used to change pages in index.html
 
   //stores the current events displayed on the calendar
@@ -41,10 +40,10 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       controller: 'MakeBookingPopupCtrl',
       resolve: {
         building: function () {
-          return "Harrison-LeCaine Hall";
+          return $scope.selectedBuilding;
         },
         roomNum: function () {
-          return "HLH 102";
+          return BookingsService.selectedroom;
         },
         dateTime: function () {
           return date;
@@ -81,10 +80,10 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
           return date.start.format("MMM D, YYYY");
         },
         startTime: function () {
-          return date.start.format("h:mm a");
+          return date.start;
         },
         endTime: function () {
-          return date.end.format("h:mm a");
+          return date.end;
         },
         bookingID: function () {
           return date.bookingID;
@@ -116,14 +115,37 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
         var start = week.start;
         var end = week.end;
-        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY")
-        BookingsService.getDailyBookings(start, end);
+        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
+        //retirve bookings for default room Harrison-LeCaine Hall
+        $scope.calRender = BookingsService.setUpRoomTabs();
+        BookingsService.getWeeklyBookings(start, end);
       },
 
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,
     }
   };
+
+  $scope.calRender = false; //if there are no rooms for the building hide the calendar
+  //retirves the selected building when the go button is pressed
+  //sets the selected building
+  $scope.retrieveRooms = function(){
+    var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
+    BookingsService.selectedBuilding = $scope.selectedBuilding;
+    BookingsService.getWeeklyBookings(week.start, week.end);
+    $scope.calRender = BookingsService.setUpRoomTabs();
+    BookingsService.setUpRoomsWeeklyEvents();
+  }
+
+  //detects when a tab is changed and provides the room id
+  $scope.changeRoom=function(roomID){
+    BookingsService.selectedroom = roomID;
+    BookingsService.setUpRoomsWeeklyEvents();
+  }
+
+
+  /*tabs*/
+  $scope.tabs = BookingsService.RoomTabs;
 
 };
 

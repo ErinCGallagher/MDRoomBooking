@@ -2,32 +2,63 @@ angular
 .module('mainApp')
 .service('BookingsService', BookingsService);
 
-function BookingsService(CommService, $q){
+function BookingsService(CommService, $q, SharedVariableService){
 
 	var bookingsService = {};
-	bookingsService.dailyBookings = []; 
+	bookingsService.selectedBuilding = "Harrison LeCaine Hall"; //default
+	bookingsService.selectedroom = "HLH 102"; //default
+	bookingsService.weeklyBookings = []; //for a specific room
+	bookingsService.RoomTabs = [];
+	var buildingWeeklyBookings = []; //for the entire building
+	var rooms = CommService.getRooms();
+
+	bookingsService.setUpRoomTabs =function(){
+		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
+
+		var buildingRooms = [];
+		//this way retrieves the room ids and then the will get the data
+		if (rooms[bookingsService.selectedBuilding] != undefined){
+			buildingRooms = rooms[bookingsService.selectedBuilding];
+		}
+
+		var numRooms = buildingRooms.length;
+		if(numRooms == 0){
+			return false; //don't render the calendar because there are no rooms
+		}
+		for(var i = 0; i<numRooms; i++){
+			bookingsService.RoomTabs.push({title:buildingRooms[i]});
+		}
+		return true;
+	}
+
+	//remove all current events in weeklyBookings and 
+	//replace with events for the selected room
+	bookingsService.setUpRoomsWeeklyEvents = function(){
+		var numEvents = bookingsService.weeklyBookings.length;
+		bookingsService.weeklyBookings.splice(0,numEvents);
+		//ensure the room number exsists in the building
+		if(buildingWeeklyBookings[bookingsService.selectedroom] !=  undefined){
+			for(var i = 0; i<buildingWeeklyBookings[bookingsService.selectedroom].length; i++){
+				bookingsService.weeklyBookings.push(buildingWeeklyBookings[bookingsService.selectedroom][i]);
+			}
+		}
+	}
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getDailyBookings = function(start, end){
+	bookingsService.getWeeklyBookings = function(start, end){
 		//call communication Service
-		var room = 'HLH 102';
-		var q = $q.defer();
-		
-		CommService.getDailyBookingsFromDb(start, end, room)
+		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
 			.then(function(retrievedBookings){
-				bookingsService.dailyBookings.length = 0;
-				var formattedBookings = CommService.convertToExpectedFormat(retrievedBookings.data);
-				for(var i = 0; i<formattedBookings.length;i++){
-					bookingsService.dailyBookings.push(formattedBookings[i]);
-				}
-				q.resolve(bookingsService.dailyBookings);
+				bookingsService.weeklyBookings.length = 0;
+				buildingWeeklyBookings = retrievedBookings;
+
+				bookingsService.setUpRoomsWeeklyEvents();
+				
 			},
 			function(err){
 				alert("could not retrieve daily bookings from database");
-				q.resolve(err);
 			});
-		return q.promise;
 	}
 
 	//retirve booking information from the database
@@ -47,8 +78,8 @@ function BookingsService(CommService, $q){
 	//return an array with the list of possible durations given a booking start time
 	//used for the duration dropdown in the popup
 	bookingsService.getPossibleDurations = function(startTime){
-		for(var i=0; i<bookingsService.dailyBookings.length; i++){
-			if(bookingsService.dailyBookings[i].start >= startTime){
+		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
+			if(bookingsService.weeklyBookings[i].start >= startTime){
 
 			}
 		}
@@ -61,6 +92,8 @@ function BookingsService(CommService, $q){
 	bookingsService.bookRoom = function(newBookingInfo){
 		var roomInformation = {};
 		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = bookingsService.selectedroom;
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
@@ -68,7 +101,10 @@ function BookingsService(CommService, $q){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
-					bookingsService.dailyBookings.push(newBookingInfo);
+					buildingWeeklyBookings[room].push(newBookingInfo);
+					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
+						bookingsService.weeklyBookings.push(newBookingInfo);
+					}
 				},
 				function(err){
 					q.reject(false);
@@ -78,7 +114,7 @@ function BookingsService(CommService, $q){
 			//don't add and inform the user there was an error
 			q.reject(false);
 		}
-					return q.promise;
+		return q.promise;
 	}
 
 	//calculate the end timestamp given the selected duration and the startTimestamp
@@ -135,13 +171,13 @@ function BookingsService(CommService, $q){
 	//return false if there are conflicts
 	bookingsService.confirmNoBookingConflicts = function(potentialStartTime, potentialEndTime){
 
-		var len = bookingsService.dailyBookings.length;
+		var len = bookingsService.weeklyBookings.length;
 
 		//loop through the bookings for that day
-		for(var i=0; i<bookingsService.dailyBookings.length; i++){
+		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.dailyBookings[i].start));
-			var checkEnd = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.dailyBookings[i].end));
+			var checkStart = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].start));
+			var checkEnd = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].end));
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
@@ -165,6 +201,40 @@ function BookingsService(CommService, $q){
 
 		return true; //no bookings or they all occur before your booking do whatever you want
 	
+	}
+
+	//remove bookings from claendar display
+	bookingsService.updateDisplayBookings = function(bookingID, room){
+		for (var i = 0; i < buildingWeeklyBookings[room].length; i++){
+			if(buildingWeeklyBookings[room][i].bookingID == bookingID){
+				//remove the booking
+				buildingWeeklyBookings[room].splice(i,1);
+			}
+		}
+		//remove it from the current display as well
+		if(bookingsService.selectedroom ==  room){
+			for (var i = 0; i < bookingsService.weeklyBookings.length; i++){
+				if(bookingsService.weeklyBookings[i].bookingID == bookingID){
+					//remove the booking
+					bookingsService.weeklyBookings.splice(i,1);
+				}
+			}
+		}
+	}
+
+	//cancels a booking
+	bookingsService.cancelBooking = function(bookingID,startTime) {
+		var room = bookingsService.selectedroom;
+		var q = $q.defer();
+		CommService.cancelBooking(bookingID,startTime)
+			.then(function(){
+				q.resolve();
+				bookingsService.updateDisplayBookings(bookingID, room);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	//determine possible durations
