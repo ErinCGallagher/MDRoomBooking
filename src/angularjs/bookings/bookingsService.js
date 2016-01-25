@@ -102,7 +102,9 @@ function BookingsService(CommService, $q, SharedVariableService){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
 					buildingWeeklyBookings[room].push(newBookingInfo);
-					bookingsService.weeklyBookings.push(newBookingInfo);
+					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
+						bookingsService.weeklyBookings.push(newBookingInfo);
+					}
 				},
 				function(err){
 					q.reject(false);
@@ -202,18 +204,32 @@ function BookingsService(CommService, $q, SharedVariableService){
 	}
 
 	//remove bookings from claendar display
-	bookingsService.updateDisplayBookings = function(bookingID){
-
-
+	bookingsService.updateDisplayBookings = function(bookingID, room){
+		for (var i = 0; i < buildingWeeklyBookings[room].length; i++){
+			if(buildingWeeklyBookings[room][i].bookingID == bookingID){
+				//remove the booking
+				buildingWeeklyBookings[room].splice(i,1);
+			}
+		}
+		//remove it from the current display as well
+		if(bookingsService.selectedroom ==  room){
+			for (var i = 0; i < bookingsService.weeklyBookings.length; i++){
+				if(bookingsService.weeklyBookings[i].bookingID == bookingID){
+					//remove the booking
+					bookingsService.weeklyBookings.splice(i,1);
+				}
+			}
+		}
 	}
 
 	//cancels a booking
 	bookingsService.cancelBooking = function(bookingID,startTime) {
+		var room = bookingsService.selectedroom;
 		var q = $q.defer();
 		CommService.cancelBooking(bookingID,startTime)
 			.then(function(){
 				q.resolve();
-				updateDisplayBookings(bookingID);
+				bookingsService.updateDisplayBookings(bookingID, room);
 			},
 			function(err){
 				q.reject();
