@@ -45,34 +45,33 @@
                     
     mysqli_query($cxn,"CREATE TABLE Master(
 					uID			 	VARCHAR(10)	NOT NULL,		
-					class			VARCHAR(35) 	NOT NULL,
-					PRIMARY KEY(uID, class));"); 
+					department			VARCHAR(35) 	NOT NULL,
+					PRIMARY KEY(uID, department));"); 
   
 	mysqli_query($cxn,"CREATE TABLE User(
 					uID			 	VARCHAR(10)	NOT NULL,
 					firstName			VARCHAR(35)	NOT NULL,
 					lastName			VARCHAR(35)	NOT NULL,
 					class				VARCHAR(35) 	NOT NULL,
-					defaultHrs			INT		NOT NULL,
-					addHrs				INT,
-					usedHrs				INT		NOT NULL,
-					academicYr			INT		NOT NULL,
+					curWeekHrs			INT		DEFAULT '0',
+					nextWeekHrs				INT		DEFAULT '0',
 					PRIMARY KEY(uID));");				
 
 	mysqli_query($cxn,"CREATE TABLE UGroups(
 					groupID				INT		NOT NULL  	AUTO_INCREMENT,
 					groupName			VARCHAR(35)	NOT NULL,
-					addHrsType			VARCHAR(35),
+					addHrsType			VARCHAR(35) NOT NULL,
 					hours				INT		NOT NULL,
-					hasBookingDurationRestriction VARCHAR(5),
-					startDate			VARCHAR(35),
-					endDate				VARCHAR(35),		
+					hasBookingDurationRestriction VARCHAR(5) NOT NULL,
+					startDate			VARCHAR(35)	NOT NULL,
+					endDate				VARCHAR(35) NOT NULL,		
 					PRIMARY KEY(groupID));");
   
 	mysqli_query($cxn,"CREATE TABLE Permission(
 					uID		VARCHAR(10)	NOT NULL,
 					groupID		INT		NOT NULL,
-					academicYr	INT		NOT NULL,
+					weeklyHrs	INT		DEFAULT '0',
+					specialHrs	INT		DEFAULT '0',
 					PRIMARY KEY(groupID, uID));");						
  
 	mysqli_query($cxn,"CREATE TABLE BookingSlots(
