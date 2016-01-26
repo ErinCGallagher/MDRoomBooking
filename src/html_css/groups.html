@@ -14,7 +14,12 @@
 <div ng-show="showInfo" class="container info-container">    
     <div class="group-info">
         <p><strong>Group Name:</strong> {{groupName}}</p>
-        <p><strong>Hours Per Week:</strong> {{hoursPerWeek}}</p>
+        <p><strong>Number of Users:</strong> {{numUsers}}</p>
+        <p><strong>Has Booking Duration Restriction:</strong> {{hasBookingDurationRestriction}} </p>
+        <p><strong>Hours Type:</strong> {{addHrsType}}
+        <strong>Hours:</strong> {{setHours}} </p>
+        <p><strong>Start Date:</strong> {{setStartDate}} </p>
+        <p><strong>End Date:</strong> {{setEndDate}} </p>
         <form action="src/php/admin/addUsers.php" method="post" enctype="multipart/form-data">
             <strong>Add Users</strong>
             <input type="file" name="fileToUpload" id="fileToUpload">
@@ -24,29 +29,36 @@
 </div>
 <div ng-show="showNewGroup" class="container info-container">    
     <form class="group-info">
-                <span class="title">New Group</span>
-                <p><strong>Group Name:</strong> 
-					 <input type="text" ng-model="newName" class="form-control textbox"> </p>
-				 <p><strong>Number of Users:</strong>
-					 <input type="number" ng-model="newNumOfUsers" min=1 max=50 value=1 class="form-control textbox"> </p>
-				 <p><strong>Has Booking Duration Restriction:</strong>
-					 <input type="checkbox" name="hasBookingRestriction" value="Yes">Yes </p>
-				 <p><strong>Active:</strong>
-					 <input type="checkbox" name="activeFall" value="Fall">Fall
-					 <input type="checkbox" name="activeWinter" value="Winter">Winter 
-					 <input type="checkbox" name="activeSummer" value="Summer">Summer<br></p>
-				 <p><strong>Hours Per Week:</strong>
-					 <input type="number" ng-model="newHoursPerWeek" min=0 max=168 value=1 class="form-control textbox"> </p>
-				<!--This is a c <p><strong>OR</strong></p>
-				 <p><strong>Total Hours per Semester:</strong>
-					 <input type="number" ng-model="newHoursPerSem" min=0 max=168 value=1 class="form-control textbox"> </p>
-				 <p><strong>OR</strong></p> -->
-				 <p><strong>Hours:</strong>
-					 <input type="number" ng-model="newHoursPerTime" min=0 max=168 value=1 class="form-control textbox"> </p>
-				 <p><strong>Start Date:</strong>
-					 <input type="date" ng-model="startDate"> </p>
-				 <p><strong>End Date:</strong>
-					 <input type="date" ng-model="endDate"> </p>
-                 <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
+            <p><strong>Group Name:</strong> 
+				<input type="text" ng-model="newName" class="form-control textbox"> </p>
+			<p>*Check option below if users need to make bookings longer than 1.5 hours at a time*</p>
+			<p><strong>Has Booking Duration Restriction:</strong>
+				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "></p>
+				
+			<div class="boxed">
+				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
+			<strong>Hours Per Week</strong>
+			<strong>  -- OR -- </strong>
+				<input type="radio" ng-value="2" ng-model="addHrsType"> 
+			<strong>Total Hours</strong></p>
+				<p><input type="number" ng-model="hours" min=0 max=168 value=1 class="form-control textbox"> </p>
+			</div>
+			</br>
+			
+			<div class="boxed">
+			<p><strong>Active:</strong>
+				<input type="checkbox" ng-model="fall" ng-init="fall = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
+				<input type="checkbox" ng-model="winter" ng-init="winter = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
+				<input type="checkbox" ng-model="summer" ng-init="summer = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummer() ">Summer<br></p>
+			<strong> -- OR -- </strong>
+			<p><strong>Start Date:</strong>
+				<input type="date" ng-model="startDate">
+			<strong>End Date:</strong>
+				<input type="date" ng-model="endDate"> </p>
+			</div>
+			
+			</br>
+            <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
+   			
     </form>
 </div>

@@ -1,42 +1,74 @@
 <?php
 
-	$save_dir = "../../../user_files/";
-	// $_FILES is a global variable that gets the files from HTTP POST
-	$target_file = $save_dir . basename($_FILES["fileToUpload"]["name"]);
-	$uploadOk = 1;
-	$fileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	$host = "localhost";
+	$user = "root";
+	$password = "";
+	$database = "mdroombooking";
+
+	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
+
+	// reads in file and stores contents in $contents
+	// each element is the userID of a user to be added to the group
+	require '../uploadFile.php';
+
+	// NEED TO GET THESE VALUES from frontend
+	$groupID = 1; 
+	$year = 2016;
+	$hours = 3;
 	
-	// Check file selected
-	if($_FILES["fileToUpload"]["tmp_name"] = 0) {
-        echo "No file selected.";
-        $uploadOk = 0;
+	//add users to group
+	$insertString = "";
+	$updateString = "";
+	$unexpectedUserString = "";
+
+	foreach ($contents as $user) {
+		// check that user is not already in group
+		$checkGroupQuery = "SELECT uID FROM Permission WHERE uID = '$user' AND groupID = '$groupID'";
+		$checkGroupStmt = $db->query($checkGroupQuery);
+		
+		if ($checkGroupStmt->rowCount() == 0) {
+			// user is NOT in group, continue with addition
+
+			// check that user is in master list
+			$checkUserQuery = "SELECT uID FROM Master WHERE uID = '$user'";
+			$checkUserStmt = $db->query($checkUserQuery);
+			
+			if ($checkUserStmt->rowCount() > 0) {
+				//user is in master list, continue with addition
+
+				$insertString .= "('$user', '$groupID', '$year'), ";
+				$updateString .= "uID ='$user' OR ";
+			} else {
+				$unexpectedUserString .= "$user, ";
+			}
+
+		} else {
+			// user is in group, don't re-add
+			echo "User $user is already in group $groupID.";
+		}
 	}
 
-	// Check if file already exists
-	if (file_exists($target_file)) {
-	    echo "Sorry, file already exists.";
-	    $uploadOk = 0;
-	}
-	
-	// Check file size
-	if ($_FILES["fileToUpload"]["size"] > 500000) {
-	    echo "Sorry, your file is too large.";
-	    $uploadOk = 0;
-	}
-	// Allow certain file formats
-	if($fileType != "csv") {
-	    echo "User List must be a .csv file.";
-	    $uploadOk = 0;
-	}
-	// Check if $uploadOk is set to 0 by an error
-	if ($uploadOk == 0) {
-	    echo "Sorry, your file was not uploaded.";
-	// if everything is ok, try to upload file
+	echo "Unexpected Users: " . $unexpectedUserString;
+
+	//remove extra characters
+	$insertString = chop($insertString, ", ");
+	$updateString = chop($updateString, " OR ");
+
+	$insertQuery = "INSERT INTO Permission (uID, groupID, academicYr) VALUES $insertString";
+	$insertStmt = $db->query($insertQuery);
+
+	if ($insertStmt) {
+		// insert successful
+		$updateQuery = "UPDATE User SET addHrs = addHrs + '$hours' WHERE $updateString";
+		$updateStmt = $db->query($updateQuery);
+
+		if ($updateStmt) {
+			// update successful
+			echo "Successful";
+		}
+
 	} else {
-	    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-	        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-	    } else {
-	        echo "Sorry, there was an error uploading your file.";
-	    }
+		echo "Unsuccessful";
 	}
+
 ?>
