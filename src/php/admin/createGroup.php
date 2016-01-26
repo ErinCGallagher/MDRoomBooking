@@ -13,7 +13,7 @@
 	$summer = $data->summer;
 	$startDate = $data->startDate;
 	$endDate = $data->endDate;
-	$addHrsType = $data-->addHrsType;
+	$addHrsType = $data->addHrsType;
 
 	
 	if ($addHrsType == "1") {
