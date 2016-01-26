@@ -89,14 +89,14 @@
 				('15lb', '1', '2', '0')
 				");		
 	
-	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID) VALUES
-         		('1','1', '2015-11-27','HLH 102'),
-				('1','2', '2015-11-27','HLH 102'),
-				('1','3', '2015-11-27','HLH 102'),
-				('2','15', '2015-11-24','HLH 102'),
-				('2','16', '2015-11-24','HLH 102'),
-				('3','8', '2015-11-26','HLH 102'),
-				('3','9', '2015-11-26','HLH 102')");
+	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES
+         		('1','1', '2015-11-27','HLH 102', 'Admin'),
+				('1','2', '2015-11-27','HLH 102', 'Admin'),
+				('1','3', '2015-11-27','HLH 102', 'Admin'),
+				('2','15', '2015-11-24','HLH 102', '2'),
+				('2','16', '2015-11-24','HLH 102', '2'),
+				('3','8', '2015-11-26','HLH 102', 'Faculty'),
+				('3','9', '2015-11-26','HLH 102', 'Faculty')");
 				
 	mysqli_query($cxn,"INSERT INTO Bookings (uID, reason, otherDesc, academicYr, numParticipants) VALUES
          		('11lmb23','Ensemble','','2015/16','10'),

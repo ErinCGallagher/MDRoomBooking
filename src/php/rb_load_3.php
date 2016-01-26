@@ -79,6 +79,7 @@
 					blockID				INT(3)		NOT NULL,
 					bookingDate			DATE		NOT NULL,
 					roomID				VARCHAR(20)	NOT NULL,
+					hrsSource			VARCHAR(20)	NOT NULL,
 					PRIMARY KEY(roomId, blockID, bookingDate));");
   
 	mysqli_query($cxn,"CREATE TABLE Bookings(
@@ -86,8 +87,8 @@
 					uID					  VARCHAR(10)	  NOT NULL,
 					reason				VARCHAR(50) 	NOT NULL,
 					otherDesc			VARCHAR(100),
-					academicYr		VARCHAR(9)	  NOT NULL,	
-					numParticipants		INTEGER		NOT NULL,
+					academicYr			VARCHAR(9)	  NOT NULL,	
+					numParticipants		VARCHAR(9)		NOT NULL,
 					PRIMARY KEY(bookingID));");
 
 	mysqli_query($cxn,"CREATE TABLE Building(
