@@ -72,7 +72,7 @@
 
 	//insert users into master list
 	//use ignore so you don't have duplicates
-	$insertMasterQuery = "INSERT IGNORE INTO Master (uID, class) VALUES $insertMasterString";
+	$insertMasterQuery = "INSERT IGNORE INTO Master (uID, department) VALUES $insertMasterString";
 	$insertMasterStmt = $db->query($insertMasterQuery);
 
 	//insert users into user list

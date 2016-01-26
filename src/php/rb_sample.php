@@ -25,45 +25,45 @@
 	
 	//Insert sample data into tables
 	
-    mysqli_query($cxn, "INSERT INTO Master(uID, class) VALUES
-				('12af', 'DStudent'),
-				('13eg', 'DStudent'),
-				('14sk', 'MStudent'),
-				('15lb', 'MStudent') 
+    mysqli_query($cxn, "INSERT INTO Master(uID, department) VALUES
+				('12af', 'Drama'),
+				('13eg', 'Drama'),
+				('14sk', 'Music'),
+				('15lb', 'Music') 
 				");
                 
-	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, defaultHrs, addHrs, usedHrs, academicYr) VALUES
-				('12af', 'Lexi', 'Flynn', 'DStudent', '5', '0', '0', '2016'),
-				('13eg', 'Erin', 'Gallagher', 'DStudent', '5', '0', '0', '2016'),
-				('14sk', 'Shannon', 'Klett', 'MStudent', '0', '0' , '0', '2016'),
-				('15lb', 'Laura', 'Brooks', 'MStudent', '0', '0', '0', '2016')
+	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs) VALUES
+				('12af', 'Lexi', 'Flynn', 'Student', '5', '5'),
+				('13eg', 'Erin', 'Gallagher', 'Student', '5', '5'),
+				('14sk', 'Shannon', 'Klett', 'Student', '0', '0'),
+				('15lb', 'Laura', 'Brooks', 'Student', '0', '0')
 				");		
 				
 				
-	mysqli_query($cxn, "INSERT INTO UGroups(groupName, addHrsType, hours) VALUES
-				('MUSC 100', 'week', '2'),
-				('Ensemble A', 'week', '5' ),
-				('DRAM 205', 'week', '6' ),
-				('DRAM 100', 'week', '2') 
+	mysqli_query($cxn, "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES
+				('MUSC 100', 'week', '2', 'No', '2016-01-01', '2016-04-30'),
+				('Ensemble A', 'week', '5', 'No', '2016-01-01', '2016-04-30'),
+				('DRAM 205', 'week', '6', 'No', '2016-01-01', '2016-04-30'),
+				('DRAM 100', 'week', '2', 'No', '2016-01-01', '2016-04-30') 
 				");
 		
 					
-	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, academicYr) VALUES
-				('12ajf', '2', '2016'),
-				('13eg', '1', '2016'),
-				('14sk', '3', '2016'),
-				('14sk', '4', '2016'),
-				('15lb', '1', '2016')
+	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, weeklyHrs, specialHrs) VALUES
+				('12ajf', '2', '5', '0'),
+				('13eg', '1', '2', '0'),
+				('14sk', '3', '6', '0'),
+				('14sk', '4', '2', '0'),
+				('15lb', '1', '2', '0')
 				");		
 	
-	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID) VALUES
-         		('1','1', '2015-11-27','HLH 102'),
-				('1','2', '2015-11-27','HLH 102'),
-				('1','3', '2015-11-27','HLH 102'),
-				('2','15', '2015-11-24','HLH 102'),
-				('2','16', '2015-11-24','HLH 102'),
-				('3','8', '2015-11-26','HLH 102'),
-				('3','9', '2015-11-26','HLH 102')");
+	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES
+         		('1','1', '2015-11-27','HLH 102', 'Admin'),
+				('1','2', '2015-11-27','HLH 102', 'Admin'),
+				('1','3', '2015-11-27','HLH 102', 'Admin'),
+				('2','15', '2015-11-24','HLH 102', '2'),
+				('2','16', '2015-11-24','HLH 102', '2'),
+				('3','8', '2015-11-26','HLH 102', 'Faculty'),
+				('3','9', '2015-11-26','HLH 102', 'Faculty')");
 				
 	mysqli_query($cxn,"INSERT INTO Bookings (uID, reason, otherDesc, academicYr, numParticipants) VALUES
          		('11lmb23','Ensemble','','2015/16','10'),
