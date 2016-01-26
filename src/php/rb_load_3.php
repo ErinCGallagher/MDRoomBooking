@@ -64,8 +64,9 @@
 					groupName			VARCHAR(35)	NOT NULL,
 					addHrsType			VARCHAR(35),
 					hours				INT		NOT NULL,
-					startDate			DATE,
-					endDate				DATE,		
+					hasBookingDurationRestriction VARCHAR(5),
+					startDate			VARCHAR(35),
+					endDate				VARCHAR(35),		
 					PRIMARY KEY(groupID));");
   
 	mysqli_query($cxn,"CREATE TABLE Permission(
