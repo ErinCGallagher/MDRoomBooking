@@ -38,25 +38,27 @@
 			<div class="boxed">
 				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
 			<strong>Hours Per Week</strong>
-			<strong> </br> OR </br> </strong>
+			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsType"> 
 			<strong>Total Hours</strong></p>
 				<p><input type="number" ng-model="hours" min=0 max=168 value=1 class="form-control textbox"> </p>
 			</div>
 			</br>
+			
 			<div class="boxed">
 			<p><strong>Active:</strong>
 				<input type="checkbox" ng-model="fall" ng-init="fall = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
 				<input type="checkbox" ng-model="winter" ng-init="winter = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
 				<input type="checkbox" ng-model="summer" ng-init="summer = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummer() ">Summer<br></p>
-			<strong> OR </br> </strong>
+			<strong> -- OR -- </strong>
 			<p><strong>Start Date:</strong>
-				<input type="date" ng-model="startDate"> </p>
-			<p><strong>End Date:</strong>
+				<input type="date" ng-model="startDate">
+			<strong>End Date:</strong>
 				<input type="date" ng-model="endDate"> </p>
 			</div>
+			
 			</br>
-                <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
+            <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
    			
     </form>
 </div>
