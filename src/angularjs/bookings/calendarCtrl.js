@@ -106,6 +106,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
       defaultView:'agendaWeek',
       minTime : "07:00:00", //earliest time to display
       maxTime : "23:00:00",
+      timeFormat: '',
       slotEventOverlap:false,
       allDaySlot:false,
       timezone: false,
