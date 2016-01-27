@@ -9,7 +9,9 @@
 
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
 	
-	function checkType($str) {
+	// ensure user type is either Student, Faculty, or Admin
+	function checkClass($str) {
+		// TODO: trim and lowercase string
 		$val = strcmp($str, 'Student') == 0;
 		$val |= strcmp($str, 'Faculty') == 0;
 		$val |= strcmp($str, 'Admin') == 0;
@@ -20,18 +22,20 @@
 	// each element has format <id>,<firstName>,<lastName>,<type>
 	// <type> = "Student" | "Faculty" | "Admin"
 	require '../uploadFile.php';
-	
-	//prepend M or D to type based on department
+
 	//get from frontend
-	$departmentChar = "D";
+	$isMusic = true;
 
-	//drop all members of current department list (ie if music upload, drop M*)
-	//need to update this
-	$student = $departmentChar . 'Student';
-	$faculty = $departmentChar . 'Faculty';
-	$admin = $departmentChar . 'Admin';
+	if ($isMusic) {
+		$department = 'Music';
+		$defaultHrs = 5;
+	} else {
+		$department = 'Drama';
+		$defaultHrs = 0;
+	}
 
-	$dropMasterQuery = "DELETE FROM Master WHERE class='$student' OR class='$faculty' OR class='$admin"; 
+	//drop entries in master list that are from the department
+	$dropMasterQuery = "DELETE FROM Master WHERE department='$department'"; 
 	$dropMasterStmt = $db->query($dropMasterQuery);
 
 	$insertMasterString = "";
@@ -39,23 +43,22 @@
 	$unexpectedUserString = "";
 	//process each user
 	
-	foreach ($contents as $user) {
+	foreach ($contents as $user) { //$contents is from uploadFile.php
 		$userData = explode(",", $user); 
 		// userData should have format <id>,<firstName>,<lastName>,<type>
 		
 		if (4 == sizeof($userData)) {
 			// userData has expected number of elements
-			if (checkType($userData[3])) {
+			if (checkClass($userData[3])) {
 				// type is expected format; "Student" | "Faculty" | "Admin"
 
 				// TODO: check length and format of elements
 
-				// prepend department
-				$userData[3] = $departmentChar . $userData[3];
-				$insertMasterString .= "('$userData[0]', '$userData[3]'), ";
-				$insertUserString .= "('$userData[0]', '$userData[1]', '$userData[2]', '$userData[3]', '0', '0', '0', '2016'), ";
+				// ('id', 'department')
+				$insertMasterString .= "('$userData[0]', '$department'), ";
+				//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs')
+				$insertUserString .= "('$userData[0]', '$userData[1]', '$userData[2]', '$userData[3]', '$defaultHrs', '$defaultHrs'), ";
 			}
-
 			
 		} else {
 			$unexpectedUserString .= "$user, ";
@@ -76,16 +79,22 @@
 	$insertMasterStmt = $db->query($insertMasterQuery);
 
 	//insert users into user list
-	// use ignore so you don't have duplicates
-	$insertUserQuery = "INSERT IGNORE INTO User (uID, firstName, lastName, class, defaultHrs, addHrs, usedHrs, academicYr) VALUES $insertUserString";
+	//use ignore so you don't have duplicates
+	//TODO: check if user should have default hours from music 
+	$insertUserQuery = "INSERT IGNORE INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs) VALUES $insertUserString";
 	$insertUserStmt = $db->query($insertUserQuery);
 
-
-	//need to add default hours in user table?
-
+	//Remove deleted users (no longer in master) from user table
+	$deleteUserQuery = "DELETE FROM User WHERE uID NOT IN (SELECT uID FROM Master)";
+	$deleteUserStmt = $db->query($deleteUserQuery);
 	
-	
-	// return if insert was successful or not
+
+	//Remove deleted users from groups as well
+	$deleteGroupQuery = "DELETE FROM Permission WHERE uID NOT IN (SELECT uID FROM Master)";
+	$deleteGroupStmt = $db->query($deleteGroupQuery);
+
+
+	//TODO: return if insert was successful or not
 	
 ?>
 
