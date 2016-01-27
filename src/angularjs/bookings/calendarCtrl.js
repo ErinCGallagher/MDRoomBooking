@@ -90,6 +90,12 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
         }
       }
     });
+    viewBookingPopupInstance.result.then(function (alert) {
+      $scope.alerts.push(alert);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+
   };
 
 

@@ -33,10 +33,12 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
     $scope.cancelBooking = function () {
     BookingsService.cancelBooking(bookingID,startTime)
       .then(function(){
-        $scope.cancel();
+         alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+        $uibModalInstance.close(alert);
       },
       function(err){
-        
+          alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
+          $uibModalInstance.close(alert);
       });
   };
 };
