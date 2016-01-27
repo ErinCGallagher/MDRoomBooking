@@ -74,7 +74,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: $route.current.activetab == 'calendar'}">
-                        <a href="#/calendar">{{calendarText}}</a>
+                        <a href="#/calendar" ng-click="confirmInitialLoad()">{{calendarText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
                         <a href="#/search">{{searchText}}</a>

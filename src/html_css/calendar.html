@@ -1,5 +1,6 @@
 <!-- calendarCtrl -->
-   <div class="building-search-bar">
+   <div class="building-search-bar" ng-init="confirmInitialLoad()">
+   <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
         <p class="building-selection-title"><strong>Building:</strong></p>
         <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select"></select>
         <button class="building-go-button" ng-click="retrieveRooms()"> Go </button>

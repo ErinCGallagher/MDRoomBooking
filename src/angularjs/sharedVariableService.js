@@ -11,7 +11,7 @@ function SharedVariableService($q, CommService){
 	sharedVariableService.buildingInfo = {}; //array of building names and hours of operation
 	sharedVariableService.buildingAndRooms = []; //array of building and their associated rooms
 	sharedVariableService.netID = "";
-	initialLoadComplete = false;
+	sharedVariableService.initialLoadComplete = false;
 
 
 	//set up all initial variables required by the program
@@ -22,7 +22,7 @@ function SharedVariableService($q, CommService){
 			.then(function(response){
 				createBuildingAndRoomsLists(response)
 				//don't resolve until the initial load has completed
-				while(initialLoadComplete == false){} 
+				while(sharedVariableService.initialLoadComplete == false){} 
 
 				q.resolve(); //now go to the calendar page
 			},
@@ -39,7 +39,7 @@ function SharedVariableService($q, CommService){
 			sharedVariableService.buildingAndRooms[key] =info[key].rooms;
 			sharedVariableService.buildingInfo[key] = {closeTime:info[key].closeTime, openTime:info[key].openTime,}
 		}
-		initialLoadComplete = true;
+		sharedVariableService.initialLoadComplete = true;
 	}
 
 

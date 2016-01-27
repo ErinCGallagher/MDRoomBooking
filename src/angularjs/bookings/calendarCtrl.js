@@ -3,7 +3,7 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService, SharedVariableService){
+function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
 
   $scope.buildings = SharedVariableService.buildings;
   $scope.selectedBuilding = "Harrison LeCaine Hall";
