@@ -30,6 +30,7 @@
         <script type="text/javascript" src="src/angularjs/bookings/viewBookingPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -59,7 +60,7 @@
 
     <!-- https://github.com/IronSummitMedia/startbootstrap-agency -->
 
-<nav class="navbar navbar-default navbar-centered">
+<nav class="navbar navbar-default navbar-centered" ng-if="$route.current.activetab != null">
             <div class="navbar-header page-scroll">
                 <button type"button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -73,7 +74,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: $route.current.activetab == 'calendar'}">
-                        <a href="#/">{{calendarText}}</a>
+                        <a href="#/calendar">{{calendarText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
                         <a href="#/search">{{searchText}}</a>
