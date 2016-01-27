@@ -10,15 +10,15 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.weeklyBookings = []; //for a specific room
 	bookingsService.RoomTabs = [];
 	var buildingWeeklyBookings = []; //for the entire building
-	var rooms = CommService.getRooms();
 
 	bookingsService.setUpRoomTabs =function(){
 		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
 
 		var buildingRooms = [];
+		
 		//this way retrieves the room ids and then the will get the data
-		if (rooms[bookingsService.selectedBuilding] != undefined){
-			buildingRooms = rooms[bookingsService.selectedBuilding];
+		if (SharedVariableService.buildingAndRooms[bookingsService.selectedBuilding] != undefined){
+            buildingRooms = SharedVariableService.buildingAndRooms[bookingsService.selectedBuilding];
 		}
 
 		var numRooms = buildingRooms.length;
