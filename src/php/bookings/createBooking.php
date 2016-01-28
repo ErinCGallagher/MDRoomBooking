@@ -4,9 +4,9 @@
 	//Database connection
 	include('../connection.php');
 
-  	//set default time to UTC so it does not count daylight savings
+	//set default time to UTC so it does not count daylight savings
   	//do not remove!
-  	date_default_timezone_set('UTC');
+	date_default_timezone_set('UTC');
 
   	//Get post datastream from front end
 	$data = json_decode(file_get_contents("php://input"));
@@ -21,6 +21,7 @@
 	$numP = $data->numParticipants;
 	$localStart = $data->start;
 	$localEnd = $data->end;
+
 	
 	include('../whitelist/checkBooking.php');
 	
@@ -35,6 +36,7 @@
 	} else if (!in_array($room, $_SESSION["buildings"][$building]['rooms'])) {
 		http_response_code(403); //Invalid Entry (room)
 	} else {
+		
 		$utcStart = strtotime($localStart);
 		$startDate = date('Y-m-d', $utcStart);
 		$startTime = date('H:i:s', $utcStart);
@@ -43,13 +45,22 @@
 		$endDate = date('Y-m-d', $utcEnd);
 		$endTime = date('H:i:s', $utcEnd);
 
+		date_default_timezone_set('America/Toronto');
+
 		$currentDate = date('Y-m-d');
 		$currentTime = date('H:i:s');
-	
-		if (($currentDate >= $startDate) && ($currentTime > $startTime)){
+
+		
+		if ($currentDate > $startDate){
 			//Booking has already started or has already passed
+			//currently not working because of timezones
 			http_response_code(406); //Invalid Entry
-		} else {
+		}
+		else if(($currentDate == $startDate) && ($currentTime > $startTime)){
+			http_response_code(406); //Invalid Entry
+		}else {
+			//return the timezone to UTC for database Insertion
+			date_default_timezone_set('UTC');
 
 			//Array to hold blocks 
 			$blocks = [];
@@ -110,7 +121,10 @@
 			//Send bookingID to front end
 			echo $bookingID;
 		}
+	
 	}
 	//Close the connection
 	$db = NULL;
+
+
 ?>

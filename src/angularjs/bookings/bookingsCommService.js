@@ -54,8 +54,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		console.log(data);
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(response) {
-		    	var hello = response;
-		    	return hello;
+		    	console.log(response);
 		    })
 		    .error(function(responseDate) { //request to the php scirpt failed
 		    	return responseDate.status;
