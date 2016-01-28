@@ -60,8 +60,8 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		BookingCommService.bookRoomInDB(roomInformation)
 			.then(function(bookingObject){
 				q.resolve(bookingObject.data);
-			},			function(err){
-				q.reject();
+			},function(errorStatus){
+				q.reject(errorStatus.status);
 			});
 		return q.promise;
 	}

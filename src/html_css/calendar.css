@@ -76,6 +76,7 @@
 
 /* Gridlines on time axis */
 .fc th, .fc td {
+	border-color: #C0AFAF;
 
 }
 /* 30 minute gridlines */
@@ -93,6 +94,17 @@
 	margin-right:5%;
 	margin-left:5%;
 }
+
+.fc-today{
+	background-color:red;
+}
+
+/* tabs */
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+    margin-left: 20px;
+    margin-right: 20px;
+ }
 
 
 @media screen and (max-width: 700px) {

@@ -58,7 +58,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    	return hello;
 		    })
 		    .error(function(responseDate) { //request to the php scirpt failed
-		    	return 'error';
+		    	return responseDate.status;
 		    });
 		 return promisePost;
 

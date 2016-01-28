@@ -106,13 +106,13 @@ function BookingsService(CommService, $q, SharedVariableService){
 						bookingsService.weeklyBookings.push(newBookingInfo);
 					}
 				},
-				function(err){
-					q.reject(false);
+				function(errorStatus){
+					q.reject(errorStatus);
 				});
 		}
 		else{
-			//don't add and inform the user there was an error
-			q.reject(false);
+			//there is a booking conflict
+			q.reject(409);
 		}
 		return q.promise;
 	}
