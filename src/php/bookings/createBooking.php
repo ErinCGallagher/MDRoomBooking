@@ -73,15 +73,16 @@
 		
 		//create a booking 
 		
-		$sth = $db->prepare("INSERT INTO Bookings (UID, Reason, OtherDesc, AcademicYr, NumParticipants) VALUES (?,?,?,?,?)");	
+		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, academicYr, numParticipants) VALUES (?,?,?,?,?)");	
 		$sth->execute(array($uID,$reason,$desc,$year,$numP));
 		
 		$bookingID = $db->lastInsertId();
 		//add to blocks to BookingSlots
 		$inserted = 0;
+		$hrsSource = "Admin";
 		foreach ($blocks as $blockID){
-			$sth = $db->prepare("INSERT INTO BookingSlots VALUES (?, ?, ?, ?)");
-			$sth->execute(array($bookingID, $blockID, $startDate, $room));
+			$sth = $db->prepare("INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES (?, ?, ?, ?, ?)");
+			$sth->execute(array($bookingID, $blockID, $startDate, $room, $hrsSource));
 			$inserted = $inserted + $sth->rowCount();
 		}
 		
