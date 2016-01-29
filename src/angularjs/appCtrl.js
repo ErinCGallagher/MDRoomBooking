@@ -41,4 +41,10 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
     }
   }
 
+  $scope.userPermission = SharedVariableService.userType;
+
+  $scope.$watch('userPermision', function(userPermision) {
+       SharedVariableService.userType = userPermision;
+ });
+
 }

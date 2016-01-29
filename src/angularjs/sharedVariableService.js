@@ -37,7 +37,7 @@ function SharedVariableService($q, CommService){
 		for (var key in info) {
 			sharedVariableService.buildings.push(key);
 			sharedVariableService.buildingAndRooms[key] =info[key].rooms;
-			sharedVariableService.buildingInfo[key] = {closeTime:info[key].closeTime, openTime:info[key].openTime,}
+			sharedVariableService.buildingInfo[key] = {closeTime:info[key].closeTime, openTime:info[key].openTime};
 		}
 		sharedVariableService.initialLoadComplete = true;
 	}

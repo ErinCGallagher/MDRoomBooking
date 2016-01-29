@@ -63,6 +63,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
  //called when a booking is clicked
   $scope.viewBookingInformation = function(date, jsEvent, view){
 
+    console.log(SharedVariableService.userType);
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
       controller: 'ViewBookingPopupCtrl',
@@ -97,6 +98,8 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
     });
 
   };
+  console.log(SharedVariableService.buildingInfo);
+  console.log(SharedVariableService.buildingInfo[$scope.selectedBuilding]);
 
 
 	/* config object */
@@ -104,7 +107,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
     calendar:{
       editable: false, //allows you to drag events
       defaultView:'agendaWeek',
-      minTime : "07:00:00", //earliest time to display
+      minTime :"07:00:00", //earliest time to display
       maxTime : "23:00:00",
       timeFormat: '',
       slotEventOverlap:false,

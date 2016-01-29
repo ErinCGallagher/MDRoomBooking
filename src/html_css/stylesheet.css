@@ -12,6 +12,10 @@
 	align-items: center;
 }
 
+.select-user-type{
+	outline: black solid thick;
+}
+
 
 
 @media(min-width:768px){
