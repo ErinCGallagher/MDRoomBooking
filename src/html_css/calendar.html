@@ -1,7 +1,8 @@
 <!-- calendarCtrl -->
-   <div class="building-search-bar" ng-init="confirmInitialLoad()">
+
+    <div class="building-search-bar" ng-init="confirmInitialLoad()">
    <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
-        <p class="building-selection-title"><strong>Building:</strong></p>
+        <p class="building-selection-title"><strong>Select A Building:</strong></p>
         <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
    </div>
 
@@ -15,10 +16,11 @@
      <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 
    <div class="date-navigation-bar">
-    <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
-    <h2 class="date-text">{{date}}</h2>
-    <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
+        <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
+        <h2 class="date-text">{{date}}</h2>
+        <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
    </div>
+
    </br>
 
     <uib-tabset>

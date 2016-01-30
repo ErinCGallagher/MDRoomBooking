@@ -89,7 +89,7 @@
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
                         <a href="#/search">{{searchText}}</a>
                     </li>
-                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}">
+                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}" ng-show="userPermision != 'nonBooking'">
                         <a href="#/my-bookings">{{myBookingsText}}</a>
                     </li>
                     <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}" ng-show='userPermision == admin'>
