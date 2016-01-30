@@ -49,12 +49,12 @@
                             <p><strong>Room #:</strong> {{roomNum}}</p>
                             <Table>
                                 <tr>
-                                    <td><strong>Start Date:</strong> {{date}}</td>
-                                    <td><strong>Start Time:</strong> {{startTime}}</td>
+                                    <td class="date-column"><strong>Start Date:</strong> {{date}}</td>
+                                    <td class="date-column"><strong>Start Time:</strong> {{startTime}}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>End Date:</strong> {{date}}</td>
-                                    <td class="end-time"><div><strong>End Time: </strong></div>
+                                    <td class="date-column"><strong>End Date:</strong> {{date}}</td>
+                                    <td class="end-time date-column"><div><strong>End Time: </strong></div>
                                     <div><uib-timepicker ng-model="mytime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
                                     </td>
                                 </tr>
