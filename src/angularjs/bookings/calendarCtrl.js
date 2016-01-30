@@ -33,29 +33,38 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
 
   //called when emtpy calendar timeslot is selected
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
-    $scope.day = date.format("YYYY-MM-DD h:mm z");
+    //ensure this user cannot book if not in drama or music
+    if (SharedVariableService.userType != "nonBooking"){
 
-    var makeBookingPopupInstance = $uibModal.open({
-      templateUrl: 'makeBookingPopup.html',
-      controller: 'MakeBookingPopupCtrl',
-      resolve: {
-        building: function () {
-          return $scope.selectedBuilding;
-        },
-        roomNum: function () {
-          return BookingsService.selectedroom;
-        },
-        dateTime: function () {
-          return date;
+      $scope.day = date.format("YYYY-MM-DD h:mm z");
+
+      var makeBookingPopupInstance = $uibModal.open({
+        templateUrl: 'makeBookingPopup.html',
+        controller: 'MakeBookingPopupCtrl',
+        resolve: {
+          building: function () {
+            return $scope.selectedBuilding;
+          },
+          roomNum: function () {
+            return BookingsService.selectedroom;
+          },
+          dateTime: function () {
+            return date;
+          }
         }
-      }
-    });
+      });
 
-    makeBookingPopupInstance.result.then(function (alert) {
+      makeBookingPopupInstance.result.then(function (alert) {
+        $scope.alerts.push(alert);
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    }
+    else{
+      //non-booking user
+      alert = { type: 'warning', msg: "You may not book rooms because you do not have room booking permissions"};
       $scope.alerts.push(alert);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    }
   }
 
 
