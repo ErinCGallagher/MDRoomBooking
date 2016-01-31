@@ -28,6 +28,8 @@ foreach($rows as $row){
 }
 
 $_SESSION["buildings"] = $allBuildings;
+$class = "admin"; //hard codded for lacal env
+$user = "11ecg5"; //hard codded for local env
 /*
 //Check if user can book
 $user = $_SERVER["HTTP_QUEENSU_NETID"];
@@ -49,11 +51,14 @@ if ($canBook) {
 	$class = "none";
 }
 */
-$_SESSION["canBook"] = $canBook;
 
 $db = NULL;
+$data = array();
+$data["allBuildings"] = $allBuildings;
+$data["class"] = $class;
+$data["netID"] = $user;
 
-$json = json_encode($allBuildings, $canBook, $class);
+$json = json_encode($data);
 echo $json;
 
 ?>

@@ -20,7 +20,9 @@ function SharedVariableService($q, CommService){
 		var q = $q.defer();
 		CommService.initialRetrival()
 			.then(function(response){
-				createBuildingAndRoomsLists(response)
+				createBuildingAndRoomsLists(response.allBuildings)
+				sharedVariableService.userType = response.class;
+				sharedVariableService.netID = response.netID;
 				//don't resolve until the initial load has completed
 				while(sharedVariableService.initialLoadComplete == false){} 
 
