@@ -60,16 +60,12 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		BookingCommService.bookRoomInDB(roomInformation)
 			.then(function(bookingObject){
 				q.resolve(bookingObject.data);
-			},			function(err){
-				q.reject();
+			},function(errorStatus){
+				q.reject(errorStatus.status);
 			});
 		return q.promise;
 	}
 
-	commService.getRooms = function(){
-		var unFormattedRooms = BookingCommService.getRooms();
-		return BookingCommService.formatRooms(unFormattedRooms);
-	}
 
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.

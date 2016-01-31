@@ -26,7 +26,7 @@
   
   	//Drop all tables
   	mysqli_query($cxn,"drop table Blocks;");
-    mysqli_query($cxn,"drop table Master;");
+    	mysqli_query($cxn,"drop table Master;");
   	mysqli_query($cxn,"drop table User;");
   	mysqli_query($cxn,"drop table UGroups;");
   	mysqli_query($cxn,"drop table Permission;");
@@ -38,12 +38,12 @@
   	
   	//Create all tables 
 	mysqli_query($cxn,"CREATE TABLE Blocks(
-					blockID				INT(3)		  NOT NULL,			
-					startTime			TIME		  NOT NULL,
-					endTime				TIME		  NOT NULL,
+					blockID				INT(3)		NOT NULL,			
+					startTime			TIME		NOT NULL,
+					endTime				TIME		NOT NULL,
 					PRIMARY KEY(blockID));");
                     
-    mysqli_query($cxn,"CREATE TABLE Master(
+    	mysqli_query($cxn,"CREATE TABLE Master(
 					uID			 	VARCHAR(10)	NOT NULL,		
 					department			VARCHAR(35) 	NOT NULL,
 					PRIMARY KEY(uID, department));"); 
@@ -83,8 +83,8 @@
 					PRIMARY KEY(roomId, blockID, bookingDate));");
   
 	mysqli_query($cxn,"CREATE TABLE Bookings(
-					bookingID			INTEGER	  	  NOT NULL 	AUTO_INCREMENT,
-					uID					  VARCHAR(10)	  NOT NULL,
+					bookingID			INTEGER	  	NOT NULL 	AUTO_INCREMENT,
+					uID				VARCHAR(10)	NOT NULL,
 					reason				VARCHAR(50) 	NOT NULL,
 					otherDesc			VARCHAR(100),
 					academicYr			VARCHAR(9)	NOT NULL,	
@@ -92,9 +92,9 @@
 					PRIMARY KEY(bookingID));");
 
 	mysqli_query($cxn,"CREATE TABLE Building(
-					buildingID			VARCHAR(50)		NOT NULL,				 
-					openTime			VARCHAR(5)	    NOT NULL,
-					closeTime			VARCHAR(5)	    NOT NULL,
+					buildingID			VARCHAR(50)	NOT NULL,				 
+					openTime			VARCHAR(5)	NOT NULL,
+					closeTime			VARCHAR(5)	NOT NULL,
 					PRIMARY KEY(buildingID));");
 					
 	mysqli_query($cxn,"CREATE TABLE Rooms(
@@ -161,8 +161,6 @@
      		('CHOWN 105','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 107','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
-					
-						
 
 	//Close the connection
 	mysqli_close($cxn); 

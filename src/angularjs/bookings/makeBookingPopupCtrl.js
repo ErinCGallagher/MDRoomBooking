@@ -48,8 +48,20 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
         alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
         $uibModalInstance.close(alert);
       },
-        function(response){
-          alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
+        function(errorStatus){
+          if(errorStatus == 406){
+            //trying to make booking in the past
+            alert = { type: 'danger', msg: 'Error: You cannot create a booking in the past'};
+          }
+          else if (errorStatus == 409){
+            //conflicted with another booking
+              alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
+          }
+          else{
+            //the building or room number does not exsit
+            alert = { type: 'danger', msg: 'Error:  It appears that ' + building + ' or ' + roomNum + ' does not exist'};
+          }
+        
           $uibModalInstance.close(alert);
         });
     

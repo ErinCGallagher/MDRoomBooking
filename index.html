@@ -30,6 +30,7 @@
         <script type="text/javascript" src="src/angularjs/bookings/viewBookingPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -57,9 +58,19 @@
 
     <body ng-app="mainApp" ng-controller="AppCtrl">
 
+    <div class="select-user-type">
+    <strong>Temporary: Select User Type</strong>
+        <form>
+             <input type="radio" ng-model="userPermision" value="nonBooking"> Non Booking 
+            <input type="radio" ng-model="userPermision" value="student"> Student 
+            <input type="radio" ng-model="userPermision" value="faculty"> Faculty 
+            <input type="radio" ng-model="userPermision" value="admin" ng-value="admin" > Admin
+        </form>
+    </div>
+
     <!-- https://github.com/IronSummitMedia/startbootstrap-agency -->
 
-<nav class="navbar navbar-default navbar-centered">
+<nav class="navbar navbar-default navbar-centered" ng-if="$route.current.activetab != null">
             <div class="navbar-header page-scroll">
                 <button type"button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -73,15 +84,15 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: $route.current.activetab == 'calendar'}">
-                        <a href="#/">{{calendarText}}</a>
+                        <a href="#/calendar" ng-click="confirmInitialLoad()">{{calendarText}}</a>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
                         <a href="#/search">{{searchText}}</a>
                     </li>
-                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}">
+                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}" ng-show="userPermision != 'nonBooking'">
                         <a href="#/my-bookings">{{myBookingsText}}</a>
                     </li>
-                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}">
+                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}" ng-show='userPermision == admin'>
                       <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{AdminText}} <span class="caret"></span></a>
                       <ul class="dropdown-menu" >
                         <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">{{UserText}}</a></li>

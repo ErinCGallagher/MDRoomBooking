@@ -54,21 +54,13 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		console.log(data);
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(response) {
-		    	var hello = response;
-		    	return hello;
+		    	console.log(response);
 		    })
 		    .error(function(responseDate) { //request to the php scirpt failed
-		    	return 'error';
+		    	return responseDate.status;
 		    });
 		 return promisePost;
 
-	}
-
-	bookingCommService.getRooms = function(){
-		return rooms = [{"Harrison LeCaine Hall" : ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106"]},
-						{"Theological Hall" : ["THEO 102","THEO 119","THEO 330"]},
-						{"Chown Hall" : ["CHOWN 104","CHOWN 105","CHOWN 106","CHOWN 107"]},
-						{"The Isabel" : ["ISABEL 104"]}];
 	}
 
 	bookingCommService.formatRooms = function(rooms){

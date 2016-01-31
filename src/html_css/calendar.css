@@ -60,6 +60,30 @@
 	margin-left:10px;
 }
 
+/*overide tabs default*/
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    background-color: #D0DBE3 !important;
+}
+
+/*override calendar default*/
+.fc-widget-header{
+	background-color: rgba(208,219,227,0.2);
+}
+
+.fc-axis.fc-time{
+	background-color: rgba(208,219,227,0.3);
+}
+
+/* Gridlines on time axis */
+.fc th, .fc td {
+	border-color: #C0AFAF;
+
+}
+/* 30 minute gridlines */
+.fc-time-grid .fc-slats .fc-minor td {
+
+}
+
 .calendar .date-text {
 	display:inline;
 	font-size:190%;
@@ -70,6 +94,17 @@
 	margin-right:5%;
 	margin-left:5%;
 }
+
+.fc-today{
+	background-color:red;
+}
+
+/* tabs */
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+    margin-left: 20px;
+    margin-right: 20px;
+ }
 
 
 @media screen and (max-width: 700px) {

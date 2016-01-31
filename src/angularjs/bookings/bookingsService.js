@@ -10,15 +10,15 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.weeklyBookings = []; //for a specific room
 	bookingsService.RoomTabs = [];
 	var buildingWeeklyBookings = []; //for the entire building
-	var rooms = CommService.getRooms();
 
 	bookingsService.setUpRoomTabs =function(){
 		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
 
 		var buildingRooms = [];
+		
 		//this way retrieves the room ids and then the will get the data
-		if (rooms[bookingsService.selectedBuilding] != undefined){
-			buildingRooms = rooms[bookingsService.selectedBuilding];
+		if (SharedVariableService.buildingAndRooms[bookingsService.selectedBuilding] != undefined){
+            buildingRooms = SharedVariableService.buildingAndRooms[bookingsService.selectedBuilding];
 		}
 
 		var numRooms = buildingRooms.length;
@@ -106,13 +106,13 @@ function BookingsService(CommService, $q, SharedVariableService){
 						bookingsService.weeklyBookings.push(newBookingInfo);
 					}
 				},
-				function(err){
-					q.reject(false);
+				function(errorStatus){
+					q.reject(errorStatus);
 				});
 		}
 		else{
-			//don't add and inform the user there was an error
-			q.reject(false);
+			//there is a booking conflict
+			q.reject(409);
 		}
 		return q.promise;
 	}

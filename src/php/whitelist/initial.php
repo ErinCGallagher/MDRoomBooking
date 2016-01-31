@@ -27,19 +27,33 @@ foreach($rows as $row){
 	}	
 }
 
+$_SESSION["buildings"] = $allBuildings;
+/*
+//Check if user can book
+$user = $_SERVER["HTTP_QUEENSU_NETID"];
+$canBook = False;
+$sth = $db->prepare("SELECT * FROM Master WHERE uID = ?");
+$sth->execute(array($user));
+$rows = $sth->fetchAll();
+foreach ($rows as $row){
+	$canBook = True;
+}
+if ($canBook) {
+	$sth = $db-> prepare("SELECT * FROM User WHERE uID = ?");
+	$sth->execute(array($user));
+	$rows = $sth->fetchAll();
+	foreach($rows as $row){
+		$class = $row['class'];
+	}
+} else {
+	$class = "none";
+}
+*/
+$_SESSION["canBook"] = $canBook;
+
 $db = NULL;
 
-$_SESSION["buildings"] = $allBuildings;
-
-/*foreach($allBuildings as $building => $info){
-	echo "Building: " . $building . " Open: " . $info['openTime'] . " Close: " . $info['closeTime'] . "<br>";
-	echo "Rooms: ";
-	foreach ($info['rooms'] as $room){
-		echo $room . "<br>";
-	}
-}*/
-
-$json = json_encode($allBuildings);
+$json = json_encode($allBuildings, $canBook, $class);
 echo $json;
 
 ?>

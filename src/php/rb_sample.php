@@ -49,7 +49,7 @@
 		
 					
 	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, weeklyHrs, specialHrs) VALUES
-				('12ajf', '2', '5', '0'),
+				('12af', '2', '5', '0'),
 				('13eg', '1', '2', '0'),
 				('14sk', '3', '6', '0'),
 				('14sk', '4', '2', '0'),
@@ -66,9 +66,9 @@
 				('3','9', '2015-11-26','HLH 102', 'Faculty')");
 				
 	mysqli_query($cxn,"INSERT INTO Bookings (uID, reason, otherDesc, academicYr, numParticipants) VALUES
-         		('11lmb23','Ensemble','','2015/16','10'),
-         		('11lmb23','Individual Rehearsal','','2015/16','1'),
-         		('12ajf','Other','Mostly Mischief','2015/16','4')");
+         		('15lb','Ensemble','','2015/16','10'),
+         		('15lb','Individual Rehearsal','','2015/16','1'),
+         		('12af','Other','Mostly Mischief','2015/16','4')");
   	
   	
   	
