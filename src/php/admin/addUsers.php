@@ -12,8 +12,7 @@
 	require '../uploadFile.php';
 
 	// NEED TO GET THESE VALUES from frontend
-	$groupID = 1; 
-	$year = 2016;
+	$groupID = 1;
 	$hours = 3;
 	
 	//add users to group
@@ -36,7 +35,7 @@
 			if ($checkUserStmt->rowCount() > 0) {
 				//user is in master list, continue with addition
 
-				$insertString .= "('$user', '$groupID', '$year'), ";
+				$insertString .= "('$user', '$groupID', '3', '0'), ";
 				$updateString .= "uID ='$user' OR ";
 			} else {
 				$unexpectedUserString .= "$user, ";
@@ -54,7 +53,7 @@
 	$insertString = chop($insertString, ", ");
 	$updateString = chop($updateString, " OR ");
 
-	$insertQuery = "INSERT INTO Permission (uID, groupID, academicYr) VALUES $insertString";
+	$insertQuery = "INSERT INTO Permission (uID, groupID, weeklyHrs, specialHrs) VALUES $insertString";
 	$insertStmt = $db->query($insertQuery);
 
 	if ($insertStmt) {
