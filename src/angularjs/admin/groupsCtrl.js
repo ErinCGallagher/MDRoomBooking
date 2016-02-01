@@ -6,6 +6,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 	$scope.pageClass = 'groups';  //used to change pages in index.html
 
 	$scope.groups = AdminGroupsService.groups;
+	$scope.groupId; // used by addUsers(), set by showGroup()
 	
 	AdminGroupsService.getAllGroups();
 
@@ -85,6 +86,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 	}
 
 	$scope.showGroup = function(groupId) {
+		$scope.groupId = groupId; // used by addUsers()
 		$scope.showInfo = true;
 		$scope.showNewGroup = false;
 		getGroupInfo(groupId);
@@ -105,6 +107,16 @@ function GroupsCtrl($scope, AdminGroupsService){
 				alert("err");
 			});
 		
+	}
+
+	$scope.addUsers = function(uploadFile) {
+		AdminGroupsService.addUsers(uploadFile, $scope.groupId)
+			.then(function(data){
+				//$scope.result =
+			},
+			function() {
+				alert("err");
+			});
 	}
 
 };

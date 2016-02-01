@@ -29,6 +29,10 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return AdminCommService.getGroupInfo(groupID);
 	}
 
+	commService.addUsers = function(fileFormData){
+		return AdminCommService.addUsers(fileFormData);
+	}
+
 	commService.getWeeklyBookingsFromDb = function(start, end, building){
 		var q = $q.defer();
 		BookingCommService.getWeeklyBookingsFromDb(start, end, building)

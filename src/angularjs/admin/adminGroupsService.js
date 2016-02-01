@@ -37,6 +37,13 @@ function AdminGroupsService(CommService, $q){
 
 	adminGroupsService.getGroupInfo = function(groupId) {
 		return CommService.getGroupInfo(groupId);
+	}
+
+	adminGroupsService.addUsers = function(uploadFile, groupId) {
+		var fileFormData = new FormData();
+		fileFormData.append('fileToUpload', uploadFile); 
+		fileFormData.append('groupID', groupId);
+		return CommService.addUsers(fileFormData);
 	}	
 
 	return adminGroupsService;

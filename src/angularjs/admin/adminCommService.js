@@ -47,6 +47,22 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 
+	adminCommService.addUsers = function(fileFormData){
+		// send config object as well
+		var promisePost =  $http.post('src/php/admin/addUsers.php', fileFormData, {
+			transformRequest: angular.identity,
+           	headers: {'Content-Type': undefined}
+       	})
+		    .success(function(data, status) {
+		    	console.log("addUsers ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 return promisePost;
+	}
+
 	return adminCommService;
 
 };

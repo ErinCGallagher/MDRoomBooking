@@ -7,12 +7,14 @@
 
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
 
+	//Get parameters from 
+	$groupID = json_decode($_POST['groupID']);
+
 	// reads in file and stores contents in $contents
 	// each element is the userID of a user to be added to the group
 	require '../uploadFile.php';
 
-	// NEED TO GET THESE VALUES from frontend
-	$groupID = 1;
+	// TODO: GET THIS VALUE
 	$hours = 3;
 	
 	//add users to group

@@ -20,11 +20,9 @@
         <strong>Hours:</strong> {{setHours}} </p>
         <p><strong>Start Date:</strong> {{setStartDate}} </p>
         <p><strong>End Date:</strong> {{setEndDate}} </p>
-        <form action="src/php/admin/addUsers.php" method="post" enctype="multipart/form-data">
-            <strong>Add Users</strong>
-            <input type="file" name="fileToUpload" id="fileToUpload">
-            <input type="submit" value="Upload User List" name="submit">
-        </form>
+        <input type="file" style="display:none" id="file" name="file" ng-model="selectedFile" onchange="angular.element(this).scope().addUsers(this.files[0])" />
+        <button onclick="document.getElementById('file').click();">Add Users</button>
+
     </div>
 </div>
 <div ng-show="showNewGroup" class="container info-container">    
