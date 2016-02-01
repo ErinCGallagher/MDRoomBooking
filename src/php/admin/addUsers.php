@@ -1,11 +1,6 @@
 <?php
 
-	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
-
-	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
+	include("connection.php");
 
 	//Get parameters from 
 	$groupID = json_decode($_POST['groupID']);
@@ -21,24 +16,33 @@
 	$insertString = "";
 	$updateString = "";
 	$unexpectedUserString = "";
+	
+	//Arrays to hold query values
+	$insertArray = array();
+	$updateArray = array();
+	
 
 	foreach ($contents as $user) {
 		// check that user is not already in group
-		$checkGroupQuery = "SELECT uID FROM Permission WHERE uID = '$user' AND groupID = '$groupID'";
-		$checkGroupStmt = $db->query($checkGroupQuery);
+		$checkGroupQuery = "SELECT uID FROM Permission WHERE uID = ? AND groupID = ?";
+		$checkGroupStmt = $db->prepare($checkGroupQuery);
+		$checkGroupStmt->execute(array($user, $groupID));
 		
 		if ($checkGroupStmt->rowCount() == 0) {
 			// user is NOT in group, continue with addition
-
 			// check that user is in master list
-			$checkUserQuery = "SELECT uID FROM Master WHERE uID = '$user'";
-			$checkUserStmt = $db->query($checkUserQuery);
+			$checkUserQuery = "SELECT uID FROM Master WHERE uID = ?";
+			$checkUserStmt = $db->prepare($checkUserQuery);
+			$checkUserStmt->execute(array($user));
 			
 			if ($checkUserStmt->rowCount() > 0) {
 				//user is in master list, continue with addition
-
-				$insertString .= "('$user', '$groupID', '3', '0'), ";
-				$updateString .= "uID ='$user' OR ";
+				$insertString .= "(?,?,?,?), ";
+				array_push($insertArray, $user, $groupID, $hours, $hours);
+				
+				
+				$updateString .= "uID = ? OR ";
+				array_push($updateArray, $user);
 			} else {
 				$unexpectedUserString .= "$user, ";
 			}
@@ -50,18 +54,21 @@
 	}
 
 	echo "Unexpected Users: " . $unexpectedUserString;
-
+	
 	//remove extra characters
 	$insertString = chop($insertString, ", ");
 	$updateString = chop($updateString, " OR ");
 
+	//Insert Permissions
 	$insertQuery = "INSERT INTO Permission (uID, groupID, weeklyHrs, specialHrs) VALUES $insertString";
-	$insertStmt = $db->query($insertQuery);
+	$insertStmt = $db->prepare($insertQuery);
+	$insertStmt->execute($insertArray);
 
 	if ($insertStmt) {
 		// insert successful
 		$updateQuery = "UPDATE User SET addHrs = addHrs + '$hours' WHERE $updateString";
-		$updateStmt = $db->query($updateQuery);
+		$updateStmt = $db->prepare($updateQuery);
+		$updateStmt->execute($updateArray);
 
 		if ($updateStmt) {
 			// update successful
