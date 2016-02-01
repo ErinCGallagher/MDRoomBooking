@@ -34,7 +34,16 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	}
 
 	commService.uploadMasterList = function(fileFormData){
-		return UserCommService.uploadMasterList(fileFormData);
+		var q = $q.defer();
+		UserCommService.uploadMasterList(fileFormData)
+			.then(function(response) {
+				console.log("COMM ", response);
+				q.resolve(response.data);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	commService.getWeeklyBookingsFromDb = function(start, end, building){

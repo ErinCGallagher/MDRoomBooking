@@ -10,7 +10,7 @@
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
 	
 	//Get parameters from frontend
-	$department = json_decode($_POST['department']);
+	$department = htmlspecialchars($_POST['department']);
 
 	// ensure user type is either Student, Faculty, or Admin
 	function checkClass($str) {
@@ -38,8 +38,8 @@
 
 	$insertMasterString = "";
 	$insertUserString = "";
-	$badFormatUserString = "";
-	$badClassUserString = "";
+	$badFormatUsers = [];
+	$badClassUsers = [];
 	//process each user
 	
 	foreach ($contents as $user) { //$contents is from uploadFile.php
@@ -58,11 +58,11 @@
 				//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs')
 				$insertUserString .= "('$userData[0]', '$userData[1]', '$userData[2]', '$userData[3]', '$defaultHrs', '$defaultHrs'), ";
 			} else {
-				$badClassUserString .= "$user, ";
+				$badClassUsers[] = $user;
 			}
 			
 		} else {
-			$badFormatUserString .= "$user, ";
+			$badFormatUsers[] = $user;
 		}
 		//keep track of any users not added
 
@@ -91,22 +91,19 @@
 	//Remove deleted users from groups as well
 	$deleteGroupQuery = "DELETE FROM Permission WHERE uID NOT IN (SELECT uID FROM Master)";
 	$deleteGroupStmt = $db->query($deleteGroupQuery);
-
-
-	//TODO: return if insert was successful or not
-	$result = "";
-	if (!empty($badFormatUserString)){
-		$result .= "The following users were not added because of unexpected format: ";
-		$result .= $badFormatUserString;
-	}
-	if (!empty($badClassUserString)){
-		$result .= "The following users were not added because of unexpected type: ";
-		$result .= $badClassUserString;
-	}
-
+	
+	$result = array();
+	// doesn't work if nothing inserted
+	$result["numUsersInDept"] = $insertMasterStmt->rowCount(); // num users now in department
+	$result["numUsersDeleted"] = $deleteUserStmt->rowCount();
+	$result["badFormatUsers"] = $badFormatUsers; 
+	$result["badClassUsers"] = $badClassUsers;
+	// Another format?
+	// $result[0] = (object) array('numUsersInDept' => $insertMasterStmt->rowCount());
+	
 	//Convert to json
-	//$json = json_encode($result);
+	$json = json_encode($result);
 	// echo the json string
-	echo $result;
+	echo $json;
 ?>
 

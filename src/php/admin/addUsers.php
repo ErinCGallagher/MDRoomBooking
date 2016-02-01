@@ -2,8 +2,8 @@
 
 	include("connection.php");
 
-	//Get parameters from 
-	$groupID = json_decode($_POST['groupID']);
+	//Get parameters from frontend
+	$groupID = $_POST['groupID'];
 
 	// reads in file and stores contents in $contents
 	// each element is the userID of a user to be added to the group
@@ -37,6 +37,13 @@
 			
 			if ($checkUserStmt->rowCount() > 0) {
 				//user is in master list, continue with addition
+
+				// TODO: get hours and type (if they are active?)
+					// need to get current date somehow
+
+				// TODO: deal with booking restriction
+
+
 				$insertString .= "(?,?,?,?), ";
 				array_push($insertArray, $user, $groupID, $hours, $hours);
 				
@@ -66,6 +73,9 @@
 
 	if ($insertStmt) {
 		// insert successful
+
+		//TODO: fix this
+		
 		$updateQuery = "UPDATE User SET addHrs = addHrs + '$hours' WHERE $updateString";
 		$updateStmt = $db->prepare($updateQuery);
 		$updateStmt->execute($updateArray);
