@@ -42,6 +42,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 				bookingsService.weeklyBookings.push(buildingWeeklyBookings[bookingsService.selectedroom][i]);
 			}
 		}
+		console.log(bookingsService.weeklyBookings);
 	}
 
 	//retrieves the daily bookings given a date
