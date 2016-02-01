@@ -53,11 +53,11 @@ function GroupsCtrl($scope, AdminGroupsService){
      
     //Function to change summer value when 
     //selected by user creating a group
-    $scope.changeSummer = function(fall, winter, summer) {
+    $scope.changeSummer = function(summer) {
         if (summer == 'YES' ) {
         	$scope.summer = 'NO';
         }
-        else if (summer == 'NO' && fall == 'NO'){
+        else if (summer == 'NO'){
         	$scope.summer = 'YES';
         }
     } 

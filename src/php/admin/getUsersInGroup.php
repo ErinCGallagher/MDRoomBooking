@@ -1,25 +1,32 @@
 <?php
 
-	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
-
-	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
+	include('connection.php');
 
 	//Get post data stream 
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from 
-	$groupID = $data->groupId);
-
-	$stmt = $db->query('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID =' . $groupID); 
-
-
+	$groupID = $data->groupId;
+	
+	//Get users from the database
+	$sth = $db->prepare('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID = ?');
+	$sth->execute(array($groupID));
+	$rows = $sth->fetchAll();
+	
+	//To be removed
+	//$stmt = $db->query('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID =' . $groupID); 
+	//while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	  //$result[] = $row;
+	//}
+	
 	$result = array();
 
-	while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	  $result[] = $row;
+	//Put result in an array 
+	foreach($rows as $row) {
+		$result[] = $row;
 	}
+	
+	//Close the connection
+	$db = NULL;
 
 	//Convert to json
 	$json = json_encode($result);
