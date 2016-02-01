@@ -33,6 +33,10 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return AdminCommService.addUsers(fileFormData);
 	}
 
+	commService.uploadMasterList = function(fileFormData){
+		return UserCommService.uploadMasterList(fileFormData);
+	}
+
 	commService.getWeeklyBookingsFromDb = function(start, end, building){
 		var q = $q.defer();
 		BookingCommService.getWeeklyBookingsFromDb(start, end, building)

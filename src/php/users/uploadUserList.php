@@ -9,6 +9,9 @@
 
 	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
 	
+	//Get parameters from frontend
+	$department = json_decode($_POST['department']);
+
 	// ensure user type is either Student, Faculty, or Admin
 	function checkClass($str) {
 		// TODO: trim and lowercase string
@@ -23,14 +26,9 @@
 	// <type> = "Student" | "Faculty" | "Admin"
 	require '../uploadFile.php';
 
-	//get from frontend
-	$isMusic = true;
-
-	if ($isMusic) {
-		$department = 'Music';
+	if ('Music' == $department) {
 		$defaultHrs = 5;
 	} else {
-		$department = 'Drama';
 		$defaultHrs = 0;
 	}
 
@@ -40,7 +38,8 @@
 
 	$insertMasterString = "";
 	$insertUserString = "";
-	$unexpectedUserString = "";
+	$badFormatUserString = "";
+	$badClassUserString = "";
 	//process each user
 	
 	foreach ($contents as $user) { //$contents is from uploadFile.php
@@ -58,16 +57,16 @@
 				$insertMasterString .= "('$userData[0]', '$department'), ";
 				//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs')
 				$insertUserString .= "('$userData[0]', '$userData[1]', '$userData[2]', '$userData[3]', '$defaultHrs', '$defaultHrs'), ";
+			} else {
+				$badClassUserString .= "$user, ";
 			}
 			
 		} else {
-			$unexpectedUserString .= "$user, ";
+			$badFormatUserString .= "$user, ";
 		}
 		//keep track of any users not added
 
 	}
-
-	echo "Unexpected Users: " . $unexpectedUserString;
 
 	//remove extra characters
 	$insertMasterString = chop($insertMasterString, ", ");
@@ -95,6 +94,19 @@
 
 
 	//TODO: return if insert was successful or not
-	
+	$result = "";
+	if (!empty($badFormatUserString)){
+		$result .= "The following users were not added because of unexpected format: ";
+		$result .= $badFormatUserString;
+	}
+	if (!empty($badClassUserString)){
+		$result .= "The following users were not added because of unexpected type: ";
+		$result .= $badClassUserString;
+	}
+
+	//Convert to json
+	//$json = json_encode($result);
+	// echo the json string
+	echo $result;
 ?>
 
