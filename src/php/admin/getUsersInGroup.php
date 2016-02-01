@@ -12,12 +12,6 @@
 	$sth->execute(array($groupID));
 	$rows = $sth->fetchAll();
 	
-	//To be removed
-	//$stmt = $db->query('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID =' . $groupID); 
-	//while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	  //$result[] = $row;
-	//}
-	
 	$result = array();
 
 	//Put result in an array 
