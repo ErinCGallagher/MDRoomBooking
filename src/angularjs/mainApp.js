@@ -41,10 +41,10 @@ angular
 		activesubtab: 'groups'
 	})
 	//might not be it's own page
-	.when('/other', {
-		templateUrl:"other.html",
-		controller:"OtherCtrl",
-		activetab: 'other'
+	.when('/signOut', {
+		templateUrl:"src/html_css/signOut.html",
+		controller:"SignOutCtrl",
+		activetab: 'signOut'
 	})
 	.otherwise({redirectTo: '/calendar'});
 

@@ -35,6 +35,7 @@
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/SignOutCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -100,7 +101,7 @@
                       </ul>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'other'}">
-                        <a href="egallagher.com">{{OtherText}}</a>
+                        <a href="#/signOut">{{SignOutText}}</a>
                     </li>
                 </ul>
             </div>
