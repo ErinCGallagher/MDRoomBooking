@@ -122,5 +122,27 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		 return promisePost;
 	}
 
+	bookingCommService.search = function(){
+
+		var start = moment.utc("2016-02-02 09:30:00");
+		var end =  moment.utc("2016-02-02 011:00:00");
+
+		var data = {
+			building : "Harrison LeCaine Hall",
+			start : start,
+			endTime : end,
+			contents : {upright:true, grand:false, openSpace: true, mirror:false, projector:false},
+		};
+		var promisePost =  $http.post('src/php/bookings/search.php', data)
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	console.log(responseDate);
+		    });
+		 return promisePost;
+
+	}
+
 	return bookingCommService;
 }

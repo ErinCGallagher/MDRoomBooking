@@ -1,1 +1,39 @@
-<h1 id='search-title'> Search page </h1>
+<div class="search-bar" ng-init="confirmInitialLoad()">
+   <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
+   <table>
+   <tr>
+
+   		<td class="width50" colspan="2">
+   			<p><strong>Date:</strong></p>
+   		</td>
+   		<td class="width50" colspan="2">
+	   		<p class="building-selection-title"><strong>Building:</strong></p>
+	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
+	    </td>
+	</tr>
+    <tr>
+    	<td class="time-picker-align" colspan="2">
+    		<p class="time-picker-header"><strong>Time: </strong></p>
+    		<div><uib-timepicker ng-model="myStartTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
+    		 <p class="time-picker-header"><strong> to </strong></p>
+    		<div><uib-timepicker ng-model="myEndTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
+    	</td>
+    	<td>
+        
+    </tr>
+    <tr>
+    <td colspan="4">
+    	<label ng-repeat="content in contents">
+		  <input
+		    type="checkbox"
+		    name="selectedContents[]"
+		    value="{{content}}"
+		    ng-checked="selection.indexOf(content) > -1"
+		    ng-click=
+		  > {{content}}
+		</label>
+    </td>
+    </tr>
+    </table>
+    <button ng-click="search()"> Search</button>
+   </div>

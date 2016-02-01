@@ -1,1 +1,27 @@
 
+.search .search-bar{
+	display:inline-block;
+	margin:20px 10px 20px 20px;
+	padding:10px;
+	/*min-width:30em;*/
+	background-color:#c2d2d6;
+}
+
+
+.search .width50{
+	width:50%;
+}
+
+.search .building-selection-title, .search .time-picker-header{
+	display: inline;
+    font-size: 120%;
+    margin-right: 7px;
+    margin-left: 7px;
+}
+
+.search .time-picker-align{
+	display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
