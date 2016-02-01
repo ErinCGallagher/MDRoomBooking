@@ -100,6 +100,18 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.signOut = function(){
+		var q = $q.defer();
+		UserCommService.signOut()
+			.then(function(){
+				q.resolve();
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
 
 
 	return commService;
