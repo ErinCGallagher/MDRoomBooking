@@ -13,7 +13,6 @@ function AdminUsersService(CommService, $q){
 		var q = $q.defer();
 		CommService.uploadMasterList(fileFormData)
 			.then(function(response) {
-				console.log("AdminUsersService ", response);
 				q.resolve(response);
 			},
 			function(err){

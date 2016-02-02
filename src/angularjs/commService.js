@@ -37,7 +37,6 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		UserCommService.uploadMasterList(fileFormData)
 			.then(function(response) {
-				console.log("COMM ", response);
 				q.resolve(response.data);
 			},
 			function(err){

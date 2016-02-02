@@ -30,7 +30,6 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	};
 
 	$scope.uploadList = function(uploadFile, dept) {
-		console.log("UsersCtrl ", dept);
 		AdminUsersService.uploadMasterList(uploadFile, dept)
 		.then(function(data){
 				openUploadPopup(data, dept);
