@@ -25,8 +25,8 @@
         <script type="text/javascript" src="src/angularjs/angular-route.js"></script> 
 
 
-        <!-- Controllers -->
-        <script type="text/javascript" src="src/angularjs/AppCtrl.js"></script>
+        <!-- Controllers --> 
+        <script type="text/javascript" src="src/angularjs/appCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/calendarCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/searchCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/myBookingsCtrl.js"></script>
@@ -35,7 +35,7 @@
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
-        <script type="text/javascript" src="src/angularjs/SignOutCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/signOutCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -44,7 +44,7 @@
         <script type="text/javascript" src="src/angularjs/admin/adminCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminGroupsService.js"></script>
         <script type="text/javascript" src="src/angularjs/sharedVariableService.js"></script>
-        <script type="text/javascript" src="src/angularjs/admin/UserCommService.js"></script>
+        <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >

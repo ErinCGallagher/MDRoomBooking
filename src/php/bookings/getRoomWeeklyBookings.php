@@ -21,7 +21,7 @@ date_default_timezone_set('America/New_York');
 	
 	//find all rooms for the given building
 	$rooms = array();
-	$sth = $db->prepare("SELECT DISTINCT roomID FROM rooms WHERE building = ?;");
+	$sth = $db->prepare("SELECT DISTINCT roomID FROM Rooms WHERE building = ?;");
 	$sth->execute(array($building));
 	
 	//Loop through each returned row and generate array of roomID for that building
