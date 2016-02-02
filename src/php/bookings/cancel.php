@@ -32,7 +32,7 @@
 		http_response_code(406); //Invalid Entry
 	} else {
 		//Cancel booking
-		$sth = $db->prepare("DELETE FROM Bookingslots WHERE bookingID = ?");
+		$sth = $db->prepare("DELETE FROM BookingSlots WHERE bookingID = ?");
 		$sth->execute(array($bookingID));
 		$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
 		$sth->execute(array($bookingID));
