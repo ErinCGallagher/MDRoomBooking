@@ -1,12 +1,31 @@
 <h1 id='user-title'> Users page </h1>
 
-<!-- alert after attempting to make a booking -->
-<script type="text/ng-template" id="alert.html">
-	<div class="alert" style="background-color:#fa39c3;color:white" role="alert">
-		<div ng-transclude></div>
-	</div>
-</script>
-<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+<!-- popup after attempting to make a booking -->
+<div>
+    <script type="text/ng-template" id="uploadPopup.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div class="modal-header">
+        	    <h4 class="modal-title">Users Uploaded</h4>
+        	</div>
+            <div class="modal-body">
+                <p>{{numUsersInDept}} Users in {{department}}</p>
+                <p>{{numUsersDeleted}} Users Deleted</p>
+                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
+                <div ng-show="badFormatUsers.length != 0">
+	                <p><strong>Users With Invalid Format (Not Uploaded):</strong>
+	                <li ng-repeat="user in badFormatUsers">{{user}}</li></p>
+	            </div>
+	            <div ng-show="badClassUsers.length != 0">
+	                <p><strong>Users With Invalid Type (Not Uploaded): </strong> 
+	                <li ng-repeat="user in badClassUsers">{{user}}</li></p>
+                </div>
+                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
+                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+            </div>
+        </div>
+    </script>  
+</div>
 
 <!-- Upload Buttons -->
 <!-- To remove "Choose file" button, set display:none and have button onclick=click() the input. 'Onchange' doesn't always work though. See file history. -->

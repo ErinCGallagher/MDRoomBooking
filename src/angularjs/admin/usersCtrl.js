@@ -2,28 +2,62 @@ angular
 .module('mainApp')
 .controller('UsersCtrl', UsersCtrl);
 
-function UsersCtrl($scope, AdminUsersService) {
+function UsersCtrl($scope, $uibModal, AdminUsersService) {
 
-	$scope.alerts = [];
+	openUploadPopup = function(data, dept){
 
-	$scope.closeAlert = function(index) {
-		$scope.alerts.splice(index, 1);
+	    var popupInstance = $uibModal.open({
+			templateUrl: 'uploadPopup.html',
+			controller: 'ModalInstanceCtrl',
+			resolve: {
+				department: function () {
+					return dept;
+				},
+				numUsersInDept: function () {
+					return data.numUsersInDept;
+				},
+				numUsersDeleted: function () {
+					return data.numUsersDeleted;
+				},
+				badFormatUsers: function () {
+					return data.badFormatUsers;
+				},
+				badClassUsers: function () {
+					return data.badClassUsers;
+				}
+			}
+	    });
 	};
 
 	$scope.uploadList = function(uploadFile, dept) {
 		console.log("UsersCtrl ", dept);
 		AdminUsersService.uploadMasterList(uploadFile, dept)
 		.then(function(data){
-				$msg = 'Users Uploaded. ' + data.numUsersInDept + ' users in ' + dept + '.';
-				$msg += data.numUsersDeleted + ' users deleted.';
-				alert = { type: 'info', msg: $msg};
-				$scope.alerts.push(alert);
+				openUploadPopup(data, dept);
 			},
 			function() {
-				alert = { type: 'danger', msg: 'Error: No users were uploaded.'};
-				$scope.alerts.push(alert);
+				alert("Error: Users not uploaded."); //unsure if this is true
 			});
-		
 	}
 
+};
+
+angular.module('mainApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
+
+function ModalInstanceCtrl ($scope, $uibModalInstance, department, numUsersInDept, numUsersDeleted, badFormatUsers, badClassUsers) {
+
+	$scope.department = department;
+	$scope.numUsersInDept = numUsersInDept;
+	$scope.numUsersDeleted = numUsersDeleted;
+	$scope.badFormatUsers = badFormatUsers;
+	$scope.badClassUsers = badClassUsers;
+
+
+	$scope.ok = function () {
+		$uibModalInstance.close($scope.selected.item);
+	};
+
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 };
