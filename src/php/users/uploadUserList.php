@@ -1,14 +1,7 @@
 <?php
 
-	//include uploadFile.php ...
+	include("../connection.php");
 
-	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
-
-	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
-	
 	//Get parameters from frontend
 	$department = htmlspecialchars($_POST['department']);
 
