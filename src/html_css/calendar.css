@@ -99,12 +99,17 @@
 	background-color:red;
 }
 
+ .fc-time-grid-container{
+ 	height:100% !important;
+ }
+
 /* tabs */
 .nav-tabs {
     border-bottom: 1px solid #ddd;
     margin-left: 20px;
     margin-right: 20px;
  }
+
 
 
 @media screen and (max-width: 700px) {
