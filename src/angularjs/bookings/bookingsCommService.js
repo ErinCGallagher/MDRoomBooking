@@ -128,8 +128,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var end =  moment.utc("2016-02-02 011:00:00");
 
 		var data = {
-			building : "Harrison LeCaine Hall",
-			start : start,
+			building : "Theological Hall",
+			startTime : start,
 			endTime : end,
 			contents : {upright:true, grand:false, openSpace: true, mirror:false, projector:false},
 		};
