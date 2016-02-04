@@ -8,25 +8,37 @@ function SearchCtrl($scope, SharedVariableService, BookingsService) {
     $scope.selectedBuilding = "Harrison LeCaine Hall";
     $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
 
+  	// time picker config config
   	$scope.hstep = 1;
  	$scope.mstep = 30;
+	$scope.ismeridian = true; //12 hour
 
-	$scope.ismeridian = true;
 
-	var dateTime = new Date();
-	var TimeZoned = BookingsService.convertoUTCForDisplay(dateTime);
+	var currentDate = moment();
+	var startTimeZoned = new Date();
+	var endTimeZoned = new Date();
 
-	  //add 30 minutes because the minimum booking time is 30 minutes
-	var TimeZoned = TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
+	//set starting hours and minutes for time pickers
+	startTimeZoned.setHours(09);
+	startTimeZoned.setMinutes(00);
+	startTimeZoned.setSeconds(00);
+	endTimeZoned.setHours(11);
+	endTimeZoned.setMinutes(00);
+	endTimeZoned.setSeconds(00);
 
-	  //local time with UTC offset (so actually UTC time but javascript wants it to be local)
-	$scope.myStartTime = TimeZoned; //displayed to user 
-	$scope.myEndTime = TimeZoned; //displayed to user 
+	$scope.myStartTime = startTimeZoned; //displayed to user 
+	$scope.myEndTime = endTimeZoned; //displayed to user
 
-	$scope.minTime = TimeZoned; //min time restriction
 
 	$scope.search = function(){
-		BookingsService.search();
+		if($scope.myEndTime < $scope.myStartTime ){
+			alert("your end time cannot be before your start time");
+		}
+		else{
+			var startTime = $scope.myStartTime;
+			var endTime = $scope.myEndTime;
+			BookingsService.search($scope.selectedBuilding,startTime,endTime);
+		}
 	}
 
 };

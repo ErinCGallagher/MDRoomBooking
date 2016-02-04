@@ -237,7 +237,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
-	bookingsService.search = function(){
+	bookingsService.search = function(selectedBuilding,startTime, EndTime){
+
 		CommService.search();
 	}
 
