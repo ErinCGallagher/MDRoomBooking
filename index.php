@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="src/html_css/stylesheet.css"/>
         <link rel="stylesheet" href="src/html_css/calendar.css"/>
         <link rel="stylesheet" href="src/html_css/groups.css"/>
-        <link rel="stylesheet" href="src/html_css/search.css"/>
 
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
@@ -25,8 +25,8 @@
         <script type="text/javascript" src="src/angularjs/angular-route.js"></script> 
 
 
-        <!-- Controllers -->
-        <script type="text/javascript" src="src/angularjs/AppCtrl.js"></script>
+        <!-- Controllers --> 
+        <script type="text/javascript" src="src/angularjs/appCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/calendarCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/searchCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/myBookingsCtrl.js"></script>
@@ -35,6 +35,7 @@
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/signOutCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -43,10 +44,7 @@
         <script type="text/javascript" src="src/angularjs/admin/adminCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminGroupsService.js"></script>
         <script type="text/javascript" src="src/angularjs/sharedVariableService.js"></script>
-        <script type="text/javascript" src="src/angularjs/admin/UserCommService.js"></script>
-
-        
-        
+        <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
@@ -61,14 +59,32 @@
 
     <body ng-app="mainApp" ng-controller="AppCtrl">
 
-    <div class="select-user-type">
-    <strong>Temporary: Select User Type</strong>
-        <form>
-             <input type="radio" ng-model="userPermision" value="nonBooking"> Non Booking 
-            <input type="radio" ng-model="userPermision" value="student"> Student 
-            <input type="radio" ng-model="userPermision" value="faculty"> Faculty 
-            <input type="radio" ng-model="userPermision" value="admin" ng-value="admin" > Admin
-        </form>
+    <div class="select-user-type" style="text-align:center;">
+    <strong>Version Number: 1.0</strong>
+    <table style="text-align:center; width:100%;">
+        <tr>
+            <td>
+                 <strong>Temporary: Select User Type</strong>
+            </td>
+            <td>
+                <strong> Please report bugs here:</strong> <a href="http://goo.gl/forms/y59QQTPL1r" target="_blank">Form </a> 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                 <input type="radio" ng-model="userPermision" value="nonBooking"> Non Booking 
+                <input type="radio" ng-model="userPermision" value="student"> Student 
+                <input type="radio" ng-model="userPermision" value="faculty"> Faculty 
+                <input type="radio" ng-model="userPermision" value="admin" ng-value="admin" > Admin
+                </form>
+            </td>
+                <td>
+            <strong>Please provide user expereince feedback here: </strong><a href="http://goo.gl/forms/rqFljWplgb" target="_blank">Form </a> 
+            </td>
+        </tr>
+            
+    </table>
     </div>
 
     <!-- https://github.com/IronSummitMedia/startbootstrap-agency -->
@@ -103,7 +119,7 @@
                       </ul>
                     </li>
                     <li ng-class="{ active: $route.current.activetab == 'other'}">
-                        <a href="#/other">{{OtherText}}</a>
+                        <a href="#/signOut">{{SignOutText}}</a>
                     </li>
                 </ul>
             </div>
