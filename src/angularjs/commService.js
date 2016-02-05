@@ -100,8 +100,8 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
-	commService.search = function(){
-		BookingCommService.search();
+	commService.search = function(searchCriteria){
+		BookingCommService.search(searchCriteria);
 	}
 
 

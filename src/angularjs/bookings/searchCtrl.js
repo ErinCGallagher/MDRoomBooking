@@ -50,6 +50,40 @@ function SearchCtrl($scope, SharedVariableService, BookingsService) {
 	$scope.myStartTime = startTimeZoned; //displayed to user 
 	$scope.myEndTime = endTimeZoned; //displayed to user
 
+	// CONTENTS CHECKBOXES
+	$scope.selection = [];
+
+	// toggle selection for a given fruit by name
+	 $scope.toggleSelection = function toggleSelection(selectedContent) {
+	    var idx = $scope.selection.indexOf(selectedContent);
+
+	    // is currently selected
+	    if (idx > -1) {
+	      $scope.selection.splice(idx, 1);
+	    }
+
+	    // is newly selected
+	    else {
+	      $scope.selection.push(selectedContent);
+	    }
+	 };
+
+	 createSelectedContentObject = function(){
+	 	var reformattedContents = {};
+	 	console.log($scope.selection);
+	 	for(var i = 0; i < $scope.contents.length; i++){
+	 		//if not selected
+	 		if($scope.selection.indexOf($scope.contents[i]) == -1){
+	 			reformattedContents[$scope.contents[i]] = false;
+	 		}
+	 		else{
+	 			reformattedContents[$scope.contents[i]] = true;
+	 		}
+	 	}
+	 	return reformattedContents;
+	 }
+
+
 
 	$scope.search = function(){
 		if($scope.myEndTime <= $scope.myStartTime ){
@@ -59,7 +93,8 @@ function SearchCtrl($scope, SharedVariableService, BookingsService) {
 			var startTime = $scope.myStartTime;
 			var endTime = $scope.myEndTime;
 			var selectedDate = $scope.selectedDate;
-			BookingsService.search($scope.selectedBuilding,startTime,endTime);
+			var selectedContents = createSelectedContentObject();
+			BookingsService.search($scope.selectedBuilding,startTime,endTime,selectedContents);
 		}
 	}
 

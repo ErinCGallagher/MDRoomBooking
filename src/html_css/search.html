@@ -6,6 +6,7 @@
    		<td class="width50" colspan="2" >
    			<p ><strong>Date:</strong></p>
    			<p class="input-group">
+   			<!-- datePicker -->
               <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="selectedDate" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -13,12 +14,14 @@
             </p>
    		</td>
    		<td class="width50" colspan="2">
+   		<!-- building selection dropdown -->
 	   		<p class="building-selection-title"><strong>Building:</strong></p>
 	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
 	    </td>
 	</tr>
     <tr>
     	<td class="time-picker-align" colspan="2">
+    	<!-- start and end time picker -->
     		<p class="time-picker-header"><strong>Time: </strong></p>
     		<div><uib-timepicker ng-model="myStartTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' ></uib-timepicker> </div>
     		 <p class="time-picker-header"><strong> to </strong></p>
@@ -29,13 +32,14 @@
     </tr>
     <tr>
     <td colspan="4">
+    	<!-- contents check boxes -->
     	<label ng-repeat="content in contents">
 		  <input
 		    type="checkbox"
 		    name="selectedContents[]"
 		    value="{{content}}"
 		    ng-checked="selection.indexOf(content) > -1"
-		    ng-click=
+		    ng-click="toggleSelection(content)"
 		  > {{content}}
 		</label>
     </td>

@@ -122,7 +122,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		 return promisePost;
 	}
 
-	bookingCommService.search = function(){
+	bookingCommService.search = function(searchCriteria){
+		console.log(searchCriteria);
 
 		var start = moment.utc("2016-02-02 09:30:00");
 		var end =  moment.utc("2016-02-02 011:00:00");

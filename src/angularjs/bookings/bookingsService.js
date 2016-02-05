@@ -237,9 +237,14 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
-	bookingsService.search = function(selectedBuilding,startTime, EndTime){
-
-		CommService.search();
+	bookingsService.search = function(selectedBuilding,startTime,endTime,selectedContents){
+		var searchCriteria = {
+			building : selectedBuilding,
+			startTime : startTime,
+			endTime : endTime,
+			contents : selectedContents,
+		}
+		CommService.search(searchCriteria);
 	}
 
 	//determine possible durations
