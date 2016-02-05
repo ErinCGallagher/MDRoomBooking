@@ -8,16 +8,20 @@ $data = json_decode(file_get_contents("php://input"));
 $building = $data->building;
 $start = $data->startTime;
 $end = $data->endTime;
+$date = $data->date;
 
 date_default_timezone_set('UTC');
 
+$utcDate = strtotime($date);
+$startDate = date('Y-m-d', $utcDate);
+$endDate = date('Y-m-d', $utcDate);
+
 $utcStart = strtotime($start);
-$startDate = date('Y-m-d', $utcStart);
 $startTime = date('H:i:s', $utcStart);
 
 $utcEnd = strtotime($end);
-$endDate = date('Y-m-d', $utcEnd);
 $endTime = date('H:i:s', $utcEnd);
+
 
 //Contents
 $contents = var_dump($data->contents);
@@ -49,6 +53,8 @@ $openSpace = True;
 $mirror = True; 
 $projector = False;
 */
+
+
 
 //Find Start BlockID
 $query = "SELECT blockID FROM Blocks WHERE startTime = ?";

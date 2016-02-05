@@ -11,7 +11,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.RoomTabs = [];
 	var buildingWeeklyBookings = []; //for the entire building
 	bookingsService.searchResults = [];
-	
+
 
 	bookingsService.setUpRoomTabs =function(){
 		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
@@ -154,9 +154,10 @@ function BookingsService(CommService, $q, SharedVariableService){
 	  	return TimeZoned;
   	}
 
-  	//convert javascript date back to UTC time from local
-  	//return a javascript date object that is the current UTC time
-  	bookingsService.convertoUTCForDisplayMinus = function(timestamp){
+  	//convert javascript date from UTC to local
+  	//return a javascript date object that is the local time
+  	//used to convert dates back to local before sending to the database
+  	bookingsService.convertFromUTCtoLocal = function(timestamp){
   		//date manipulation crap
 	  	var jsDate = new Date(timestamp); //converts to javascript date object
 	  	var offset = bookingsService.generateOffset(timestamp);
@@ -178,8 +179,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		//loop through the bookings for that day
 		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].start));
-			var checkEnd = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].end));
+			var checkStart = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].start));
+			var checkEnd = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].end));
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
@@ -239,12 +240,13 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
-	bookingsService.search = function(selectedBuilding,startTime,endTime,selectedContents){
+	bookingsService.search = function(selectedBuilding,selectedDate,startTime,endTime,selectedContents){
 		var searchCriteria = {
 			building : selectedBuilding,
-			startTime : startTime,
-			endTime : endTime,
+			startTime : bookingsService.convertFromUTCtoLocal(startTime),
+			endTime : bookingsService.convertFromUTCtoLocal(endTime),
 			contents : selectedContents,
+			date : selectedDate
 		}
 		CommService.search(searchCriteria);
 	}

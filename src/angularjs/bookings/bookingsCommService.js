@@ -122,18 +122,11 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		 return promisePost;
 	}
 
-	bookingCommService.search = function(searchCriteria){
-		console.log(searchCriteria);
+	//sends search criteria to the DB
+	//returns all rooms and bookings that match the search cirteria
+	//format expected = date, startTime,endTime,building
+	bookingCommService.search = function(data){
 
-		var start = moment.utc("2016-02-02 09:30:00");
-		var end =  moment.utc("2016-02-02 011:00:00");
-
-		var data = {
-			building : "Theological Hall",
-			startTime : start,
-			endTime : end,
-			contents : {upright:true, grand:false, openSpace: true, mirror:false, projector:false},
-		};
 		var promisePost =  $http.post('src/php/bookings/search.php', data)
 		    .success(function(data) {
 		    	console.log(data);

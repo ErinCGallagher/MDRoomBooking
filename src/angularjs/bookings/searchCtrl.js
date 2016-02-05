@@ -40,6 +40,9 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsSer
 	//var currentDate = moment();
 	var startTimeZoned = new Date();
 	var endTimeZoned = new Date();
+	//convert to UTC time 
+	startTimeZoned = BookingsService.convertoUTCForDisplay(startTimeZoned); 
+	endTimeZoned = BookingsService.convertoUTCForDisplay(endTimeZoned);
 
 	//set starting hours and minutes for time pickers
 	startTimeZoned.setHours(09);
@@ -72,7 +75,6 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsSer
 
 	 createSelectedContentObject = function(){
 	 	var reformattedContents = {};
-	 	console.log($scope.selection);
 	 	for(var i = 0; i < $scope.contents.length; i++){
 	 		//if not selected
 	 		if($scope.selection.indexOf($scope.contents[i]) == -1){
@@ -96,7 +98,7 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsSer
 			var endTime = $scope.myEndTime;
 			var selectedDate = $scope.selectedDate;
 			var selectedContents = createSelectedContentObject();
-			BookingsService.search($scope.selectedBuilding,startTime,endTime,selectedContents);
+			BookingsService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents);
 		}
 	}
 
