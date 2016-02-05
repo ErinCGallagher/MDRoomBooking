@@ -4,14 +4,16 @@
    <tr>
 
    		<td class="width50" colspan="2" >
-   			<p ><strong>Date:</strong></p>
-   			<p class="input-group">
+   			<div class="form-inline">
+   			<label class = "date-header"><strong>Date:</strong></label>
+   			<div class="input-group">
    			<!-- datePicker -->
               <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="selectedDate" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
-            </p>
+            </div>
+           </div>
    		</td>
    		<td class="width50" colspan="2">
    		<!-- building selection dropdown -->
@@ -20,14 +22,15 @@
 	    </td>
 	</tr>
     <tr>
-    	<td class="time-picker-align" colspan="2">
+    	<td  colspan="4" >
     	<!-- start and end time picker -->
+    	<div class="time-picker-align col-lg-12">
     		<p class="time-picker-header"><strong>Time: </strong></p>
     		<div><uib-timepicker ng-model="myStartTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' ></uib-timepicker> </div>
     		 <p class="time-picker-header"><strong> to </strong></p>
     		<div><uib-timepicker ng-model="myEndTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" min='minTime'></uib-timepicker> </div>
+    	</div>
     	</td>
-    	<td>
         
     </tr>
     <tr>
@@ -46,4 +49,7 @@
     </tr>
     </table>
     <button ng-click="search()"> Search</button>
+   </div>
+   <div id="calendar-container" ng-show="calRender">
+   <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
    </div>

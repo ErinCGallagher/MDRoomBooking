@@ -1,4 +1,12 @@
 
+.search{
+	text-align:center;
+}
+.search label{
+	padding-right: 10px;
+}
+
+
 .search .search-bar{
 	display:inline-block;
 	margin:20px 10px 20px 20px;
@@ -19,9 +27,31 @@
     margin-left: 7px;
 }
 
+.search .date-header{
+	font-size: 120%;
+    margin-right: 7px;
+    margin-left: 7px;
+    padding:0px;
+}
+
 .search .time-picker-align{
 	display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: row;
+    width: 450px;
+    min-width:450px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+.search .fc-view-container{
+	width:90%;
+	margin-right:5%;
+	margin-left:5%;
+}
+
+.search .fc-time-grid-container{
+     height:100% !important;
+ }
+

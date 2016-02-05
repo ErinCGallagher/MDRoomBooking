@@ -2,14 +2,16 @@ angular
 .module('mainApp')
 .controller('SearchCtrl', SearchCtrl);
 
-function SearchCtrl($scope, SharedVariableService, BookingsService) {
+function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsService) {
 	$scope.pageClass = 'search'; //used to change pages in index.html
 	$scope.buildings = SharedVariableService.buildings;
     $scope.selectedBuilding = "Harrison LeCaine Hall";
     $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
+    
+    $scope.events = BookingsService.searchResults
+  	$scope.eventSources = [$scope.events]; 
 
   	// DATE PICKER
-
   	$scope.dateOptions = {
 	    formatYear: 'yy',
 	    startingDay: 1
@@ -97,6 +99,42 @@ function SearchCtrl($scope, SharedVariableService, BookingsService) {
 			BookingsService.search($scope.selectedBuilding,startTime,endTime,selectedContents);
 		}
 	}
+
+	//CALENDAR
+
+	//calendar config
+	/* config object */
+  $scope.uiConfig = {
+    calendar:{
+      editable: false, //allows you to drag events
+      defaultView:'agendaDay',
+      minTime :"09:00:00", //earliest time to display
+      maxTime : "11:00:00",
+      timeFormat: '',
+      slotEventOverlap:false,
+      allDaySlot:false,
+      timezone: false,
+      //slotDuration:'00:30:00:00',//default
+      header:{ //buttons at the top
+        left: '',
+        //center: 'prev, title next',
+        center: '',
+        right: ''
+      },
+      viewRender: function(view) {
+        //render the date only after the calendar has fully loaded
+        var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
+        var start = week.start;
+        var end = week.end;
+        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
+        //retirve bookings for default room Harrison-LeCaine Hall
+         $scope.calRender = true;
+      },
+
+      dayClick : $scope.bookRoomInCalendar,
+      eventClick: $scope.viewBookingInformation,
+    }
+  };
 
 };
 

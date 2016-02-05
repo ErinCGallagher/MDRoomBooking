@@ -10,6 +10,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.weeklyBookings = []; //for a specific room
 	bookingsService.RoomTabs = [];
 	var buildingWeeklyBookings = []; //for the entire building
+	bookingsService.searchResults = [];
+	
 
 	bookingsService.setUpRoomTabs =function(){
 		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
