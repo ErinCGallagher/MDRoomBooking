@@ -3,8 +3,14 @@
    <table>
    <tr>
 
-   		<td class="width50" colspan="2">
-   			<p><strong>Date:</strong></p>
+   		<td class="width50" colspan="2" >
+   			<p ><strong>Date:</strong></p>
+   			<p class="input-group">
+              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="selectedDate" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
    		</td>
    		<td class="width50" colspan="2">
 	   		<p class="building-selection-title"><strong>Building:</strong></p>

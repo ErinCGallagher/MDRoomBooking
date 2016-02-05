@@ -8,13 +8,34 @@ function SearchCtrl($scope, SharedVariableService, BookingsService) {
     $scope.selectedBuilding = "Harrison LeCaine Hall";
     $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
 
+  	// DATE PICKER
+
+  	$scope.dateOptions = {
+	    formatYear: 'yy',
+	    startingDay: 1
+  	};
+
+  	$scope.selectedDate = new Date(); //initialy current date
+  	$scope.minDate = new Date();
+  	$scope.maxDate = new Date(2020, 5, 22);
+  	$scope.format = 'EEEE, MMM d, yyyy'; //Friday, Feb 5, 2016
+
+  	$scope.open = function() {
+    	$scope.popup1.opened = true;
+  	};
+
+  	$scope.popup1 = {
+    	opened: false
+  	};
+
+  	// TIME PICKER
   	// time picker config config
   	$scope.hstep = 1;
  	$scope.mstep = 30;
 	$scope.ismeridian = true; //12 hour
 
 
-	var currentDate = moment();
+	//var currentDate = moment();
 	var startTimeZoned = new Date();
 	var endTimeZoned = new Date();
 
@@ -31,12 +52,13 @@ function SearchCtrl($scope, SharedVariableService, BookingsService) {
 
 
 	$scope.search = function(){
-		if($scope.myEndTime < $scope.myStartTime ){
+		if($scope.myEndTime <= $scope.myStartTime ){
 			alert("your end time cannot be before your start time");
 		}
 		else{
 			var startTime = $scope.myStartTime;
 			var endTime = $scope.myEndTime;
+			var selectedDate = $scope.selectedDate;
 			BookingsService.search($scope.selectedBuilding,startTime,endTime);
 		}
 	}
