@@ -30,7 +30,15 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	}
 
 	commService.addUsers = function(fileFormData){
-		return AdminCommService.addUsers(fileFormData);
+		var q = $q.defer();
+		AdminCommService.addUsers(fileFormData)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	commService.uploadMasterList = function(fileFormData){
