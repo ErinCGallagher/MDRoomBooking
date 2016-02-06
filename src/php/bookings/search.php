@@ -10,6 +10,13 @@ $start = $data->startTime;
 $end = $data->endTime;
 $date = $data->date;
 
+//Contents
+$upright = $data->uprightPiano;
+$grand = $data->grandPiano;
+$openSpace = $data->openSpace;
+$mirror = $data->mirror;
+$projector = $data->projector;
+
 date_default_timezone_set('UTC');
 
 $utcDate = strtotime($date);
@@ -22,14 +29,6 @@ $startTime = date('H:i:s', $utcStart);
 $utcEnd = strtotime($end);
 $endTime = date('H:i:s', $utcEnd);
 
-
-//Contents
-$contents = var_dump($data->contents);
-$upright = $contents["upright"];
-$grand = $contents['grand'];
-$openSpace = $contents['openSpace'];
-$mirror = $contents['mirror']; 
-$projector = $contents['projector'];
 
 /* USED FOR TESTING
 

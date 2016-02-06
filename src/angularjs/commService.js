@@ -101,7 +101,15 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	}
 
 	commService.search = function(searchCriteria){
-		BookingCommService.search(searchCriteria);
+		var q = $q.defer();
+		BookingCommService.search(searchCriteria)
+		.then(function(reponse){
+				q.resolve(reponse.data);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
 	}
 
 

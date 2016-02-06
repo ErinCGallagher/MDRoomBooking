@@ -124,9 +124,21 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 	//sends search criteria to the DB
 	//returns all rooms and bookings that match the search cirteria
-	//format expected = date, startTime,endTime,building
-	bookingCommService.search = function(data){
+	//format expected = date, startTime,endTime,building, contents (individually included)
+	bookingCommService.search = function(searchCriterai){
 
+		var data = {
+			building : searchCriterai.building,
+			startTime : searchCriterai.startTime,
+			endTime : searchCriterai.endTime,
+			date : searchCriterai.date,
+			uprightPiano : searchCriterai.contents["Upright Piano"],
+			grandPiano : searchCriterai.contents["Grand Piano"],
+			openSpace : searchCriterai.contents["Open Space"],
+			mirror : searchCriterai.contents["Mirror"],
+			projector : searchCriterai.contents["Projector"]
+		}
+		console.log(data);
 		var promisePost =  $http.post('src/php/bookings/search.php', data)
 		    .success(function(data) {
 		    	console.log(data);
