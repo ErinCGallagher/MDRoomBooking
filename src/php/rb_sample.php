@@ -24,7 +24,6 @@
 	}
 	
 	//Insert sample data into tables
-	
     mysqli_query($cxn, "INSERT INTO Master(uID, department) VALUES
 				('12af', 'Drama'),
 				('13eg', 'Drama'),
@@ -32,28 +31,28 @@
 				('15lb', 'Music') 
 				");
                 
-	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs) VALUES
-				('12af', 'Lexi', 'Flynn', 'Student', '5', '5'),
-				('13eg', 'Erin', 'Gallagher', 'Student', '5', '5'),
-				('14sk', 'Shannon', 'Klett', 'Student', '0', '0'),
-				('15lb', 'Laura', 'Brooks', 'Student', '0', '0')
+	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs, hasBookingDurationRestriction) VALUES
+				('12af', 'Lexi', 'Flynn', 'Student', '5', '5', 'Yes'),
+				('13eg', 'Erin', 'Gallagher', 'Student', '5', '5', 'Yes'),
+				('14sk', 'Shannon', 'Klett', 'Student', '0', '0', 'No'),
+				('15lb', 'Laura', 'Brooks', 'Student', '0', '0', 'Yes')
 				");		
 				
 				
 	mysqli_query($cxn, "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES
-				('MUSC 100', 'week', '2', 'No', '2016-01-01', '2016-04-30'),
-				('Ensemble A', 'week', '5', 'No', '2016-01-01', '2016-04-30'),
-				('DRAM 205', 'week', '6', 'No', '2016-01-01', '2016-04-30'),
-				('DRAM 100', 'week', '2', 'No', '2016-01-01', '2016-04-30') 
+				('MUSC 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
+				('Ensemble A', 'week', '5', 'Yes', '2016-01-01', '2016-04-30'),
+				('DRAM 205', 'special', '6', 'No', '2016-01-01', '2016-04-30'),
+				('DRAM 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30') 
 				");
 		
 					
-	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, weeklyHrs, specialHrs) VALUES
-				('12ajf', '2', '5', '0'),
-				('13eg', '1', '2', '0'),
-				('14sk', '3', '6', '0'),
-				('14sk', '4', '2', '0'),
-				('15lb', '1', '2', '0')
+	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, specialHrs) VALUES
+				('12ajf', '2', '0'),
+				('13eg', '1', '0'),
+				('14sk', '3', '6'),
+				('14sk', '4', '0'),
+				('15lb', '1', '0')
 				");		
 	
 	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES
@@ -70,14 +69,9 @@
          		('11lmb23','Individual Rehearsal','','2015/16','1'),
          		('12ajf','Other','Mostly Mischief','2015/16','4')");
   	
-  	
-  	
   	//Close the connection
 	mysqli_close($cxn); 
 
 	echo "Sample Data Entered";
-  
-  
-  
 ?>
 </body></html>
