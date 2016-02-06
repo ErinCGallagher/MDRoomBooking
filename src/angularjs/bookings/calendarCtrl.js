@@ -107,8 +107,6 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
     });
 
   };
-  console.log(SharedVariableService.buildingInfo);
-  console.log(SharedVariableService.buildingInfo[$scope.selectedBuilding]);
 
 
 	/* config object */

@@ -2,13 +2,13 @@ angular
 .module('mainApp')
 .controller('SearchCtrl', SearchCtrl);
 
-function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsService) {
+function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchService) {
 	$scope.pageClass = 'search'; //used to change pages in index.html
 	$scope.buildings = SharedVariableService.buildings;
     $scope.selectedBuilding = "Harrison LeCaine Hall";
     $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
     
-    $scope.events = BookingsService.searchResults
+    $scope.events = SearchService.searchResults
   	$scope.eventSources = [$scope.events]; 
 
   	// DATE PICKER
@@ -41,8 +41,8 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsSer
 	var startTimeZoned = new Date();
 	var endTimeZoned = new Date();
 	//convert to UTC time 
-	startTimeZoned = BookingsService.convertoUTCForDisplay(startTimeZoned); 
-	endTimeZoned = BookingsService.convertoUTCForDisplay(endTimeZoned);
+	startTimeZoned = SearchService.convertoUTCForDisplay(startTimeZoned); 
+	endTimeZoned = SearchService.convertoUTCForDisplay(endTimeZoned);
 
 	//set starting hours and minutes for time pickers
 	startTimeZoned.setHours(09);
@@ -98,10 +98,10 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsSer
 			var endTime = $scope.myEndTime;
 			var selectedDate = $scope.selectedDate;
 			var selectedContents = createSelectedContentObject();
-			BookingsService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents);
+			SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents);
 		}
 	}
-
+	
 	//CALENDAR
 
 	//calendar config
@@ -110,8 +110,8 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, BookingsSer
     calendar:{
       editable: false, //allows you to drag events
       defaultView:'agendaDay',
-      minTime :"09:00:00", //earliest time to display
-      maxTime : "11:00:00",
+      minTime :SearchService.minTime, //earliest time to display
+      maxTime : SearchService.maxTime,
       timeFormat: '',
       slotEventOverlap:false,
       allDaySlot:false,

@@ -238,44 +238,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
-	bookingsService.searchResults = [];
-	bookingsService.selectedSearchRoom = "HLH 102";
-	var buildingSearchResults = [];
 
-	bookingsService.search = function(selectedBuilding,selectedDate,startTime,endTime,selectedContents){
-		var searchCriteria = {
-			building : selectedBuilding,
-			startTime : bookingsService.convertFromUTCtoLocal(startTime),
-			endTime : bookingsService.convertFromUTCtoLocal(endTime),
-			contents : selectedContents,
-			date : selectedDate
-		}
-		var q = $q.defer();
-		CommService.search(searchCriteria)
-			.then(function(response){
-				q.resolve();
-				buildingSearchResults = response;
-				bookingsService.setUpRoomsWeeklyEvents()
-			},
-			function(err){
-				q.reject();
-			});
-		return q.promise;
-	}
-
-	//remove all current events in searchResults and 
-	//replace with events for the selected room
-	bookingsService.setUpRoomsWeeklyEvents = function(){
-		var numEvents = bookingsService.searchResults.length;
-		bookingsService.searchResults.splice(0,numEvents);
-		//ensure the room number exsists in the building
-		if(buildingSearchResults[bookingsService.selectedSearchRoom] !=  undefined){
-			for(var i = 0; i<buildingSearchResults[bookingsService.selectedSearchRoom].length; i++){
-				bookingsService.weeklyBookings.push(buildingSearchResults[bookingsService.selectedSearchRoom][i]);
-			}
-		}
-		console.log(bookingsService.searchResults);
-	}
 
 	//determine possible durations
 	return bookingsService;
