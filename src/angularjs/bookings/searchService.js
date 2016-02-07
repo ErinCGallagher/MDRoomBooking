@@ -6,15 +6,13 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 	var searchService = {};
 
 	searchService.searchResults = [];
+	searchService.selectedBuilding = "Harrison LeCaine Hall";
 	searchService.selectedSearchRoom = "HLH 102";
+	searchService.calRender = false;
 	var buildingSearchResults = [];
-	searchService.minTime = "09:00:00";
-	searchService.maxTime = "11:00:00";
-
-	searchService.setTimes = function(){
-		searchService.minTime = "09:00:00";
-		searchService.maxTime = "12:00:00";
-	}
+	searchService.roomTabs = [];
+	searchService.minTime = "07:30:00";
+	searchService.maxTime = "22:00:00";
 
 	searchService.search = function(selectedBuilding,selectedDate,startTime,endTime,selectedContents){
 		var searchCriteria = {
@@ -29,12 +27,35 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 			.then(function(response){
 				q.resolve();
 				buildingSearchResults = response;
+				searchService.calRender = searchService.setUpRoomTabs();
 				searchService.setUpRoomsWeeklyEvents()
 			},
 			function(err){
 				q.reject();
 			});
 		return q.promise;
+	}
+
+	searchService.setUpRoomTabs =function(){
+		searchService.roomTabs.splice(0,searchService.roomTabs.length);
+
+		var buildingRooms = [];
+		
+		//this way retrieves the room ids and then the will get the data
+		if (SharedVariableService.buildingAndRooms[searchService.selectedBuilding] != undefined){
+			if(buildingSearchResults != []){
+			    buildingRooms = Object.keys(buildingSearchResults);
+			}
+		}
+
+		var numRooms = buildingRooms.length;
+		if(numRooms == 0){
+			return false; //don't render the calendar because there are no rooms
+		}
+		for(var i = 0; i<numRooms; i++){
+			searchService.roomTabs.push({title:buildingRooms[i]});
+		}
+		return true;
 	}
 
 	//remove all current events in searchResults and 

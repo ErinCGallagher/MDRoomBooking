@@ -100,9 +100,12 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
 			var selectedContents = createSelectedContentObject();
 			SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents);
 		}
+		SearchService.selectedBuilding = $scope.selectedBuilding;
+		$scope.calRender = SearchService.calRender;
 	}
 	
 	//CALENDAR
+	$scope.calRender = false; //initialize to not displaying
 
 	//calendar config
 	/* config object */
@@ -130,13 +133,15 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
         var end = week.end;
         $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
         //retirve bookings for default room Harrison-LeCaine Hall
-         $scope.calRender = true;
       },
 
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,
     }
   };
+
+  /*tabs*/
+  $scope.tabs = SearchService.roomTabs;
 
 };
 
