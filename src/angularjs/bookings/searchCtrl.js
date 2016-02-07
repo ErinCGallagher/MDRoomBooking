@@ -8,7 +8,7 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
     $scope.selectedBuilding = "Harrison LeCaine Hall";
     $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
     
-    $scope.events = SearchService.searchResults
+    $scope.events = SearchService.roomSearchResults
   	$scope.eventSources = [$scope.events]; 
 
   	// DATE PICKER
@@ -142,6 +142,12 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
 
   /*tabs*/
   $scope.tabs = SearchService.roomTabs;
+
+  //detects when a tab is changed and provides the room id
+  $scope.changeRoom=function(roomID){
+    SearchService.selectedSearchRoom = roomID;
+    SearchService.setUpRoomsEvents();
+  }
 
 };
 

@@ -5,7 +5,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 
 	var searchService = {};
 
-	searchService.searchResults = [];
+	searchService.roomSearchResults = [];
 	searchService.selectedBuilding = "Harrison LeCaine Hall";
 	searchService.selectedSearchRoom = "HLH 102";
 	searchService.calRender = false;
@@ -28,7 +28,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				q.resolve();
 				buildingSearchResults = response;
 				searchService.calRender = searchService.setUpRoomTabs();
-				searchService.setUpRoomsWeeklyEvents()
+				searchService.setUpRoomsEvents();
 			},
 			function(err){
 				q.reject();
@@ -60,16 +60,15 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 
 	//remove all current events in searchResults and 
 	//replace with events for the selected room
-	searchService.setUpRoomsWeeklyEvents = function(){
-		var numEvents = searchService.searchResults.length;
-		searchService.searchResults.splice(0,numEvents);
+	searchService.setUpRoomsEvents = function(){
+		var numEvents = searchService.roomSearchResults.length;
+		searchService.roomSearchResults.splice(0,numEvents);
 		//ensure the room number exsists in the building
 		if(buildingSearchResults[searchService.selectedSearchRoom] !=  undefined){
 			for(var i = 0; i<buildingSearchResults[searchService.selectedSearchRoom].length; i++){
-				searchService.weeklyBookings.push(buildingSearchResults[searchService.selectedSearchRoom][i]);
+				searchService.roomSearchResults.push(buildingSearchResults[searchService.selectedSearchRoom][i]);
 			}
 		}
-		console.log(searchService.searchResults);
 	}
 
 	searchService.convertoUTCForDisplay = function(timeStamp){

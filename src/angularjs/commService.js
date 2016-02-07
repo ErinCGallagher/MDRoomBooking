@@ -104,7 +104,8 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		BookingCommService.search(searchCriteria)
 		.then(function(reponse){
-				q.resolve(reponse.data);
+			var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(reponse.data);
+				q.resolve(formattedBuildingWeeklyBookings);
 			},
 			function(err){
 				q.reject();
