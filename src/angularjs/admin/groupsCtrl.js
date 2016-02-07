@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('GroupsCtrl', GroupsCtrl);
 
-function GroupsCtrl($scope, AdminGroupsService){
+function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	$scope.pageClass = 'groups';  //used to change pages in index.html
 
 	$scope.groups = AdminGroupsService.groups;
@@ -17,7 +17,6 @@ function GroupsCtrl($scope, AdminGroupsService){
 		$scope.showNewGroup = true;
 		$scope.showInfo = false;
 	}
-	
 
     //Function to change restriction value when 
     //selected by user creating a group
@@ -95,7 +94,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 	getGroupInfo = function(groupId){
 		AdminGroupsService.getGroupInfo(groupId)
 			.then(function(groupInfo){
-				$scope.groupName = groupInfo.data[0].groupName;
+				$scope.groupName = groupInfo.data[0].groupName; // used in add users popup
 				$scope.addHrsType = groupInfo.data[0].addHrsType;
 				$scope.setHours = groupInfo.data[0].hours;
 				$scope.numUsers = groupInfo.data[1].numUsers;
@@ -112,11 +111,45 @@ function GroupsCtrl($scope, AdminGroupsService){
 	$scope.addUsers = function(uploadFile) {
 		AdminGroupsService.addUsers(uploadFile, $scope.groupId)
 			.then(function(data){
-				//$scope.result =
+				openUsersPopup(data);
 			},
 			function() {
 				alert("err");
 			});
 	}
 
+	openUsersPopup = function(data){
+		var popupInstance = $uibModal.open({
+			templateUrl: 'addUsersPopup.html',
+			controller: 'AddUsersModalCtrl',
+			resolve: {
+				groupName: function () {
+					return $scope.groupName; //set by getGroupInfo
+				},
+				addedUsers: function () {
+					return data.addedUsers;
+				},
+				usersAlreadyInGroup: function () {
+					return data.usersAlreadyInGroup;
+				},
+				usersNotInMaster: function () {
+					return data.usersNotInMaster;
+				}
+			}
+	    });
+	};
+
+};
+
+angular.module('mainApp').controller('AddUsersModalCtrl', AddUsersModalCtrl);
+function AddUsersModalCtrl ($scope, $uibModalInstance, groupName, addedUsers, usersAlreadyInGroup, usersNotInMaster) {
+
+	$scope.groupName = groupName;
+	$scope.addedUsers = addedUsers;
+	$scope.usersAlreadyInGroup = usersAlreadyInGroup;
+	$scope.usersNotInMaster = usersNotInMaster;
+
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 };

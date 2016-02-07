@@ -9,7 +9,16 @@ function AdminUsersService(CommService, $q){
 		var fileFormData = new FormData();
 		fileFormData.append('fileToUpload', uploadFile); 
 		fileFormData.append('department', dept);
-		return CommService.uploadMasterList(fileFormData);
+
+		var q = $q.defer();
+		CommService.uploadMasterList(fileFormData)
+			.then(function(response) {
+				q.resolve(response);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
 	}	
 
 	return adminUsersService;

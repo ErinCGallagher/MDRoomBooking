@@ -58,6 +58,7 @@ function AdminCommService($http){
 		    	return data;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
+		    	console.log(data);
 		    	return 'error';
 		    });
 		 return promisePost;

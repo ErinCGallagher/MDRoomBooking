@@ -20,8 +20,8 @@
         <strong>Hours:</strong> {{setHours}} </p>
         <p><strong>Start Date:</strong> {{setStartDate}} </p>
         <p><strong>End Date:</strong> {{setEndDate}} </p>
-        <input type="file" style="display:none" id="file" name="file" ng-model="selectedFile" onchange="angular.element(this).scope().addUsers(this.files[0])" />
-        <button onclick="document.getElementById('file').click();">Add Users</button>
+        <input type="file" id="addUsersFile" name="file" ng-model="selectedFile"/>
+        <button onclick="angular.element(this).scope().addUsers(document.getElementById('addUsersFile').files[0])">Add Users</button>
 
     </div>
 </div>
@@ -59,4 +59,36 @@
             <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
    			
     </form>
+</div>
+
+<!-- popup after adding users -->
+<div>
+    <script type="text/ng-template" id="addUsersPopup.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div class="modal-header">
+        	    <h4 class="modal-title">Users Added to {{groupName}}</h4>
+        	</div>
+            <div class="modal-body">
+
+                <div ng-show="addedUsers.length != 0">
+	                <p><strong>Added Users:</strong>
+	                <li ng-repeat="user in addedUsers">{{user}}</li></p>
+	            </div>
+
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+                <div ng-show="usersAlreadyInGroup.length != 0">
+	                <p><strong>Users Already In Group (Not Re-Added):</strong>
+	                <li ng-repeat="user in usersAlreadyInGroup">{{user}}</li></p>
+	            </div>
+	            <div ng-show="usersNotInMaster.length != 0">
+	                <p><strong>Users Not In Master List (Not Added): </strong> 
+	                <li ng-repeat="user in usersNotInMaster">{{user}}</li></p>
+                </div>
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+
+                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+            </div>
+        </div>
+    </script>  
 </div>

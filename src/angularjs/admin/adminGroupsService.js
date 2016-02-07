@@ -43,7 +43,16 @@ function AdminGroupsService(CommService, $q){
 		var fileFormData = new FormData();
 		fileFormData.append('fileToUpload', uploadFile); 
 		fileFormData.append('groupID', groupId);
-		return CommService.addUsers(fileFormData);
+
+		var q = $q.defer();
+		CommService.addUsers(fileFormData)
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(err){
+				alert("error with addUsers in GroupsService.");
+			});
+		return q.promise;
 	}	
 
 	return adminGroupsService;

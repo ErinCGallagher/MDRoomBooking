@@ -1,9 +1,42 @@
 <h1 id='user-title'> Users page </h1>
 
-<input type="file" style="display:none" id="musicFile" name="musicFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadList(this.files[0], 'Music')" />
-<button onclick="document.getElementById('musicFile').click();">Upload Music List</button>
+<!-- popup after attempting to make a booking -->
+<div>
+    <script type="text/ng-template" id="uploadPopup.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div class="modal-header">
+        	    <h4 class="modal-title">Users Uploaded</h4>
+        	</div>
+            <div class="modal-body">
+                <p>{{numUsersInDept}} Users in {{department}}</p>
+                <p>{{numUsersDeleted}} Users Deleted</p>
+                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
+                <div ng-show="badFormatUsers.length != 0">
+	                <p><strong>Users With Invalid Format (Not Uploaded):</strong>
+	                <li ng-repeat="user in badFormatUsers">{{user}}</li></p>
+	            </div>
+	            <div ng-show="badClassUsers.length != 0">
+	                <p><strong>Users With Invalid Type (Not Uploaded): </strong> 
+	                <li ng-repeat="user in badClassUsers">{{user}}</li></p>
+                </div>
+                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
+                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+            </div>
+        </div>
+    </script>  
+</div>
 
-<br>
+<!-- Upload Buttons -->
+<!-- To remove "Choose file" button, set display:none and have button onclick=click() the input. 'Onchange' doesn't always work though. See file history. -->
+<p>
+<b>Upload Music List</b>
+<input type="file" id="musicFile" name="musicFile" ng-model="selectedFile"/>
+<button onclick="angular.element(this).scope().uploadList(document.getElementById('musicFile').files[0], 'Music')">Submit</button>
+</p>
 
-<input type="file" style="display:none" id="dramaFile" name="dramaFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadList(this.files[0], 'Drama')" />
-<button onclick="document.getElementById('dramaFile').click();">Upload Drama List</button>
+<p>
+<b>Upload Drama List</b>
+<input type="file" id="dramaFile" name="dramaFile" ng-model="selectedFile"/>
+<button onclick="angular.element(this).scope().uploadList(document.getElementById('dramaFile').files[0], 'Drama')">Submit</button>
+</p>
