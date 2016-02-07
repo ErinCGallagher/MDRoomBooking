@@ -25,10 +25,10 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		var q = $q.defer();
 		CommService.search(searchCriteria)
 			.then(function(response){
-				q.resolve();
 				buildingSearchResults = response;
 				searchService.calRender = searchService.setUpRoomTabs();
 				searchService.setUpRoomsEvents();
+				q.resolve();
 			},
 			function(err){
 				q.reject();
@@ -36,10 +36,17 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		return q.promise;
 	}
 
+	//set up the room tabs displayed at top of the search page
+	//no tabs means nothing matched the user's search criteria
 	searchService.setUpRoomTabs =function(){
 		searchService.roomTabs.splice(0,searchService.roomTabs.length);
 
 		var buildingRooms = [];
+
+		//no search results macth their search criteria
+		if(buildingSearchResults == []){
+			return false
+		}
 		
 		//this way retrieves the room ids and then the will get the data
 		if (SharedVariableService.buildingAndRooms[searchService.selectedBuilding] != undefined){
@@ -69,12 +76,30 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				searchService.roomSearchResults.push(buildingSearchResults[searchService.selectedSearchRoom][i]);
 			}
 		}
+		return searchService.roomSearchResults;
 	}
 
+	searchService.clearData = function(){
+		//lear room tabs
+		searchService.roomTabs.splice(0,searchService.roomTabs.length);
+
+		//clear search results
+		searchService.roomSearchResults.splice(0,searchService.roomSearchResults.length);
+
+		buildingSearchResults = [];
+
+
+	}
+
+	//convert javascript date to UTC time by determining offset from local
+	//used for time picker display because all data is supposed to be timezone ambiguous
 	searchService.convertoUTCForDisplay = function(timeStamp){
 		return BookingsService.convertoUTCForDisplay(timeStamp);
 	}
 
+	//convert javascript date back to local from UTC time
+	//do this before sending data back to the database
+	//the database is going to convert this back to its version of UTC time 
 	searchService.convertFromUTCtoLocal = function(timeStamp){
 		return BookingsService.convertFromUTCtoLocal(timeStamp);
 	}

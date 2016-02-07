@@ -8,8 +8,18 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
     $scope.selectedBuilding = "Harrison LeCaine Hall";
     $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
     
-    $scope.events = SearchService.roomSearchResults
+    $scope.events = SearchService.roomSearchResults;
   	$scope.eventSources = [$scope.events]; 
+
+  	$scope.$watch('events', function(events) {
+	    console.log($scope.events);
+
+ 	});
+
+ 	$scope.$watch('eventSources', function(eventSources) {
+	    console.log($scope.eventSources);
+
+ 	});
 
   	// DATE PICKER
   	$scope.dateOptions = {
@@ -88,7 +98,7 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
 	 }
 
 
-
+	 var initialSearch = 0; //used to determine if this is the first search 
 	$scope.search = function(){
 		if($scope.myEndTime <= $scope.myStartTime ){
 			alert("your end time cannot be before your start time");
@@ -98,14 +108,27 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
 			var endTime = $scope.myEndTime;
 			var selectedDate = $scope.selectedDate;
 			var selectedContents = createSelectedContentObject();
-			SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents);
+			SearchService.selectedBuilding = $scope.selectedBuilding;
+			SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents)
+				.then(function(){
+
+					//weird bug where $scope is not initially updated 
+					//this function must be called twice on initial load or the events won't render
+					if(initialSearch == 0){
+						initialSearch = 1;
+						$scope.search();
+					}
+					
+					$scope.calRender = SearchService.calRender;
+				},
+				function(err){
+				});
 		}
-		SearchService.selectedBuilding = $scope.selectedBuilding;
-		$scope.calRender = SearchService.calRender;
 	}
 	
 	//CALENDAR
-	$scope.calRender = false; //initialize to not displaying
+	$scope.calRender = SearchService.calRender;
+
 
 	//calendar config
 	/* config object */
@@ -126,14 +149,6 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
         center: '',
         right: ''
       },
-      viewRender: function(view) {
-        //render the date only after the calendar has fully loaded
-        var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
-        var start = week.start;
-        var end = week.end;
-        $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
-        //retirve bookings for default room Harrison-LeCaine Hall
-      },
 
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,
@@ -148,6 +163,13 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
     SearchService.selectedSearchRoom = roomID;
     SearchService.setUpRoomsEvents();
   }
+
+  	//detect when changing tabs
+  	$scope.$on("$destroy", function(){
+        SearchService.calRender = false;
+        SearchService.clearData();
+
+    });
 
 };
 

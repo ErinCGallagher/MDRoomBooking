@@ -138,8 +138,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 	return offset;
   }
 
-  	//given a date, convert it to UTC time but display it as local so the javascript doesn't manipulate it
-  	//return a javascript date object that is the current UTC time
+	//convert javascript date to UTC time by determining offset from local
+	//used for time picker display because all data is supposed to be timezone ambiguous
   	bookingsService.convertoUTCForDisplay = function(timestamp){
   		//date manipulation crap
 	  	var jsDate = new Date(timestamp); //converts to javascript date object
@@ -152,9 +152,9 @@ function BookingsService(CommService, $q, SharedVariableService){
 	  	return TimeZoned;
   	}
 
-  	//convert javascript date from UTC to local
-  	//return a javascript date object that is the local time
-  	//used to convert dates back to local before sending to the database
+	//convert javascript date back to local from UTC time
+	//do this before sending data back to the database
+	//the database is going to convert this back to its version of UTC time 
   	bookingsService.convertFromUTCtoLocal = function(timestamp){
   		//date manipulation crap
 	  	var jsDate = new Date(timestamp); //converts to javascript date object
