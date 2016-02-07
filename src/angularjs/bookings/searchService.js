@@ -9,6 +9,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 	searchService.selectedBuilding = "Harrison LeCaine Hall";
 	searchService.selectedSearchRoom = "HLH 102";
 	searchService.calRender = false;
+	searchService.calRender = false;
 	var buildingSearchResults = [];
 	searchService.roomTabs = [];
 	searchService.minTime = "07:30:00";
@@ -28,7 +29,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				buildingSearchResults = response;
 				searchService.calRender = searchService.setUpRoomTabs();
 				searchService.setUpRoomsEvents();
-				q.resolve();
+				q.resolve(response);
 			},
 			function(err){
 				q.reject();
