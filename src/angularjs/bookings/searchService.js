@@ -9,7 +9,6 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 	searchService.selectedBuilding = "Harrison LeCaine Hall";
 	searchService.selectedSearchRoom = "HLH 102";
 	searchService.calRender = false;
-	searchService.calRender = false;
 	var buildingSearchResults = [];
 	searchService.roomTabs = [];
 	searchService.minTime = "07:30:00";
@@ -80,6 +79,109 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		return searchService.roomSearchResults;
 	}
 
+		//sends info to database to book a room
+	//waits until a successful or non-successful response is returned
+	//newBookingInfo may be an array with all the attributes
+	searchService.bookRoom = function(newBookingInfo){
+		var roomInformation = {};
+		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = searchService.selectedSearchRoom;
+		//determine if there are conflicts
+		if(searchService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
+			//add booking to the dailyBookings list
+			CommService.bookRoomInDB(newBookingInfo)
+				.then(function(bookingID){
+					q.resolve(true);
+					newBookingInfo.bookingID = bookingID;
+					buildingSearchResults[room].push(newBookingInfo);
+					if(searchService.selectedSearchRoom == room){ //if the room has changed don't add it
+						searchService.roomSearchResults.push(newBookingInfo);
+					}
+				},
+				function(errorStatus){
+					q.reject(errorStatus);
+				});
+		}
+		else{
+			//there is a booking conflict
+			q.reject(409);
+		}
+		return q.promise;
+	}
+
+	//confirms that the booking does not conflict with other bookings
+	//return true if no conflicts
+	//return false if there are conflicts
+	searchService.confirmNoBookingConflicts = function(potentialStartTime, potentialEndTime){
+
+		var len = searchService.roomSearchResults.length;
+
+		//loop through the bookings for that day
+		for(var i=0; i<searchService.roomSearchResults.length; i++){
+			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
+			var checkStart = moment.utc(searchService.convertFromUTCtoLocal(searchService.roomSearchResults[i].start));
+			var checkEnd = moment.utc(searchService.convertFromUTCtoLocal(searchService.roomSearchResults[i].end));
+
+			if((checkStart).isSame(potentialStartTime)){
+				return false;
+			}
+			//if the start time is in between
+			//example: 11-12:30 booked, try and book 11:30-12 
+			else if(potentialStartTime.isAfter(checkStart)
+				&& potentialEndTime.isBefore(checkEnd) ){
+				return false;
+			}
+			//if the start time is before but the potentialEndtime is during a booking
+			else if(potentialEndTime.isAfter(checkStart) 
+				&& (potentialEndTime.isBefore(checkEnd) || potentialEndTime.isSame(checkEnd) ) ){
+				return false;
+			}
+			//start time is before and end time is after
+			else if (potentialStartTime.isBefore(checkStart) && ( potentialEndTime.isAfter(checkEnd) || potentialEndTime.isSame(checkEnd))){
+				return false;
+			}
+		}
+
+		return true; //no bookings or they all occur before your booking do whatever you want
+	
+	}
+
+	//cancels a booking
+	searchService.cancelBooking = function(bookingID,startTime) {
+		var room = searchService.selectedSearchRoom;
+		var q = $q.defer();
+		CommService.cancelBooking(bookingID,startTime)
+			.then(function(){
+				q.resolve();
+				searchService.updateDisplayBookings(bookingID, room);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
+	//remove bookings from claendar display
+	searchService.updateDisplayBookings = function(bookingID, room){
+		for (var i = 0; i < buildingSearchResults[room].length; i++){
+			if(buildingSearchResults[room][i].bookingID == bookingID){
+				//remove the booking
+				buildingSearchResults[room].splice(i,1);
+			}
+		}
+		//remove it from the current display as well
+		if(searchService.selectedSearchRoom ==  room){
+			for (var i = 0; i < searchService.roomSearchResults.length; i++){
+				if(searchService.roomSearchResults[i].bookingID == bookingID){
+					//remove the booking
+					searchService.roomSearchResults.splice(i,1);
+				}
+			}
+		}
+	}
+
+	//called when leaving this controll and reinitilizaes all data
 	searchService.clearData = function(){
 		//lear room tabs
 		searchService.roomTabs.splice(0,searchService.roomTabs.length);

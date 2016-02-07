@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('SearchCtrl', SearchCtrl);
 
-function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchService) {
+function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableService, SearchService) {
 	$scope.pageClass = 'search'; //used to change pages in index.html
 	$scope.buildings = SharedVariableService.buildings;
     $scope.selectedBuilding = "Harrison LeCaine Hall";
@@ -130,12 +130,117 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
 				});
 		}
 	}
-	
-	//CALENDAR
+
+  /*tabs*/
+  $scope.tabs = SearchService.roomTabs;
+
+  //detects when a tab is changed and provides the room id
+  $scope.changeRoom=function(roomID){
+    SearchService.selectedSearchRoom = roomID;
+    SearchService.setUpRoomsEvents();
+  }
+
+  	//detect when changing tabs
+  	$scope.$on("$destroy", function(){
+        SearchService.calRender = false;
+        SearchService.clearData();
+
+    });
+
+
+    //CALENDAR
 	$scope.calRender = SearchService.calRender;
 
+     $scope.alerts = [];
 
-	//calendar config
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+
+  //called when emtpy calendar timeslot is selected
+  $scope.bookRoomInCalendar = function(date, jsEvent, view){
+    //ensure this user cannot book if not in drama or music
+    if (SharedVariableService.userType != "nonBooking"){
+
+      $scope.day = date.format("YYYY-MM-DD h:mm z");
+
+      var makeBookingPopupInstance = $uibModal.open({
+        templateUrl: 'makeBookingPopup.html',
+        controller: 'MakeBookingPopupCtrl',
+        resolve: {
+          building: function () {
+            return $scope.selectedBuilding;
+          },
+          roomNum: function () {
+            return SearchService.selectedSearchRoom;
+          },
+          dateTime: function () {
+            return date;
+          },
+          sourcePage: function () {
+            return "search";
+          }
+        }
+      });
+
+      makeBookingPopupInstance.result.then(function (alert) {
+        $scope.alerts.push(alert);
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    }
+    else{
+      //non-booking user
+      alert = { type: 'warning', msg: "You may not book rooms because you do not have room booking permissions"};
+      $scope.alerts.push(alert);
+    }
+  }
+
+
+ /* alert on eventClick */
+ //called when a booking is clicked
+  $scope.viewBookingInformation = function(date, jsEvent, view){
+
+    console.log(SharedVariableService.userType);
+    var viewBookingPopupInstance = $uibModal.open({
+      templateUrl: 'viewBookingPopup.html',
+      controller: 'ViewBookingPopupCtrl',
+      resolve: {
+        building: function () {
+          return date.building;
+        },
+        roomNum: function () {
+          return date.roomNum;
+        },
+        reason: function () {
+          return date.title;
+        },
+        date: function () {
+          return date.start.format("MMM D, YYYY");
+        },
+        startTime: function () {
+          return date.start;
+        },
+        endTime: function () {
+          return date.end;
+        },
+        bookingID: function () {
+          return date.bookingID;
+        },
+          sourcePage: function () {
+            return "search";
+          }
+      }
+    });
+    viewBookingPopupInstance.result.then(function (alert) {
+      $scope.alerts.push(alert);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+
+  };
+
+  //calendar config
 	/* config object */
   $scope.uiConfig = {
     calendar:{
@@ -159,22 +264,6 @@ function SearchCtrl($scope, uiCalendarConfig, SharedVariableService, SearchServi
       eventClick: $scope.viewBookingInformation,
     }
   };
-
-  /*tabs*/
-  $scope.tabs = SearchService.roomTabs;
-
-  //detects when a tab is changed and provides the room id
-  $scope.changeRoom=function(roomID){
-    SearchService.selectedSearchRoom = roomID;
-    SearchService.setUpRoomsEvents();
-  }
-
-  	//detect when changing tabs
-  	$scope.$on("$destroy", function(){
-        SearchService.calRender = false;
-        SearchService.clearData();
-
-    });
 
 };
 

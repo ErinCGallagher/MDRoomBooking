@@ -24,8 +24,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
 
-  $scope.alerts = [
-  ];
+  $scope.alerts = [];
 
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
@@ -50,6 +49,9 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
           },
           dateTime: function () {
             return date;
+          },
+          sourcePage: function () {
+            return "bookings";
           }
         }
       });
@@ -97,7 +99,10 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
         },
         bookingID: function () {
           return date.bookingID;
-        }
+        },
+          sourcePage: function () {
+            return "bookings";
+          }
       }
     });
     viewBookingPopupInstance.result.then(function (alert) {

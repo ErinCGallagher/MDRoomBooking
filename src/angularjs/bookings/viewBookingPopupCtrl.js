@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('ViewBookingPopupCtrl', ViewBookingPopupCtrl);
 
-function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, endTime, bookingID, BookingsService, SharedVariableService) {
+function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, endTime, bookingID, sourcePage, BookingsService, SharedVariableService, SearchService) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -31,14 +31,28 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
   };
 
     $scope.cancelBooking = function () {
-    BookingsService.cancelBooking(bookingID,startTime)
-      .then(function(){
-         alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-        $uibModalInstance.close(alert);
-      },
-      function(err){
-          alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
+      if(sourcePage == "bookings"){
+      BookingsService.cancelBooking(bookingID,startTime)
+        .then(function(){
+           alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
           $uibModalInstance.close(alert);
-      });
+        },
+        function(err){
+            alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
+            $uibModalInstance.close(alert);
+        });
+      }
+      else{
+        SearchService.cancelBooking(bookingID,startTime)
+        .then(function(){
+           alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+          $uibModalInstance.close(alert);
+        },
+        function(err){
+            alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
+            $uibModalInstance.close(alert);
+        });
+      }
+
   };
 };
