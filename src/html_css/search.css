@@ -2,16 +2,22 @@
 .search{
 	text-align:center;
 }
+
+.search h1{
+	font-size: 130%;
+    font-weight: bold;
+    margin: 0px;
+}
 .search label{
 	padding-right: 10px;
 }
 
 
 .search .search-bar{
+	margin-top: 15px !important;
 	display:inline-block;
 	margin:20px 10px 20px 20px;
 	padding:10px;
-	/*min-width:30em;*/
 	background-color:#c2d2d6;
 }
 
