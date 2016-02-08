@@ -113,8 +113,8 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			.then(function(data){
 				openUsersPopup(data);
 			},
-			function() {
-				alert("err");
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
 			});
 	}
 

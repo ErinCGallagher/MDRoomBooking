@@ -49,8 +49,8 @@ function AdminGroupsService(CommService, $q){
 		.then(function(data){
 				q.resolve(data);
 			},
-			function(err){
-				alert("error with addUsers in GroupsService.");
+			function(errorMsg){
+				q.reject(errorMsg);
 			});
 		return q.promise;
 	}	
