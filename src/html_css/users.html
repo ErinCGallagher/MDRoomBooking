@@ -32,11 +32,11 @@
 <p>
 <b>Upload Music List</b>
 <input type="file" id="musicFile" name="musicFile" ng-model="selectedFile"/>
-<button onclick="angular.element(this).scope().uploadList(document.getElementById('musicFile').files[0], 'Music')">Submit</button>
+<button onclick="angular.element(this).scope().uploadMasterList(document.getElementById('musicFile').files[0], 'Music')">Submit</button>
 </p>
 
 <p>
 <b>Upload Drama List</b>
 <input type="file" id="dramaFile" name="dramaFile" ng-model="selectedFile"/>
-<button onclick="angular.element(this).scope().uploadList(document.getElementById('dramaFile').files[0], 'Drama')">Submit</button>
+<button onclick="angular.element(this).scope().uploadMasterList(document.getElementById('dramaFile').files[0], 'Drama')">Submit</button>
 </p>

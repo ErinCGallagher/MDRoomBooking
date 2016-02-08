@@ -7,7 +7,8 @@
 
 	// ensure user type is either Student, Faculty, or Admin
 	function checkClass($str) {
-		// TODO: trim and lowercase string
+		// TODO: trim and lowercase string?
+		// $str = strtolower(trim($str));
 		$val = strcmp($str, 'Student') == 0;
 		$val |= strcmp($str, 'Faculty') == 0;
 		$val |= strcmp($str, 'Admin') == 0;
@@ -18,6 +19,7 @@
 	// each element has format <id>,<firstName>,<lastName>,<type>
 	// <type> = "Student" | "Faculty" | "Admin"
 	require '../uploadFile.php';
+	$fileLines = processFile();
 
 	if ('Music' == $department) {
 		$defaultHrs = 5;
@@ -40,7 +42,7 @@
 	$insertUserArray = array();
 
 	//process each user
-	foreach ($contents as $user) { //$contents is from uploadFile.php
+	foreach ($fileLines as $user) { 
 		$userData = explode(",", $user); 
 		// userData should have format <id>,<firstName>,<lastName>,<type>
 		
@@ -73,39 +75,54 @@
 	$insertMasterString = chop($insertMasterString, ", ");
 	$insertUserString = chop($insertUserString, ", ");
 
-	//insert users into master list
-	//use ignore so you don't have duplicates
-	$insertMasterQuery = "INSERT IGNORE INTO Master (uID, department) VALUES $insertMasterString";
-	$insertMasterStmt = $db->prepare($insertMasterQuery);
-	$insertMasterStmt->execute($insertMasterArray);
+	// update DB
+	try {
+		$db->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	//insert users into user list
-	//use ignore so you don't have duplicates
-	//TODO: check if user should have default hours from music 
-	$insertUserQuery = "INSERT IGNORE INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs) VALUES $insertUserString";
-	$insertUserStmt = $db->prepare($insertUserQuery);
-	$insertUserStmt->execute($insertUserArray);
+		$db->beginTransaction();
 
-	//Remove deleted users (no longer in master) from user table
-	$deleteUserQuery = "DELETE FROM User WHERE uID NOT IN (SELECT uID FROM Master)";
-	$deleteUserStmt = $db->query($deleteUserQuery);
-	
-	//Remove deleted users from groups as well
-	$deleteGroupQuery = "DELETE FROM Permission WHERE uID NOT IN (SELECT uID FROM Master)";
-	$deleteGroupStmt = $db->query($deleteGroupQuery);
-	
-	$result = array();
-	// doesn't work if nothing inserted
-	$result["numUsersInDept"] = $insertMasterStmt->rowCount(); // num users now in department
-	$result["numUsersDeleted"] = $deleteUserStmt->rowCount();
-	$result["badFormatUsers"] = $badFormatUsers; 
-	$result["badClassUsers"] = $badClassUsers;
-	// Another format?
-	// $result[0] = (object) array('numUsersInDept' => $insertMasterStmt->rowCount());
-	
-	//Convert to json
-	$json = json_encode($result);
-	// echo the json string
-	echo $json;
+		//insert users into master list
+		//use ignore so you don't have duplicates
+		$insertMasterQuery = "INSERT IGNORE INTO Master (uID, department) VALUES $insertMasterString";
+		$insertMasterStmt = $db->prepare($insertMasterQuery);
+		$insertMasterStmt->execute($insertMasterArray);
+
+		//insert users into user list
+		//use ignore so you don't have duplicates
+		//TODO: check if user should have default hours from music 
+		$insertUserQuery = "INSERT IGNORE INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs) VALUES $insertUserString";
+		$insertUserStmt = $db->prepare($insertUserQuery);
+		$insertUserStmt->execute($insertUserArray);
+
+		//Remove deleted users (no longer in master) from user table
+		$deleteUserQuery = "DELETE FROM User WHERE uID NOT IN (SELECT uID FROM Master)";
+		$deleteUserStmt = $db->query($deleteUserQuery);
+		
+		//Remove deleted users from groups as well
+		$deleteGroupQuery = "DELETE FROM Permission WHERE uID NOT IN (SELECT uID FROM Master)";
+		$deleteGroupStmt = $db->query($deleteGroupQuery);
+
+		$db->commit();
+		
+		$result = array();
+		// doesn't work if nothing inserted
+		$result["numUsersInDept"] = $insertMasterStmt->rowCount(); // num users now in department
+		$result["numUsersDeleted"] = $deleteUserStmt->rowCount();
+		$result["badFormatUsers"] = $badFormatUsers; 
+		$result["badClassUsers"] = $badClassUsers;
+		// Another format?
+		// $result[0] = (object) array('numUsersInDept' => $insertMasterStmt->rowCount());
+		
+		//Convert to json
+		$json = json_encode($result);
+		// echo the json string
+		echo $json;
+	} catch (Exception $e) { 
+		http_response_code(500); //Internal Server Error
+	    if (isset ($db)) {
+	       $db->rollback ();
+	       echo "Error:  " . $e; 
+	    }
+	}
 ?>
 

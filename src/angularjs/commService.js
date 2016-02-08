@@ -47,8 +47,8 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			.then(function(response) {
 				q.resolve(response.data);
 			},
-			function(err){
-				q.reject();
+			function(data){
+				q.reject(data.data);
 			});
 		return q.promise;
 	}

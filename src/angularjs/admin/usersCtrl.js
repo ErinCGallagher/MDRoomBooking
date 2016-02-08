@@ -29,13 +29,13 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	    });
 	};
 
-	$scope.uploadList = function(uploadFile, dept) {
+	$scope.uploadMasterList = function(uploadFile, dept) {
 		AdminUsersService.uploadMasterList(uploadFile, dept)
 		.then(function(data){
 				openUploadPopup(data, dept);
 			},
-			function() {
-				alert("Error: Users not uploaded."); //unsure if this is true
+			function(errorMsg) {
+				alert(errorMsg); 
 			});
 	}
 

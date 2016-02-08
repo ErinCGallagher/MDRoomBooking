@@ -15,8 +15,8 @@ function AdminUsersService(CommService, $q){
 			.then(function(response) {
 				q.resolve(response);
 			},
-			function(err){
-				q.reject();
+			function(errorMsg){
+				q.reject(errorMsg);
 			});
 		return q.promise;
 	}	

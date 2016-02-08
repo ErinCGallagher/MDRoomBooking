@@ -29,8 +29,8 @@ function UserCommService($http){
 		    	console.log("uploadMasterList ", data);
 		    	return data;
 		    })
-		    .error(function(data, status) { //request to the php scirpt failed
-		    	return 'error';
+		    .error(function(data) { //request to the php scirpt failed
+		    	return data;
 		    });
 		 return promisePost;
 	}
