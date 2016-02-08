@@ -154,6 +154,9 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			templateUrl: 'viewUsersPopup.html',
 			controller: 'ViewUsersModalCtrl',
 			resolve: {
+				groupId: function () {
+					return $scope.groupId; //set by getGroupInfo
+				},
 				groupName: function () {
 					return $scope.groupName; //set by getGroupInfo
 				},

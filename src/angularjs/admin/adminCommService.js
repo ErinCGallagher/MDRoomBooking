@@ -61,6 +61,21 @@ function AdminCommService($http){
 		    	console.log(data);
 		    	return data;
 		    });
+
+		 return promisePost;
+	}
+		    
+	adminCommService.deleteUserFromGroup = function(userID, groupID) {
+		var sendData = {uID:userID, groupID:groupID};
+
+		var promisePost =  $http.post('src/php/admin/deleteUserFromGroup.php', sendData)
+		    .success(function(data, status) {
+		    	console.log("deleteUserFromGroup ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
 		 return promisePost;
 	}
 
