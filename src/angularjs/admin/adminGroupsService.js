@@ -55,6 +55,18 @@ function AdminGroupsService(CommService, $q){
 		return q.promise;
 	}	
 
+	adminGroupsService.getUsersInGroup = function(id) {
+		var q = $q.defer();
+		CommService.getUsersInGroup(id)
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
 	return adminGroupsService;
 
 };

@@ -118,6 +118,16 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			});
 	}
 
+	$scope.viewUsers = function() {
+		AdminGroupsService.getUsersInGroup($scope.groupId)
+			.then(function(data){
+				openViewUsersPopup(data);
+			},
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
+			});
+	}
+
 	openUsersPopup = function(data){
 		var popupInstance = $uibModal.open({
 			templateUrl: 'addUsersPopup.html',
@@ -134,6 +144,21 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 				},
 				usersNotInMaster: function () {
 					return data.usersNotInMaster;
+				}
+			}
+	    });
+	};
+
+	openViewUsersPopup = function(userList){
+		var popupInstance = $uibModal.open({
+			templateUrl: 'viewUsersPopup.html',
+			controller: 'ViewUsersModalCtrl',
+			resolve: {
+				groupName: function () {
+					return $scope.groupName; //set by getGroupInfo
+				},
+				userList: function () {
+					return userList;
 				}
 			}
 	    });

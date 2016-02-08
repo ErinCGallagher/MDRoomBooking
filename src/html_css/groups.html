@@ -22,7 +22,8 @@
         <p><strong>End Date:</strong> {{setEndDate}} </p>
         <input type="file" id="addUsersFile" name="file" ng-model="selectedFile"/>
         <button onclick="angular.element(this).scope().addUsers(document.getElementById('addUsersFile').files[0])">Add Users</button>
-
+        <br>
+        <button ng-click="viewUsers()">View Users</button>
     </div>
 </div>
 <div ng-show="showNewGroup" class="container info-container">    
@@ -61,29 +62,55 @@
     </form>
 </div>
 
+<!-- view users popup -->
+<div>
+    <script type="text/ng-template" id="viewUsersPopup.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div class="modal-header">
+        	    <h4 class="modal-title">Users in {{groupName}}</h4>
+        	</div>
+            <div class="modal-body">
+
+                <div ng-show="userList.length == 0">
+	                <p><em>There are no users in {{groupName}}.</em></p>
+	            </div>
+                <div>
+                    <div ng-repeat="user in userList">
+                        {{user.uID}}: {{user.firstName}} {{user.lastName}}
+                       <button ng-click="deleteUserFromGroup(user.uID)">Remove</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+            </div>
+        </div>
+    </script>  
+</div>
+
 <!-- popup after adding users -->
 <div>
     <script type="text/ng-template" id="addUsersPopup.html">
         <!-- Modal content-->
         <div class="modal-content">
-        	<div class="modal-header">
-        	    <h4 class="modal-title">Users Added to {{groupName}}</h4>
-        	</div>
+            <div class="modal-header">
+                <h4 class="modal-title">Users Added to {{groupName}}</h4>
+            </div>
             <div class="modal-body">
 
                 <div ng-show="addedUsers.length != 0">
-	                <p><strong>Added Users:</strong>
-	                <li ng-repeat="user in addedUsers">{{user}}</li></p>
-	            </div>
+                    <p><strong>Added Users:</strong>
+                    <li ng-repeat="user in addedUsers">{{user}}</li></p>
+                </div>
 
                 <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
                 <div ng-show="usersAlreadyInGroup.length != 0">
-	                <p><strong>Users Already In Group (Not Re-Added):</strong>
-	                <li ng-repeat="user in usersAlreadyInGroup">{{user}}</li></p>
-	            </div>
-	            <div ng-show="usersNotInMaster.length != 0">
-	                <p><strong>Users Not In Master List (Not Added): </strong> 
-	                <li ng-repeat="user in usersNotInMaster">{{user}}</li></p>
+                    <p><strong>Users Already In Group (Not Re-Added):</strong>
+                    <li ng-repeat="user in usersAlreadyInGroup">{{user}}</li></p>
+                </div>
+                <div ng-show="usersNotInMaster.length != 0">
+                    <p><strong>Users Not In Master List (Not Added): </strong> 
+                    <li ng-repeat="user in usersNotInMaster">{{user}}</li></p>
                 </div>
                 <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
 

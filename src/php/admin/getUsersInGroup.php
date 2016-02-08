@@ -5,7 +5,7 @@
 		//Get post data stream 
 		$data = json_decode(file_get_contents("php://input"));
 		//Get parameters from 
-		$theGroupID = $data->groupId;
+		$groupID = $data->groupID;
 		
 		//Get users from the database
 		$sth = $db->prepare('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID = ?');
@@ -25,7 +25,7 @@
 		//Convert to json
 		$json = json_encode($result);
 		// echo the json string
-		return $json;
+		echo $json;
    
 ?>
 

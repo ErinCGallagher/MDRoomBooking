@@ -64,6 +64,21 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 
+	adminCommService.getUsersInGroup = function(id) {
+		var data = {groupID:id};
+
+		var promisePost =  $http.post('src/php/admin/getUsersInGroup.php', data)
+		    .success(function(data, status) {
+		    	console.log("getUsersInGroup ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	console.log(data);
+		    	return data;
+		    });
+		 return promisePost;
+	}
+
 	return adminCommService;
 
 };
