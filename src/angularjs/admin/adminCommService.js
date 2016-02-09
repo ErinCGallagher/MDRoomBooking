@@ -32,7 +32,20 @@ function AdminCommService($http){
 		    });
 		 return promisePost;
 	}
+	
+	adminCommService.saveModifyGroup = function(groupInfo) {
 
+		var promisePost =  $http.post('src/php/admin/modifyGroupPermissions.php', groupInfo)
+		    .success(function(data, status) {
+		    	console.log("Modified Group Saved ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 return promisePost;
+	}
+	
 	adminCommService.getGroupInfo = function(id) {
 		var data = {groupID:id};
 
