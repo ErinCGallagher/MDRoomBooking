@@ -21,11 +21,24 @@
 	$numP = $data->numParticipants;
 	$localStart = $data->start;
 	$localEnd = $data->end;
+	
+	$utcStart = strtotime($localStart);
+	$startDate = date('Y-m-d', $utcStart);
+	$startTime = date('H:i:s', $utcStart);
 
+	$utcEnd = strtotime($localEnd);
+	$endDate = date('Y-m-d', $utcEnd);
+	$endTime = date('H:i:s', $utcEnd);
 	
 	include('../whitelist/checkBooking.php');
 	
 	$allBuildings = $_SESSION["buildings"];
+	
+	$openTime = strtotime($_SESSION["buildings"][$building]['openTime']);
+	$openTime = date('H:i:s', $openTime);
+	$closeTime = strtotime($_SESSION["buildings"][$building]['closeTime']);
+	$closeTime = date('H:i:s', $closeTime);
+	
 	
 	if (!in_array($reason, $reasonsList)) {
 		http_response_code(403); //Invalid Entry
@@ -35,21 +48,23 @@
 		http_response_code(403); //Invalid Entry (building)
 	} else if (!in_array($room, $_SESSION["buildings"][$building]['rooms'])) {
 		http_response_code(403); //Invalid Entry (room)
+	} else if ($startTime < $openTime ||  $endTime > $closeTime) {
+		//Booking is outside of building hours
+		http_response_code(403);
 	} else {
-		
-		$utcStart = strtotime($localStart);
-		$startDate = date('Y-m-d', $utcStart);
-		$startTime = date('H:i:s', $utcStart);
-
-		$utcEnd = strtotime($localEnd);
-		$endDate = date('Y-m-d', $utcEnd);
-		$endTime = date('H:i:s', $utcEnd);
-
+	
 		date_default_timezone_set('America/Toronto');
 
 		$currentDate = date('Y-m-d');
 		$currentTime = date('H:i:s');
-
+		$class = $_SESSION['class'];
+		
+		//DONT FORGET TO DELETE THIS
+		$class = "Student";
+		
+		
+		$twoWeeks = strtotime('+2 weeks', strtotime($currentDate));
+		$twoWeeks = date('Y-m-d', $twoWeeks);
 		
 		if ($currentDate > $startDate){
 			//Booking has already started or has already passed
@@ -58,7 +73,11 @@
 		}
 		else if(($currentDate == $startDate) && ($currentTime > $startTime)){
 			http_response_code(406); //Invalid Entry
-		}else {
+		}
+		else if ($class == "Student" AND $startDate > $twoWeeks){
+			http_response_code(402);
+		}
+		else {
 			//return the timezone to UTC for database Insertion
 			date_default_timezone_set('UTC');
 

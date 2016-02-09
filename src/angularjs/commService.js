@@ -100,12 +100,11 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
-	commService.search = function(searchCriteria){
+	commService.signOut = function(){
 		var q = $q.defer();
-		BookingCommService.search(searchCriteria)
-		.then(function(reponse){
-			var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(reponse.data);
-				q.resolve(formattedBuildingWeeklyBookings);
+		UserCommService.signOut()
+			.then(function(){
+				q.resolve();
 			},
 			function(err){
 				q.reject();

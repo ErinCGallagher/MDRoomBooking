@@ -33,7 +33,7 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
   $scope.GroupsText = "GROUPS";
 
   //retrieve constant text from service
-  $scope.OtherText = "OTHER";
+  $scope.SignOutText = "SIGN OUT";
 
   $scope.confirmInitialLoad = function(){
     if(SharedVariableService.initialLoadComplete == false){

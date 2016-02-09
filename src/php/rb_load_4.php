@@ -13,6 +13,22 @@
  	$user = "root";
  	$password = "";
  	$database = "mdroombooking";
+ 	/*
+ 	//development environment
+	$host = "10.20.49.11:3306";
+	$user = "DMRoomBooking";
+	$password = "UYXE9F5o4f4V";
+	$database = "DMRoomBooking";
+ 	*/
+ 	
+ 	/*
+ 	//production environment
+ 	$host = "10.28.49.11:3306";
+	$user = "DMRoomBooking";
+	$password = "72iCjkExCXoj";
+	$database = "DMRoomBooking";
+ 	*/
+
  	
  	//Connect to database
  	$cxn = mysqli_connect($host,$user,$password,$database);
@@ -144,10 +160,10 @@
 			");
 
 	mysqli_query($cxn,"INSERT INTO Building (buildingID, openTime, closeTime) VALUES
-         		('Harrison LeCaine Hall', '7:30', '11:00'),
-         		('Theological Hall', '7:30', '11:00'),
-         		('Chown Hall', '7:30', '11:00'),
-         		('The Isabel', '7:30', '11:00')");
+         		('Harrison LeCaine Hall', '8:00', '23:00'),
+         		('Theological Hall', '7:30', '23:00'),
+         		('Chown Hall', '7:30', '23:00'),
+         		('The Isabel', '8:00', '20:00')");
 
 	mysqli_query($cxn,"INSERT INTO Rooms (roomID, building, capacity, reqKey, upright, grand, openSpace, mirror, projector) VALUES
      		('HLH 102','Harrison LeCaine Hall','100','No','Yes','No','No','Yes', 'No'),

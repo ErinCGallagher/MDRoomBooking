@@ -1,7 +1,7 @@
 .navbar-default{
 	margin-right: auto;
     margin-left: auto;
-    width: 550px;
+    width: 600px;
     margin-top:20px;
 }
 
@@ -36,5 +36,29 @@
 	}
 	.navbar-centered .nav >li >a{
 		display: inline-block;
+	}
+}
+
+@media(max-width:768px){
+	.navbar-centered .navbar-nav{
+		float:none;
+		text-align:center;
+	}
+	.navbar-centered .navbar-nav >li{
+		float:none;
+		display: inline-block;
+	}
+	.navbar-center .nav >li {
+		display:inline;
+	}
+	.navbar-centered .nav >li >a{
+		display: inline-block;
+	}
+
+	.navbar-default{
+		margin-right: auto;
+	    margin-left: auto;
+	    width: 100% !important;
+	    margin-top:20px;
 	}
 }

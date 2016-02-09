@@ -14,7 +14,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "start" :start, "end" :end, "building":building })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
-		    	console.log(data);
+		    	//console.log(data);
 		    })
 		    .error(function(data, status) {
 		    	return 'error';
@@ -83,13 +83,16 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var formattedDailyBookings = [];
 
 		for(var i = 0; i<dailyBookings.length;i++){
-			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
-			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
+			var startTime = dailyBookings[i].bookingDate + "T" + dailyBookings[i].startTime + "Z";
+			var endTime = dailyBookings[i].bookingDate + "T" + dailyBookings[i].endTime + "Z";
 			var startTime = new Date(startTime);
+
+			var newStartDate = new Date(startTime);
+			var newEndDate = new Date(endTime);
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].reason, 
-			 start:new Date(startTime),
-			 end:new Date(endTime),
+			 start:newStartDate.toISOString(),
+			 end:newEndDate.toISOString(),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: selectedBuilding, 

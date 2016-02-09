@@ -8,15 +8,14 @@
         <link rel="stylesheet" href="src/html_css/stylesheet.css"/>
         <link rel="stylesheet" href="src/html_css/calendar.css"/>
         <link rel="stylesheet" href="src/html_css/groups.css"/>
-        <link rel="stylesheet" href="src/html_css/search.css"/>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
-        <script type="text/javascript" src="bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
         <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
@@ -46,7 +45,6 @@
         <script type="text/javascript" src="src/angularjs/admin/adminGroupsService.js"></script>
         <script type="text/javascript" src="src/angularjs/sharedVariableService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
-        <script type="text/javascript" src="src/angularjs/bookings/searchService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
