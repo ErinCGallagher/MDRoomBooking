@@ -37,7 +37,47 @@ function AdminGroupsService(CommService, $q){
 
 	adminGroupsService.getGroupInfo = function(groupId) {
 		return CommService.getGroupInfo(groupId);
+	}
+
+	adminGroupsService.addUsers = function(uploadFile, groupId) {
+		var fileFormData = new FormData();
+		fileFormData.append('fileToUpload', uploadFile); 
+		fileFormData.append('groupID', groupId);
+
+		var q = $q.defer();
+		CommService.addUsers(fileFormData)
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
 	}	
+
+	adminGroupsService.getUsersInGroup = function(id) {
+		var q = $q.defer();
+		CommService.getUsersInGroup(id)
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
+	adminGroupsService.deleteUserFromGroup = function(userId, groupId){
+		var q = $q.defer();
+		CommService.deleteUserFromGroup(userId, groupId)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
 
 	return adminGroupsService;
 

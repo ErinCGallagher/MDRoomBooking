@@ -2,10 +2,11 @@ angular
 .module('mainApp')
 .controller('GroupsCtrl', GroupsCtrl);
 
-function GroupsCtrl($scope, AdminGroupsService){
+function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	$scope.pageClass = 'groups';  //used to change pages in index.html
 
 	$scope.groups = AdminGroupsService.groups;
+	$scope.groupId; // used by addUsers(), set by showGroup()
 	
 	AdminGroupsService.getAllGroups();
 
@@ -16,7 +17,6 @@ function GroupsCtrl($scope, AdminGroupsService){
 		$scope.showNewGroup = true;
 		$scope.showInfo = false;
 	}
-	
 
     //Function to change restriction value when 
     //selected by user creating a group
@@ -53,11 +53,11 @@ function GroupsCtrl($scope, AdminGroupsService){
      
     //Function to change summer value when 
     //selected by user creating a group
-    $scope.changeSummer = function(fall, winter, summer) {
+    $scope.changeSummer = function(summer) {
         if (summer == 'YES' ) {
         	$scope.summer = 'NO';
         }
-        else if (summer == 'NO' && fall == 'NO'){
+        else if (summer == 'NO'){
         	$scope.summer = 'YES';
         }
     } 
@@ -85,6 +85,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 	}
 
 	$scope.showGroup = function(groupId) {
+		$scope.groupId = groupId; // used by addUsers()
 		$scope.showInfo = true;
 		$scope.showNewGroup = false;
 		getGroupInfo(groupId);
@@ -93,7 +94,7 @@ function GroupsCtrl($scope, AdminGroupsService){
 	getGroupInfo = function(groupId){
 		AdminGroupsService.getGroupInfo(groupId)
 			.then(function(groupInfo){
-				$scope.groupName = groupInfo.data[0].groupName;
+				$scope.groupName = groupInfo.data[0].groupName; // used in add users popup
 				$scope.addHrsType = groupInfo.data[0].addHrsType;
 				$scope.setHours = groupInfo.data[0].hours;
 				$scope.numUsers = groupInfo.data[1].numUsers;
@@ -107,4 +108,76 @@ function GroupsCtrl($scope, AdminGroupsService){
 		
 	}
 
+	$scope.addUsers = function(uploadFile) {
+		AdminGroupsService.addUsers(uploadFile, $scope.groupId)
+			.then(function(data){
+				openUsersPopup(data);
+			},
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
+			});
+	}
+
+	$scope.viewUsers = function() {
+		AdminGroupsService.getUsersInGroup($scope.groupId)
+			.then(function(data){
+				openViewUsersPopup(data);
+			},
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
+			});
+	}
+
+	openUsersPopup = function(data){
+		var popupInstance = $uibModal.open({
+			templateUrl: 'addUsersPopup.html',
+			controller: 'AddUsersModalCtrl',
+			resolve: {
+				groupName: function () {
+					return $scope.groupName; //set by getGroupInfo
+				},
+				addedUsers: function () {
+					return data.addedUsers;
+				},
+				usersAlreadyInGroup: function () {
+					return data.usersAlreadyInGroup;
+				},
+				usersNotInMaster: function () {
+					return data.usersNotInMaster;
+				}
+			}
+	    });
+	};
+
+	openViewUsersPopup = function(userList){
+		var popupInstance = $uibModal.open({
+			templateUrl: 'viewUsersPopup.html',
+			controller: 'ViewUsersModalCtrl',
+			resolve: {
+				groupId: function () {
+					return $scope.groupId; //set by getGroupInfo
+				},
+				groupName: function () {
+					return $scope.groupName; //set by getGroupInfo
+				},
+				userList: function () {
+					return userList;
+				}
+			}
+	    });
+	};
+
+};
+
+angular.module('mainApp').controller('AddUsersModalCtrl', AddUsersModalCtrl);
+function AddUsersModalCtrl ($scope, $uibModalInstance, groupName, addedUsers, usersAlreadyInGroup, usersNotInMaster) {
+
+	$scope.groupName = groupName;
+	$scope.addedUsers = addedUsers;
+	$scope.usersAlreadyInGroup = usersAlreadyInGroup;
+	$scope.usersNotInMaster = usersNotInMaster;
+
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 };

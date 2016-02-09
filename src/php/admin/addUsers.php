@@ -1,74 +1,138 @@
 <?php
 
-	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
+	require_once("../connection.php");
+	require_once("groupFunctions.php");
+	require_once("../uploadFile.php");
 
-	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
+	//Get parameters from frontend
+	$groupID = $_POST['groupID'];
 
-	// reads in file and stores contents in $contents
-	// each element is the userID of a user to be added to the group
-	require '../uploadFile.php';
+	// reads in file and returns an array of contents, one for each non-empty line
+	// each element should be the userID of a user to be added to the group
+	$fileLines = processFile();
 
-	// NEED TO GET THESE VALUES from frontend
-	$groupID = 1; 
-	$year = 2016;
-	$hours = 3;
-	
-	//add users to group
+	// array of group info containing (addHrsType, hours, hasBookingDurationRestriction, startDate, endDate)
+	$groupInfo = getGroupInfo($db, $groupID);
+
+	$specialHrs = 0;
+	if (strcmp($groupInfo['addHrsType'], "special") == 0) {
+		$specialHrs =  $groupInfo['hours'];
+	}
+
 	$insertString = "";
-	$updateString = "";
-	$unexpectedUserString = "";
+	$curWeekUpdateString = "";
+	$nextWeekUpdateString = "";
+	$restUpdateString = "";
+	
+	//Array to hold users being added (error-free)
+	$usersAddedArray = array();
 
-	foreach ($contents as $user) {
-		// check that user is not already in group
-		$checkGroupQuery = "SELECT uID FROM Permission WHERE uID = '$user' AND groupID = '$groupID'";
-		$checkGroupStmt = $db->query($checkGroupQuery);
+	//Array holding users + info to be added to permission table
+	$insertArray = array();
+
+	//Arrays to hold error users
+	$alreadyInGroupArray = array();
+	$notInMasterArray = array();
+	
+	foreach ($fileLines as $user) {
 		
-		if ($checkGroupStmt->rowCount() == 0) {
-			// user is NOT in group, continue with addition
+		if (!userInGroup($db, $user, $groupID)) {
+			// user is NOT already in group, continue with addition
 
-			// check that user is in master list
-			$checkUserQuery = "SELECT uID FROM Master WHERE uID = '$user'";
-			$checkUserStmt = $db->query($checkUserQuery);
-			
-			if ($checkUserStmt->rowCount() > 0) {
-				//user is in master list, continue with addition
+			if (userInMasterList($db, $user)) {
 
-				$insertString .= "('$user', '$groupID', '$year'), ";
-				$updateString .= "uID ='$user' OR ";
+				array_push($usersAddedArray, $user);
+
+				// add user to permissions table
+				// specialHrs = 0 if the group has weekly hours
+				$insertString .= "(?,?,?), ";
+				array_push($insertArray, $user, $groupID, $specialHrs);
+
+				if(groupHasCurWeekHours($groupInfo)) {
+					// if group has weekly hours that are currently active, 
+					// they should be immediately given to the user
+					$curWeekUpdateString .= "uID = ? OR ";
+				}
+
+				if(groupHasNextWeekHours($groupInfo)) {
+					// if group has hours that are active next week, 
+					// they should be immediately given to the user
+					$nextWeekUpdateString .= "uID = ? OR ";
+				}
+
+				// deal with booking restriction
+				if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
+					$restUpdateString .= "uID = ? OR ";
+				}
+				
+				
 			} else {
-				$unexpectedUserString .= "$user, ";
+				// user not in master list
+				array_push($notInMasterArray, $user);
 			}
 
 		} else {
 			// user is in group, don't re-add
-			echo "User $user is already in group $groupID.";
+			array_push($alreadyInGroupArray, $user);
 		}
 	}
 
-	echo "Unexpected Users: " . $unexpectedUserString;
-
 	//remove extra characters
 	$insertString = chop($insertString, ", ");
-	$updateString = chop($updateString, " OR ");
+	$curWeekUpdateString = chop($curWeekUpdateString, " OR ");
+	$nextWeekUpdateString = chop($nextWeekUpdateString, " OR ");
+	$restUpdateString = chop($restUpdateString, " OR ");
 
-	$insertQuery = "INSERT INTO Permission (uID, groupID, academicYr) VALUES $insertString";
-	$insertStmt = $db->query($insertQuery);
 
-	if ($insertStmt) {
-		// insert successful
-		$updateQuery = "UPDATE User SET addHrs = addHrs + '$hours' WHERE $updateString";
-		$updateStmt = $db->query($updateQuery);
+	// update DB
+	try {
+		$db->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		if ($updateStmt) {
-			// update successful
-			echo "Successful";
+		$db->beginTransaction();
+
+		//Insert Permissions
+		$insertQuery = "INSERT INTO Permission (uID, groupID, specialHrs) VALUES $insertString";
+		$insertStmt = $db->prepare($insertQuery);
+		$insertStmt->execute($insertArray);
+
+		$weekHours = $groupInfo['hours'];
+		//update user table with current active weekly hours
+		if(groupHasCurWeekHours($groupInfo)) {
+			$curWeekUpdateQuery = "UPDATE User SET curWeekHrs = curWeekHrs + $weekHours WHERE $curWeekUpdateString";
+			$curWeekUpdateStmt = $db->prepare($curWeekUpdateQuery);
+			$curWeekUpdateStmt->execute($usersAddedArray);
 		}
 
-	} else {
-		echo "Unsuccessful";
+		//update user table with active weekly hours for next week
+		if(groupHasNextWeekHours($groupInfo)) {
+			$nextWeekUpdateQuery = "UPDATE User SET nextWeekHrs = nextWeekHrs + $weekHours WHERE $nextWeekUpdateString";
+			$nextWeekUpdateStmt = $db->prepare($nextWeekUpdateQuery);
+			$nextWeekUpdateStmt->execute($usersAddedArray);
+		}
+
+		if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
+			$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'No' WHERE $restUpdateString";
+			$restUpdateStmt = $db->prepare($restUpdateQuery);
+			$restUpdateStmt->execute($usersAddedArray);
+		}
+
+		$db->commit();
+
+		$result = array();
+		$result["addedUsers"] = $usersAddedArray; 
+		$result["usersAlreadyInGroup"] = $alreadyInGroupArray;
+		$result["usersNotInMaster"] = $notInMasterArray; 
+		
+		//Convert to json
+		$json = json_encode($result);
+		// echo the json string
+		echo $json;
+	} catch (Exception $e) { 
+		http_response_code(500); //Internal Server Error
+	    if (isset ($db)) {
+	       $db->rollback ();
+	       echo "Error:  " . $e; 
+	    }
 	}
 
 ?>
