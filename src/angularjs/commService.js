@@ -112,6 +112,21 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.search = function(searchCriteria){
+		var q = $q.defer();
+		BookingCommService.search(searchCriteria)
+		.then(function(reponse){
+			var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(reponse.data);
+				q.resolve(formattedBuildingWeeklyBookings);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
+	
+
 
 
 	return commService;
