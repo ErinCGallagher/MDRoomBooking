@@ -10,15 +10,32 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.weeklyBookings = []; //for a specific room
 	bookingsService.RoomTabs = [];
 	var buildingWeeklyBookings = []; //for the entire building
-	var rooms = CommService.getRooms();
+
+	//retrieves the daily bookings given a date
+	//called when the page first loads
+	bookingsService.getWeeklyBookings = function(start, end){
+		//call communication Service
+		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
+			.then(function(retrievedBookings){
+				bookingsService.weeklyBookings.length = 0;
+				buildingWeeklyBookings = retrievedBookings;
+
+				bookingsService.setUpRoomsWeeklyEvents();
+				
+			},
+			function(err){
+				alert("could not retrieve daily bookings from database");
+			});
+	}
 
 	bookingsService.setUpRoomTabs =function(){
 		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
 
 		var buildingRooms = [];
+		
 		//this way retrieves the room ids and then the will get the data
-		if (rooms[bookingsService.selectedBuilding] != undefined){
-			buildingRooms = rooms[bookingsService.selectedBuilding];
+		if (SharedVariableService.buildingAndRooms[bookingsService.selectedBuilding] != undefined){
+            buildingRooms = SharedVariableService.buildingAndRooms[bookingsService.selectedBuilding];
 		}
 
 		var numRooms = buildingRooms.length;
@@ -44,22 +61,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		}
 	}
 
-	//retrieves the daily bookings given a date
-	//called when the page first loads
-	bookingsService.getWeeklyBookings = function(start, end){
-		//call communication Service
-		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
-			.then(function(retrievedBookings){
-				bookingsService.weeklyBookings.length = 0;
-				buildingWeeklyBookings = retrievedBookings;
 
-				bookingsService.setUpRoomsWeeklyEvents();
-				
-			},
-			function(err){
-				alert("could not retrieve daily bookings from database");
-			});
-	}
 
 	//retirve booking information from the database
 	bookingsService.getBookingInformation = function(bookingID){
@@ -106,13 +108,13 @@ function BookingsService(CommService, $q, SharedVariableService){
 						bookingsService.weeklyBookings.push(newBookingInfo);
 					}
 				},
-				function(err){
-					q.reject(false);
+				function(errorStatus){
+					q.reject(errorStatus);
 				});
 		}
 		else{
-			//don't add and inform the user there was an error
-			q.reject(false);
+			//there is a booking conflict
+			q.reject(409);
 		}
 		return q.promise;
 	}
@@ -138,8 +140,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 	return offset;
   }
 
-  	//given a date, convert it to UTC time but display it as local so the javascript doesn't manipulate it
-  	//return a javascript date object that is the current UTC time
+	//convert javascript date to UTC time by determining offset from local
+	//used for time picker display because all data is supposed to be timezone ambiguous
   	bookingsService.convertoUTCForDisplay = function(timestamp){
   		//date manipulation crap
 	  	var jsDate = new Date(timestamp); //converts to javascript date object
@@ -152,9 +154,10 @@ function BookingsService(CommService, $q, SharedVariableService){
 	  	return TimeZoned;
   	}
 
-  	//convert javascript date back to UTC time from local
-  	//return a javascript date object that is the current UTC time
-  	bookingsService.convertoUTCForDisplayMinus = function(timestamp){
+	//convert javascript date back to local from UTC time
+	//do this before sending data back to the database
+	//the database is going to convert this back to its version of UTC time 
+  	bookingsService.convertFromUTCtoLocal = function(timestamp){
   		//date manipulation crap
 	  	var jsDate = new Date(timestamp); //converts to javascript date object
 	  	var offset = bookingsService.generateOffset(timestamp);
@@ -176,8 +179,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		//loop through the bookings for that day
 		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].start));
-			var checkEnd = moment.utc(bookingsService.convertoUTCForDisplayMinus(bookingsService.weeklyBookings[i].end));
+			var checkStart = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].start));
+			var checkEnd = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].end));
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
@@ -236,6 +239,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 			});
 		return q.promise;
 	}
+
+
 
 	//determine possible durations
 	return bookingsService;

@@ -1,8 +1,9 @@
 <!-- calendarCtrl -->
-   <div class="building-search-bar">
-        <p class="building-selection-title"><strong>Building:</strong></p>
-        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select"></select>
-        <button class="building-go-button" ng-click="retrieveRooms()"> Go </button>
+
+    <div class="building-search-bar" ng-init="confirmInitialLoad()">
+   <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
+        <p class="building-selection-title"><strong>Select A Building:</strong></p>
+        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
    </div>
 
    <!-- alert after attempting to make a booking -->
@@ -15,10 +16,11 @@
      <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 
    <div class="date-navigation-bar">
-    <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
-    <h2 class="date-text">{{date}}</h2>
-    <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
+        <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
+        <h2 class="date-text">{{date}}</h2>
+        <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
    </div>
+
    </br>
 
     <uib-tabset>
@@ -47,12 +49,12 @@
                             <p><strong>Room #:</strong> {{roomNum}}</p>
                             <Table>
                                 <tr>
-                                    <td><strong>Start Date:</strong> {{date}}</td>
-                                    <td><strong>Start Time:</strong> {{startTime}}</td>
+                                    <td class="date-column"><strong>Start Date:</strong> {{date}}</td>
+                                    <td class="date-column"><strong>Start Time:</strong> {{startTime}}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>End Date:</strong> {{date}}</td>
-                                    <td class="end-time"><div><strong>End Time: </strong></div>
+                                    <td class="date-column"><strong>End Date:</strong> {{date}}</td>
+                                    <td class="end-time date-column"><div><strong>End Time: </strong></div>
                                     <div><uib-timepicker ng-model="mytime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
                                     </td>
                                 </tr>

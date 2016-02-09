@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('AppCtrl', AppCtrl)
 
-function AppCtrl($scope, $location, $route){
+function AppCtrl($scope, $location, $route, SharedVariableService){
 
 //may need to handle back button functionality here espeically on phones
   
@@ -34,5 +34,21 @@ function AppCtrl($scope, $location, $route){
 
   //retrieve constant text from service
   $scope.OtherText = "OTHER";
+
+  $scope.confirmInitialLoad = function(){
+    if(SharedVariableService.initialLoadComplete == false){
+      $location.path("/"); //return to the login page to 
+    }
+  }
+
+
+  $scope.$watch('userPermision', function(userPermision) {
+    if(userPermision == undefined){
+      SharedVariableService.userType = "admin";
+    }else{
+       SharedVariableService.userType = userPermision;      
+    }
+
+ });
 
 }

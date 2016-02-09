@@ -1,1 +1,155 @@
-<h1 id='search-title'> Search page </h1>
+<h1>Search for Available Rooms</h1>
+<div class="search-bar" ng-init="confirmInitialLoad()">
+   <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
+   <table>
+   <tr>
+
+   		<td class="width50" colspan="2" >
+   			<div class="form-inline">
+   			<label class = "date-header"><strong>Date:</strong></label>
+   			<div class="input-group">
+   			<!-- datePicker -->
+              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="selectedDate" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+           </div>
+   		</td>
+   		<td class="width50" colspan="2">
+   		<!-- building selection dropdown -->
+	   		<p class="building-selection-title"><strong>Building:</strong></p>
+	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
+	    </td>
+	</tr>
+    <tr>
+    	<td  colspan="4" >
+    	<!-- start and end time picker -->
+    	<div class="time-picker-align col-lg-12">
+    		<p class="time-picker-header"><strong>Time: </strong></p>
+    		<div><uib-timepicker ng-model="myStartTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' ></uib-timepicker> </div>
+    		 <p class="time-picker-header"><strong> to </strong></p>
+    		<div><uib-timepicker ng-model="myEndTime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" min='minTime'></uib-timepicker> </div>
+    	</div>
+    	</td>
+        
+    </tr>
+    <tr>
+    <td colspan="4">
+    	<!-- contents check boxes -->
+    	<label ng-repeat="content in contents">
+		  <input
+		    type="checkbox"
+		    name="selectedContents[]"
+		    value="{{content}}"
+		    ng-checked="selection.indexOf(content) > -1"
+		    ng-click="toggleSelection(content)"
+		  > {{content}}
+		</label>
+    </td>
+    </tr>
+    </table>
+    <button ng-click="search()"> Search</button>
+   </div>
+
+   <!-- alert after attempting to make a booking -->
+     <script type="text/ng-template" id="alert.html">
+       <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+         <div ng-transclude></div>
+       </div>
+     </script>
+
+     <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+
+
+   <uib-tabset>
+        <uib-tab ng-repeat="tab in tabs track by tab.title" heading="{{tab.title}}" active="tab.active" disable="tab.disabled" select="changeRoom(tab.title)">
+        </uib-tab>
+  </uib-tabset>
+  <h1 ng-show="searchResults"> Your Search Returned No Results </h1>
+    <div id="calendar-container" ng-if="calRender">
+   <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
+   </div>
+
+    <!-- Make Booking Popup Template -->
+    <div>
+        <script type="text/ng-template" id="makeBookingPopup.html">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title">Book Room</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="book-Room">
+                        <div class="book-room-info">
+                            <p><strong>Building:</strong> {{building}}</p>
+                            <p><strong>Room #:</strong> {{roomNum}}</p>
+                            <Table>
+                                <tr>
+                                    <td class="date-column"><strong>Start Date:</strong> {{date}}</td>
+                                    <td class="date-column"><strong>Start Time:</strong> {{startTime}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="date-column"><strong>End Date:</strong> {{date}}</td>
+                                    <td class="end-time date-column"><div><strong>End Time: </strong></div>
+                                    <div><uib-timepicker ng-model="mytime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
+                                    </td>
+                                </tr>
+                        </table>
+                        </div>
+                        <p>
+                            <strong>Number of People: </strong>
+                            <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
+                        </p>
+                        <p>
+                            <strong>Reason</strong>
+                            <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons"></select>
+                        </p>
+                        <div ng-show="selectedReason=='Other'">
+                            <Strong>Description: </Strong>
+                            <textarea name="textareaDescription" ng-model="description" ng-maxlength="150"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn" ng-click="cancel()">Cancel</button>
+                    <button type="submit" class="btn" ng-click="submitBooking()">Book Room</button>
+                </div>
+            </div>
+        </script>  
+    </div>
+
+
+    <!-- View Booking Popup Template -->
+    <div>
+        <script type="text/ng-template" id="viewBookingPopup.html">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title">Booking Information</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="book-Room">
+                        <div class="book-room-info">
+                            <p><strong>Building:</strong> {{building}}</p>
+                            <p><strong>Room #:</strong> {{roomNum}}</p>
+                            <p><strong>Date:</strong> {{date}}</p>
+                            <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
+                        <p><strong>Number of People: </strong> {{numPeople}}</p>
+                        <p><strong>Reason</strong> {{reason}}</p>
+                        <div ng-show="reason=='Other'">
+                            <p><Strong>Description: </Strong> {{description}}</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">Cancel Booking</button>
+                    <button type="submit" class="btn" ng-click="cancel()">Back</button>
+
+                </div>
+            </div>
+        </script>  
+    </div>

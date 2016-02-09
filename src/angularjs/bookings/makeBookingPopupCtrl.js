@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('MakeBookingPopupCtrl', MakeBookingPopupCtrl);
 
-function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, BookingsService) {
+function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -31,29 +31,61 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     */
     $scope.endTime = endTimestamp.format("h:mm a");
 
+    var bookingInfo = {
+        title: $scope.selectedReason,
+        start: dateTime,
+        end: endTimestamp,
+        allDay: false,
+        building: building, 
+        roomNum: roomNum,
+        numPeople: $scope.selectedNumPeople, 
+        description: $scope.description,
+        stick:true
+        };
 
-   //call booking service to send booking info to the database
-    BookingsService.bookRoom({
-      title: $scope.selectedReason,
-      start: dateTime,
-      end: endTimestamp,
-      allDay: false,
-      building: building, 
-      roomNum: roomNum,
-      numPeople: $scope.selectedNumPeople, 
-      description: $scope.description,
-      stick:true
-      })
-      .then(function(response){
-        alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-        $uibModalInstance.close(alert);
-      },
-        function(response){
-          alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
+    if(sourcePage == "bookings"){
+
+      //call booking service to send booking info to the database
+      BookingsService.bookRoom(bookingInfo)
+        .then(function(response){
+          alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
           $uibModalInstance.close(alert);
-        });
+        },
+          function(errorStatus){
+            alertSending(errorStatus);
+          });
+        }
+        else{ //search page
+          //call booking service to send booking info to the database
+          SearchService.bookRoom(bookingInfo)
+            .then(function(response){
+              alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+              $uibModalInstance.close(alert);
+            },
+              function(errorStatus){
+                alertSending(errorStatus);
+              });
+        }
     
   };
+
+  //sends out differen alerts bassed on response
+  alertSending = function( errorStatus){
+    if(errorStatus == 406){
+      //trying to make booking in the past
+      alert = { type: 'danger', msg: 'Error: You cannot create a booking in the past'};
+    }
+    else if (errorStatus == 409){
+      //conflicted with another booking
+        alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
+    }
+    else{
+      //the building or room number does not exsit
+      alert = { type: 'danger', msg: 'Error:  It appears that ' + building + ' or ' + roomNum + ' does not exist'};
+    }
+  
+    $uibModalInstance.close(alert);
+  }
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

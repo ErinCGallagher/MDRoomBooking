@@ -8,6 +8,11 @@ angular
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
 	$routeProvider
 	
+	.when('/', {
+		templateUrl:"src/html_css/login.html",
+		controller:"LoginCtrl",
+		activetab: null
+	})	
 	.when('/calendar', {
 		templateUrl:"src/html_css/calendar.html",
 		controller:"CalendarCtrl",

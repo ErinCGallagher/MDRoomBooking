@@ -12,6 +12,14 @@
 	align-items: center;
 }
 
+.date-column{
+	padding-right: 20px;
+}
+
+.select-user-type{
+	outline: black solid thick;
+}
+
 
 
 @media(min-width:768px){

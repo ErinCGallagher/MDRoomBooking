@@ -3,9 +3,9 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService, SharedVariableService){
+function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
 
-  $scope.buildings = ["Harrison LeCaine Hall","Theological Hall", "The Isabel", "Chown Hall"];
+  $scope.buildings = SharedVariableService.buildings;
   $scope.selectedBuilding = "Harrison LeCaine Hall";
   $scope.events = BookingsService.weeklyBookings;
   $scope.pageClass = 'calendar'; //used to change pages in index.html
@@ -24,8 +24,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
   }
 
-  $scope.alerts = [
-  ];
+  $scope.alerts = [];
 
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
@@ -33,29 +32,41 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
 
   //called when emtpy calendar timeslot is selected
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
-    $scope.day = date.format("YYYY-MM-DD h:mm z");
+    //ensure this user cannot book if not in drama or music
+    if (SharedVariableService.userType != "nonBooking"){
 
-    var makeBookingPopupInstance = $uibModal.open({
-      templateUrl: 'makeBookingPopup.html',
-      controller: 'MakeBookingPopupCtrl',
-      resolve: {
-        building: function () {
-          return $scope.selectedBuilding;
-        },
-        roomNum: function () {
-          return BookingsService.selectedroom;
-        },
-        dateTime: function () {
-          return date;
+      $scope.day = date.format("YYYY-MM-DD h:mm z");
+
+      var makeBookingPopupInstance = $uibModal.open({
+        templateUrl: 'makeBookingPopup.html',
+        controller: 'MakeBookingPopupCtrl',
+        resolve: {
+          building: function () {
+            return $scope.selectedBuilding;
+          },
+          roomNum: function () {
+            return BookingsService.selectedroom;
+          },
+          dateTime: function () {
+            return date;
+          },
+          sourcePage: function () {
+            return "bookings";
+          }
         }
-      }
-    });
+      });
 
-    makeBookingPopupInstance.result.then(function (alert) {
+      makeBookingPopupInstance.result.then(function (alert) {
+        $scope.alerts.push(alert);
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    }
+    else{
+      //non-booking user
+      alert = { type: 'warning', msg: "You may not book rooms because you do not have room booking permissions"};
       $scope.alerts.push(alert);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    }
   }
 
 
@@ -63,6 +74,7 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
  //called when a booking is clicked
   $scope.viewBookingInformation = function(date, jsEvent, view){
 
+    console.log(SharedVariableService.userType);
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
       controller: 'ViewBookingPopupCtrl',
@@ -87,9 +99,18 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
         },
         bookingID: function () {
           return date.bookingID;
-        }
+        },
+          sourcePage: function () {
+            return "bookings";
+          }
       }
     });
+    viewBookingPopupInstance.result.then(function (alert) {
+      $scope.alerts.push(alert);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+
   };
 
 
@@ -98,8 +119,9 @@ function CalendarCtrl($scope, $uibModal, $log, uiCalendarConfig, BookingsService
     calendar:{
       editable: false, //allows you to drag events
       defaultView:'agendaWeek',
-      minTime : "07:00:00", //earliest time to display
+      minTime :"07:00:00", //earliest time to display
       maxTime : "23:00:00",
+      timeFormat: '',
       slotEventOverlap:false,
       allDaySlot:false,
       timezone: false,

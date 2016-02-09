@@ -6,9 +6,11 @@ angular
 function BookingCommService($http){
 
 	var bookingCommService = {};
+	var selectedBuilding = "Harrison LeCaine Hall";
 
 
 bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
+		selectedBuilding = building;
 		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "start" :start, "end" :end, "building":building })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
@@ -54,21 +56,13 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		console.log(data);
 		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
 		    .success(function(response) {
-		    	var hello = response;
-		    	return hello;
+		    	console.log(response);
 		    })
 		    .error(function(responseDate) { //request to the php scirpt failed
-		    	return 'error';
+		    	return responseDate.status;
 		    });
 		 return promisePost;
 
-	}
-
-	bookingCommService.getRooms = function(){
-		return rooms = [{"Harrison LeCaine Hall" : ["HLH 102","HLH 103","HLH 104","HLH 105","HLH 106"]},
-						{"Theological Hall" : ["THEO 102","THEO 119","THEO 330"]},
-						{"Chown Hall" : ["CHOWN 104","CHOWN 105","CHOWN 106","CHOWN 107"]},
-						{"The Isabel" : ["ISABEL 104"]}];
 	}
 
 	bookingCommService.formatRooms = function(rooms){
@@ -98,7 +92,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 end:new Date(endTime),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
-			 building: "Harrison LeCaine Hall", 
+			 building: selectedBuilding, 
 			 roomNum: dailyBookings[i].roomID
 			};
 		}
@@ -128,6 +122,34 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 		    });
 		 return promisePost;
+	}
+
+	//sends search criteria to the DB
+	//returns all rooms and bookings that match the search cirteria
+	//format expected = date, startTime,endTime,building, contents (individually included)
+	bookingCommService.search = function(searchCriterai){
+			selectedBuilding = searchCriterai.building;
+		var data = {
+			building : searchCriterai.building,
+			startTime : searchCriterai.startTime,
+			endTime : searchCriterai.endTime,
+			date : searchCriterai.date,
+			uprightPiano : searchCriterai.contents["Upright Piano"],
+			grandPiano : searchCriterai.contents["Grand Piano"],
+			openSpace : searchCriterai.contents["Open Space"],
+			mirror : searchCriterai.contents["Mirror"],
+			projector : searchCriterai.contents["Projector"]
+		}
+		console.log(data);
+		var promisePost =  $http.post('src/php/bookings/search.php', data)
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	console.log(responseDate);
+		    });
+		 return promisePost;
+
 	}
 
 	return bookingCommService;
