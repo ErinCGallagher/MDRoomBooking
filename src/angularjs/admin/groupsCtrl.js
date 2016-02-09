@@ -12,10 +12,12 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 
 	$scope.showInfo = false;
 	$scope.showNewGroup = false;
+	$scope.showModGroup = false;
 
 	$scope.newGroup = function(){
 		$scope.showNewGroup = true;
 		$scope.showInfo = false;
+		$scope.showModGroup = false;
 	}
 
     //Function to change restriction value when 
@@ -23,9 +25,11 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
     $scope.changeRes = function(restriction) {
         if (restriction == 'YES') {
         	$scope.restriction = 'NO';
+        	$scope.restrictionM = 'NO';
         }
         else if (restriction == 'NO'){
         	$scope.restriction = 'YES';
+        	$scope.restrictionM = 'YES';
         }
     } 
     
@@ -83,11 +87,34 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		//Send info about new group to back end
 		AdminGroupsService.createGroup(info);
 	}
-
+	
+	$scope.saveModifyGroup = function(){
+		
+		//Set variables of inputs to send to back end 
+		var info = {
+			groupName: $scope.newNameM,
+			hours: $scope.hoursM,
+			addHrsType: $scope.addHrsTypeM,
+			hasBookingDurationRestriction: $scope.restrictionM,
+			//fall: $scope.fallM,
+			//winter: $scope.winterM,
+			//summer: $scope.summerM,
+			startDate: $scope.startDateM,
+			endDate: $scope.endDateM,
+			groupID: $scope.groupId
+		}
+		
+		//Send info about new group to back end
+		AdminGroupsService.saveModifyGroup(info);
+		//alert("Group Changes Saved");
+		$scope.showGroup($scope.groupId);
+	}
+	
 	$scope.showGroup = function(groupId) {
 		$scope.groupId = groupId; // used by addUsers()
 		$scope.showInfo = true;
 		$scope.showNewGroup = false;
+		$scope.showModGroup = false;
 		getGroupInfo(groupId);
 	}
 
@@ -107,6 +134,41 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			});
 		
 	}
+
+	$scope.modifyGroup = function() {
+	
+		$scope.newNameM = $scope.groupName;
+	 
+		if ($scope.hasBookingDurationRestriction == 'YES') {
+			$scope.restrictionM = 'YES';
+		}	
+		if ($scope.hasBookingDurationRestriction == 'YES') {
+			$scope.restrictrionM = 'NO';
+		}
+		if ($scope.addHrsType == "week") {
+			$scope.addHrsTypeM = '1';
+		}
+		if ($scope.addHrsType == "special") {
+			$scope.addHrsTypeM = '2';
+		}
+		if ($scope.hasBookingDurationRestriction == 'YES') {
+			$scope.restrictionM = 'YES';
+		}
+		if ($scope.hasBookingDurationRestriction == 'NO') {
+			$scope.restrictionM = 'NO';
+		}
+
+		
+		$scope.hoursM = parseInt($scope.setHours);
+		
+		$scope.startDateM = new Date($scope.setStartDate);
+		$scope.endDateM =  new Date($scope.setStartDate);
+		
+		$scope.showInfo = false;
+		$scope.showNewGroup = false;
+		$scope.showModGroup = true;
+	}
+	
 
 	$scope.addUsers = function(uploadFile) {
 		AdminGroupsService.addUsers(uploadFile, $scope.groupId)
