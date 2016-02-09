@@ -11,6 +11,23 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.RoomTabs = [];
 	var buildingWeeklyBookings = []; //for the entire building
 
+	//retrieves the daily bookings given a date
+	//called when the page first loads
+	bookingsService.getWeeklyBookings = function(start, end){
+		//call communication Service
+		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
+			.then(function(retrievedBookings){
+				bookingsService.weeklyBookings.length = 0;
+				buildingWeeklyBookings = retrievedBookings;
+
+				bookingsService.setUpRoomsWeeklyEvents();
+				
+			},
+			function(err){
+				alert("could not retrieve daily bookings from database");
+			});
+	}
+
 	bookingsService.setUpRoomTabs =function(){
 		bookingsService.RoomTabs.splice(0,bookingsService.RoomTabs.length);
 
@@ -44,22 +61,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		}
 	}
 
-	//retrieves the daily bookings given a date
-	//called when the page first loads
-	bookingsService.getWeeklyBookings = function(start, end){
-		//call communication Service
-		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
-			.then(function(retrievedBookings){
-				bookingsService.weeklyBookings.length = 0;
-				buildingWeeklyBookings = retrievedBookings;
 
-				bookingsService.setUpRoomsWeeklyEvents();
-				
-			},
-			function(err){
-				alert("could not retrieve daily bookings from database");
-			});
-	}
 
 	//retirve booking information from the database
 	bookingsService.getBookingInformation = function(bookingID){

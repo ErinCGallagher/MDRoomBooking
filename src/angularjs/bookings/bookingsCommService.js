@@ -6,9 +6,11 @@ angular
 function BookingCommService($http){
 
 	var bookingCommService = {};
+	var selectedBuilding = "Harrison LeCaine Hall";
 
 
 bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
+		selectedBuilding = building;
 		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "start" :start, "end" :end, "building":building })
 		    .success(function(data, status) {
 		    	console.log("daily bookings from database:");
@@ -90,7 +92,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 end:new Date(endTime),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
-			 building: "Harrison LeCaine Hall", 
+			 building: selectedBuilding, 
 			 roomNum: dailyBookings[i].roomID
 			};
 		}
@@ -126,7 +128,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 	//returns all rooms and bookings that match the search cirteria
 	//format expected = date, startTime,endTime,building, contents (individually included)
 	bookingCommService.search = function(searchCriterai){
-
+			selectedBuilding = searchCriterai.building;
 		var data = {
 			building : searchCriterai.building,
 			startTime : searchCriterai.startTime,

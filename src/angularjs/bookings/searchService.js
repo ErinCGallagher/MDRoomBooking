@@ -5,14 +5,15 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 
 	var searchService = {};
 
-	searchService.roomSearchResults = [];
 	searchService.selectedBuilding = "Harrison LeCaine Hall";
 	searchService.selectedSearchRoom = "HLH 102";
-	searchService.calRender = false;
-	var buildingSearchResults = [];
+	searchService.roomSearchResults = [];
 	searchService.roomTabs = [];
+	var buildingSearchResults = [];
+
+	searchService.calRender = false;
 	searchService.minTime = "07:30:00";
-	searchService.maxTime = "22:00:00";
+	searchService.maxTime = "23:00:00";
 
 	searchService.search = function(selectedBuilding,selectedDate,startTime,endTime,selectedContents){
 		var searchCriteria = {
@@ -25,10 +26,11 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		var q = $q.defer();
 		CommService.search(searchCriteria)
 			.then(function(response){
+				searchService.roomSearchResults.splice(0,searchService.roomSearchResults.length);
 				buildingSearchResults = response;
 				searchService.calRender = searchService.setUpRoomTabs();
 				searchService.setUpRoomsEvents();
-				q.resolve(response);
+				q.resolve();
 			},
 			function(err){
 				q.reject();
@@ -68,15 +70,13 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 	//remove all current events in searchResults and 
 	//replace with events for the selected room
 	searchService.setUpRoomsEvents = function(){
-		var numEvents = searchService.roomSearchResults.length;
-		searchService.roomSearchResults.splice(0,numEvents);
+		searchService.roomSearchResults.splice(0,searchService.roomSearchResults.length);
 		//ensure the room number exsists in the building
 		if(buildingSearchResults[searchService.selectedSearchRoom] !=  undefined){
 			for(var i = 0; i<buildingSearchResults[searchService.selectedSearchRoom].length; i++){
 				searchService.roomSearchResults.push(buildingSearchResults[searchService.selectedSearchRoom][i]);
 			}
 		}
-		return searchService.roomSearchResults;
 	}
 
 		//sends info to database to book a room

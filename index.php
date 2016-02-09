@@ -14,9 +14,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- jquery, moment, and angular have to get included before fullcalendar -->
+        <script type="text/javascript" src="bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
-        <script type="text/javascript" src="bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
         <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
