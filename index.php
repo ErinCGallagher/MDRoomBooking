@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="src/html_css/stylesheet.css"/>
         <link rel="stylesheet" href="src/html_css/calendar.css"/>
         <link rel="stylesheet" href="src/html_css/groups.css"/>
+         <link rel="stylesheet" href="src/html_css/search.css"/>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,6 +46,7 @@
         <script type="text/javascript" src="src/angularjs/admin/adminGroupsService.js"></script>
         <script type="text/javascript" src="src/angularjs/sharedVariableService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/searchService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
