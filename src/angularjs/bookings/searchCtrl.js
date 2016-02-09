@@ -27,9 +27,10 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 	    startingDay: 1
   	};
 
-  	$scope.selectedDate = new Date(); //initialy current date
-  	$scope.minDate = new Date();
-  	$scope.maxDate = new Date(2020, 5, 22);
+  	$scope.selectedDate = SearchService.convertoUTCForDisplay( new Date() ); //initialy current date
+  	var minDate = SearchService.convertoUTCForDisplay( new Date() );
+  	$scope.minDate = minDate.setDate(minDate.getDate()-1);
+  	$scope.maxDate = SearchService.convertoUTCForDisplay( new Date(2020, 5, 22) );
   	$scope.format = 'EEEE, MMM d, yyyy'; //Friday, Feb 5, 2016
 
   	$scope.open = function() {

@@ -20,7 +20,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 			startTime : searchService.convertFromUTCtoLocal(startTime),
 			endTime : searchService.convertFromUTCtoLocal(endTime),
 			contents : selectedContents,
-			date : selectedDate
+			date : searchService.convertFromUTCtoLocal(selectedDate)
 		}
 		var q = $q.defer();
 		CommService.search(searchCriteria)
