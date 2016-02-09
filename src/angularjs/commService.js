@@ -24,6 +24,20 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			});
 		return q.promise;
 	}
+	
+	commService.saveModifyGroup = function(groupInfo) {
+		var q = $q.defer();
+		AdminCommService.saveModifyGroup(groupInfo)
+		.then(function(groupID){
+				// don't know why, but the return from adminCommService is an object
+				q.resolve(groupID.data);
+			},
+			function(err){
+				alert("error with createGroup");
+				q.reject();
+			});
+		return q.promise;
+	}
 
 	commService.getGroupInfo = function(groupID) {
 		return AdminCommService.getGroupInfo(groupID);
