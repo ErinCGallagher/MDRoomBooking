@@ -6,10 +6,14 @@
 	border-style:solid;
 	border-radius: 25px;
 	margin: 20px;
+	float: left;
+  	width: 45%;
+  	overflow: hidden;
 }
 
 .groups .group-info {
 	margin: 10px;
+	overflow: hidden;
 }
 
 .groups .group-element {

@@ -71,6 +71,7 @@
 					class				VARCHAR(35) 	NOT NULL,
 					curWeekHrs			INT		DEFAULT '0',
 					nextWeekHrs			INT		DEFAULT '0',
+					hasBookingDurationRestriction 	VARCHAR(5) 	NOT NULL,
 					PRIMARY KEY(uID));");				
 
 	mysqli_query($cxn,"CREATE TABLE UGroups(
@@ -86,7 +87,6 @@
 	mysqli_query($cxn,"CREATE TABLE Permission(
 					uID		VARCHAR(10)	NOT NULL,
 					groupID		INT		NOT NULL,
-					weeklyHrs	INT		DEFAULT '0',
 					specialHrs	INT		DEFAULT '0',
 					PRIMARY KEY(groupID, uID));");						
  

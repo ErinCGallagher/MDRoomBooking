@@ -1,3 +1,4 @@
+
 <div class="container groups-container">
     <span class="title">User Groups</span>
             <button class="new-group-button" ng-click="newGroup()"> 
@@ -11,7 +12,8 @@
     </div>
 
 </div>
-<div ng-show="showInfo" class="container info-container">    
+
+<div ng-show="showInfo" class="container info-container">     
     <div class="group-info">
         <p><strong>Group Name:</strong> {{groupName}}</p>
         <p><strong>Number of Users:</strong> {{numUsers}}</p>
@@ -20,32 +22,37 @@
         <strong>Hours:</strong> {{setHours}} </p>
         <p><strong>Start Date:</strong> {{setStartDate}} </p>
         <p><strong>End Date:</strong> {{setEndDate}} </p>
-        <form action="src/php/admin/addUsers.php" method="post" enctype="multipart/form-data">
-            <strong>Add Users</strong>
-            <input type="file" name="fileToUpload" id="fileToUpload">
-            <input type="submit" value="Upload User List" name="submit">
-        </form>
+        <input type="file" id="addUsersFile" name="file" ng-model="selectedFile"/>
+        <button onclick="angular.element(this).scope().addUsers(document.getElementById('addUsersFile').files[0])">Add Users</button>
+        <br>
+        <button ng-click="viewUsers()">View Users</button>
+        <br>
+        <button ng-click="modifyGroup()">Modify Group</button>
     </div>
 </div>
+
 <div ng-show="showNewGroup" class="container info-container">    
     <form class="group-info">
+    		<p><h3><strong><centre>Create A Group</centre></strong></h3></p>
             <p><strong>Group Name:</strong> 
-				<input type="text" ng-model="newName" class="form-control textbox"> </p>
+				<input type="text" ng-model="newName" class="form-control textbox" </p>
 			<p>*Check option below if users need to make bookings longer than 1.5 hours at a time*</p>
 			<p><strong>Has Booking Duration Restriction:</strong>
 				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "></p>
 				
 			<div class="boxed">
+				<p><h3>STEP 1: Choose Type of Hours</h3></p>
 				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
 			<strong>Hours Per Week</strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsType"> 
 			<strong>Total Hours</strong></p>
-				<p><input type="number" ng-model="hours" min=0 max=168 value=1 class="form-control textbox"> </p>
+				<p><h3>STEP 2: # of Hours</h3></p><p><input type="number" ng-model="hours" min=0 max=168 value=1 class="form-control textbox"> </p>
 			</div>
 			</br>
 			
 			<div class="boxed">
+			<p><h3> STEP 3: Choose Duration</h3></p>
 			<p><strong>Active:</strong>
 				<input type="checkbox" ng-model="fall" ng-init="fall = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
 				<input type="checkbox" ng-model="winter" ng-init="winter = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
@@ -61,4 +68,104 @@
             <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
    			
     </form>
+</div>
+
+<div ng-show="showModGroup" class="container info-container">    
+    <form class="modify-group">
+		<p><h3><strong><centre>Modify Group</centre></strong></h3></p>
+            <p><strong>Group Name:</strong> 
+				<input type="text" ng-model="newNameM" class="form-control textbox"> </p>
+			<p>*Check option below if users need to make bookings longer than 1.5 hours at a time*</p>
+			<p><strong>Has Booking Duration Restriction:</strong>
+				<input type="checkbox" ng-model="restrictionM" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "></p>
+				
+			<div class="boxed">
+				<p><h3>STEP 1: Choose Type of Hours</h3></p>
+				<p><input type="radio" ng-value="1" ng-model="addHrsTypeM"> 
+			<strong>Hours Per Week</strong>
+			<strong>  -- OR -- </strong>
+				<input type="radio" ng-value="2" ng-model="addHrsTypeM"> 
+			<strong>Total Hours</strong></p>
+				<p><h3>STEP 2: # of Hours</h3></p><p><input type="number" ng-model="hoursM" min=0 max=168 value=1 class="form-control textbox"> </p>
+			</div>
+			</br>
+			
+			<div class="boxed">
+			<p><h3> STEP 3: Choose Duration</h3></p>
+			<br>
+			<p><strong>Active:</strong>
+				<input type="checkbox" ng-model="fallM" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
+				<input type="checkbox" ng-model="winterM" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
+				<input type="checkbox" ng-model="summerM"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummer() ">Summer<br></p>
+			<strong> -- OR -- </strong>
+			<p><strong>Start Date:</strong>
+				<input type="date" ng-model="startDateM">
+			<strong>End Date:</strong>
+				<input type="date" ng-model="endDateM"> </p>
+			</div>
+			</br>
+            <button class="btn modify-group-button" ng-click="saveModifyGroup()">Save Group Modifications</button> 
+            </br>
+            </br>
+    </form>
+</div>
+
+
+
+<!-- view users popup -->
+<div>
+    <script type="text/ng-template" id="viewUsersPopup.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div class="modal-header">
+        	    <h4 class="modal-title">Users in {{groupName}}</h4>
+        	</div>
+            <div class="modal-body">
+
+                <div ng-show="userList.length == 0">
+	                <p><em>There are no users in {{groupName}}.</em></p>
+	            </div>
+                <div>
+                    <div ng-repeat="user in userList">
+                        {{user.uID}}: {{user.firstName}} {{user.lastName}}
+                       <button ng-click="deleteUserFromGroup(user.uID)">Remove</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+            </div>
+        </div>
+    </script>  
+</div>
+
+<!-- popup after adding users -->
+<div>
+    <script type="text/ng-template" id="addUsersPopup.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Users Added to {{groupName}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <div ng-show="addedUsers.length != 0">
+                    <p><strong>Added Users:</strong>
+                    <li ng-repeat="user in addedUsers">{{user}}</li></p>
+                </div>
+
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+                <div ng-show="usersAlreadyInGroup.length != 0">
+                    <p><strong>Users Already In Group (Not Re-Added):</strong>
+                    <li ng-repeat="user in usersAlreadyInGroup">{{user}}</li></p>
+                </div>
+                <div ng-show="usersNotInMaster.length != 0">
+                    <p><strong>Users Not In Master List (Not Added): </strong> 
+                    <li ng-repeat="user in usersNotInMaster">{{user}}</li></p>
+                </div>
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+
+                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+            </div>
+        </div>
+    </script>  
 </div>

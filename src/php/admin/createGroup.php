@@ -57,11 +57,18 @@
 	}		
 		
 	//Add Group to database
-	$query = "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES ('$groupName' , '$addHrsType' , '$hours', '$hasBookingDurationRestriction', '$startDate', '$endDate')";
-	$stmt = $db->query($query);	
+	$query = "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES (?,?,?,?,?,?)";
+	
+	
+	//Get booking info from database
+   	$sth = $db->prepare("INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES (?,?,?,?,?,?)");
+	$sth->execute(array($groupName, $addHrsType, $hours, $hasBookingDurationRestriction, $startDate, $endDate));
 	
 	//Get the groupID of group just creeated
 	$groupID = $db->lastInsertId();
+	
+	//Close the connection
+	$db = NULL;
 
  	//Return GroupID to front end
 	echo $groupID;

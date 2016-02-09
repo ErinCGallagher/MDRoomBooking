@@ -8,7 +8,16 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	var commService = {};
 
 	commService.getAllGroups = function() {
-		return AdminCommService.getAllGroups();
+		var q = $q.defer();
+		AdminCommService.getAllGroups()
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(err){
+				alert("error with getAllGroups");
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	commService.createGroup = function(groupInfo) {
@@ -24,9 +33,71 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			});
 		return q.promise;
 	}
+	
+	commService.saveModifyGroup = function(groupInfo) {
+		var q = $q.defer();
+		AdminCommService.saveModifyGroup(groupInfo)
+		.then(function(groupID){
+				// don't know why, but the return from adminCommService is an object
+				q.resolve(groupID.data);
+			},
+			function(err){
+				alert("error with createGroup");
+				q.reject();
+			});
+		return q.promise;
+	}
 
 	commService.getGroupInfo = function(groupID) {
 		return AdminCommService.getGroupInfo(groupID);
+	}
+
+	commService.addUsers = function(fileFormData){
+		var q = $q.defer();
+		AdminCommService.addUsers(fileFormData)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg.data);
+			});
+		return q.promise;
+	}
+
+	commService.getUsersInGroup = function(id){
+		var q = $q.defer();
+		AdminCommService.getUsersInGroup(id)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
+	commService.deleteUserFromGroup = function(userId, groupId){
+		var q = $q.defer();
+		AdminCommService.deleteUserFromGroup(userId, groupId)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
+	commService.uploadMasterList = function(fileFormData){
+		var q = $q.defer();
+		UserCommService.uploadMasterList(fileFormData)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(data){
+				q.reject(data.data);
+			});
+		return q.promise;
 	}
 
 	commService.getWeeklyBookingsFromDb = function(start, end, building){

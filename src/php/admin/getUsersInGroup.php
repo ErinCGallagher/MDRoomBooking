@@ -1,29 +1,31 @@
 <?php
 
-	$host = "localhost";
-	$user = "root";
-	$password = "";
-	$database = "mdroombooking";
+	include("../connection.php");
+	
+		//Get post data stream 
+		$data = json_decode(file_get_contents("php://input"));
+		//Get parameters from 
+		$groupID = $data->groupID;
+		
+		//Get users from the database
+		$sth = $db->prepare('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID = ?');
+		$sth->execute(array($groupID));
+		$rows = $sth->fetchAll();
+	
+		$result = array();
 
-	$db = new PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8',  'root', '');
+		//Put result in an array 
+		foreach($rows as $row) {
+			$result[] = $row;
+		}
+	
+		//Close the connection
+		$db = NULL;
 
-	//Get post data stream 
-	$data = json_decode(file_get_contents("php://input"));
-	//Get parameters from 
-	$groupID = $data->groupId);
-
-	$stmt = $db->query('SELECT User.uID, firstName, lastName FROM Permission JOIN User ON Permission.uID = User.uID WHERE GroupID =' . $groupID); 
-
-
-	$result = array();
-
-	while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	  $result[] = $row;
-	}
-
-	//Convert to json
-	$json = json_encode($result);
-	// echo the json string
-	echo $json;
+		//Convert to json
+		$json = json_encode($result);
+		// echo the json string
+		echo $json;
    
 ?>
+

@@ -36,6 +36,7 @@
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/signOutCtrl.js"></script>
 
         <!-- Services -->
@@ -44,6 +45,7 @@
         <script type="text/javascript" src="src/angularjs/bookings/bookingsCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminGroupsService.js"></script>
+        <script type="text/javascript" src="src/angularjs/admin/adminUsersService.js"></script>
         <script type="text/javascript" src="src/angularjs/sharedVariableService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/searchService.js"></script>
