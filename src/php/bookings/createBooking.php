@@ -59,9 +59,6 @@
 		$currentTime = date('H:i:s');
 		$class = $_SESSION['class'];
 		
-		//DONT FORGET TO DELETE THIS
-		$class = "Student";
-		
 		
 		$twoWeeks = strtotime('+2 weeks', strtotime($currentDate));
 		$twoWeeks = date('Y-m-d', $twoWeeks);

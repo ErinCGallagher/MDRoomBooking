@@ -76,9 +76,9 @@
             <td>
                 <form>
                  <input type="radio" ng-model="userPermision" value="nonBooking"> Non Booking 
-                <input type="radio" ng-model="userPermision" value="student"> Student 
-                <input type="radio" ng-model="userPermision" value="faculty"> Faculty 
-                <input type="radio" ng-model="userPermision" value="admin" ng-value="admin" > Admin
+                <input type="radio" ng-model="userPermision" value="Student"> Student 
+                <input type="radio" ng-model="userPermision" value="Faculty"> Faculty 
+                <input type="radio" ng-model="userPermision" value="Admin" ng-value="admin" > Admin
                 </form>
             </td>
                 <td>

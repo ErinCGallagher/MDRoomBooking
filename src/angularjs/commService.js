@@ -125,6 +125,19 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	//for user testing only
+	commService.changeUserType = function(userPermision){
+		var q = $q.defer();
+		UserCommService.changeUserType(userPermision)
+			.then(function(response){
+				q.resolve();
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
 	
 
 

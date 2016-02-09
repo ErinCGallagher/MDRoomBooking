@@ -44,6 +44,17 @@ function SharedVariableService($q, CommService){
 		sharedVariableService.initialLoadComplete = true;
 	}
 
+	//for user testing only
+	sharedVariableService.changeUserType = function(userPermision){
+		CommService.changeUserType(userPermision)
+			.then(function(response){
+				sharedVariableService.userType = userPermision; 
+			},
+			function(err){
+				alert("Changing user type was not successful");
+			});
+	}
+
 
 
 	return sharedVariableService;

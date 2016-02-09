@@ -41,12 +41,13 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
     }
   }
 
-
+  //for user testing only
   $scope.$watch('userPermision', function(userPermision) {
     if(userPermision == undefined){
       SharedVariableService.userType = "admin";
+      SharedVariableService.changeUserType("admin"); 
     }else{
-       SharedVariableService.userType = userPermision;      
+       SharedVariableService.changeUserType(userPermision); 
     }
 
  });

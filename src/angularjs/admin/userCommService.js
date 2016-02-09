@@ -31,6 +31,21 @@ function UserCommService($http){
 		return promisePost;
 	}
 
+	userCommService.changeUserType = function(userPermision){
+		var data = {
+			userPermision : userPermision
+		};
+		var promisePost = $http.post('src/php/admin/updateUserClass.php', data)
+		    .success(function(data, status) {
+		    	console.log("Switched user type to: " + data);
+		    })
+		    .error(function(data, status) {
+
+		    });
+		return promisePost;
+	}
+		
+
 
 	return userCommService;
 }
