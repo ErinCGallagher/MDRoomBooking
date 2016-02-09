@@ -92,10 +92,12 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 
   $scope.search = function(){
 		if($scope.myEndTime <= $scope.myStartTime ){
-			alert("your end time cannot be before your start time");
+       alert = { type: 'danger', msg: "Error: Your end time cannot be before your start time"};
+      $scope.alerts.push(alert);
 		}
     else if($scope.selectedDate == undefined){
-      alert("you must supply a date before trying to search");
+      alert = { type: 'danger', msg: "Error: You must supply a date before trying to search"};
+      $scope.alerts.push(alert);
     }
 		else{
 			var startTime = $scope.myStartTime;
