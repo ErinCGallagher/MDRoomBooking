@@ -33,9 +33,9 @@
                 
 	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs, hasBookingDurationRestriction) VALUES
 				('12af', 'Lexi', 'Flynn', 'Student', '5', '5', 'Yes'),
-				('13eg', 'Erin', 'Gallagher', 'Student', '5', '5', 'Yes'),
-				('14sk', 'Shannon', 'Klett', 'Student', '0', '0', 'No'),
-				('15lb', 'Laura', 'Brooks', 'Student', '0', '0', 'Yes')
+				('13eg', 'Erin', 'Gallagher', 'Student', '0', '2', 'Yes'),
+				('14sk', 'Shannon', 'Klett', 'Student', '5', '7', 'No'),
+				('15lb', 'Laura', 'Brooks', 'Student', '8', '0', 'No')
 				");		
 				
 				
@@ -43,16 +43,19 @@
 				('MUSC 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
 				('Ensemble A', 'week', '5', 'Yes', '2016-01-01', '2016-04-30'),
 				('DRAM 205', 'special', '6', 'No', '2016-01-01', '2016-04-30'),
-				('DRAM 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30') 
+				('DRAM 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
+				('DRAM 450', 'week', '3', 'No', '2016-01-01', '2016-04-30')  
 				");
 		
 					
 	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, specialHrs) VALUES
-				('12ajf', '2', '0'),
+				('12af', '2', '0'),
 				('13eg', '1', '0'),
 				('14sk', '3', '6'),
 				('14sk', '4', '0'),
-				('15lb', '1', '0')
+				('15lb', '1', '0'),
+				('14sk', '5', '0'),
+				('15lb', '5', '0')
 				");		
 	
 	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES

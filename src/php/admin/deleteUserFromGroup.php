@@ -52,12 +52,22 @@
 
 		}
 
-		// //has booking restriction
-		// if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
-		// 	$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'No' WHERE $restUpdateString";
-		// 	$restUpdateStmt = $db->prepare($restUpdateQuery);
-		// 	$restUpdateStmt->execute($usersAddedArray);
-		// }
+		//if group is the only one that gives user no booking restriction
+		// then they should now have a booking restriction
+		if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
+			//find all the groups that the user in that give them no booking duration restriction
+			$restQuery = "SELECT UGroups.groupID FROM UGroups JOIN Permission ON Permission.groupID = ugroups.groupID 
+				WHERE hasBookingDurationRestriction = 'No' AND uID = ?";
+			$restStmt = $db->prepare($restQuery);
+			$restStmt->execute(array($uID));
+
+			if ($restStmt->rowCount() == 0) {
+				// user was removed from the only group that gave them this permission. Remove it.
+				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'Yes' WHERE uID= ?";
+				$restUpdateStmt = $db->prepare($restUpdateQuery);
+				$restUpdateStmt->execute(array($uID));
+			}
+		}
 
 		$db->commit();
 
