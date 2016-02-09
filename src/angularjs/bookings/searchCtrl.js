@@ -99,8 +99,8 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 	 }
 
 	 $scope.searchResults = false;
-	 var initialSearch = 0; //used to determine if this is the first search 
-	$scope.search = function(){
+
+  $scope.search = function(){
 		if($scope.myEndTime <= $scope.myStartTime ){
 			alert("your end time cannot be before your start time");
 		}
@@ -111,23 +111,17 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 			var selectedContents = createSelectedContentObject();
 			SearchService.selectedBuilding = $scope.selectedBuilding;
 			SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents)
-				.then(function(queryResult){
+				.then(function(queryResults){
           uiCalendarConfig.calendars.myCalendar.fullCalendar( 'gotoDate', selectedDate );
-					//weird bug where $scope is not initially updated 
-					//this function must be called twice on initial load or the events won't render
-					if(initialSearch == 0){
-						initialSearch = 1;
-						$scope.search();
-					}
           
 					$scope.searchResults = false;
           console.log($scope.events);
-					/*
-					if(Object.keys(queryResult).length == 0){
-						initialSearch = 0;
+					
+					if(Object.keys(queryResults).length == 0){
 						$scope.searchResults = true;
 					}
-          */
+          
+          
 					$scope.calRender = SearchService.calRender;
         },
 				function(err){

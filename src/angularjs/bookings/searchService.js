@@ -30,7 +30,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				buildingSearchResults = response;
 				searchService.calRender = searchService.setUpRoomTabs();
 				searchService.setUpRoomsEvents();
-				q.resolve();
+				q.resolve(buildingSearchResults);
 			},
 			function(err){
 				q.reject();
@@ -77,6 +77,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				searchService.roomSearchResults.push(buildingSearchResults[searchService.selectedSearchRoom][i]);
 			}
 		}
+
 	}
 
 		//sends info to database to book a room
