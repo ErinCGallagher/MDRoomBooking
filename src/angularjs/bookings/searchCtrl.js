@@ -5,45 +5,35 @@ angular
 function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableService, SearchService) {
 	$scope.pageClass = 'search'; //used to change pages in index.html
 	$scope.buildings = SharedVariableService.buildings;
-    $scope.selectedBuilding = "Harrison LeCaine Hall";
-    $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
-    
-    $scope.events = SearchService.roomSearchResults;
-  	$scope.eventSources = [$scope.events]; 
+  $scope.selectedBuilding = "Harrison LeCaine Hall";
+  $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
+  
+  $scope.events = SearchService.roomSearchResults;
+	$scope.eventSources = [$scope.events]; 
 
-  	$scope.$watch('events', function(events) {
-	    console.log($scope.events);
+	// DATE PICKER
+	$scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+	};
 
- 	});
+	$scope.selectedDate = SearchService.convertoUTCForDisplay( new Date() ); //initialy current date
+	var minDate = SearchService.convertoUTCForDisplay( new Date() );
+	$scope.minDate = minDate.setDate(minDate.getDate()-1);
+	$scope.maxDate = SearchService.convertoUTCForDisplay( new Date(2020, 5, 22) );
+	$scope.format = 'EEEE, MMM d, yyyy'; //Friday, Feb 5, 2016
 
- 	$scope.$watch('eventSources', function(eventSources) {
-	    console.log($scope.eventSources);
+	$scope.open = function() {
+  	$scope.popup1.opened = true;
+	};
 
- 	});
+	$scope.popup1 = {
+  	opened: false
+	};
 
-  	// DATE PICKER
-  	$scope.dateOptions = {
-	    formatYear: 'yy',
-	    startingDay: 1
-  	};
-
-  	$scope.selectedDate = SearchService.convertoUTCForDisplay( new Date() ); //initialy current date
-  	var minDate = SearchService.convertoUTCForDisplay( new Date() );
-  	$scope.minDate = minDate.setDate(minDate.getDate()-1);
-  	$scope.maxDate = SearchService.convertoUTCForDisplay( new Date(2020, 5, 22) );
-  	$scope.format = 'EEEE, MMM d, yyyy'; //Friday, Feb 5, 2016
-
-  	$scope.open = function() {
-    	$scope.popup1.opened = true;
-  	};
-
-  	$scope.popup1 = {
-    	opened: false
-  	};
-
-  	// TIME PICKER
-  	// time picker config config
-  	$scope.hstep = 1;
+	// TIME PICKER
+	// time picker config config
+  $scope.hstep = 1;
  	$scope.mstep = 30;
 	$scope.ismeridian = true; //12 hour
 
@@ -104,6 +94,9 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 		if($scope.myEndTime <= $scope.myStartTime ){
 			alert("your end time cannot be before your start time");
 		}
+    else if($scope.selectedDate == undefined){
+      alert("you must supply a date before trying to search");
+    }
 		else{
 			var startTime = $scope.myStartTime;
 			var endTime = $scope.myEndTime;
