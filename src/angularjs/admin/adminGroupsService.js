@@ -35,6 +35,17 @@ function AdminGroupsService(CommService, $q){
 			});
 	}	
 
+	adminGroupsService.saveModifyGroup = function(groupInfo) {
+		CommService.saveModifyGroup(groupInfo)
+		.then(function(newGroupId){
+				
+				//adminGroupsService.groups.push({groupID:newGroupId, groupName:newGroupName})
+			},
+			function(err){
+				alert("error with saveModifyGroup");
+			});
+	}	
+
 	adminGroupsService.getGroupInfo = function(groupId) {
 		return CommService.getGroupInfo(groupId);
 	}
