@@ -115,6 +115,10 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 					if(Object.keys(queryResults).length == 0){
 						$scope.searchResults = true;
 					}
+          else{
+            alert = { type: 'success', msg: "Results found for your search!!"};
+            $scope.alerts.push(alert);
+          }
           
           
 					$scope.calRender = SearchService.calRender;
