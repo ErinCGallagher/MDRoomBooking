@@ -79,6 +79,10 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       //conflicted with another booking
         alert = { type: 'danger', msg: 'Error: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime + '" conflicted with another booking.'};
     }
+    else if (errorStatus == 402){
+      //conflicted with another booking
+        alert = { type: 'danger', msg: 'Error: As a student user you cannot book more than 2 weeks in advance'};
+    }
     else{
       //the building or room number does not exsit
       alert = { type: 'danger', msg: 'Error:  It appears that ' + building + ' or ' + roomNum + ' does not exist'};
