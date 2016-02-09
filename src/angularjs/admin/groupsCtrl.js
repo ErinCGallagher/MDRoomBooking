@@ -4,15 +4,26 @@ angular
 
 function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	$scope.pageClass = 'groups';  //used to change pages in index.html
-
-	$scope.groups = AdminGroupsService.groups;
 	$scope.groupId; // used by addUsers(), set by showGroup()
-	
-	AdminGroupsService.getAllGroups();
-
+	$scope.groups = [];
 	$scope.showInfo = false;
 	$scope.showNewGroup = false;
 	$scope.showModGroup = false;
+	
+	getAllGroups = function () {
+		AdminGroupsService.getAllGroups()
+			.then(function(groupList) {
+				$scope.groups = [];	
+				for (var i = 0; i < groupList.length; i++){
+					$scope.groups.push(groupList[i]);
+				}
+			},
+			function(err) {
+				alert("could not retrieve groups from database");
+			});
+	}
+
+	getAllGroups();
 
 	$scope.newGroup = function(){
 		$scope.showNewGroup = true;
@@ -85,7 +96,13 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		}
 		
 		//Send info about new group to back end
-		AdminGroupsService.createGroup(info);
+		AdminGroupsService.createGroup(info)
+			.then(function(newGroupId){
+				$scope.groups.push({groupID: newGroupId, groupName: newGroupName});
+			},
+			function() {
+				alert("err");
+			});
 	}
 	
 	$scope.saveModifyGroup = function(){

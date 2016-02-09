@@ -8,7 +8,16 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	var commService = {};
 
 	commService.getAllGroups = function() {
-		return AdminCommService.getAllGroups();
+		var q = $q.defer();
+		AdminCommService.getAllGroups()
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(err){
+				alert("error with getAllGroups");
+				q.reject();
+			});
+		return q.promise;
 	}
 
 	commService.createGroup = function(groupInfo) {
