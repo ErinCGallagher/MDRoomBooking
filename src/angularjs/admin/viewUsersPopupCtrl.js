@@ -8,10 +8,10 @@ function ViewUsersModalCtrl ($scope, $uibModalInstance, AdminGroupsService, grou
 	$scope.groupName = groupName;
 	$scope.userList = userList;
 
-	$scope.deleteUserFromGroup = function(userId) {
-		AdminGroupsService.deleteUserFromGroup(userId, $scope.groupId)
+	$scope.deleteUserFromGroup = function(user) {
+		AdminGroupsService.deleteUserFromGroup(user.uID, $scope.groupId)
 			.then(function(){
-				var index = $scope.userList.indexOf(userId);
+				var index = $scope.userList.indexOf(user);
 				$scope.userList.splice(index, 1);
 			},
 			function(errorMsg) {
