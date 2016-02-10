@@ -50,6 +50,16 @@
 			strcmp($nextWeek, $groupInfo['endDate']) < 0;
 	}
 
+	function groupHasThirdWeekHours($groupInfo) {
+		$today = new DateTime();
+		date_add($today, date_interval_create_from_date_string('14 days'));
+		$nextWeek  = date_format($today, "Y-m-d");
+
+		return strcmp($groupInfo['addHrsType'], "week") == 0 &&
+			strcmp($nextWeek, $groupInfo['startDate']) > 0 &&
+			strcmp($nextWeek, $groupInfo['endDate']) < 0;
+	}
+
 	function getGroupWeeklyHours($groupInfo) {
 		$weeklyHrs = 0;
 		if (strcmp($groupInfo['addHrsType'], "week") == 0) {

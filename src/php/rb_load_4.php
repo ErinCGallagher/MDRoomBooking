@@ -71,6 +71,7 @@
 					class				VARCHAR(35) 	NOT NULL,
 					curWeekHrs			INT		DEFAULT '0',
 					nextWeekHrs			INT		DEFAULT '0',
+					thirdWeekHrs		INT		DEFAULT '0',
 					hasBookingDurationRestriction 	VARCHAR(5) 	NOT NULL,
 					PRIMARY KEY(uID));");				
 

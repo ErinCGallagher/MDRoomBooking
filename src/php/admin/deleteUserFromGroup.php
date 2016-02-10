@@ -27,7 +27,7 @@
 
 		if(groupHasCurWeekHours($groupInfo) || groupHasNextWeekHours($groupInfo)) {
 			//get user's hours
-			$hrsQuery = "SELECT curWeekHrs, nextWeekHrs FROM User WHERE uID = ?";
+			$hrsQuery = "SELECT curWeekHrs, nextWeekHrs, thirdWeekHrs FROM User WHERE uID = ?";
 			$hrsStmt = $db->prepare($hrsQuery);
 			$hrsStmt->execute(array($uID));
 			$hrs = $hrsStmt->fetch(PDO::FETCH_ASSOC);
@@ -36,6 +36,7 @@
 			// can't be less than 0.
 			$newCurHrs = max($hrs['curWeekHrs']-$groupInfo['hours'], 0);
 			$newNextHrs = max($hrs['nextWeekHrs']-$groupInfo['hours'], 0);
+			$newThirdHrs = max($hrs['thirdWeekHrs']-$groupInfo['hours'], 0);
 
 			//decrement user's hours
 			if(groupHasCurWeekHours($groupInfo)) {
@@ -48,6 +49,12 @@
 				$nextWeekUpdateQuery = "UPDATE User SET nextWeekHrs = $newNextHrs WHERE uID= ?";
 				$nextWeekUpdateStmt = $db->prepare($nextWeekUpdateQuery);
 				$nextWeekUpdateStmt->execute(array($uID));
+			}
+
+			if(groupHasThirdWeekHours($groupInfo)) {
+				$thirdWeekUpdateQuery = "UPDATE User SET thirdWeekHrs = $newThirdHrs WHERE uID= ?";
+				$thirdWeekUpdateStmt = $db->prepare($thirdWeekUpdateQuery);
+				$thirdWeekUpdateStmt->execute(array($uID));
 			}
 
 		}

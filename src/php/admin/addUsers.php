@@ -110,6 +110,13 @@
 			$nextWeekUpdateStmt->execute($usersAddedArray);
 		}
 
+		//update user table with active weekly hours for next week
+		if(groupHasThirdWeekHours($groupInfo)) {
+			$thirdWeekUpdateQuery = "UPDATE User SET thirdWeekHrs = thirdWeekHrs + $weekHours WHERE $nextWeekUpdateString";
+			$thirdWeekUpdateStmt = $db->prepare($thirdWeekUpdateQuery);
+			$thirdWeekUpdateStmt->execute($usersAddedArray);
+		}
+
 		if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
 			$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'No' WHERE $restUpdateString";
 			$restUpdateStmt = $db->prepare($restUpdateQuery);

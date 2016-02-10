@@ -31,11 +31,11 @@
 				('15lb', 'Music') 
 				");
                 
-	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs, hasBookingDurationRestriction) VALUES
-				('12af', 'Lexi', 'Flynn', 'Student', '5', '5', 'Yes'),
-				('13eg', 'Erin', 'Gallagher', 'Student', '0', '2', 'Yes'),
-				('14sk', 'Shannon', 'Klett', 'Student', '5', '7', 'No'),
-				('15lb', 'Laura', 'Brooks', 'Student', '8', '0', 'No')
+	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs, thirdWeekHrs, hasBookingDurationRestriction) VALUES
+				('12af', 'Lexi', 'Flynn', 'Student', '5', '5', '5', 'Yes'),
+				('13eg', 'Erin', 'Gallagher', 'Student', '0', '2', '2', 'Yes'),
+				('14sk', 'Shannon', 'Klett', 'Student', '5', '7', '11', 'No'),
+				('15lb', 'Laura', 'Brooks', 'Student', '5', '0', '5', 'No')
 				");		
 				
 				

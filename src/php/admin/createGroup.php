@@ -17,10 +17,10 @@
 
 	
 	if ($addHrsType == "1") {
-		$addHrsType = "Weekly";
+		$addHrsType = "week";
 	}
 	else {
-		$addHrsType = "Special";
+		$addHrsType = "special";
 	}
 	
 	$currYear = "2016";
