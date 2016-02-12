@@ -1,1 +1,47 @@
 
+.myBookings .hours-remaining{
+	font-size: 130%;
+    border: solid 3px;
+    padding: 10px 20px;
+    width: 410px;
+    min-width: 410px;
+    margin-left: 60%;
+    margin-bottom:15px;
+}
+
+.myBookings .user-information-cnontainer{
+	text-align: center;
+    margin-top: 7%;
+}
+
+.myBookings .title{
+	font-size: 140%;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.myBookings .info{
+	font-size:100%;
+}
+
+.myBookings .bookings{
+	margin-top: 45px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.myBookings th{
+	text-align: left;
+    padding: 15px;
+    border: solid 1px;
+    background-color: #c2d2d6;
+    font-weight:bold;
+}
+
+.myBookings td{
+	border: solid 1px;
+    padding: 10px;
+}
