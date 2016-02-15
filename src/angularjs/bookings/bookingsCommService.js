@@ -85,7 +85,6 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		for(var i = 0; i<dailyBookings.length;i++){
 			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
 			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
-			var startTime = new Date(startTime);
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].reason, 
 			 start:new Date(startTime),
@@ -170,10 +169,14 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var formattedDailyBookings = [];
 
 		for(var i = 0; i<dailyBookings.length;i++){
+
+			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
+			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
+
 			formattedDailyBookings[i] =  
 			{reason:dailyBookings[i].reason, 
-			 start:dailyBookings[i].startTime,
-			 end:dailyBookings[i].endTime,
+			 start:new Date(startTime),
+			 end:new Date(endTime),
 			 date:dailyBookings[i].bookingDate,
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: dailyBookings[i].building, 
