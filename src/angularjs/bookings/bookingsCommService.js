@@ -187,5 +187,19 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		return formattedDailyBookings;
 	}
 
+	//retirve the hours remaining for a week.
+	//determines the week based on the date provided and the week it is within
+	bookingCommService.hoursRemaining = function(date){
+		var data = {date:date};
+		var promisePost =  $http.post('src/php/bookings/hoursRemaining.php', data)
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	console.log(responseDate);
+		    });
+		 return promisePost;
+	}
+
 	return bookingCommService;
 }

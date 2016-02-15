@@ -222,6 +222,20 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	//retirve the hours remaining for a week.
+	//determines the week based on the date provided and the week it is within
+	commService.hoursRemaining = function(date){
+		var q = $q.defer();
+		BookingCommService.hoursRemaining(date)
+			.then(function(remainingHours){
+				q.resolve(remainingHours.data[0]);
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
 
 
 	return commService;

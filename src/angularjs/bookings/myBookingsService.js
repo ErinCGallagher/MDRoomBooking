@@ -23,6 +23,20 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 			});
 	}
 
+	myBookingsService.retrieveHoursRemaining = function(){
+		var q = $q.defer();
+			var date = new Date();
+			CommService.hoursRemaining(date)
+			.then(function(retrievedHours){
+				q.resolve(parseInt(retrievedHours));
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
+
 	//cancel a users own booking from the my bookings page
 	myBookingsService.cancelBooking = function(bookingID,startTime){
 		var q = $q.defer();
@@ -37,6 +51,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 		return q.promise;
 	}
 
+	//after a booking has been canceled successfully, remove it from the my bookings table
 	updateDisplay = function(bookingID){
 		var i = 0
 		while(i < myBookingsService.userBookings.length){

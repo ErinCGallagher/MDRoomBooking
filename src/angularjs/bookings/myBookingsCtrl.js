@@ -5,13 +5,25 @@ angular
 function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariableService) {
 
 	$scope.pageClass = 'myBookings'; //used to change pages in index.html
-	$scope.hours = 30;
+	$scope.hours = 0;
 	$scope.userName = SharedVariableService.name;
 	$scope.email = SharedVariableService.netID + "@queensu.ca";
 	$scope.bookings = MyBookingsService.userBookings;
 
 	//retrieve future user bookings for display
 	MyBookingsService.retrieveUserBookings();
+
+	$scope.retrieveHours = function(){
+		MyBookingsService.retrieveHoursRemaining()
+		.then(function(retrievedHours){
+			$scope.hours = retrievedHours
+		},
+		function(err){
+
+		});
+	}
+
+		$scope.retrieveHours();
 
 	$scope.alerts = [];
 
