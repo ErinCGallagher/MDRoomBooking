@@ -213,7 +213,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		BookingCommService.retrieveUserBookings()
 			.then(function(userBookings){
-				var formatteduserBookings = BookingCommService.convertToExpectedFormat(userBookings.data);
+				var formatteduserBookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data);
 				q.resolve(formatteduserBookings);
 			},
 			function(err){
@@ -221,8 +221,6 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			});
 		return q.promise;
 	}
-
-	
 
 
 

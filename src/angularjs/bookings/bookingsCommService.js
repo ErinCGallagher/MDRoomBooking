@@ -92,7 +92,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 end:new Date(endTime),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
-			 building: dailyBookings[i].building, 
+			 building: selectedBuilding, 
 			 roomNum: dailyBookings[i].roomID
 			};
 		}
@@ -161,6 +161,27 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    	console.log(responseDate);
 		    });
 		 return promisePost;
+	}
+
+	//convert the daily bookings information to the correct font end format
+	//not called by anything outside this service so does not need bookingCommService.
+	bookingCommService.convertUserBookingsToExpectedFormat = function(dailyBookings){
+		//assumes that events have been combined if they have the same booking ID	
+		var formattedDailyBookings = [];
+
+		for(var i = 0; i<dailyBookings.length;i++){
+			formattedDailyBookings[i] =  
+			{reason:dailyBookings[i].reason, 
+			 start:dailyBookings[i].startTime,
+			 end:dailyBookings[i].endTime,
+			 date:dailyBookings[i].bookingDate,
+			 bookingID:dailyBookings[i].bookingID, 
+			 building: dailyBookings[i].building, 
+			 roomNum: dailyBookings[i].roomID,
+			 keyRequired:true
+			};
+		}
+		return formattedDailyBookings;
 	}
 
 	return bookingCommService;

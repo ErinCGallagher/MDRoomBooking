@@ -16,7 +16,7 @@ date_default_timezone_set('America/Toronto');
 
 
 	//get daily bookings from database
-	$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Rooms.building, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE bookingDate >= ? and uID = ? GROUP BY bookingID ASC;");
+	$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Rooms.building, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE bookingDate >= ? and uID = ? GROUP BY bookingID ORDER BY bookingDate, startTime ASC;");
 	$sth->execute(array($currentDate, $user));
 	
 	//Loop through each returned row 

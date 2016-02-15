@@ -11,10 +11,10 @@ function MyBookingsService(CommService, $q, SharedVariableService){
 	myBookingsService.retrieveUserBookings = function(){
 
 		CommService.retrieveUserBookings()
-			.then(function(userBookings){
+			.then(function(bookings){
 				myBookingsService.userBookings.splice(0,myBookingsService.userBookings.length);
-				for(var  i = 0; i < userBookings.length; i++){
-					myBookingsService.userBookings.push(userBookings[i]);
+				for(var  i = 0; i < bookings.length; i++){
+					myBookingsService.userBookings.push(bookings[i]);
 				}
 
 			},
