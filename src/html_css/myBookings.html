@@ -44,9 +44,10 @@
                     <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
                 </div>
                 <div class="modal-body">
-                	<div><strong>Date & Time:</strong> {{booking.start}}</div>
+                	<div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
+                	<div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
 					<div><strong>Building:</strong> {{booking.building}}</div>
-					<div><strong>Room #:</strong> {{booking.room}}</div>
+					<div><strong>Room #:</strong> {{booking.roomNum}}</div>
 					<div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
 					<div><strong>Reason:</strong> {{booking.reason}}</div>
 					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>

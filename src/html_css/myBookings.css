@@ -11,7 +11,7 @@
 
 .myBookings .user-information-cnontainer{
 	text-align: center;
-    margin-top: 7%;
+    margin-top: 3%;
 }
 
 .myBookings .title{
@@ -32,9 +32,12 @@
     text-align: center;
 }
 
+.myBookings table{
+    margin:10px;
+}
 
 .myBookings th{
-	text-align: left;
+	text-align: center;
     padding: 15px;
     border: solid 1px;
     background-color: #c2d2d6;

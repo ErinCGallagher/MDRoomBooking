@@ -207,7 +207,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 	
 	}
 
-	//remove bookings from claendar display
+	//remove bookings from calendar display
 	bookingsService.updateDisplayBookings = function(bookingID, room){
 		for (var i = 0; i < buildingWeeklyBookings[room].length; i++){
 			if(buildingWeeklyBookings[room][i].bookingID == bookingID){

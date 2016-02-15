@@ -39,6 +39,7 @@
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/signOutCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/ConfirmCancelCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
