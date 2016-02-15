@@ -139,8 +139,9 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
         var end = week.end;
         $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
         //retirve bookings for default room Harrison-LeCaine Hall
+        BookingsService.selectedBuilding = $scope.selectedBuilding;
         $scope.calRender = BookingsService.setUpRoomTabs();
-        BookingsService.getWeeklyBookings(start, end);
+        BookingsService.getWeeklyBookings(start, end, $scope.selectedBuilding);
       },
 
       dayClick : $scope.bookRoomInCalendar,
@@ -154,7 +155,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
   $scope.retrieveRooms = function(){
     var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
     BookingsService.selectedBuilding = $scope.selectedBuilding;
-    BookingsService.getWeeklyBookings(week.start, week.end);
+    BookingsService.getWeeklyBookings(week.start, week.end, $scope.selectedBuilding);
     $scope.calRender = BookingsService.setUpRoomTabs();
     BookingsService.setUpRoomsWeeklyEvents();
   }

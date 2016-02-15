@@ -13,7 +13,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getWeeklyBookings = function(start, end){
+	bookingsService.getWeeklyBookings = function(start, end, building){
+		bookingsService.selectedBuilding = building;
 		//call communication Service
 		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
 			.then(function(retrievedBookings){
