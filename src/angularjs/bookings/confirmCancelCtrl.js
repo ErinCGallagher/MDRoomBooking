@@ -1,13 +1,19 @@
 angular
 .module('mainApp')
 .controller('ConfirmCancelCtrl', ConfirmCancelCtrl)
-function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo) {
+function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, BookingsService) {
 	$scope.booking = bookingInfo;
 
 	$scope.cancelBooking = function(){
-		console.log("canceled booking");
-		alertSending("200");
-
+		/*
+		BookingsService.cancelBooking(booking.id,booking.start) 
+			.then(function{
+				alertSending("200");
+			},
+			function(){
+				alertSending("200");
+			});
+		*/
 	}
 
 	$scope.back = function(){

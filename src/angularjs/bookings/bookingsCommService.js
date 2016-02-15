@@ -92,14 +92,14 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 end:new Date(endTime),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
-			 building: selectedBuilding, 
+			 building: dailyBookings[i].building, 
 			 roomNum: dailyBookings[i].roomID
 			};
 		}
 		
 		return formattedDailyBookings;
-
 	}
+
 	//loop through the object of weekly bookings for all rooms in a building and format it appropriately
 	bookingCommService.formatBuildingWeeklyBookings = function(buildingWeeklyBookings){
 		var formattedBookings = [];
@@ -150,6 +150,17 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    });
 		 return promisePost;
 
+	}
+
+	bookingCommService.retrieveUserBookings = function(){
+		var promisePost =  $http.post('src/php/bookings/getUserBookings.php')
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	console.log(responseDate);
+		    });
+		 return promisePost;
 	}
 
 	return bookingCommService;

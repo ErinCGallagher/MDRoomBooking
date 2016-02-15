@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('MyBookingsCtrl', MyBookingsCtrl);
 
-function MyBookingsCtrl($scope, $uibModal, $log, SharedVariableService) {
+function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariableService) {
 
 	$scope.pageClass = 'myBookings'; //used to change pages in index.html
 	$scope.hours = 30;
@@ -12,6 +12,9 @@ function MyBookingsCtrl($scope, $uibModal, $log, SharedVariableService) {
 		{start:"jan", building:"HLH", room:"HLH 104", keyRequired:true, reason:"individual Rehearsal", id:"36"},
 		{start:"jan", building:"HLH", room:"HLH 104", keyRequired:true, reason:"individual Rehearsal", id:"37"},
 	];
+
+	//retrieve future user bookings for display
+	MyBookingsService.retrieveUserBookings();
 
 	$scope.alerts = [];
 

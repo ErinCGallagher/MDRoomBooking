@@ -100,12 +100,18 @@ function BookingsService(CommService, $q, SharedVariableService){
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
-			q.resolve(true);
-			newBookingInfo.bookingID = 35;
-			buildingWeeklyBookings[room].push(newBookingInfo);
-			if(bookingsService.selectedroom == room){ //if the room has changed don't add it
-				bookingsService.weeklyBookings.push(newBookingInfo);
-			}
+			CommService.bookRoomInDB(newBookingInfo)
+				.then(function(bookingID){
+					q.resolve(true);
+					newBookingInfo.bookingID = bookingID;
+					buildingWeeklyBookings[room].push(newBookingInfo);
+					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
+						bookingsService.weeklyBookings.push(newBookingInfo);
+					}
+				},
+				function(errorStatus){
+					q.reject(errorStatus);
+				});
 		}
 		else{
 			//there is a booking conflict

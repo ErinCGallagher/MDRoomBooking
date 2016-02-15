@@ -1,12 +1,12 @@
 
 .myBookings .hours-remaining{
-	font-size: 130%;
+    font-size: 130%;
     border: solid 3px;
     padding: 10px 20px;
-    width: 410px;
-    min-width: 410px;
+    width: 310px;
+    min-width: 310px;
     margin-left: 60%;
-    margin-bottom:15px;
+    margin-bottom: 15px;
 }
 
 .myBookings .user-information-cnontainer{

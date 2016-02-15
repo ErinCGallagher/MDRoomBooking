@@ -62,6 +62,7 @@ $db = NULL;
 $data = array();
 $data["allBuildings"] = $allBuildings;
 $_SESSION["class"] = $class;
+$_SESSION["netID"] = $user;
 $data["class"] = $class;
 $data["netID"] = $user;
 

@@ -12,7 +12,7 @@
 	$data = json_decode(file_get_contents("php://input"));
 
 	//Set parameters from datastream
-	$uID = $data->uID;
+	$uID = $_SESSION["netID"];
 	$room = $data->roomID;
 	$reason = $data->reason;
 	$building = $data->building;
