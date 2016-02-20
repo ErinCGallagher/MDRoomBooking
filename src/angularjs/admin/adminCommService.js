@@ -92,6 +92,20 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 
+	adminCommService.deleteAllUsersFromGroup = function(groupID) {
+		var sendData = {groupID:groupID};
+
+		var promisePost =  $http.post('src/php/admin/deleteAllUsersFromGroup.php', sendData)
+		    .success(function(data, status) {
+		    	console.log("deleteAllUsersFromGroup ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 return promisePost;
+	}
+
 	adminCommService.getUsersInGroup = function(id) {
 		var data = {groupID:id};
 

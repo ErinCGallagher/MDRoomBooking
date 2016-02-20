@@ -76,4 +76,62 @@
 		return $specialHrs;
 	}
 
+	// TODO: this function runs a query for each user. Perhaps update to execute with a list of users
+	function shouldUpdateBookingRest($db, $uID, $groupInfo) {
+		//if group is the only one that gives user no booking restriction
+		// then they should now have a booking restriction
+		if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
+			//find all the groups that the user in that give them no booking duration restriction
+			$restQuery = "SELECT UGroups.groupID FROM UGroups JOIN Permission ON Permission.groupID = ugroups.groupID 
+				WHERE hasBookingDurationRestriction = 'No' AND uID = ?";
+			$restStmt = $db->prepare($restQuery);
+			$restStmt->execute(array($uID));
+
+			// If rowcount is 0, user was removed from the only group that gave them this permission. Remove it.
+			// Otherwise, they should still have this permission
+			return ($restStmt->rowCount() == 0); 
+
+		} else {
+			return FALSE;
+		}
+	}
+
+	// TODO: this function runs a query for each user. Perhaps update to execute with a list of users
+	function maybeUpdateUserHours($db, $uId, $groupInfo) {
+		if(groupHasCurWeekHours($groupInfo) || groupHasNextWeekHours($groupInfo) || groupHasThirdWeekHours($groupInfo)) {
+			//get user's hours
+			$hrsQuery = "SELECT curWeekHrs, nextWeekHrs, thirdWeekHrs FROM User WHERE uID = ?";
+			$hrsStmt = $db->prepare($hrsQuery);
+			$hrsStmt->execute(array($uID));
+			$hrs = $hrsStmt->fetch(PDO::FETCH_ASSOC);
+
+			// calculate new user hours. subtract group hours from the hours they have.
+			// can't be less than 0.
+			$newCurHrs = max($hrs['curWeekHrs']-$groupInfo['hours'], 0);
+			$newNextHrs = max($hrs['nextWeekHrs']-$groupInfo['hours'], 0);
+			$newThirdHrs = max($hrs['thirdWeekHrs']-$groupInfo['hours'], 0);
+
+			//decrement user's hours
+			if(groupHasCurWeekHours($groupInfo)) {
+				$curWeekUpdateQuery = "UPDATE User SET curWeekHrs = $newCurHrs WHERE uID= ?";
+				$curWeekUpdateStmt = $db->prepare($curWeekUpdateQuery);
+				$curWeekUpdateStmt->execute(array($uID));
+			}
+
+			if(groupHasNextWeekHours($groupInfo)) {
+				$nextWeekUpdateQuery = "UPDATE User SET nextWeekHrs = $newNextHrs WHERE uID= ?";
+				$nextWeekUpdateStmt = $db->prepare($nextWeekUpdateQuery);
+				$nextWeekUpdateStmt->execute(array($uID));
+			}
+
+			if(groupHasThirdWeekHours($groupInfo)) {
+				$thirdWeekUpdateQuery = "UPDATE User SET thirdWeekHrs = $newThirdHrs WHERE uID= ?";
+				$thirdWeekUpdateStmt = $db->prepare($thirdWeekUpdateQuery);
+				$thirdWeekUpdateStmt->execute(array($uID));
+			}
+
+		}
+	}
+
+
 ?>

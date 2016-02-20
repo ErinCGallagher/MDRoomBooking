@@ -19,6 +19,16 @@ function ViewUsersModalCtrl ($scope, $uibModalInstance, AdminGroupsService, grou
 			});
 	}
 
+	$scope.deleteAllUsersFromGroup = function() {
+		AdminGroupsService.deleteAllUsersFromGroup($scope.groupId)
+			.then(function(data){
+				//openViewUsersPopup(data);
+			},
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
+			});
+	}
+
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};

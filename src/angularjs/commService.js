@@ -88,6 +88,18 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.deleteAllUsersFromGroup = function(groupId){
+		var q = $q.defer();
+		AdminCommService.deleteAllUsersFromGroup(groupId)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
 	commService.uploadMasterList = function(fileFormData){
 		var q = $q.defer();
 		UserCommService.uploadMasterList(fileFormData)
