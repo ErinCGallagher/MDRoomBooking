@@ -6,7 +6,7 @@
             </button>
 
     <div class="group-list">
-        <div class="group-element" data-ng-repeat="group in groups" ng-click="showGroup(group.groupID)">
+        <div class="group-element" data-ng-repeat="group in groups" ng-click="showGroup(group)">
             {{ group.groupName }}
         </div>
     </div>
@@ -28,6 +28,8 @@
         <button ng-click="viewUsers()">View Users</button>
         <br>
         <button ng-click="modifyGroup()">Modify Group</button>
+        <br>
+        <button ng-click="deleteGroup()">Delete Group</button>
     </div>
 </div>
 

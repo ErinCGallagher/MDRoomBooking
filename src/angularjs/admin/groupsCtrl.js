@@ -127,12 +127,13 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		$scope.showGroup($scope.groupId);
 	}
 	
-	$scope.showGroup = function(groupId) {
-		$scope.groupId = groupId; // used by addUsers()
+	$scope.showGroup = function(group) {
+		$scope.group = group; // used by deleteGroup()
+		$scope.groupId = group.groupID; // used by addUsers()
 		$scope.showInfo = true;
 		$scope.showNewGroup = false;
 		$scope.showModGroup = false;
-		getGroupInfo(groupId);
+		getGroupInfo($scope.groupId);
 	}
 
 	getGroupInfo = function(groupId){
@@ -201,6 +202,19 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		AdminGroupsService.getUsersInGroup($scope.groupId)
 			.then(function(data){
 				openViewUsersPopup(data);
+			},
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
+			});
+	}
+
+	$scope.deleteGroup = function() {
+		AdminGroupsService.deleteGroup($scope.groupId)
+			.then(function(data){
+				//update group list?
+				var index = $scope.groups.indexOf($scope.group);
+				$scope.groups.splice(index, 1);
+				$scope.showInfo = false;
 			},
 			function(errorMsg) {
 				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);

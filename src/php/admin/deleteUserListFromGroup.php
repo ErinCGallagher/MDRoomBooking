@@ -30,7 +30,7 @@
 				maybeUpdateUserHours($db, $uID, $groupInfo);
 
 				// create updateBookingRest string and array
-				if(shouldUpdateBookingRest($db, $uID, $groupInfo)) {
+				if(shouldUpdateBookingRest($db, $uID, $groupInfo, false)) {
 					$restUpdateString .= "uID = ? OR ";
 					array_push($restUpdateArray, $uID);
 				}

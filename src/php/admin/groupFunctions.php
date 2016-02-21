@@ -77,7 +77,7 @@
 	}
 
 	// TODO: this function runs a query for each user. Perhaps update to execute with a list of users
-	function shouldUpdateBookingRest($db, $uID, $groupInfo) {
+	function shouldUpdateBookingRest($db, $uID, $groupInfo, $userAlreadyRemovedFromGroup) {
 		//if group is the only one that gives user no booking restriction
 		// then they should now have a booking restriction
 		if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
@@ -87,9 +87,14 @@
 			$restStmt = $db->prepare($restQuery);
 			$restStmt->execute(array($uID));
 
-			// If rowcount is 0, user was removed from the only group that gave them this permission. Remove it.
+			if ($userAlreadyRemovedFromGroup) {
+				$cmpValToUpdate = 0; //user is no longer be in any groups giving them this permission
+			} else {
+				$cmpValToUpdate = 1; //after deletion from current group, user will no longer be in any groups giving them this permission
+			}
+			// If rowcount equals $cmpValToUpdate, user was removed from the only group that gave them this permission. Remove it.
 			// Otherwise, they should still have this permission
-			return ($restStmt->rowCount() == 0); 
+			return ($restStmt->rowCount() == $cmpValToUpdate); 
 
 		} else {
 			return FALSE;
