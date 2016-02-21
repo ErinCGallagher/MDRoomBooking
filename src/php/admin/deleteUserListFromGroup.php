@@ -42,11 +42,15 @@
 
 			// execute delete
 			$deleteQuery = "DELETE FROM Permission WHERE groupID= ? AND $deleteString";
-			runQuery($db, $deleteQuery, $userArray);
+			$deleteArray = $userArray;
+			array_unshift($deleteArray, $groupID);
+			runQuery($db, $deleteQuery, $deleteArray);
 
 			// execute updateBookingRest
-			$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'Yes' WHERE $restUpdateString";
-			runQuery($db, $restUpdateQuery, $restUpdateArray);
+			if (sizeof($restUpdateArray) > 0) {
+				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'Yes' WHERE $restUpdateString";
+				runQuery($db, $restUpdateQuery, $restUpdateArray);
+			}
 
 			$db->commit();
 
@@ -61,5 +65,4 @@
 		}
    }
 ?>
-</body>
 

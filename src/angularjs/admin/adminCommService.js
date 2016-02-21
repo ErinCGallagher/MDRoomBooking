@@ -101,7 +101,7 @@ function AdminCommService($http){
 		    	return data;
 		    })
 		    .error(function(data, status) { //request to the php scirpt failed
-		    	return 'error';
+		    	return data;
 		    });
 		 return promisePost;
 	}

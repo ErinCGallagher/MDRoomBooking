@@ -95,7 +95,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 				q.resolve(response.data);
 			},
 			function(errorMsg){
-				q.reject(errorMsg);
+				q.reject(errorMsg.data);
 			});
 		return q.promise;
 	}

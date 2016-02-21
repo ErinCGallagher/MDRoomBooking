@@ -33,5 +33,4 @@
 	deleteUserListFromGroup($groupID, $selectStmt->fetchAll(PDO::FETCH_COLUMN,0));
    
 ?>
-</body>
 

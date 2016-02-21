@@ -97,7 +97,7 @@
 	}
 
 	// TODO: this function runs a query for each user. Perhaps update to execute with a list of users
-	function maybeUpdateUserHours($db, $uId, $groupInfo) {
+	function maybeUpdateUserHours($db, $uID, $groupInfo) {
 		if(groupHasCurWeekHours($groupInfo) || groupHasNextWeekHours($groupInfo) || groupHasThirdWeekHours($groupInfo)) {
 			//get user's hours
 			$hrsQuery = "SELECT curWeekHrs, nextWeekHrs, thirdWeekHrs FROM User WHERE uID = ?";
@@ -132,6 +132,5 @@
 
 		}
 	}
-
 
 ?>
