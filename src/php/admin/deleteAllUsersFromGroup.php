@@ -2,7 +2,6 @@
 
 	include("../connection.php");
 	require_once("../util.php");
-	require_once("groupFunctions.php");
 	require_once("deleteUserListFromGroup.php");
 
 	//Get post data stream 
@@ -22,15 +21,15 @@
 
 		$db->commit();
 
+		deleteUserListFromGroup($groupID, $selectStmt->fetchAll(PDO::FETCH_COLUMN,0));
+
 	} catch (Exception $e) { 
 		http_response_code(500); //Internal Server Error
 	    if (isset ($db)) {
 	       $db->rollback ();
-	       echo "Error:  " . $e; 
+	       echo "Error:  Could not retrieve users in group $groupID" . $e; 
 	    }
 	}
-
-	deleteUserListFromGroup($groupID, $selectStmt->fetchAll(PDO::FETCH_COLUMN,0));
    
 ?>
 
