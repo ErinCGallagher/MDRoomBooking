@@ -157,7 +157,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
   //called when emtpy calendar timeslot is selected
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     //ensure this user cannot book if not in drama or music
-    if (SharedVariableService.userType != "nonBooking"){
+    if (SharedVariableService.userType != "nonbooking"){
 
       $scope.day = date.format("YYYY-MM-DD h:mm z");
 

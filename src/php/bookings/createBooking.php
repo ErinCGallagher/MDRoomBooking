@@ -40,7 +40,9 @@
 	$closeTime = date('H:i:s', $closeTime);
 	
 	
-	if (!in_array($reason, $reasonsList)) {
+	if($_SESSION["class"] == "NonBooking"){
+		http_response_code(403); //Invalid Entry
+	}else if (!in_array($reason, $reasonsList)) {
 		http_response_code(403); //Invalid Entry
 	} else if (!in_array($numP, $numPeople)) {
 		http_response_code(403); //Invalid Entry
