@@ -116,7 +116,7 @@
 			$bookingID = $db->lastInsertId();
 			//add to blocks to BookingSlots
 			$inserted = 0;
-			$hrsSource = "Admin";
+			$hrsSource = $_SESSION["class"];
 			foreach ($blocks as $blockID){
 				$sth = $db->prepare("INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES (?, ?, ?, ?, ?)");
 				$sth->execute(array($bookingID, $blockID, $startDate, $room, $hrsSource));

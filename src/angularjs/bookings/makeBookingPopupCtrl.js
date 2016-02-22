@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('MakeBookingPopupCtrl', MakeBookingPopupCtrl);
 
-function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService) {
+function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -40,7 +40,8 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
         roomNum: roomNum,
         numPeople: $scope.selectedNumPeople, 
         description: $scope.description,
-        stick:true
+        stick:true,
+        bookingUserType: SharedVariableService.userType
         };
 
     if(sourcePage == "bookings"){

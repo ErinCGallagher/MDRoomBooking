@@ -30,7 +30,7 @@ $_SESSION["buildings"] = $allBuildings;
 //$user = $_SERVER["HTTP_QUEENSU_NETID"];
 
 //for testing purposes only, use above otherwise
-$user = "11ecg5"; //check rb_sample.php for users to input here for testing
+$user = "13eg"; //check rb_sample.php for users to input here for testing
 
 
 $firstName = " ";
