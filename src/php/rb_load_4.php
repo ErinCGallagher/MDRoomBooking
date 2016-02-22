@@ -69,9 +69,9 @@
 					firstName			VARCHAR(35)	NOT NULL,
 					lastName			VARCHAR(35)	NOT NULL,
 					class				VARCHAR(35) 	NOT NULL,
-					curWeekHrs			INT		DEFAULT '0',
-					nextWeekHrs			INT		DEFAULT '0',
-					thirdWeekHrs		INT		DEFAULT '0',
+					curWeekHrs			DECIMAL(11,2),
+					nextWeekHrs			DECIMAL(11,2),
+					thirdWeekHrs		DECIMAL(11,2),
 					hasBookingDurationRestriction 	VARCHAR(5) 	NOT NULL,
 					PRIMARY KEY(uID));");				
 

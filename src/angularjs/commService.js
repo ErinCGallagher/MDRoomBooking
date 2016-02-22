@@ -228,7 +228,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		BookingCommService.hoursRemaining(date)
 			.then(function(remainingHours){
-				q.resolve(remainingHours.data[0]);
+				q.resolve(remainingHours.data);
 			},
 			function(err){
 				q.reject(err);

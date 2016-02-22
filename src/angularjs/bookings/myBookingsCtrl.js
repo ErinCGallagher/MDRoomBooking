@@ -23,7 +23,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 		});
 	}
 
-		$scope.retrieveHours();
+	$scope.retrieveHours();
 
 	$scope.alerts = [];
 
@@ -49,6 +49,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 
 	    confirmCancelPopupInstance.result.then(function (alert) {
 	        $scope.alerts.push(alert);
+	        $scope.retrieveHours();
 	    }, function () {
 	        $log.info('Modal dismissed at: ' + new Date());
 	    });

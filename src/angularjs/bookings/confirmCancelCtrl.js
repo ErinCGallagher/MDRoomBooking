@@ -4,6 +4,7 @@ angular
 function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, $filter, MyBookingsService) {
 	$scope.booking = bookingInfo;
 
+	//called on "Cancel Booking" buton press
 	$scope.cancelBooking = function(){
 		
 		MyBookingsService.cancelBooking(bookingInfo.bookingID,bookingInfo.start) 

@@ -28,7 +28,8 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 			var date = new Date();
 			CommService.hoursRemaining(date)
 			.then(function(retrievedHours){
-				q.resolve(parseInt(retrievedHours));
+				console.log(retrievedHours);
+				q.resolve(retrievedHours);
 			},
 			function(err){
 				q.reject();
@@ -61,6 +62,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 			}
 		i++;
 		}
+		
 	}
 
 	return myBookingsService;

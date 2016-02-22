@@ -19,17 +19,24 @@ $start = date('Y-m-d', $start);
 date_default_timezone_set('America/Toronto');
 	
 //determine current date so you only retrieve bookings after it
+
+//if today is Sunday, then must use Monday last week to retrieve hours for the current week
+//TODO
+
 $firstDay = date("Y-m-d", strtotime('monday this week'));  
+$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
+$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
 
-$lastDay = date("Y-m-d", strtotime('monday next week'));  
-
-
-if($start >= $firstDay && $start < $lastDay) {
+//if booking made in the current week
+if($start >= $firstDay && $start < $firstDayNextWeek) {
 	$week = 'curWeekHrs';
 
-} else {
+} else if($start < $firstDayWeek3)  {
     $week = 'nextWeekHrs';
 } 
+else{
+	$week ='thirdWeekHrs';
+}
 
 $result = array();
 
@@ -39,7 +46,7 @@ $sth->execute(array($user));
 
 //Loop through each returned row 
 while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-	$result = intval($row[$week]);
+	$result = floatval($row[$week]);
 }
 
 
