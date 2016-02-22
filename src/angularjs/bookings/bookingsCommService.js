@@ -85,7 +85,6 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		for(var i = 0; i<dailyBookings.length;i++){
 			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
 			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
-			console.log(dailyBookings[i].hrsSource);
 			if(dailyBookings[i].hrsSource != "Faculty" && dailyBookings[i].hrsSource != "Admin"){
 				dailyBookings[i].hrsSource = "student";
 			}

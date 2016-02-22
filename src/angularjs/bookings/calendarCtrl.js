@@ -75,8 +75,6 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
   $scope.viewBookingInformation = function(date, jsEvent, view){
 
     console.log(SharedVariableService.userType);
-
-    console.log(date);
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
       controller: 'ViewBookingPopupCtrl',
