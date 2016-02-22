@@ -12,6 +12,7 @@ function SharedVariableService($q, CommService){
 	sharedVariableService.buildingAndRooms = []; //array of building and their associated rooms
 	sharedVariableService.netID = "11ecg5";
 	sharedVariableService.name = "Erin Gallagher";
+	sharedVariableService.defaultBuilding = "Harrison LeCaine Hall";
 	sharedVariableService.initialLoadComplete = false;
 
 
@@ -23,11 +24,17 @@ function SharedVariableService($q, CommService){
 			.then(function(response){
 				createBuildingAndRoomsLists(response.allBuildings);
 				sharedVariableService.userType = response.class.toLowerCase();
-				console.log(sharedVariableService.userType);
 				sharedVariableService.netID = response.netID;
 				sharedVariableService.name = response.name;
+				if(response.department.toLowerCase() == "drama"){
+					sharedVariableService.defaultBuilding = "Theological Hall";
+				}
+				
+
 				//don't resolve until the initial load has completed
 				while(sharedVariableService.initialLoadComplete == false){} 
+
+					console.log(sharedVariableService.buildings);
 
 				q.resolve(sharedVariableService.userType); //now go to the calendar page
 			},
@@ -39,6 +46,8 @@ function SharedVariableService($q, CommService){
 	
 
 	createBuildingAndRoomsLists = function(info){
+		sharedVariableService.buildings.splice(0, sharedVariableService.buildings.length);
+		sharedVariableService.buildingAndRooms.splice(0,sharedVariableService.buildingAndRooms.length);
 		for (var key in info) {
 			sharedVariableService.buildings.push(key);
 			sharedVariableService.buildingAndRooms[key] =info[key].rooms;

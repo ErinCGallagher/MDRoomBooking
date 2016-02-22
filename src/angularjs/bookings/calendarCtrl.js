@@ -6,7 +6,7 @@ angular
 function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
 
   $scope.buildings = SharedVariableService.buildings;
-  $scope.selectedBuilding = "Harrison LeCaine Hall";
+  $scope.selectedBuilding = SharedVariableService.defaultBuilding;
   $scope.events = BookingsService.weeklyBookings;
   $scope.pageClass = 'calendar'; //used to change pages in index.html
 

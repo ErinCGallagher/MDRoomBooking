@@ -37,12 +37,15 @@ $firstName = " ";
 $lastName = " ";
 
 $canBook = False; //nonbooking users are the only users who can't book rooms
+$department = 'Music'; //default department is Music
 $sth = $db->prepare("SELECT * FROM Master WHERE uID = ?");
 $sth->execute(array($user));
 //Loop through each returned row 
 while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	//if a user is found in the database then they can book a room
 	$canBook = True;
+	//determine user department (music or drama)
+	$department = $row['department'];
 }
 
 if ($canBook) {
@@ -77,6 +80,7 @@ $_SESSION["netID"] = $user;
 $data["name"] = $firstName." ".$lastName;
 $data["class"] = $class;
 $data["netID"] = $user;
+$data["department"] = $department;
 
 $json = json_encode($data);
 echo $json;
