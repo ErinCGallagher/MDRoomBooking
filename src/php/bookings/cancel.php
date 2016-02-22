@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	//TODO, put stuff in PHP functions (CLEAN UP)
 
 	//Database connection
 	include('../connection.php');
@@ -118,9 +119,7 @@
 			$sth->execute(array($bookingID));
 			while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 				$bookingUserID = $row['uID'];
-				$class = $row['class'];
-				echo "in here";
-			}
+				$class = $row['class'];			}
 
 			if($bookingUserID != $_SESSION["netID"] && $class == "Student"){
 				//need to return hours to student user
