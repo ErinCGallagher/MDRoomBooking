@@ -70,22 +70,26 @@
     <strong>Version Number: 1.0</strong>
     <table style="text-align:center; width:100%;">
         <tr>
+            <!--
             <td>
                  <strong>Temporary: Select User Type</strong>
             </td>
+            -->
             <td>
                 <strong> Please report bugs here:</strong> <a href="http://goo.gl/forms/y59QQTPL1r" target="_blank">Form </a> 
             </td>
         </tr>
         <tr>
+            <!--
             <td>
                 <form>
-                 <input type="radio" ng-model="userPermision" value="nonBooking"> Non Booking 
+                 <input type="radio" ng-model="userPermision" value="nonbooking"> Non Booking 
                 <input type="radio" ng-model="userPermision" value="Student"> Student 
                 <input type="radio" ng-model="userPermision" value="Faculty"> Faculty 
                 <input type="radio" ng-model="userPermision" value="Admin" ng-value="admin" > Admin
                 </form>
             </td>
+            -->
                 <td>
             <strong>Please provide user expereince feedback here: </strong><a href="http://goo.gl/forms/rqFljWplgb" target="_blank">Form </a> 
             </td>
@@ -115,10 +119,10 @@
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
                         <a href="#/search">{{searchText}}</a>
                     </li>
-                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}" ng-show="userPermision != 'nonBooking'">
+                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}" ng-show="userPermision != 'nonbooking'">
                         <a href="#/my-bookings">{{myBookingsText}}</a>
                     </li>
-                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}" ng-show='userPermision == admin'>
+                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}" ng-show="userPermision == 'admin'">
                       <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{AdminText}} <span class="caret"></span></a>
                       <ul class="dropdown-menu" >
                         <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">{{UserText}}</a></li>

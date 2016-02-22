@@ -5,6 +5,13 @@ angular
 function AppCtrl($scope, $location, $route, SharedVariableService){
 
 //may need to handle back button functionality here espeically on phones
+
+  $scope.userPermision = SharedVariableService.userType;
+
+  SharedVariableService.initialSetup()
+    .then(function(userType){
+       $scope.userPermision = userType;
+    });
   
   //used for keeping active tabs highlighted in nav bar
   $scope.$route = $route;
@@ -41,6 +48,8 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
     }
   }
 
+  /*
+
   //for user testing only
   $scope.$watch('userPermision', function(userPermision) {
     if(userPermision == undefined){
@@ -51,5 +60,6 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
     }
 
  });
+ */
 
 }

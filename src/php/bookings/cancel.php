@@ -34,7 +34,8 @@
 		//Cancel booking
 
 		//if user is not admin, confirm they are trying to cancel their own booking
-		if ($_SESSION["class"] != "admin"){
+		echo $_SESSION["class"];
+		if ($_SESSION["class"] != "Admin"){
 			$sth = $db->prepare("SELECT uID FROM Bookings WHERE bookingID = ?");
 			$sth->execute(array($bookingID));
 			while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -108,6 +109,7 @@
 			$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
 			$sth->execute(array($bookingID));
 			http_response_code(200); //sucess
+			echo "admin";
 		}
 		
 	}

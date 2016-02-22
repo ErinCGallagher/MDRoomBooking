@@ -196,6 +196,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	/*
 	//for user testing only
 	commService.changeUserType = function(userPermision){
 		var q = $q.defer();
@@ -208,6 +209,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			});
 		return q.promise;
 	}
+	*/
 
 	commService.retrieveUserBookings = function(){
 		var q = $q.defer();

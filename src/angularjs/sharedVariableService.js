@@ -6,7 +6,7 @@ angular
 function SharedVariableService($q, CommService){
 	var sharedVariableService = {};
 
-	sharedVariableService.userType = "admin";
+	sharedVariableService.userType = "nonbooking";
 	sharedVariableService.buildings = []; //array of building names
 	sharedVariableService.buildingInfo = {}; //array of building names and hours of operation
 	sharedVariableService.buildingAndRooms = []; //array of building and their associated rooms
@@ -21,13 +21,14 @@ function SharedVariableService($q, CommService){
 		var q = $q.defer();
 		CommService.initialRetrival()
 			.then(function(response){
-				createBuildingAndRoomsLists(response.allBuildings)
-				sharedVariableService.userType = response.class;
+				createBuildingAndRoomsLists(response.allBuildings);
+				sharedVariableService.userType = response.class.toLowerCase();
+				console.log(sharedVariableService.userType);
 				sharedVariableService.netID = response.netID;
 				//don't resolve until the initial load has completed
 				while(sharedVariableService.initialLoadComplete == false){} 
 
-				q.resolve(); //now go to the calendar page
+				q.resolve(sharedVariableService.userType); //now go to the calendar page
 			},
 			function(err){
 				q.reject(err); //cannot complete the initial load script
@@ -45,6 +46,8 @@ function SharedVariableService($q, CommService){
 		sharedVariableService.initialLoadComplete = true;
 	}
 
+	/*
+
 	//for user testing only
 	sharedVariableService.changeUserType = function(userPermision){
 		CommService.changeUserType(userPermision)
@@ -55,6 +58,7 @@ function SharedVariableService($q, CommService){
 				alert("Changing user type was not successful");
 			});
 	}
+	*/
 
 
 

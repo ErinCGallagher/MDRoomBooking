@@ -30,7 +30,7 @@ function UserCommService($http){
 
 		return promisePost;
 	}
-
+	/*
 	userCommService.changeUserType = function(userPermision){
 		var data = {
 			userPermision : userPermision
@@ -44,6 +44,7 @@ function UserCommService($http){
 		    });
 		return promisePost;
 	}
+	*/
 		
 	userCommService.uploadMasterList = function(fileFormData){
 		// send config object as well
