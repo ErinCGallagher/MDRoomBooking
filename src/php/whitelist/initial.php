@@ -3,7 +3,7 @@ session_start();
 
 include('../connection.php');
 
-//Get all buildings
+//Get all buildings, rooms & building hours
 $allBuildings = array();
 
 $sth = $db->prepare("SELECT * FROM Building");
@@ -30,18 +30,21 @@ $_SESSION["buildings"] = $allBuildings;
 //$user = $_SERVER["HTTP_QUEENSU_NETID"];
 
 //for testing purposes only, use above otherwise
-$user = "115"; //check rb_sample.php for users to input here for testing
+$user = "11ecg5"; //check rb_sample.php for users to input here for testing
 
 
 $firstName = " ";
 $lastName = " ";
-$canBook = False;
+
+$canBook = False; //nonbooking users are the only users who can't book rooms
 $sth = $db->prepare("SELECT * FROM Master WHERE uID = ?");
 $sth->execute(array($user));
 //Loop through each returned row 
 while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+	//if a user is found in the database then they can book a room
 	$canBook = True;
 }
+
 if ($canBook) {
 	$sth = $db-> prepare("SELECT class, firstName, lastName FROM User WHERE uID = ?");
 	$sth->execute(array($user));

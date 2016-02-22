@@ -23,13 +23,13 @@
 	$currentDate = date('Y-m-d');
 	$currentTime = date('H:i:s');
 
+	//determine if the booking has already occured
 	if ($currentDate > $startDate){
 		//Booking has already started or has already passed
 		//currently not working because of timezones
 		http_response_code(406); //Invalid Entry
 	} else if(($currentDate == $startDate) && ($currentTime > $startTime)){
-		echo $startTime;
-		echo $currentTime;
+		//Booking has already started or has already passed
 		http_response_code(406); //Invalid Entry
 	} else {
 		//Cancel booking
@@ -39,74 +39,35 @@
 			$sth = $db->prepare("SELECT uID FROM Bookings WHERE bookingID = ?");
 			$sth->execute(array($bookingID));
 			while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$userID = $row['uID'];
+				$bookingUserID = $row['uID'];
 			}
 			
 			//confirm this is the user's booking
-			if($userID != $_SESSION["netID"]){
+			if($bookingUserID != $_SESSION["netID"]){
 				http_response_code(406); //Invalid Entry
 			}
-			else{
+			else{ //it is the user's own booking
 				//if faculty, delete booking because they have unlimited hours
 				if($_SESSION["class"] == "Faculty"){
-					$sth = $db->prepare("DELETE FROM BookingSlots WHERE bookingID = ?");
-					$sth->execute(array($bookingID));
-					$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
-					$sth->execute(array($bookingID));
+					deleteBooking($db, $bookingID);
 					http_response_code(200); //sucess
 				}
 				else{ //student, must return booking hours to the student
 
-					//determine amount of time booking was
-					$sth = $db->prepare("SELECT bookingDate, COUNT(*) as numBlocks FROM BookingSlots WHERE bookingID = ?");
-					$sth->execute(array($bookingID));
-					
-					while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-						//Get number of blocks
-						$numBlocks = $row['numBlocks'];
-						$bookingDate = $row['bookingDate'];
-					}
-					$bookingLength = ($numBlocks*30.0)/60.0; //hours to be returned to the user
-					echo "hours to return ".$bookingLength;
+					///determine the length of a given booking in hours
+					$response = determineBookingLength($db,$bookingID);
+
+					$bookingLength = $response[0];
+					$bookingDate = $response[1];
 
 					//cancel booking
-					$sth = $db->prepare("DELETE FROM BookingSlots WHERE bookingID = ?");
-					$sth->execute(array($bookingID));
-					$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
-					$sth->execute(array($bookingID));
+					deleteBooking($db, $bookingID);
 
-					//if today is Sunday, then must use Monday last week to retrieve hours for the current week
-					//TODO
+					//determnes which week the booking was booked in
+					$week = determineWhichWeek($bookingDate);
 
-					//determine current date so you can determine where to return hours
-					$firstDay = date("Y-m-d", strtotime('monday this week'));  
-					$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
-					$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
-
-					//if booking made in the current week
-					if($bookingDate >= $firstDay && $bookingDate < $firstDayNextWeek) {
-						$week = 'curWeekHrs';
-
-					} else if($bookingDate < $firstDayWeek3)  {
-					    $week = 'nextWeekHrs';
-					} 
-					else{
-						$week ='thirdWeekHrs';
-					}
-					echo " to ".$week.";";
-
-					//determine the number of hours the user currently has for that week
-					$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
-					$sth->execute(array($userID));
-					while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-						//Get number of blocks
-						$bookingLength = $row[$week] + $bookingLength;
-					}
-					echo " New hours ".$bookingLength;
-
-					//update the user table with the retruned hours from the canceled booking
-					$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
-					$sth->execute(array($bookingLength,$userID));
+					//returns hours to user from a deleted booking
+					returnHoursToUser($db, $week, $bookingUserID, $bookingLength);
 
 					http_response_code(200); //sucess
 				}
@@ -122,66 +83,26 @@
 				$class = $row['class'];			}
 
 			if($bookingUserID != $_SESSION["netID"] && $class == "Student"){
-				//need to return hours to student user
-				//determine amount of time booking was
-				$sth = $db->prepare("SELECT bookingDate, COUNT(*) as numBlocks FROM BookingSlots WHERE bookingID = ?");
-				$sth->execute(array($bookingID));
-				
-				while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					//Get number of blocks
-					$numBlocks = $row['numBlocks'];
-					$bookingDate = $row['bookingDate'];
-				}
-				$bookingLength = ($numBlocks*30.0)/60.0; //hours to be returned to the user
-				echo "hours to return ".$bookingLength;
+				//determine the length of a given booking in hours
+				$response = determineBookingLength($db,$bookingID);
+
+				$bookingLength = $response[0];
+				$bookingDate = $response[1];
 
 				//cancel booking
-				$sth = $db->prepare("DELETE FROM BookingSlots WHERE bookingID = ?");
-				$sth->execute(array($bookingID));
-				$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
-				$sth->execute(array($bookingID));
+				deleteBooking($db, $bookingID);
 
-				//if today is Sunday, then must use Monday last week to retrieve hours for the current week
-				//TODO
+				//determnes which week the booking was booked in
+				$week = determineWhichWeek($bookingDate);
 
-				//determine current date so you can determine where to return hours
-				$firstDay = date("Y-m-d", strtotime('monday this week'));  
-				$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
-				$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
-
-				//if booking made in the current week
-				if($bookingDate >= $firstDay && $bookingDate < $firstDayNextWeek) {
-					$week = 'curWeekHrs';
-
-				} else if($bookingDate < $firstDayWeek3)  {
-				    $week = 'nextWeekHrs';
-				} 
-				else{
-					$week ='thirdWeekHrs';
-				}
-				echo " to ".$week.";";
-
-				//determine the number of hours the user currently has for that week
-				$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
-				$sth->execute(array($bookingUserID));
-				while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					//Get number of blocks
-					$bookingLength = $row[$week] + $bookingLength;
-				}
-				echo " New hours ".$bookingLength;
-
-				//update the user table with the retruned hours from the canceled booking
-				$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
-				$sth->execute(array($bookingLength,$bookingUserID));
+				//returns hours to user from a deleted booking
+				returnHoursToUser($db, $week, $bookingUserID, $bookingLength);
 
 				http_response_code(200); //sucess
 			}
 
 			//otherwise they are admin or deleting a faculty booking
-			$sth = $db->prepare("DELETE FROM BookingSlots WHERE bookingID = ?");
-			$sth->execute(array($bookingID));
-			$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
-			$sth->execute(array($bookingID));
+			deleteBooking($db, $bookingID);
 			http_response_code(200); //sucess
 		}
 		
@@ -189,4 +110,76 @@
 
 	//Close the connection
 	$db = NULL;
+
+	//removed a booking from the database
+	function deleteBooking($db, $bookingID){
+		$sth = $db->prepare("DELETE FROM BookingSlots WHERE bookingID = ?");
+		$sth->execute(array($bookingID));
+		$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
+		$sth->execute(array($bookingID));
+	}
+
+	//determnes which week the booking was booked in
+	//useful when returning hours to users after a booking was canceled
+	function determineWhichWeek($bookingDate){
+		//if today is Sunday, then must use Monday last week to retrieve hours for the current week
+		//TODO
+
+		//determine current date so you can determine where to return hours
+		$firstDay = date("Y-m-d", strtotime('monday this week'));  
+		$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
+		$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+
+		//if booking made in the current week
+		if($bookingDate >= $firstDay && $bookingDate < $firstDayNextWeek) {
+			$week = 'curWeekHrs';
+
+		} else if($bookingDate < $firstDayWeek3)  {
+		    $week = 'nextWeekHrs';
+		} 
+		else{
+			$week ='thirdWeekHrs';
+		}
+		echo " to ".$week.";";
+
+		return $week;
+	}
+
+	//returns hours to user from a deleted booking
+	function returnHoursToUser($db, $week, $bookingUserID, $bookingLength){
+		//determine the number of hours the user currently has for that week
+		$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
+		$sth->execute(array($bookingUserID));
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			//Get number of blocks
+			$bookingLength = $row[$week] + $bookingLength;
+		}
+		echo " New hours ".$bookingLength;
+
+		//update the user table with the retruned hours from the canceled booking
+		$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
+		$sth->execute(array($bookingLength,$bookingUserID));
+	}
+
+	//determine the length of a given booking in hours
+	function determineBookingLength($db,$bookingID){
+		//determine amount of time booking was
+		$sth = $db->prepare("SELECT bookingDate, COUNT(*) as numBlocks FROM BookingSlots WHERE bookingID = ?");
+		$sth->execute(array($bookingID));
+		
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			//Get number of blocks
+			$numBlocks = $row['numBlocks'];
+			$bookingDate = $row['bookingDate'];
+		}
+		$bookingLength = ($numBlocks*30.0)/60.0; //hours to be returned to the user
+		echo "hours to return ".$bookingLength;
+
+		return [$bookingLength, $bookingDate];
+	}
 ?>
+
+
+
+
+
