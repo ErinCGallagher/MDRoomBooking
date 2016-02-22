@@ -28,7 +28,11 @@ $_SESSION["buildings"] = $allBuildings;
 
 //Check if user can book
 //$user = $_SERVER["HTTP_QUEENSU_NETID"];
-$user = "11ecg5";
+
+//for testing purposes only, use above otherwise
+$user = "11ecg5"; //check rb_sample.php for users to input here for testing
+
+
 $canBook = False;
 $sth = $db->prepare("SELECT * FROM Master WHERE uID = ?");
 $sth->execute(array($user));
