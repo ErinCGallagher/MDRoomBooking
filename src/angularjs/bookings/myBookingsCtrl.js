@@ -16,7 +16,13 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	$scope.retrieveHours = function(){
 		MyBookingsService.retrieveHoursRemaining()
 		.then(function(retrievedHours){
-			$scope.hours = retrievedHours
+			if(SharedVariableService.userType != "student"){
+				$scope.hours = "Unlimited";
+			}
+			else{
+				$scope.hours = retrievedHours
+			}
+
 		},
 		function(err){
 

@@ -25,6 +25,7 @@ function SharedVariableService($q, CommService){
 				sharedVariableService.userType = response.class.toLowerCase();
 				console.log(sharedVariableService.userType);
 				sharedVariableService.netID = response.netID;
+				sharedVariableService.name = response.name;
 				//don't resolve until the initial load has completed
 				while(sharedVariableService.initialLoadComplete == false){} 
 

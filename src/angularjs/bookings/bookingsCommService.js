@@ -193,7 +193,6 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var data = {date:date};
 		var promisePost =  $http.post('src/php/bookings/hoursRemaining.php', data)
 		    .success(function(data) {
-		    	console.log(data);
 		    })
 		    .error(function(responseDate) { //request to the php scirpt failed
 		    	console.log(responseDate);

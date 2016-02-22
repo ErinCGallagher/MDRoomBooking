@@ -30,9 +30,11 @@ $_SESSION["buildings"] = $allBuildings;
 //$user = $_SERVER["HTTP_QUEENSU_NETID"];
 
 //for testing purposes only, use above otherwise
-$user = "11ecg5"; //check rb_sample.php for users to input here for testing
+$user = "13ecg5"; //check rb_sample.php for users to input here for testing
 
 
+$firstName = " ";
+$lastName = " ";
 $canBook = False;
 $sth = $db->prepare("SELECT * FROM Master WHERE uID = ?");
 $sth->execute(array($user));
@@ -41,10 +43,12 @@ while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	$canBook = True;
 }
 if ($canBook) {
-	$sth = $db-> prepare("SELECT class FROM User WHERE uID = ?");
+	$sth = $db-> prepare("SELECT class, firstName, lastName FROM User WHERE uID = ?");
 	$sth->execute(array($user));
 	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		$class = $row['class'];
+		$firstName = $row['firstName'];
+		$lastName = $row['lastName'];
 	}
 } else {
 	//class is NonBooking
@@ -67,6 +71,7 @@ $data = array();
 $data["allBuildings"] = $allBuildings;
 $_SESSION["class"] = $class;
 $_SESSION["netID"] = $user;
+$data["name"] = $firstName." ".$lastName;
 $data["class"] = $class;
 $data["netID"] = $user;
 
