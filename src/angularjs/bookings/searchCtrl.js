@@ -224,9 +224,15 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
         bookingID: function () {
           return date.bookingID;
         },
-          sourcePage: function () {
-            return "search";
-          }
+        bookingUserType: function () {
+          return date.bookingUserType;
+        },
+        userType: function () {
+          return SharedVariableService.userType;
+        },
+        sourcePage: function () {
+          return "search";
+        }
       }
     });
     viewBookingPopupInstance.result.then(function (alert) {

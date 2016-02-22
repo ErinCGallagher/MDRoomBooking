@@ -105,6 +105,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		BookingCommService.getWeeklyBookingsFromDb(start, end, building)
 			.then(function(buildingWeeklyBookings){
 				var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(buildingWeeklyBookings.data);
+				console.log(formattedBuildingWeeklyBookings);
 				q.resolve(formattedBuildingWeeklyBookings);
 			},
 			function(err){
