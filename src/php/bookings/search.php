@@ -30,7 +30,8 @@ $utcEnd = strtotime($end);
 $endTime = date('H:i:s', $utcEnd);
 
 
-/* USED FOR TESTING
+/*
+// USED FOR TESTING
 
 //Set parameters from datastream
 $building = 'Theological Hall';
@@ -71,6 +72,7 @@ while($block = $sth->fetch(PDO::FETCH_ASSOC)) {
 	$endBlock = $block['blockID'];
 }
 $usedBlocks = $endBlock - $startBlock + 1;
+$usedBlocks = (int) $usedBlocks;
 
 //Find rooms that match contents
 $query = "SELECT roomID FROM Rooms WHERE building = ?";
@@ -97,13 +99,13 @@ $sth->execute(array($building));
 if ($sth->rowCount() > 0) {
 
 	while($room = $sth->fetch(PDO::FETCH_ASSOC)) {
-	
-		//Check if room has availability between times
-		$query = "SELECT * FROM BookingSlots WHERE RoomID = ? AND BlockID >= ? AND BlockID <= ?";
-		$sth2 = $db->prepare($query);
-		$sth2->execute(array($room['roomID'], $startBlock, $endBlock));
 		
-		if ($sth2->rowCount() < $usedBlocks) {
+		//Check if room has availability between times
+		$query = "SELECT * FROM BookingSlots WHERE roomID = ? AND blockID >= ? AND blockID <= ? AND bookingDate = ?";
+		$sth2 = $db->prepare($query);
+		$sth2->execute(array($room['roomID'], $startBlock, $endBlock, $startDate));
+		$bookedBlocks = (int) $sth2->rowCount();
+		if ($bookedBlocks < $usedBlocks) {
 			//there is at least one block available
 			$search[$room['roomID']] = array();
 			
