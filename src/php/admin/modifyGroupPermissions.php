@@ -7,7 +7,7 @@
 	//Get parameters from 
 	$groupName = $data->groupName; 
 	$hours = $data->hours; //hours per week
-	$hasBookingDurationRestriction = $data->hasBookingDurationRestriction;
+	//$hasBookingDurationRestriction = $data->hasBookingDurationRestriction;
 	//$fall = $data->fall;
 	//$winter = $data->winter;
 	//$summer = $data->summer;
@@ -60,8 +60,12 @@
 	//}		
 	
 	//Get booking info from database
-   	$sth = $db->prepare("UPDATE UGroups SET groupName = ?, addHrsType = ?, hasBookingDurationRestriction = ? , hours = ?, startDate = ?, endDate = ? WHERE groupID = ?");
-	$sth->execute(array($groupName, $addHrsType, $hasBookingDurationRestriction, $hours, $startDate, $endDate, $groupID));
+   	//$sth = $db->prepare("UPDATE UGroups SET groupName = ?, addHrsType = ?, hasBookingDurationRestriction = ? , hours = ?, startDate = ?, endDate = ? WHERE groupID = ?");
+	//$sth->execute(array($groupName, $addHrsType, $hasBookingDurationRestriction, $hours, $startDate, $endDate, $groupID));
+	
+	
+	$sth = $db->prepare("UPDATE UGroups SET groupName = ?, addHrsType = ?, hours = ?, startDate = ?, endDate = ? WHERE groupID = ?");
+	$sth->execute(array($groupName, $addHrsType, $hours, $startDate, $endDate, $groupID));
 	
 	//Select users who are in the group
 	

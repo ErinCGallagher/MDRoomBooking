@@ -112,7 +112,7 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			groupName: $scope.newNameM,
 			hours: $scope.hoursM,
 			addHrsType: $scope.addHrsTypeM,
-			hasBookingDurationRestriction: $scope.restrictionM,
+			//hasBookingDurationRestriction: $scope.restrictionM,
 			//fall: $scope.fallM,
 			//winter: $scope.winterM,
 			//summer: $scope.summerM,
@@ -124,7 +124,12 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		//Send info about new group to back end
 		AdminGroupsService.saveModifyGroup(info);
 		//alert("Group Changes Saved");
-		$scope.showGroup($scope.groupId);
+		getAllGroups();
+		$scope.showGroup($scope.group);
+	}
+	
+	$scope.cancelModifyGroup = function() {
+		$scope.showGroup($scope.group);
 	}
 	
 	$scope.showGroup = function(group) {
