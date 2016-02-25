@@ -131,7 +131,9 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		BookingCommService.bookRoomInDB(roomInformation)
 			.then(function(bookingObject){
-				q.resolve(bookingObject.data);
+				console.log(bookingObject);
+				console.log(bookingObject.data.bookingID);
+				q.resolve(bookingObject.data.bookingID);
 			},function(errorStatus){
 				q.reject(errorStatus.status);
 			});
