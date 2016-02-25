@@ -376,7 +376,6 @@
 		$sth = $db->prepare("SELECT blockID FROM BookingSLots WHERE bookingID = ?;");
 		$sth->execute(array($bookingID));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			echo $hoursSourecList[$numBlock];
 			update($db, $row['blockID'], $bookingID, $hoursSourecList[$numBlock]);
 			$numBlock ++;
 		}
