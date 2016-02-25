@@ -115,7 +115,7 @@
 
 			//determine if the user has the required hours to make the booking
 			if($class == 'Student'){
-				$specialHours = array();
+				$hoursSourecList = array();
 				$hrsSource = $_SESSION["class"];
 				$duration = ($totalB * 30.0) / 60.0;
 				//echo $duration;
@@ -131,6 +131,7 @@
 
 					$hoursRemaining = $row[$week];
 				}
+				
 
 				//if there are more weekly hours remaining than the hours required for the book
 				if($hoursRemaining >= $duration ){
@@ -148,9 +149,17 @@
 						$newWeeklyHrs = $row[$week] - $duration;
 					}
 
+					for($k = 0; $k<$totalB; $k++){
+						array_push($hoursSourecList, "weekly");
+					}
+
 					//only if the booking is successful do you remove the hours
 					$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
 					$sth->execute(array($newWeeklyHrs,$uID));
+
+					//update hours Source for the booking the appropraite values
+					//in this case it will all be weekly
+					updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
 
 					http_response_code(200); //success
 				}
@@ -174,8 +183,15 @@
 						$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
 						$sth->execute(array(0,$uID));
 
+						for($k = 0; $k<(($hoursRemaining * 60) / 30); $k++){
+							array_push($hoursSourecList, "weekly");
+						}
+
 						//remove the hours from the user's special groups
 						useSpecialHours($db, $uID, $startDate, $remainingDuration);
+
+						//update the hourse source for the blocks of the booking
+						updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
 
 						http_response_code(200); //success
 					}
@@ -198,6 +214,11 @@
 
 						//remove the hours from the user's special groups
 						useSpecialHours($db, $uID, $startDate, $duration);
+
+						
+						//update the hourse source for the blocks of the booking
+						updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
+
 						http_response_code(200); //success
 					}
 					else{ //not sufficient hours
@@ -312,6 +333,7 @@
 	//determine how many special group hours a user needs to take to make the booking
 	//update the permissions table in order to use the hours
 	function useSpecialHours($db, $uID, $startDate, $duration){
+		global $hoursSourecList;
 		$sth = $db->prepare("SELECT Ugroups.groupID, Permission.specialHrs FROM Permission JOIN Ugroups on Ugroups.groupID = Permission.groupID WHERE uID = ? and ? BETWEEN Ugroups.startDate and Ugroups.endDate ORDER BY Ugroups.endDate ASC");
 		$sth->execute(array($uID, $startDate));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -319,10 +341,24 @@
 			if($row['specialHrs'] - $duration < 0){
 				updateSpecialHours($db, $uID, $row['groupID'], 0);
 				$duration = $duration - $row['specialHrs'];
+
+				//determine how many blocks were used
+				for($k = 0; $k<(($row['specialHrs'] * 60) / 30); $k++){
+					array_push($hoursSourecList, $row['groupID']);
+				}
+			}
+			else if($duration == 0){
+				//do nothing
 			}
 			else{
 				$newHours = $row['specialHrs'] - $duration;
 				updateSpecialHours($db, $uID, $row['groupID'], $newHours);
+
+				//determine how many blocks were used
+				for($k = 0; $k<(($duration * 60) / 30); $k++){
+					array_push($hoursSourecList, $row['groupID']);
+				}
+
 				$duration = 0;
 			}
 		}
@@ -330,11 +366,25 @@
 
 	//update the speciial hours left for a user's group
 	function updateSpecialHours($db, $uID, $groupID, $newHours){
-		echo $uID;
-		echo $groupID."   ";
-		echo $newHours;
 		$sth = $db->prepare("UPDATE Permission SET specialHrs = ? WHERE uID = ? and groupID = ?;");
 		$sth->execute(array($newHours,$uID, $groupID));
+	}
+
+	function updateHrsSource($db, $uID, $bookingID, $hoursSourecList){
+	
+		$numBlock = 0;
+		$sth = $db->prepare("SELECT blockID FROM BookingSLots WHERE bookingID = ?;");
+		$sth->execute(array($bookingID));
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			echo $hoursSourecList[$numBlock];
+			update($db, $row['blockID'], $bookingID, $hoursSourecList[$numBlock]);
+			$numBlock ++;
+		}
+	}
+
+	function update($db, $blockID, $bookingID, $hoursSoure){
+		$sth = $db->prepare("UPDATE BookingSLots SET hrsSource = ? WHERE bookingID = ? and blockID = ?;");
+		$sth->execute(array($hoursSoure, $bookingID, $blockID));
 	}
 
 
