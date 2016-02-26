@@ -86,6 +86,30 @@ function AdminGroupsService(CommService, $q){
 		return q.promise;
 	}
 
+	adminGroupsService.deleteAllUsersFromGroup = function(groupId){
+		var q = $q.defer();
+		CommService.deleteAllUsersFromGroup(groupId)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
+	adminGroupsService.deleteGroup = function(groupId){
+		var q = $q.defer();
+		CommService.deleteGroup(groupId)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg);
+			});
+		return q.promise;
+	}
+
 	return adminGroupsService;
 
 };

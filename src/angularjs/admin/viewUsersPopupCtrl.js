@@ -11,8 +11,20 @@ function ViewUsersModalCtrl ($scope, $uibModalInstance, AdminGroupsService, grou
 	$scope.deleteUserFromGroup = function(user) {
 		AdminGroupsService.deleteUserFromGroup(user.uID, $scope.groupId)
 			.then(function(){
+
+				//TODO: fix so only removes user from list if they were successfully deleted
 				var index = $scope.userList.indexOf(user);
 				$scope.userList.splice(index, 1);
+			},
+			function(errorMsg) {
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
+			});
+	}
+
+	$scope.deleteAllUsersFromGroup = function() {
+		AdminGroupsService.deleteAllUsersFromGroup($scope.groupId)
+			.then(function(data){
+				$scope.userList = [];
 			},
 			function(errorMsg) {
 				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);

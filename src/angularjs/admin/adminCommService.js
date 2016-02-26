@@ -92,6 +92,34 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 
+	adminCommService.deleteAllUsersFromGroup = function(groupID) {
+		var sendData = {groupID:groupID};
+
+		var promisePost =  $http.post('src/php/admin/deleteAllUsersFromGroup.php', sendData)
+		    .success(function(data, status) {
+		    	console.log("deleteAllUsersFromGroup ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return data;
+		    });
+		 return promisePost;
+	}
+
+	adminCommService.deleteGroup = function(groupID) {
+		var sendData = {groupID:groupID};
+
+		var promisePost =  $http.post('src/php/admin/deleteGroup.php', sendData)
+		    .success(function(data, status) {
+		    	console.log("deleteGroup ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return data;
+		    });
+		 return promisePost;
+	}
+
 	adminCommService.getUsersInGroup = function(id) {
 		var data = {groupID:id};
 

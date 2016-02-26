@@ -57,9 +57,9 @@
 				$insertMasterString .= "(?, ?), ";
 				array_push($insertMasterArray, $userData[0], $department);
 
-				//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs')
-				$insertUserString .= "(?, ?, ?, ?, ?, ?), ";
-				array_push($insertUserArray, $userData[0], $userData[1], $userData[2], $userData[3], $defaultHrs, $defaultHrs);
+				//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs', 'thirdWeekHrs', 'hasBookingDurationRestriction')
+				$insertUserString .= "(?, ?, ?, ?, ?, ?, ?, ?), ";
+				array_push($insertUserArray, $userData[0], $userData[1], $userData[2], $userData[3], $defaultHrs, $defaultHrs, $defaultHrs, 'Yes');
 			} else {
 				$badClassUsers[] = $user;
 			}
@@ -89,8 +89,7 @@
 
 		//insert users into user list
 		//use ignore so you don't have duplicates
-		//TODO: check if user should have default hours from music 
-		$insertUserQuery = "INSERT IGNORE INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs) VALUES $insertUserString";
+		$insertUserQuery = "INSERT IGNORE INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs, thirdWeekHrs, hasBookingDurationRestriction) VALUES $insertUserString";
 		$insertUserStmt = $db->prepare($insertUserQuery);
 		$insertUserStmt->execute($insertUserArray);
 
