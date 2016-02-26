@@ -29,8 +29,8 @@ $_SESSION["buildings"] = $allBuildings;
 //Check if user can book
 //$user = $_SERVER["HTTP_QUEENSU_NETID"];
 
-//for testing purposes only, use above otherwise
-$user = "13eg"; //check rb_sample.php for users to input here for testing
+//for testin1ecg5urposes only, use above otherwise
+$user = "11ecg5"; //check rb_sample.php for users to input here for testing
 
 
 $firstName = " ";

@@ -60,14 +60,27 @@
 					$bookingLength = $response[0];
 					$bookingDate = $response[1];
 
+					$hrsSourceList = array();
+					//retrieve hrsSource for each block
+					retrieveHrsSource($db, $bookingID);
+
 					//cancel booking
 					deleteBooking($db, $bookingID);
 
 					//determnes which week the booking was booked in
 					$week = determineWhichWeek($bookingDate);
-
-					//returns hours to user from a deleted booking
-					returnHoursToUser($db, $week, $bookingUserID, $bookingLength);
+					echo count($hrsSourceList);
+					//return hours to the appropriate week and group
+					for($i = 0; $i < count($hrsSourceList); $i++){
+						if($hrsSourceList[$i] == "weekly"){
+							echo "weekly";
+							returnWeeklyHoursToUser($db, $week, $bookingUserID, 0.5);
+						}
+						else{
+							echo "special";
+							returnSpecialHoursToUser($db, $bookingUserID, $hrsSourceList[$i], 0.5);
+						}
+					}
 
 					http_response_code(200); //sucess
 				}
@@ -89,14 +102,25 @@
 				$bookingLength = $response[0];
 				$bookingDate = $response[1];
 
+				$hrsSourceList = array();
+				//retrieve hrsSource for each block
+				retrieveHrsSource($db, $bookingID);
+
 				//cancel booking
 				deleteBooking($db, $bookingID);
 
 				//determnes which week the booking was booked in
 				$week = determineWhichWeek($bookingDate);
 
-				//returns hours to user from a deleted booking
-				returnHoursToUser($db, $week, $bookingUserID, $bookingLength);
+				//return hours to the appropriate week and group
+				for($i = 0; $i < count($hrsSourceList); $i++){
+					if($hrsSourceList[$i] == "weekly"){
+						returnWeeklyHoursToUser($db, $week, $bookingUserID, 0.5);
+					}
+					else{
+						returnSpecialHoursToUser($db, $bookingUserID, $hrsSourceList[$i], 0.5);
+					}
+				}
 
 				http_response_code(200); //sucess
 			}
@@ -110,6 +134,19 @@
 
 	//Close the connection
 	$db = NULL;
+
+	//retrieve the hrsSource for each 30 minute block of a booking
+	//return an array with the hours to return
+	function retrieveHrsSource($db, $bookingID){
+		global $hrsSourceList;
+		$sth = $db->prepare("SELECT hrsSource FROM BookingSlots where bookingID = ?");
+		$sth->execute(array($bookingID));
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			//Get number of blocks
+			array_push($hrsSourceList, $row['hrsSource']);
+		}
+
+	}
 
 	//removed a booking from the database
 	function deleteBooking($db, $bookingID){
@@ -146,9 +183,9 @@
 	}
 
 	//returns hours to user from a deleted booking
-	function returnHoursToUser($db, $week, $bookingUserID, $bookingLength){
+	function returnWeeklyHoursToUser($db, $week, $bookingUserID, $bookingLength){
 		//determine the number of hours the user currently has for that week
-		$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
+		$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?;");
 		$sth->execute(array($bookingUserID));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			//Get number of blocks
@@ -157,8 +194,25 @@
 		echo " New hours ".$bookingLength;
 
 		//update the user table with the retruned hours from the canceled booking
-		$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
+		$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?;");
 		$sth->execute(array($bookingLength,$bookingUserID));
+	}
+
+	function returnSpecialHoursToUser($db, $bookingUserID, $groupID, $bookingLength){
+		$currentHrs = 0;
+		$sth = $db->prepare("SELECT specialHrs FROM Permission WHERE uID = ? and groupID = ?;");
+		$sth->execute(array($bookingUserID, $groupID));
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			//Get number of blocks
+			$currentHrs = $row['specialHrs'];
+		}
+		echo "current hrs:".$currentHrs."   ";
+		$currentHrs +=$bookingLength;
+		echo $currentHrs;
+		//update the user table with the retruned hours from the canceled booking
+		$sth = $db->prepare("UPDATE Permission SET specialHrs = ? WHERE uID = ? and groupID = ?;");
+		$sth->execute(array($currentHrs,$bookingUserID, $groupID));
+
 	}
 
 	//determine the length of a given booking in hours
