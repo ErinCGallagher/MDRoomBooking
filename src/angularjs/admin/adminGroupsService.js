@@ -19,16 +19,14 @@ function AdminGroupsService(CommService, $q){
 	}
 
 	adminGroupsService.createGroup = function(groupInfo) {
-		var q = $q.defer();
 		CommService.createGroup(groupInfo)
 		.then(function(newGroupId){
-				q.resolve(newGroupId);
+				
+				//adminGroupsService.groups.push({groupID:newGroupId, groupName:newGroupName})
 			},
 			function(err){
-				alert("error with createGroup");
-				q.reject();
+				alert("error with saveModifyGroup");
 			});
-		return q.promise;
 	}	
 
 	adminGroupsService.saveModifyGroup = function(groupInfo) {

@@ -33,6 +33,20 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 	
+		adminCommService.keyList = function(info) {
+
+		var promisePost =  $http.post('src/php/admin/getKeyList.php', info)
+		    .success(function(data, status) {
+		    	console.log("KeyList  ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 return promisePost;
+	}
+	
+	
 	adminCommService.saveModifyGroup = function(groupInfo) {
 
 		var promisePost =  $http.post('src/php/admin/modifyGroupPermissions.php', groupInfo)
