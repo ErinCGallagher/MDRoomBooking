@@ -116,7 +116,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		}
 		else{
 			//there is a booking conflict
-			q.reject(409);
+			q.reject("Your booking could not be completed because it conflicted with another booking");
 		}
 		return q.promise;
 	}

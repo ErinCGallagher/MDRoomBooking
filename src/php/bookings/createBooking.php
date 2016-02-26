@@ -231,7 +231,7 @@
 			}
 			else{//faculty & admin have unlimited hours
 				//create booking
-				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
+				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class);
 				//Send bookingID to front end
 				$result['bookingID'] = $bookingID;
 			}
@@ -274,7 +274,7 @@
 			$sth = $db->prepare("DELETE FROM Bookings WHERE bookingID = ?");
 			$sth->execute(array($bookingID));
 			
-			$result['msg'] = "Your booking could not be completed. Please try making another booking.";
+			$result['msg'] = "Your booking could not be completed because it conflicted with another booking";
 			http_response_code(409); //conflict
 		} else {
 			

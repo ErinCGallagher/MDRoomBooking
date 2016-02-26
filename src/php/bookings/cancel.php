@@ -69,15 +69,15 @@
 
 					//determnes which week the booking was booked in
 					$week = determineWhichWeek($bookingDate);
-					echo count($hrsSourceList);
+					
 					//return hours to the appropriate week and group
 					for($i = 0; $i < count($hrsSourceList); $i++){
 						if($hrsSourceList[$i] == "weekly"){
-							echo "weekly";
+							
 							returnWeeklyHoursToUser($db, $week, $bookingUserID, 0.5);
 						}
 						else{
-							echo "special";
+							
 							returnSpecialHoursToUser($db, $bookingUserID, $hrsSourceList[$i], 0.5);
 						}
 					}
@@ -191,7 +191,7 @@
 			//Get number of blocks
 			$bookingLength = $row[$week] + $bookingLength;
 		}
-		echo " New hours ".$bookingLength;
+
 
 		//update the user table with the retruned hours from the canceled booking
 		$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?;");
@@ -206,9 +206,8 @@
 			//Get number of blocks
 			$currentHrs = $row['specialHrs'];
 		}
-		echo "current hrs:".$currentHrs."   ";
+
 		$currentHrs +=$bookingLength;
-		echo $currentHrs;
 		//update the user table with the retruned hours from the canceled booking
 		$sth = $db->prepare("UPDATE Permission SET specialHrs = ? WHERE uID = ? and groupID = ?;");
 		$sth->execute(array($currentHrs,$bookingUserID, $groupID));
@@ -227,7 +226,7 @@
 			$bookingDate = $row['bookingDate'];
 		}
 		$bookingLength = ($numBlocks*30.0)/60.0; //hours to be returned to the user
-		echo "hours to return ".$bookingLength;
+
 
 		return [$bookingLength, $bookingDate];
 	}

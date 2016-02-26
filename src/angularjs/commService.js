@@ -135,7 +135,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 				console.log(bookingObject.data.bookingID);
 				q.resolve(bookingObject.data.bookingID);
 			},function(errorStatus){
-				q.reject(errorStatus.status);
+				q.reject(errorStatus.data.msg);
 			});
 		return q.promise;
 	}
