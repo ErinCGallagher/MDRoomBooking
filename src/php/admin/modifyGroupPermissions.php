@@ -132,10 +132,13 @@
 		}	
 	}
 	
+	//update group
+	$sth2 = $db->prepare("UPDATE UGroups SET groupName = ?, addHrsType = ?,  hasBookingDurationRestriction = ?, hours = ?, startDate = ?, endDate = ? WHERE groupID = ?");
+	$sth2->execute(array($groupName, $addHrsType, $hasBookingDurationRestriction, $hours, $startDate, $endDate, $groupID));
 	
 	//$startDate = substr($startDate, 0, 10);
 	//$endDate = substr($endDate, 0, 10);
-	
+	/*
 	$sth1 = $db->prepare("SELECT addHrsType, hours FROM UGroups WHERE groupID = ?");
 	$sth1->execute(array($groupID));
 	$oldHours = $sth1->fetchAll();
@@ -145,9 +148,7 @@
 		$oldHrsType = $$oldHour['addHrsType'];
 	}
 	
-	if ($old >= $hours) {
-		$diff = $old - $hours
-	}
+	$diff = $old - $hours;
 	
 	//update group
 	$sth2 = $db->prepare("UPDATE UGroups SET groupName = ?, addHrsType = ?,  hasBookingDurationRestriction = ?, hours = ?, startDate = ?, endDate = ? WHERE groupID = ?");
@@ -163,7 +164,7 @@
 		$uID = $user['uid'];
 		$groupID = $user['groupID'];
 		
-		else if ($oldHrsType == "week" && $addHrsType = "special")	{
+		if ($oldHrsType == "week" && $addHrsType = "special")	{
 				$sth3 = $db->prepare("UPDATE Permisson SET specialHrs = specialHrs + ? WHERE uID = ? AND groupID = ?");
 				$sth3->execute(array($uID, $groupID, $diff));
 		}
@@ -174,6 +175,7 @@
 		
 	}
 
+	*/
 	
 	//Close the connection
 	$db = NULL;
