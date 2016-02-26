@@ -105,6 +105,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		BookingCommService.getWeeklyBookingsFromDb(start, end, building)
 			.then(function(buildingWeeklyBookings){
 				var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(buildingWeeklyBookings.data);
+				console.log(formattedBuildingWeeklyBookings);
 				q.resolve(formattedBuildingWeeklyBookings);
 			},
 			function(err){
@@ -130,9 +131,11 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		BookingCommService.bookRoomInDB(roomInformation)
 			.then(function(bookingObject){
-				q.resolve(bookingObject.data);
+				console.log(bookingObject);
+				console.log(bookingObject.data.bookingID);
+				q.resolve(bookingObject.data.bookingID);
 			},function(errorStatus){
-				q.reject(errorStatus.status);
+				q.reject(errorStatus.data.msg);
 			});
 		return q.promise;
 	}
@@ -196,6 +199,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	/*
 	//for user testing only
 	commService.changeUserType = function(userPermision){
 		var q = $q.defer();
@@ -208,8 +212,34 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			});
 		return q.promise;
 	}
+	*/
 
-	
+	commService.retrieveUserBookings = function(){
+		var q = $q.defer();
+		BookingCommService.retrieveUserBookings()
+			.then(function(userBookings){
+				var formatteduserBookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data);
+				q.resolve(formatteduserBookings);
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
+	//retirve the hours remaining for a week.
+	//determines the week based on the date provided and the week it is within
+	commService.hoursRemaining = function(date){
+		var q = $q.defer();
+		BookingCommService.hoursRemaining(date)
+			.then(function(remainingHours){
+				q.resolve(remainingHours.data);
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
 
 
 

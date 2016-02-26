@@ -8,7 +8,8 @@
         <link rel="stylesheet" href="src/html_css/stylesheet.css"/>
         <link rel="stylesheet" href="src/html_css/calendar.css"/>
         <link rel="stylesheet" href="src/html_css/groups.css"/>
-         <link rel="stylesheet" href="src/html_css/search.css"/>
+        <link rel="stylesheet" href="src/html_css/search.css"/>
+        <link rel="stylesheet" href="src/html_css/myBookings.css"/>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,6 +39,7 @@
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/signOutCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/ConfirmCancelCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -49,6 +51,7 @@
         <script type="text/javascript" src="src/angularjs/sharedVariableService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/searchService.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/myBookingsService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
@@ -67,22 +70,26 @@
     <strong>Version Number: 1.0</strong>
     <table style="text-align:center; width:100%;">
         <tr>
+            <!--
             <td>
                  <strong>Temporary: Select User Type</strong>
             </td>
+            -->
             <td>
                 <strong> Please report bugs here:</strong> <a href="http://goo.gl/forms/y59QQTPL1r" target="_blank">Form </a> 
             </td>
         </tr>
         <tr>
+            <!--
             <td>
                 <form>
-                 <input type="radio" ng-model="userPermision" value="nonBooking"> Non Booking 
+                 <input type="radio" ng-model="userPermision" value="nonbooking"> Non Booking 
                 <input type="radio" ng-model="userPermision" value="Student"> Student 
                 <input type="radio" ng-model="userPermision" value="Faculty"> Faculty 
                 <input type="radio" ng-model="userPermision" value="Admin" ng-value="admin" > Admin
                 </form>
             </td>
+            -->
                 <td>
             <strong>Please provide user expereince feedback here: </strong><a href="http://goo.gl/forms/rqFljWplgb" target="_blank">Form </a> 
             </td>
@@ -112,10 +119,10 @@
                     <li ng-class="{ active: $route.current.activetab == 'search'}">
                         <a href="#/search">{{searchText}}</a>
                     </li>
-                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}" ng-show="userPermision != 'nonBooking'">
+                    <li ng-class="{ active: $route.current.activetab == 'my-bookings'}" ng-show="userPermision != 'nonbooking'">
                         <a href="#/my-bookings">{{myBookingsText}}</a>
                     </li>
-                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}" ng-show='userPermision == admin'>
+                    <li class="dropdown" ng-class="{ active: $route.current.activetab == 'admin'}" ng-show="userPermision == 'admin'">
                       <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{AdminText}} <span class="caret"></span></a>
                       <ul class="dropdown-menu" >
                         <li ng-class="{ active: $route.current.activesubtab == 'user'}"><a href="#/admin/user">{{UserText}}</a></li>

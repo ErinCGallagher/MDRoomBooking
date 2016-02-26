@@ -6,11 +6,13 @@ angular
 function SharedVariableService($q, CommService){
 	var sharedVariableService = {};
 
-	sharedVariableService.userType = "admin";
+	sharedVariableService.userType = "nonbooking";
 	sharedVariableService.buildings = []; //array of building names
 	sharedVariableService.buildingInfo = {}; //array of building names and hours of operation
 	sharedVariableService.buildingAndRooms = []; //array of building and their associated rooms
-	sharedVariableService.netID = "";
+	sharedVariableService.netID = "11ecg5";
+	sharedVariableService.name = "Erin Gallagher";
+	sharedVariableService.defaultBuilding = "Harrison LeCaine Hall";
 	sharedVariableService.initialLoadComplete = false;
 
 
@@ -20,13 +22,21 @@ function SharedVariableService($q, CommService){
 		var q = $q.defer();
 		CommService.initialRetrival()
 			.then(function(response){
-				createBuildingAndRoomsLists(response.allBuildings)
-				sharedVariableService.userType = response.class;
+				createBuildingAndRoomsLists(response.allBuildings);
+				sharedVariableService.userType = response.class.toLowerCase();
 				sharedVariableService.netID = response.netID;
+				sharedVariableService.name = response.name;
+				if(response.department.toLowerCase() == "drama"){
+					sharedVariableService.defaultBuilding = "Theological Hall";
+				}
+				
+
 				//don't resolve until the initial load has completed
 				while(sharedVariableService.initialLoadComplete == false){} 
 
-				q.resolve(); //now go to the calendar page
+					console.log(sharedVariableService.buildings);
+
+				q.resolve(sharedVariableService.userType); //now go to the calendar page
 			},
 			function(err){
 				q.reject(err); //cannot complete the initial load script
@@ -36,6 +46,8 @@ function SharedVariableService($q, CommService){
 	
 
 	createBuildingAndRoomsLists = function(info){
+		sharedVariableService.buildings.splice(0, sharedVariableService.buildings.length);
+		sharedVariableService.buildingAndRooms.splice(0,sharedVariableService.buildingAndRooms.length);
 		for (var key in info) {
 			sharedVariableService.buildings.push(key);
 			sharedVariableService.buildingAndRooms[key] =info[key].rooms;
@@ -43,6 +55,8 @@ function SharedVariableService($q, CommService){
 		}
 		sharedVariableService.initialLoadComplete = true;
 	}
+
+	/*
 
 	//for user testing only
 	sharedVariableService.changeUserType = function(userPermision){
@@ -54,6 +68,7 @@ function SharedVariableService($q, CommService){
 				alert("Changing user type was not successful");
 			});
 	}
+	*/
 
 
 

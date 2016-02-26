@@ -13,7 +13,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 
 	//retrieves the daily bookings given a date
 	//called when the page first loads
-	bookingsService.getWeeklyBookings = function(start, end){
+	bookingsService.getWeeklyBookings = function(start, end, building){
+		bookingsService.selectedBuilding = building;
 		//call communication Service
 		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
 			.then(function(retrievedBookings){
@@ -115,7 +116,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		}
 		else{
 			//there is a booking conflict
-			q.reject(409);
+			q.reject("Your booking could not be completed because it conflicted with another booking");
 		}
 		return q.promise;
 	}
@@ -207,7 +208,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 	
 	}
 
-	//remove bookings from claendar display
+	//remove bookings from calendar display
 	bookingsService.updateDisplayBookings = function(bookingID, room){
 		for (var i = 0; i < buildingWeeklyBookings[room].length; i++){
 			if(buildingWeeklyBookings[room][i].bookingID == bookingID){

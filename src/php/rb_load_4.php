@@ -69,9 +69,9 @@
 					firstName			VARCHAR(35)	NOT NULL,
 					lastName			VARCHAR(35)	NOT NULL,
 					class				VARCHAR(35) 	NOT NULL,
-					curWeekHrs			INT		DEFAULT '0',
-					nextWeekHrs			INT		DEFAULT '0',
-					thirdWeekHrs		INT		DEFAULT '0',
+					curWeekHrs			DECIMAL(11,2),
+					nextWeekHrs			DECIMAL(11,2),
+					thirdWeekHrs		DECIMAL(11,2),
 					hasBookingDurationRestriction 	VARCHAR(5) 	NOT NULL,
 					PRIMARY KEY(uID));");				
 
@@ -79,7 +79,7 @@
 					groupID				INT		NOT NULL  	AUTO_INCREMENT,
 					groupName			VARCHAR(35)	NOT NULL,
 					addHrsType			VARCHAR(35) 	NOT NULL,
-					hours				INT		NOT NULL,
+					hours				DECIMAL(11,2)		NOT NULL,
 					hasBookingDurationRestriction 	VARCHAR(5) 	NOT NULL,
 					startDate			VARCHAR(35)	NOT NULL,
 					endDate				VARCHAR(35) 	NOT NULL,		
@@ -88,7 +88,7 @@
 	mysqli_query($cxn,"CREATE TABLE Permission(
 					uID		VARCHAR(10)	NOT NULL,
 					groupID		INT		NOT NULL,
-					specialHrs	INT		DEFAULT '0',
+					specialHrs	DECIMAL(11,2)		DEFAULT '0',
 					PRIMARY KEY(groupID, uID));");						
  
 	mysqli_query($cxn,"CREATE TABLE BookingSlots(

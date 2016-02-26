@@ -1,1 +1,62 @@
-<h1 id='myBookings-title'> myBookings page </h1>
+
+<div class="hours-remaining"> Hours Remaining This Week: 
+	<span>{{hours}}</span>
+</div>
+
+<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+
+<div class="user-information-cnontainer">
+	<div class="title">User Information </div>
+	<div class="info"><strong>Name: </strong>{{userName}}</div>
+	<div class="info"><strong>Email: </strong>{{email}}</div>
+</div>
+<div class="bookings">
+	<table>
+		<tr>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Building</th>
+			<th>Room number</th>
+			<th>Key Required</th>
+			<th>Reason</th>
+			<th>Click to Cancel</th>
+		</tr>
+		<tr ng-repeat="booking in bookings">
+
+			<td>{{booking.date | date:'EEE, MMM d yyyy'}}</td>
+			<td>{{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</td>
+			<td>{{booking.building}}</td>
+			<td>{{booking.roomNum}}</td>
+			<td>{{booking.keyRequired}}</td>
+			<td>{{booking.reason}}</td>
+			<td><button ng-click="cancel(booking)"> X </button></td>
+		</tr>
+	</table>
+</div>
+
+<!-- View Booking Popup Template -->
+    <div>
+        <script type="text/ng-template" id="confirmCancel.html">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+                </div>
+                <div class="modal-body">
+                	<div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
+                	<div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
+					<div><strong>Building:</strong> {{booking.building}}</div>
+					<div><strong>Room #:</strong> {{booking.roomNum}}</div>
+					<div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
+					<div><strong>Reason:</strong> {{booking.reason}}</div>
+					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
+            	</div>
+            	<div class="modal-footer">
+                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
+                    <button type="submit" class="btn" ng-click="back()">Back</button>
+
+                </div>
+        </script>  
+    </div>
+

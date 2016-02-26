@@ -85,7 +85,10 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		for(var i = 0; i<dailyBookings.length;i++){
 			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
 			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
-			var startTime = new Date(startTime);
+			if(dailyBookings[i].hrsSource != "Faculty" && dailyBookings[i].hrsSource != "Admin"){
+				dailyBookings[i].hrsSource = "student";
+			}
+
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].reason, 
 			 start:new Date(startTime),
@@ -93,13 +96,14 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: selectedBuilding, 
-			 roomNum: dailyBookings[i].roomID
+			 roomNum: dailyBookings[i].roomID,
+			 bookingUserType:dailyBookings[i].hrsSource.toLowerCase()
 			};
 		}
 		
 		return formattedDailyBookings;
-
 	}
+
 	//loop through the object of weekly bookings for all rooms in a building and format it appropriately
 	bookingCommService.formatBuildingWeeklyBookings = function(buildingWeeklyBookings){
 		var formattedBookings = [];
@@ -150,6 +154,55 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    });
 		 return promisePost;
 
+	}
+
+	bookingCommService.retrieveUserBookings = function(){
+		var promisePost =  $http.post('src/php/bookings/getUserBookings.php')
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	console.log(responseDate);
+		    });
+		 return promisePost;
+	}
+
+	//convert the daily bookings information to the correct font end format
+	//not called by anything outside this service so does not need bookingCommService.
+	bookingCommService.convertUserBookingsToExpectedFormat = function(dailyBookings){
+		//assumes that events have been combined if they have the same booking ID	
+		var formattedDailyBookings = [];
+
+		for(var i = 0; i<dailyBookings.length;i++){
+
+			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
+			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
+
+			formattedDailyBookings[i] =  
+			{reason:dailyBookings[i].reason, 
+			 start:new Date(startTime),
+			 end:new Date(endTime),
+			 date:dailyBookings[i].bookingDate,
+			 bookingID:dailyBookings[i].bookingID, 
+			 building: dailyBookings[i].building, 
+			 roomNum: dailyBookings[i].roomID,
+			 keyRequired:true
+			};
+		}
+		return formattedDailyBookings;
+	}
+
+	//retirve the hours remaining for a week.
+	//determines the week based on the date provided and the week it is within
+	bookingCommService.hoursRemaining = function(date){
+		var data = {date:date};
+		var promisePost =  $http.post('src/php/bookings/hoursRemaining.php', data)
+		    .success(function(data) {
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	console.log(responseDate);
+		    });
+		 return promisePost;
 	}
 
 	return bookingCommService;

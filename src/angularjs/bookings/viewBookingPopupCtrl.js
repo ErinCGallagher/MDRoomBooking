@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('ViewBookingPopupCtrl', ViewBookingPopupCtrl);
 
-function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, endTime, bookingID, sourcePage, BookingsService, SharedVariableService, SearchService) {
+function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, endTime, bookingID, bookingUserType, userType, sourcePage, BookingsService, SharedVariableService, SearchService) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -11,6 +11,8 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
   $scope.startTime = startTime.format("h:mm a");
   $scope.endTime = endTime.format("h:mm a");
   $scope.userType = SharedVariableService.userType;
+  $scope.bookingUserType = bookingUserType;
+  $scope.userType = userType;
 
   //retrieve booking information from the database
   BookingsService.getBookingInformation(bookingID)

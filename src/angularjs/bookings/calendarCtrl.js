@@ -6,7 +6,7 @@ angular
 function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
 
   $scope.buildings = SharedVariableService.buildings;
-  $scope.selectedBuilding = "Harrison LeCaine Hall";
+  $scope.selectedBuilding = SharedVariableService.defaultBuilding;
   $scope.events = BookingsService.weeklyBookings;
   $scope.pageClass = 'calendar'; //used to change pages in index.html
 
@@ -33,7 +33,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
   //called when emtpy calendar timeslot is selected
   $scope.bookRoomInCalendar = function(date, jsEvent, view){
     //ensure this user cannot book if not in drama or music
-    if (SharedVariableService.userType != "nonBooking"){
+    if (SharedVariableService.userType != "nonbooking"){
 
       $scope.day = date.format("YYYY-MM-DD h:mm z");
 
@@ -100,9 +100,15 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
         bookingID: function () {
           return date.bookingID;
         },
-          sourcePage: function () {
-            return "bookings";
-          }
+        bookingUserType: function () {
+          return date.bookingUserType;
+        },
+        userType: function () {
+          return SharedVariableService.userType;
+        },
+        sourcePage: function () {
+          return "bookings";
+        }
       }
     });
     viewBookingPopupInstance.result.then(function (alert) {
@@ -139,8 +145,9 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
         var end = week.end;
         $scope.date = start.format("MMM D, YYYY") + " - "+ end.format("MMM D, YYYY");
         //retirve bookings for default room Harrison-LeCaine Hall
+        BookingsService.selectedBuilding = $scope.selectedBuilding;
         $scope.calRender = BookingsService.setUpRoomTabs();
-        BookingsService.getWeeklyBookings(start, end);
+        BookingsService.getWeeklyBookings(start, end, $scope.selectedBuilding);
       },
 
       dayClick : $scope.bookRoomInCalendar,
@@ -154,7 +161,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
   $scope.retrieveRooms = function(){
     var week = uiCalendarConfig.calendars.myCalendar.fullCalendar( 'getView' );
     BookingsService.selectedBuilding = $scope.selectedBuilding;
-    BookingsService.getWeeklyBookings(week.start, week.end);
+    BookingsService.getWeeklyBookings(week.start, week.end, $scope.selectedBuilding);
     $scope.calRender = BookingsService.setUpRoomTabs();
     BookingsService.setUpRoomsWeeklyEvents();
   }
