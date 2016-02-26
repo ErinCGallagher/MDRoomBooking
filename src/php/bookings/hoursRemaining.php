@@ -10,10 +10,10 @@ date_default_timezone_set('UTC');
 $data = json_decode(file_get_contents("php://input"));
 //Get parameters from 
 $date = $data->date;
-$user = $_SESSION["netID"];
+$uID = $_SESSION["netID"];
 
 $start = strtotime($date);
-$start = date('Y-m-d', $start);
+$startDate = date('Y-m-d', $start);
 
 //Format day
 date_default_timezone_set('America/Toronto');
@@ -28,10 +28,10 @@ $firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
 $firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
 
 //if booking made in the current week
-if($start >= $firstDay && $start < $firstDayNextWeek) {
+if($startDate >= $firstDay && $startDate < $firstDayNextWeek) {
 	$week = 'curWeekHrs';
 
-} else if($start < $firstDayWeek3)  {
+} else if($startDate < $firstDayWeek3)  {
     $week = 'nextWeekHrs';
 } 
 else{
@@ -42,12 +42,13 @@ $result = array();
 
 //get daily bookings from database
 $sth = $db->prepare("SELECT $week FROM User where uID = ?;");
-$sth->execute(array($user));
+$sth->execute(array($uID));
 
 //Loop through each returned row 
 while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	$result = floatval($row[$week]);
 }
+$result += SufficientSpecialHours($db, $uID, $startDate);
 
 
 
@@ -58,4 +59,18 @@ $db = NULL;
 //encode result to json format
 $json = json_encode($result);
 echo $json;
+
+	//determine if there are sufficient special hours for the user to make the booking
+	//return true if they have sufficient time, otherwise return false
+	function SufficientSpecialHours($db, $uID, $startDate){
+		$usableSpecialHours = 0;
+		$sth = $db->prepare("SELECT SUM(Permission.specialHrs) totalHrs FROM Permission JOIN Ugroups on Ugroups.groupID = Permission.groupID WHERE uID = ? and ? BETWEEN Ugroups.startDate and Ugroups.endDate");
+		$sth->execute(array($uID, $startDate));
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			//Get number of blocks
+			$usableSpecialHours = $row['totalHrs'];
+		}
+		
+		return floatval($usableSpecialHours);
+	}
 ?>
