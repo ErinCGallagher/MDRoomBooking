@@ -7,7 +7,7 @@
 
   	//set default time to UTC so it does not count daylight savings
   	//do not remove!
-	date_default_timezone_set('America/Toronto');
+	date_default_timezone_set('UTC');
 
   	//Get post datastream from front end
 	$data = json_decode(file_get_contents("php://input"));
@@ -19,6 +19,8 @@
 	$utcStart = strtotime($start);
 	$startDate = date('Y-m-d', $utcStart);
 	$startTime = date('H:i:s', $utcStart);
+
+	date_default_timezone_set('America/Toronto');
 
 	$currentDate = date('Y-m-d');
 	$currentTime = date('H:i:s');

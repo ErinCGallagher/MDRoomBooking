@@ -75,12 +75,15 @@
 		if ($currentDate > $startDate){
 			//Booking has already started or has already passed
 			//currently not working because of timezones
+			$result['msg'] = "You cannot make a booking in the past.";
 			http_response_code(406); //Invalid Entry
 		}
 		else if(($currentDate == $startDate) && ($currentTime > $startTime)){
+			$result['msg'] = "You cannot make a booking in the past.";
 			http_response_code(406); //Invalid Entry
 		}
 		else if ($class == "Student" AND $startDate > $twoWeeks){
+			$result['msg'] = "As a student user, you cannot book a room more than 2 weeks in the future from the current day.";
 			http_response_code(402);
 		}
 		else {
