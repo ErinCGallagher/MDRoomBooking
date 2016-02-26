@@ -1,4 +1,3 @@
-
 <div class="container groups-container">
     <span class="title">User Groups</span>
             <button class="new-group-button" ng-click="newGroup()"> 
@@ -68,6 +67,7 @@
 			
 			</br>
             <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
+            <button class="btn modify-cancel-button" ng-click="cancelCreateGroup()">Cancel</button> 
    			
     </form>
 </div>
@@ -79,7 +79,7 @@
 				<input type="text" ng-model="newNameM" class="form-control textbox"> </p>
 			<p>*Check option below if users need to make bookings longer than 1.5 hours at a time*</p>
 			<p><strong>Has Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restrictionM" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "></p>
+				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM() "></p>
 				
 			<div class="boxed">
 				<p><h3>STEP 1: Choose Type of Hours</h3></p>
@@ -96,9 +96,9 @@
 			<p><h3> STEP 3: Choose Duration</h3></p>
 			<br>
 			<p><strong>Active:</strong>
-				<input type="checkbox" ng-model="fallM" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
-				<input type="checkbox" ng-model="winterM" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
-				<input type="checkbox" ng-model="summerM"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummer() ">Summer<br></p>
+				<input type="checkbox" ng-model="fallM" ng-init="fallM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFallM() ">Fall  
+				<input type="checkbox" ng-model="winterM" ng-init="winterM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinterM() ">Winter  
+				<input type="checkbox" ng-model="summerM" ng-init="summerM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummerM() ">Summer<br></p>
 			<strong> -- OR -- </strong>
 			<p><strong>Start Date:</strong>
 				<input type="date" ng-model="startDateM">
@@ -107,6 +107,7 @@
 			</div>
 			</br>
             <button class="btn modify-group-button" ng-click="saveModifyGroup()">Save Group Modifications</button> 
+            <button class="btn modify-cancel-button" ng-click="cancelModifyGroup()">Cancel</button> 
             </br>
             </br>
     </form>

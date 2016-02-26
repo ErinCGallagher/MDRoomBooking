@@ -23,38 +23,113 @@
 		$addHrsType = "special";
 	}
 	
-	$currYear = "2016";
-	$nextYear = "2017";
+	$month = date('m');
 	
+	if ($month >= '09' && $month <= '12') { // It's currently the fall term
 	
-	if ($fall == "YES" && $winter == "YES" && $summer == "YES") {
-		$startDate = "09-01-" . $currYear;
-		$endDate = "08-31-" . $nextYear;
-	}
-	else if ($fall == "YES" && $winter == "YES") {
-		$startDate = "09-01-" . $currYear;
-		$endDate = "04-30-" . $nextYear;
-	}
-	else if ($winter == "YES" && $summer == "YES") {
-		$startDate = "01-01-" . $currYear;
-		$endDate = "08-31-" . $nextYear;
-	}
-	else if ($fall == "YES") {
-		$startDate = "09-01-" . $currYear;
-		$endDate = "12-31-" . $currYear;
-	}
-	else if ($winter == "YES") {
-		$startDate = "01-01-" . $currYear;
-		$endDate = "04-30-" . $currYear;
-	}
-	else if ($summer == "YES") {
-		$startDate = "05-01-" . $currYear;
-		$endDate = "08-31-" . $nextYear;
-	}
-	else {
+		$currYear = date('Y');
+		$nextYear = date('Y')+1;
+		
+		if ($fall == "YES" && $winter == "YES" && $summer == "YES") {
+			$startDate = $currYear . "-09-01";
+			$endDate = $nextYear . "-08-31";
+		}
+		else if ($fall == "YES" && $winter == "YES") {
+			$startDate = $nextYear . "-09-01";
+			$endDate = $nextYear . "-04-30";
+		}
+		else if ($winter == "YES" && $summer == "YES") {
+			$startDate = $currYear . "-01-01";
+			$endDate = $nextYear . "-08-31";
+		}
+		else if ($fall == "YES") {
+			$startDate = $currYear . "-09-01";
+			$endDate = $currYear . "-12-31";
+		}
+		else if ($winter == "YES") {
+			$startDate = $nextYear . "-01-01";
+			$endDate = $nextYear . "-04-30";
+		}
+		else if ($summer == "YES") {
+			$startDate = $currYear . "-05-01";
+			$endDate = $nextYear . "-08-31";
+		}
+		else {
 		$startDate = substr($startDate, 0, 10);
 		$endDate = substr($endDate, 0, 10);
-	}		
+		}		
+	
+	}
+	else if ($month >= '01' && $month <= '04') { //It's the winter term
+		
+		$currYear = date('Y');
+		$prevYear = date('Y')-1;
+		
+		if ($fall == "YES" && $winter == "YES" && $summer == "YES") {
+			$startDate =  $currYear . "-09-01";
+			$endDate = $currYear . "-08-31";
+		}
+		else if ($fall == "YES" && $winter == "YES") {
+			$startDate = $prevYear . "-09-01";
+			$endDate = $currYear . "-04-30";
+		}
+		else if ($winter == "YES" && $summer == "YES") {
+			$startDate = $currYear . "-01-01";
+			$endDate = $currYear . "-08-31";
+		}
+		else if ($fall == "YES") {
+			$startDate = $currYear . "-09-01";
+			$endDate = $currYear . "-12-31";
+		}
+		else if ($winter == "YES") {
+			$startDate = $currYear . "-01-01";
+			$endDate = $currYear . "-04-30";
+		}
+		else if ($summer == "YES") {
+			$startDate = $currYear . "-05-01";
+			$endDate = $currYear . "-08-31";
+		}
+		else {
+		$startDate = substr($startDate, 0, 10);
+		$endDate = substr($endDate, 0, 10);
+		}	
+	
+	}
+	else { //It's summer
+	
+		$currYear = date('Y');
+		$nextYear = date('Y')+1;
+		$prevYear = date('Y')-1;
+		
+		if ($fall == "YES" && $winter == "YES" && $summer == "YES") {
+			$startDate = $prevYear . "-09-01";
+			$endDate =  $currYear . "-08-31";
+		}
+		else if ($fall == "YES" && $winter == "YES") {
+			$startDate = $currYear . "-09-01";
+			$endDate = $nextYear . "-04-30";
+		}
+		else if ($winter == "YES" && $summer == "YES") {
+			$startDate = $currYear . "-01-01";
+			$endDate = $currYear . "-08-31";
+		}
+		else if ($fall == "YES") {
+			$startDate = $currYear . "-09-01";
+			$endDate = $currYear . "-12-31";
+		}
+		else if ($winter == "YES") {
+			$startDate = $nextYear . "-01-01";
+			$endDate = $nextYear . "-04-30";
+		}
+		else if ($summer == "YES") {
+			$startDate = $currYear . "-05-01";
+			$endDate = $currYear . "-08-31";
+		}
+		else {
+		$startDate = substr($startDate, 0, 10);
+		$endDate = substr($endDate, 0, 10);
+		}	
+	}
 		
 	//Add Group to database
 	$query = "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES (?,?,?,?,?,?)";

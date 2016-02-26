@@ -34,6 +34,20 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 	
+	commService.keyList = function(info) {
+		var q = $q.defer();
+		AdminCommService.keyList(info)
+		.then(function(success){
+				// don't know why, but the return from adminCommService is an object
+				q.resolve(success);
+			},
+			function(err){
+				alert("error with createGroup");
+				q.reject();
+			});
+		return q.promise;
+	}
+	
 	commService.saveModifyGroup = function(groupInfo) {
 		var q = $q.defer();
 		AdminCommService.saveModifyGroup(groupInfo)

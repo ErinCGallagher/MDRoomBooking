@@ -5,6 +5,21 @@ angular
 function AdminUsersService(CommService, $q){
 	var adminUsersService = {};
 	
+	
+	adminUsersService.keyList = function(info) {
+		var q = $q.defer();
+		CommService.keyList(info)
+		.then(function(success){
+				q.resolve(success);
+			},
+			function(err){
+				alert("error with KeyList");
+				q.reject();
+			});
+		return q.promise;
+	
+	}
+	
 	adminUsersService.uploadMasterList = function(uploadFile, dept) {
 		var fileFormData = new FormData();
 		fileFormData.append('fileToUpload', uploadFile); 

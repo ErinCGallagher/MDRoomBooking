@@ -9,6 +9,8 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	$scope.showInfo = false;
 	$scope.showNewGroup = false;
 	$scope.showModGroup = false;
+	$scope.startDate = new Date();
+	$scope.endDate = new Date();
 	
 	getAllGroups = function () {
 		AdminGroupsService.getAllGroups()
@@ -36,22 +38,48 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
     $scope.changeRes = function(restriction) {
         if (restriction == 'YES') {
         	$scope.restriction = 'NO';
-        	$scope.restrictionM = 'NO';
         }
         else if (restriction == 'NO'){
         	$scope.restriction = 'YES';
+        }
+    } 
+    
+    
+      //Function to change restriction value when 
+    //selected by user creating a group
+    $scope.changeResM = function(restrictionM) {
+        if (restrictionM == 'YES') {
+        	$scope.restrictionM = 'NO';
+        }
+        else if (restrictionM == 'NO'){
         	$scope.restrictionM = 'YES';
         }
     } 
+    
     
     //Function to change fall value when 
     //selected by user creating a group
     $scope.changeFall = function(fall) {
         if (fall == 'YES') {
         	$scope.fall = 'NO';
+        	
         }
         else if (fall == 'NO'){
+        	$scope.startDate = new Date();
         	$scope.fall = 'YES';
+        }
+    } 
+    
+       //Function to change fall value when 
+    //selected by user creating a group
+    $scope.changeFallM = function(fallM) {
+        if (fallM == 'YES') {
+        	$scope.fallM = 'NO';
+        	
+        }
+        else if (fallM == 'NO'){
+        	$scope.startDate = new Date();
+        	$scope.fallM = 'YES';
         }
     } 
     
@@ -66,18 +94,40 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
         }
     }
      
+    //Function to change winter value when 
+    //selected by user creating a group
+    $scope.changeWinterM = function(winterM) {
+        if (winterM == 'YES') {
+        	$scope.winterM = 'NO';
+        }
+        else if (winterM == 'NO') {
+        	$scope.winterM = 'YES';
+        }
+    }
+    
     //Function to change summer value when 
     //selected by user creating a group
     $scope.changeSummer = function(summer) {
         if (summer == 'YES' ) {
         	$scope.summer = 'NO';
+        	$scope.summerM = 'NO';
         }
         else if (summer == 'NO'){
         	$scope.summer = 'YES';
+        	$scope.summerM = 'YES';
         }
     } 
-    
 
+	//Function to change summer value when 
+    //selected by user creating a group
+    $scope.changeSummerM = function(summerM) {
+        if (summerM == 'YES' ) {
+        	$scope.summerM = 'NO';
+        }
+        else if (summerM == 'NO'){
+        	$scope.summerM = 'YES';
+        }
+    } 
 	$scope.createGroup = function(){
 		//Keep a record of the new group name
 		var newGroupName = $scope.newName;
@@ -97,12 +147,28 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		
 		//Send info about new group to back end
 		AdminGroupsService.createGroup(info)
-			.then(function(newGroupId){
-				$scope.groups.push({groupID: newGroupId, groupName: newGroupName});
-			},
-			function() {
-				alert("err");
-			});
+		$scope.newName = "";
+		$scope.hours = "";
+		$scope.addHrsType = '1';
+		$scope.hasBookingDurationRestriction = true;
+		$scope.fall = 'NO';
+		$scope.winter = 'NO';
+		$scope.summer = 'NO';
+		$scope.startDate = new Date();
+		$scope.endDate = new Date();
+		getAllGroups();
+	//		.then(function(newGroupId){
+	///			$scope.groups.push({groupID: newGroupId, groupName: newGroupName});
+		//	},
+		//	function() {
+		//		alert("err");
+		//	});
+	}
+	
+	$scope.cancelCreateGroup = function() {
+		$scope.showInfo = false;
+		$scope.showNewGroup = false;
+		$scope.showModGroup = false;
 	}
 	
 	$scope.saveModifyGroup = function(){
@@ -113,9 +179,9 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			hours: $scope.hoursM,
 			addHrsType: $scope.addHrsTypeM,
 			hasBookingDurationRestriction: $scope.restrictionM,
-			//fall: $scope.fallM,
-			//winter: $scope.winterM,
-			//summer: $scope.summerM,
+			fall: $scope.fallM,
+			winter: $scope.winterM,
+			summer: $scope.summerM,
 			startDate: $scope.startDateM,
 			endDate: $scope.endDateM,
 			groupID: $scope.groupId
@@ -124,7 +190,12 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		//Send info about new group to back end
 		AdminGroupsService.saveModifyGroup(info);
 		//alert("Group Changes Saved");
-		$scope.showGroup($scope.groupId);
+		getAllGroups();
+		$scope.showGroup($scope.group);
+	}
+	
+	$scope.cancelModifyGroup = function() {
+		$scope.showGroup($scope.group);
 	}
 	
 	$scope.showGroup = function(group) {
@@ -156,31 +227,63 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	$scope.modifyGroup = function() {
 	
 		$scope.newNameM = $scope.groupName;
-	 
-		if ($scope.hasBookingDurationRestriction == 'YES') {
-			$scope.restrictionM = 'YES';
-		}	
-		if ($scope.hasBookingDurationRestriction == 'YES') {
-			$scope.restrictrionM = 'NO';
-		}
+		
 		if ($scope.addHrsType == "week") {
 			$scope.addHrsTypeM = '1';
 		}
 		if ($scope.addHrsType == "special") {
 			$scope.addHrsTypeM = '2';
 		}
+		
 		if ($scope.hasBookingDurationRestriction == 'YES') {
 			$scope.restrictionM = 'YES';
 		}
 		if ($scope.hasBookingDurationRestriction == 'NO') {
 			$scope.restrictionM = 'NO';
 		}
-
+		
+		var start = $scope.setStartDate;
+		start = start.substring(5,10);
+		
+		var end = $scope.setEndDate;
+		end = end.substring(5,10);
+		
+		if (start == "09-01" && end == "08-31")  { //starts in fall ends in summer
+			$scope.fallM = "YES";
+			$scope.winterM = "YES";
+			$scope.summerM = "YES";
+		}
+		else if (start == "09-01" && end == "04-30") { //starts in fall ends in winter
+			$scope.fallM = "YES";
+			$scope.winterM = "YES";
+		}
+		else if (start == "09-01" && end == "12-31") { // starts and ends in fall 
+			$scope.fallM = "YES";
+		}
+		else if (start == "01-01" && end == "08-31") { //starts in winter ends in summer
+			$scope.winterM = "YES";
+			$scope.summerM = "YES";
+		}
+		else if (start == "01-01" && end == "04-30") { //starts in winter ends in summer
+			$scope.winterM = "YES";
+		}
+		else if (start == "05-01" && end == "08-30") {
+			$scope.summerM = "YES";
+		}
+		//console.log(start);
+		//console.log(end);
+		
+		
 		
 		$scope.hoursM = parseInt($scope.setHours);
 		
+	
 		$scope.startDateM = new Date($scope.setStartDate);
-		$scope.endDateM =  new Date($scope.setStartDate);
+		$scope.endDateM =  new Date($scope.setEndDate);
+		
+		$scope.startDateM.setDate($scope.startDateM.getDate()+1);
+		$scope.endDateM.setDate($scope.endDateM.getDate()+1);
+
 		
 		$scope.showInfo = false;
 		$scope.showNewGroup = false;

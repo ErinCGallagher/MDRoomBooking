@@ -1,5 +1,27 @@
 <h1>Users page</h1>
 
+<b>Download Key List</b>
+<div ng-show="showDate">
+	<strong>Set Key Date:</strong>
+		<input type="date" ng-model="keyDate">
+		<button class="key-button" ng-click="generateKeyList()"> Generate Key List </button>
+</div>
+
+<div ng-show="showDownload">     
+    <div class="download" class="container info-container">
+    	<div>
+    	<p>* To download a key list for a different day select the "Change Date" button *</p>
+    	<p></p>
+    	
+ 		<a download href="./src/php/KeyList.txt"> Click Here to Download Key List For: {{keyDate | date:'fullDate'}} </a> 
+ 		<button class="key-button" ng-click="removeKeyList()"> Change Date </button>
+		</div>
+	</div>
+</div>
+
+<p></p>
+<p></p>
+
 <!-- popup after attempting to make a booking -->
 <div>
     <script type="text/ng-template" id="uploadPopup.html">
