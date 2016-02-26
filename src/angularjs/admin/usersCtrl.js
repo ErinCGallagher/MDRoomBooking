@@ -10,7 +10,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	
 	var myDate = new Date();
 	var prevDate = new Date(myDate);
-	prevDate.setDate(myDate.getDate()-1);
+	prevDate.setDate(myDate.getDate());
 	
 	var today = {
 					keyDate: prevDate
@@ -21,7 +21,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	$scope.generateKeyList = function() {
 	
 			var prevDate = new Date($scope.keyDate);
-			prevDate.setDate($scope.keyDate.getDate()-1);
+			prevDate.setDate($scope.keyDate.getDate());
 		
 			var info = {
 				keyDate: prevDate
