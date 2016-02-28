@@ -105,6 +105,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
+					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
 					buildingWeeklyBookings[room].push(newBookingInfo);
 					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
 						bookingsService.weeklyBookings.push(newBookingInfo);

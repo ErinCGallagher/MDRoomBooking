@@ -279,6 +279,10 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.eventColourPicker = function(reason){
+		return BookingCommService.eventColourPicker(reason);
+	}
+
 
 
 	return commService;

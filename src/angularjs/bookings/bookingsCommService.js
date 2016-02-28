@@ -75,7 +75,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		return fomattedRooms;
 	}
 
-	eventColourPicker = function(reason){
+	bookingCommService.eventColourPicker = function(reason){
 		if(reason == 'Individual Rehearsal'){
 			return '#6371C6';
 		}else if(reason == 'Ensemble Rehearsal'){
@@ -108,7 +108,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			if(dailyBookings[i].hrsSource != "Faculty" && dailyBookings[i].hrsSource != "Admin"){
 				dailyBookings[i].hrsSource = "student";
 			}
-			var colour = eventColourPicker(dailyBookings[i].reason);
+			var colour = bookingCommService.eventColourPicker(dailyBookings[i].reason);
 
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].reason, 
