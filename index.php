@@ -67,7 +67,7 @@
     <body ng-app="mainApp" ng-controller="AppCtrl">
 
     <div class="select-user-type" style="text-align:center;">
-    <strong>Version Number: 1.0</strong>
+    <strong>Version Number: 3.0</strong>
     <table style="text-align:center; width:100%;">
         <tr>
             <!--
