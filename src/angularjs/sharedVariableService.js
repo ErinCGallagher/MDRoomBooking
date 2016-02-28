@@ -15,6 +15,7 @@ function SharedVariableService($q, CommService){
 	sharedVariableService.defaultBuilding = "Harrison LeCaine Hall";
 	sharedVariableService.initialLoadComplete = false;
 	sharedVariableService.reasonList = [];
+	sharedVariableService.numPeopleList = [];
 
 
 	//set up all initial variables required by the program
@@ -28,12 +29,18 @@ function SharedVariableService($q, CommService){
 				sharedVariableService.netID = response.netID;
 				sharedVariableService.name = response.name;
 
-				//reasonList
+				//reasonList for dropdown
 				sharedVariableService.reasonList.splice(0, sharedVariableService.reasonList.length);
 				for (var key in response.reasonList) {
 					sharedVariableService.reasonList.push(response.reasonList[key]);
 				}
-				console.log(sharedVariableService.reasonList);
+
+				//num people list for dropdown
+				sharedVariableService.numPeopleList.splice(0, sharedVariableService.numPeopleList.length);
+				for (var key in response.numPeopleList) {
+					sharedVariableService.numPeopleList.push(response.numPeopleList[key]);
+				}
+
 				if(response.department.toLowerCase() == "drama"){
 					sharedVariableService.defaultBuilding = "Theological Hall";
 				}

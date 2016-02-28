@@ -91,6 +91,7 @@ $data["class"] = $class;
 $data["netID"] = $user;
 $data["department"] = $department;
 $data["reasonList"] = $reasonsList;
+$data["numPeopleList"] = $numPeople;
 
 $json = json_encode($data);
 echo $json;
