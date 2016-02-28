@@ -72,7 +72,7 @@
                             <Strong>Description: </Strong>
                             <textarea name="textareaDescription" ng-model="description" ng-maxlength="150"></textarea>
                         </div>
-                        <div ng-show="selectedReason=='Course'">
+                        <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
                             <Strong>Course Code: </Strong>
                             <textarea rows ="1" name="textareaDescription" ng-model="description" ng-maxlength="20"></textarea>
                         </div>
@@ -108,7 +108,7 @@
                         <div ng-show="reason=='Other'">
                             <p><Strong>Description: </Strong> {{description}}</p>
                         </div>
-                        <div ng-show="reason=='Course'">
+                        <div ng-show="reason=='Course' || reason=='Coursework'">
                             <p><Strong>Course Code: </Strong> {{description}}</p>
                         </div>
                         <div ng-show="userType != 'student'">
