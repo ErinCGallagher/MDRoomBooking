@@ -105,10 +105,12 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 			var selectedDate = $scope.selectedDate;
 			var selectedContents = createSelectedContentObject();
 			SearchService.selectedBuilding = $scope.selectedBuilding;
-			SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents)
+      //must set calRender to true here or else date won't change
+      $scope.calRender = true;
+      uiCalendarConfig.calendars.myCalendar.fullCalendar( 'gotoDate', selectedDate );
+      
+      SearchService.search($scope.selectedBuilding,selectedDate,startTime,endTime,selectedContents)
 				.then(function(queryResults){
-          uiCalendarConfig.calendars.myCalendar.fullCalendar( 'gotoDate', selectedDate );
-          
 					$scope.searchResults = false;
           console.log($scope.events);
 					
@@ -122,6 +124,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
           
           
 					$scope.calRender = SearchService.calRender;
+          uiCalendarConfig.calendars.myCalendar.fullCalendar( 'gotoDate', selectedDate );
         },
 				function(err){
 				});
