@@ -14,6 +14,7 @@ function SharedVariableService($q, CommService){
 	sharedVariableService.name = "Erin Gallagher";
 	sharedVariableService.defaultBuilding = "Harrison LeCaine Hall";
 	sharedVariableService.initialLoadComplete = false;
+	sharedVariableService.reasonList = [];
 
 
 	//set up all initial variables required by the program
@@ -26,6 +27,13 @@ function SharedVariableService($q, CommService){
 				sharedVariableService.userType = response.class.toLowerCase();
 				sharedVariableService.netID = response.netID;
 				sharedVariableService.name = response.name;
+
+				//reasonList
+				sharedVariableService.reasonList.splice(0, sharedVariableService.reasonList.length);
+				for (var key in response.reasonList) {
+					sharedVariableService.reasonList.push(response.reasonList[key]);
+				}
+				console.log(sharedVariableService.reasonList);
 				if(response.department.toLowerCase() == "drama"){
 					sharedVariableService.defaultBuilding = "Theological Hall";
 				}

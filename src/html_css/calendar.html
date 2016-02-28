@@ -66,11 +66,15 @@
                         </p>
                         <p>
                             <strong>Reason</strong>
-                            <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons"></select>
+                            <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons" ></select>
                         </p>
                         <div ng-show="selectedReason=='Other'">
                             <Strong>Description: </Strong>
                             <textarea name="textareaDescription" ng-model="description" ng-maxlength="150"></textarea>
+                        </div>
+                        <div ng-show="selectedReason=='Course'">
+                            <Strong>Course Code: </Strong>
+                            <textarea rows ="1" name="textareaDescription" ng-model="description" ng-maxlength="20"></textarea>
                         </div>
                     </form>
                 </div>
@@ -103,6 +107,9 @@
                         <p><strong>Reason:</strong> {{reason}}</p>
                         <div ng-show="reason=='Other'">
                             <p><Strong>Description: </Strong> {{description}}</p>
+                        </div>
+                        <div ng-show="reason=='Course'">
+                            <p><Strong>Course Code: </Strong> {{description}}</p>
                         </div>
                         <div ng-show="userType != 'student'">
                          <p><strong>Booking User:</strong> {{bookingUserType}}</p>

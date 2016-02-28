@@ -75,6 +75,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		return fomattedRooms;
 	}
 
+	//provided a colour for each reason for booking
 	bookingCommService.eventColourPicker = function(reason){
 		if(reason == 'Individual Rehearsal'){
 			return '#6371C6';
@@ -89,7 +90,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		}else if(reason == 'Performance'){
 			return '#2EB671';
 		}else if(reason == 'Course'){
-			return '#990D6F';
+			return '#1e51fa';
 		}else{ //shouldnt get here
 			return '#597EFC';
 		}

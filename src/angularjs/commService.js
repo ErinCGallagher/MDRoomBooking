@@ -204,6 +204,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		UserCommService.initialRetrival()
 			.then(function(response){
+				console.log(response.data);
 				q.resolve(response.data);
 			},
 			function(err){

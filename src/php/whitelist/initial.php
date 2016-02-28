@@ -2,6 +2,7 @@
 session_start();
 
 include('../connection.php');
+include('/checkBooking.php');
 
 //Get all buildings, rooms & building hours
 $allBuildings = array();
@@ -72,6 +73,14 @@ if ($canBook) {
 	fclose($file);
 }
 
+//determine if the user is not admin and remove course as a reason option
+if($class != 'Admin'){
+	if(($key = array_search('Course',$reasonsList) ) != false){
+		unset($reasonsList[$key]);
+	}
+
+}
+
 $db = NULL;
 $data = array();
 $data["allBuildings"] = $allBuildings;
@@ -81,6 +90,7 @@ $data["name"] = $firstName." ".$lastName;
 $data["class"] = $class;
 $data["netID"] = $user;
 $data["department"] = $department;
+$data["reasonList"] = $reasonsList;
 
 $json = json_encode($data);
 echo $json;
