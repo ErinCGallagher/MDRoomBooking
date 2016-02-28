@@ -75,6 +75,26 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		return fomattedRooms;
 	}
 
+	eventColourPicker = function(reason){
+		if(reason == 'Individual Rehearsal'){
+			return '#6371C6';
+		}else if(reason == 'Ensemble Rehearsal'){
+			return '#37a3fb';
+		}else if(reason == 'Other'){
+			return '#2ca09e';
+		}else if(reason == 'Coursework'){
+			return '#990D6F';
+		}else if(reason == 'Meetings'){
+			return '#5931b4';
+		}else if(reason == 'Performance'){
+			return '#2EB671';
+		}else if(reason == 'Course'){
+			return '#990D6F';
+		}else{ //shouldnt get here
+			return '#597EFC';
+		}
+	}
+
 
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need bookingCommService.
@@ -88,6 +108,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			if(dailyBookings[i].hrsSource != "Faculty" && dailyBookings[i].hrsSource != "Admin"){
 				dailyBookings[i].hrsSource = "student";
 			}
+			var colour = eventColourPicker(dailyBookings[i].reason);
 
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].reason, 
@@ -97,7 +118,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: selectedBuilding, 
 			 roomNum: dailyBookings[i].roomID,
-			 bookingUserType:dailyBookings[i].hrsSource.toLowerCase()
+			 bookingUserType:dailyBookings[i].hrsSource.toLowerCase(),
+			 color:colour
 			};
 		}
 		
