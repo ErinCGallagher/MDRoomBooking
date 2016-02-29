@@ -17,11 +17,13 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
   //change the previous calendar date
   $scope.previousDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('prev');
+      selectTab();
   }
 
   //change the next calendar date
   $scope.nextDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('next');
+      selectTab();
   }
 
   $scope.alerts = [];
@@ -168,13 +170,24 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
 
   //detects when a tab is changed and provides the room id
   $scope.changeRoom=function(roomID){
+    $scope.selectedTab = roomID;
     BookingsService.selectedroom = roomID;
     BookingsService.setUpRoomsWeeklyEvents();
   }
 
-
   /*tabs*/
   $scope.tabs = BookingsService.RoomTabs;
+  $scope.selectedTab = BookingsService.RoomTabs[0];
+
+  selectTab = function(){
+    for(var key in $scope.tabs){
+        if ($scope.tabs[key].title ==  $scope.selectedTab){
+          $scope.tabs[key].active = true;
+        }else{
+          $scope.tabs[key].active = false;
+        }
+      }
+  }
 
 };
 
