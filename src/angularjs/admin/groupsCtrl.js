@@ -224,6 +224,17 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		
 	}
 
+    //TODO: probably a more efficient way to do this
+	updateNumUsers = function(){
+	    AdminGroupsService.getGroupInfo($scope.groupId)
+	        .then(function(groupInfo){
+	            $scope.numUsers = groupInfo.data[1].numUsers;
+	        },
+	        function() {
+	            alert("err");
+	        });
+	}
+
 	$scope.modifyGroup = function() {
 	
 		$scope.newNameM = $scope.groupName;
@@ -289,27 +300,6 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		$scope.showNewGroup = false;
 		$scope.showModGroup = true;
 	}
-	
-
-	$scope.addUsers = function(uploadFile) {
-		AdminGroupsService.addUsers(uploadFile, $scope.groupId)
-			.then(function(data){
-				openUsersPopup(data);
-			},
-			function(errorMsg) {
-				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
-			});
-	}
-
-	$scope.viewUsers = function() {
-		AdminGroupsService.getUsersInGroup($scope.groupId)
-			.then(function(data){
-				openViewUsersPopup(data);
-			},
-			function(errorMsg) {
-				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
-			});
-	}
 
 	$scope.deleteGroup = function() {
 		AdminGroupsService.deleteGroup($scope.groupId)
@@ -324,28 +314,7 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 			});
 	}
 
-	openUsersPopup = function(data){
-		var popupInstance = $uibModal.open({
-			templateUrl: 'addUsersPopup.html',
-			controller: 'AddUsersModalCtrl',
-			resolve: {
-				groupName: function () {
-					return $scope.groupName; //set by getGroupInfo
-				},
-				addedUsers: function () {
-					return data.addedUsers;
-				},
-				usersAlreadyInGroup: function () {
-					return data.usersAlreadyInGroup;
-				},
-				usersNotInMaster: function () {
-					return data.usersNotInMaster;
-				}
-			}
-	    });
-	};
-
-	openViewUsersPopup = function(userList){
+	$scope.openViewUsersPopup = function(){
 		var popupInstance = $uibModal.open({
 			templateUrl: 'viewUsersPopup.html',
 			controller: 'ViewUsersModalCtrl',
@@ -355,25 +324,13 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 				},
 				groupName: function () {
 					return $scope.groupName; //set by getGroupInfo
-				},
-				userList: function () {
-					return userList;
 				}
 			}
 	    });
+
+	    popupInstance.result.then(function () {
+			updateNumUsers();
+		});
 	};
 
-};
-
-angular.module('mainApp').controller('AddUsersModalCtrl', AddUsersModalCtrl);
-function AddUsersModalCtrl ($scope, $uibModalInstance, groupName, addedUsers, usersAlreadyInGroup, usersNotInMaster) {
-
-	$scope.groupName = groupName;
-	$scope.addedUsers = addedUsers;
-	$scope.usersAlreadyInGroup = usersAlreadyInGroup;
-	$scope.usersNotInMaster = usersNotInMaster;
-
-	$scope.cancel = function () {
-		$uibModalInstance.dismiss('cancel');
-	};
 };
