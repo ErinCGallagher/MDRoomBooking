@@ -3,6 +3,7 @@ angular
 .controller('UsersCtrl', UsersCtrl);
 
 function UsersCtrl($scope, $uibModal, AdminUsersService) {
+	$scope.pageClass = 'users';  //used to change pages in index.php
 
 	$scope.showDownload = true;
 	$scope.showDate = false;
@@ -20,17 +21,17 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	
 	$scope.generateKeyList = function() {
 	
-			var prevDate = new Date($scope.keyDate);
-			prevDate.setDate($scope.keyDate.getDate());
+		var prevDate = new Date($scope.keyDate);
+		prevDate.setDate($scope.keyDate.getDate());
+	
+		var info = {
+			keyDate: prevDate
+		}
 		
-			var info = {
-				keyDate: prevDate
-			}
-			
- 			AdminUsersService.keyList(info);
- 			//$scope.keyDate = 
- 			$scope.showDate = false;
- 			$scope.showDownload = true;	
+			AdminUsersService.keyList(info);
+			//$scope.keyDate = 
+			$scope.showDate = false;
+			$scope.showDownload = true;	
  				
 	}
 	
@@ -65,10 +66,11 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	    });
 	};
 
-	$scope.uploadMasterList = function(uploadFile, dept) {
-		AdminUsersService.uploadMasterList(uploadFile, dept)
+	$scope.uploadMasterList = function(inputElem, dept) {
+		AdminUsersService.uploadMasterList(inputElem.files[0], dept)
 		.then(function(data){
 				openUploadPopup(data, dept);
+				inputElem.value = null;
 			},
 			function(errorMsg) {
 				alert(errorMsg); 
