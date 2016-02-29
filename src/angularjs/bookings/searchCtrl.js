@@ -148,7 +148,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
     });
 
 
-    //CALENDAR
+  //CALENDAR
 	$scope.calRender = SearchService.calRender;
 
      $scope.alerts = [];

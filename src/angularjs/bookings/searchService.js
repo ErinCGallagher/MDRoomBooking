@@ -95,6 +95,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
+					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
 					buildingSearchResults[room].push(newBookingInfo);
 					if(searchService.selectedSearchRoom == room){ //if the room has changed don't add it
 						searchService.roomSearchResults.push(newBookingInfo);
