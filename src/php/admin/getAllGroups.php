@@ -1,6 +1,6 @@
 <?php
 
-	include('connection.php');
+	include('../connection.php');
 	
 	$stmt = $db->query('SELECT groupID, groupName FROM UGroups');
 	$result = array();

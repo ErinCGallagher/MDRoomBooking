@@ -2,7 +2,7 @@
 session_start();
 
 include('../connection.php');
-include('/checkBooking.php');
+include('checkBooking.php');
 
 //Get all buildings, rooms & building hours
 $allBuildings = array();
@@ -28,10 +28,11 @@ while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 $_SESSION["buildings"] = $allBuildings;
 
 //Check if user can book
-//$user = $_SERVER["HTTP_QUEENSU_NETID"];
+$user = $_SERVER["HTTP_QUEENSU_NETID"];
+
 
 //for testin1ecg5urposes only, use above otherwise
-$user = "11ecg5"; //check rb_sample.php for users to input here for testing
+//$user = "11ecg5"; //check rb_sample.php for users to input here for testing
 
 
 $firstName = " ";
@@ -49,14 +50,17 @@ while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	$department = $row['department'];
 }
 
+
 if ($canBook) {
 	$sth = $db-> prepare("SELECT class, firstName, lastName FROM User WHERE uID = ?");
 	$sth->execute(array($user));
+	$class="NonBooking";
 	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		$class = $row['class'];
 		$firstName = $row['firstName'];
 		$lastName = $row['lastName'];
 	}
+	
 } else {
 	//class is NonBooking
 	$class = "NonBooking";
