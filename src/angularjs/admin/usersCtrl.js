@@ -9,30 +9,49 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	$scope.showDate = false;
 	$scope.keyDate = new Date();
 	
-	var myDate = new Date();
-	var prevDate = new Date(myDate);
-	prevDate.setDate(myDate.getDate()-1);
+	//convert the offset from local to UTC time
+  	//return an integer that represents the UTC offset from the local time
+  	UsersCtrl.generateOffset = function(timestamp){
+  		//date manipulation crap
+		var jsDate = new Date(timestamp); //converts to javascript date object
+		var offset = jsDate.getTimezoneOffset() * 60000; //retrieves offset from utc time
+		return offset;
+ 	 }
 	
-	var today = {
-					keyDate: prevDate
-				}
+	//convert javascript date back to local from UTC time
+	//do this before sending data back to the database
+	//the database is going to convert this back to its version of UTC time 
+  	UsersCtrl.convertFromUTCtoLocal = function(timestamp){
+  		//date manipulation crap
+	  	var jsDate = new Date(timestamp); //converts to javascript date object
+	  	var offset = UsersCtrl.generateOffset(timestamp);
+
+	  	var selectedTime = jsDate.getTime(); //retrieves the time selected
+	  	var utc = selectedTime - offset; //convert to UTC time by adding the offset
+	  	var TimeZoned = new Date(utc) //create new date object with this time
+
+	  	return TimeZoned;
+  	}
+  	
+	var prevDate = new Date($scope.keyDate);
+	prevDate.setDate($scope.keyDate.getDate());
+	prevDate = UsersCtrl.convertFromUTCtoLocal(prevDate);
+	
+	var today = {keyDate: prevDate}
 	AdminUsersService.keyList(today);
-	
 	
 	$scope.generateKeyList = function() {
 	
 		var prevDate = new Date($scope.keyDate);
 		prevDate.setDate($scope.keyDate.getDate());
+		prevDate = UsersCtrl.convertFromUTCtoLocal(prevDate);
 	
 		var info = {
 			keyDate: prevDate
 		}
-		
 			AdminUsersService.keyList(info);
-			//$scope.keyDate = 
 			$scope.showDate = false;
 			$scope.showDownload = true;	
- 				
 	}
 	
 	

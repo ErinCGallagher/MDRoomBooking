@@ -64,7 +64,7 @@ echo $json;
 	//return true if they have sufficient time, otherwise return false
 	function SufficientSpecialHours($db, $uID, $startDate){
 		$usableSpecialHours = 0;
-		$sth = $db->prepare("SELECT SUM(Permission.specialHrs) totalHrs FROM Permission JOIN Ugroups on Ugroups.groupID = Permission.groupID WHERE uID = ? and ? BETWEEN Ugroups.startDate and Ugroups.endDate");
+		$sth = $db->prepare("SELECT SUM(Permission.specialHrs) totalHrs FROM Permission JOIN UGroups on UGroups.groupID = Permission.groupID WHERE uID = ? and ? BETWEEN UGroups.startDate and UGroups.endDate");
 		$sth->execute(array($uID, $startDate));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			//Get number of blocks

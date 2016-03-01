@@ -7,7 +7,7 @@
  * Desc:    Creates the roombooking database tables
  *          
  */
-
+	
 	//Databse connection 
  	$host = "localhost";
  	$user = "root";

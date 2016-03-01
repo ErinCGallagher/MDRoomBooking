@@ -74,7 +74,7 @@
 					
 					//return hours to the appropriate week and group
 					for($i = 0; $i < count($hrsSourceList); $i++){
-						if($hrsSourceList[$i] == "weekly"){
+						if($hrsSourceList[$i] == "Weekly"){
 							
 							returnWeeklyHoursToUser($db, $week, $bookingUserID, 0.5);
 						}
@@ -116,7 +116,7 @@
 
 				//return hours to the appropriate week and group
 				for($i = 0; $i < count($hrsSourceList); $i++){
-					if($hrsSourceList[$i] == "weekly"){
+					if($hrsSourceList[$i] == "Weekly"){
 						returnWeeklyHoursToUser($db, $week, $bookingUserID, 0.5);
 					}
 					else{
@@ -187,13 +187,14 @@
 	//returns hours to user from a deleted booking
 	function returnWeeklyHoursToUser($db, $week, $bookingUserID, $bookingLength){
 		//determine the number of hours the user currently has for that week
-		$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?;");
+		$query = "SELECT $week FROM User WHERE uID = ?;";
+		$sth = $db->prepare($query);
 		$sth->execute(array($bookingUserID));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			//Get number of blocks
 			$bookingLength = $row[$week] + $bookingLength;
 		}
-
+		
 
 		//update the user table with the retruned hours from the canceled booking
 		$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?;");
