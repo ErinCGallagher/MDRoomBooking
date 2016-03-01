@@ -42,6 +42,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
       var makeBookingPopupInstance = $uibModal.open({
         templateUrl: 'makeBookingPopup.html',
         controller: 'MakeBookingPopupCtrl',
+        backdrop: 'static',
         resolve: {
           building: function () {
             return $scope.selectedBuilding;
@@ -80,6 +81,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
     var viewBookingPopupInstance = $uibModal.open({
       templateUrl: 'viewBookingPopup.html',
       controller: 'ViewBookingPopupCtrl',
+      backdrop: 'static',
       resolve: {
         building: function () {
           return date.building;
