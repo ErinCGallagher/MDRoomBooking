@@ -1,6 +1,6 @@
 <?php
 
-	include('connection.php');
+	include('../connection.php');
 	
 	//set default time to UTC so it does not count daylight savings
   	//do not remove!
