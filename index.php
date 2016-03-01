@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="src/html_css/groups.css"/>
         <link rel="stylesheet" href="src/html_css/search.css"/>
         <link rel="stylesheet" href="src/html_css/myBookings.css"/>
+        <link rel="stylesheet" href="src/html_css/users.css"/>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">

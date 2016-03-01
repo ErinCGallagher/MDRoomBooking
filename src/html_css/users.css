@@ -1,1 +1,8 @@
+.users .uploadDiv {
+	text-align: center;
+	padding: 10px;
+}
 
+.users .dramUpload {
+	margin-left: 20px;
+}

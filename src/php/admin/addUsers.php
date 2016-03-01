@@ -83,7 +83,6 @@
 	$nextWeekUpdateString = chop($nextWeekUpdateString, " OR ");
 	$restUpdateString = chop($restUpdateString, " OR ");
 
-
 	// update DB
 	try {
 		$db->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -91,36 +90,40 @@
 		$db->beginTransaction();
 
 		//Insert Permissions
-		$insertQuery = "INSERT INTO Permission (uID, groupID, specialHrs) VALUES $insertString";
-		$insertStmt = $db->prepare($insertQuery);
-		$insertStmt->execute($insertArray);
-
-		$weekHours = $groupInfo['hours'];
-		//update user table with current active weekly hours
-		if(groupHasCurWeekHours($groupInfo)) {
-			$curWeekUpdateQuery = "UPDATE User SET curWeekHrs = curWeekHrs + $weekHours WHERE $curWeekUpdateString";
-			$curWeekUpdateStmt = $db->prepare($curWeekUpdateQuery);
-			$curWeekUpdateStmt->execute($usersAddedArray);
+		if (sizeof($insertArray) > 0) {
+			$insertQuery = "INSERT INTO Permission (uID, groupID, specialHrs) VALUES $insertString";
+			$insertStmt = $db->prepare($insertQuery);
+			$insertStmt->execute($insertArray);
 		}
 
-		//update user table with active weekly hours for next week
-		if(groupHasNextWeekHours($groupInfo)) {
-			$nextWeekUpdateQuery = "UPDATE User SET nextWeekHrs = nextWeekHrs + $weekHours WHERE $nextWeekUpdateString";
-			$nextWeekUpdateStmt = $db->prepare($nextWeekUpdateQuery);
-			$nextWeekUpdateStmt->execute($usersAddedArray);
-		}
+		if (sizeof($usersAddedArray) > 0) {
+			$weekHours = $groupInfo['hours'];
+			//update user table with current active weekly hours
+			if(groupHasCurWeekHours($groupInfo)) {
+				$curWeekUpdateQuery = "UPDATE User SET curWeekHrs = curWeekHrs + $weekHours WHERE $curWeekUpdateString";
+				$curWeekUpdateStmt = $db->prepare($curWeekUpdateQuery);
+				$curWeekUpdateStmt->execute($usersAddedArray);
+			}
 
-		//update user table with active weekly hours for next week
-		if(groupHasThirdWeekHours($groupInfo)) {
-			$thirdWeekUpdateQuery = "UPDATE User SET thirdWeekHrs = thirdWeekHrs + $weekHours WHERE $nextWeekUpdateString";
-			$thirdWeekUpdateStmt = $db->prepare($thirdWeekUpdateQuery);
-			$thirdWeekUpdateStmt->execute($usersAddedArray);
-		}
+			//update user table with active weekly hours for next week
+			if(groupHasNextWeekHours($groupInfo)) {
+				$nextWeekUpdateQuery = "UPDATE User SET nextWeekHrs = nextWeekHrs + $weekHours WHERE $nextWeekUpdateString";
+				$nextWeekUpdateStmt = $db->prepare($nextWeekUpdateQuery);
+				$nextWeekUpdateStmt->execute($usersAddedArray);
+			}
 
-		if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
-			$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'No' WHERE $restUpdateString";
-			$restUpdateStmt = $db->prepare($restUpdateQuery);
-			$restUpdateStmt->execute($usersAddedArray);
+			//update user table with active weekly hours for next week
+			if(groupHasThirdWeekHours($groupInfo)) {
+				$thirdWeekUpdateQuery = "UPDATE User SET thirdWeekHrs = thirdWeekHrs + $weekHours WHERE $nextWeekUpdateString";
+				$thirdWeekUpdateStmt = $db->prepare($thirdWeekUpdateQuery);
+				$thirdWeekUpdateStmt->execute($usersAddedArray);
+			}
+
+			if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
+				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'No' WHERE $restUpdateString";
+				$restUpdateStmt = $db->prepare($restUpdateQuery);
+				$restUpdateStmt->execute($usersAddedArray);
+			}
 		}
 
 		$db->commit();
