@@ -104,17 +104,20 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var formattedDailyBookings = [];
 
 		for(var i = 0; i<dailyBookings.length;i++){
-			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
-			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
+			var startTime = dailyBookings[i].bookingDate + "T" + dailyBookings[i].startTime + "Z";
+			var endTime = dailyBookings[i].bookingDate + "T" + dailyBookings[i].endTime + "Z";
 			if(dailyBookings[i].hrsSource != "Faculty" && dailyBookings[i].hrsSource != "Admin"){
 				dailyBookings[i].hrsSource = "student";
 			}
+			var newStartDate = new Date(startTime);
+			var newEndDate = new Date(endTime);
+ 
 			var colour = bookingCommService.eventColourPicker(dailyBookings[i].reason);
 
 			formattedDailyBookings[i] =  
 			{title:dailyBookings[i].reason, 
-			 start:new Date(startTime),
-			 end:new Date(endTime),
+			 start:newStartDate.toISOString(),
+			 end:newEndDate.toISOString(),
 			 allDay:false, 
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: selectedBuilding, 
