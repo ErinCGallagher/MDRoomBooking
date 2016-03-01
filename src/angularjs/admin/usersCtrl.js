@@ -11,7 +11,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	
 	var myDate = new Date();
 	var prevDate = new Date(myDate);
-	prevDate.setDate(myDate.getDate());
+	prevDate.setDate(myDate.getDate()-1);
 	
 	var today = {
 					keyDate: prevDate
