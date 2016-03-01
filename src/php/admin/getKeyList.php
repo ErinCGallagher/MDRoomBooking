@@ -2,6 +2,10 @@
 
 	include('connection.php');
 	
+	//set default time to UTC so it does not count daylight savings
+  	//do not remove!
+	date_default_timezone_set('UTC');
+	
 	//Get post data stream 
 	$data = json_decode(file_get_contents("php://input"));
 	//Get parameters from 
