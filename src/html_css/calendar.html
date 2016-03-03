@@ -56,7 +56,15 @@
                                 <tr>
                                     <td class="date-column"><strong>End Date:</strong> {{date}}</td>
                                     <td class="end-time date-column"><div><strong>End Time: </strong></div>
-                                    <div><uib-timepicker ng-model="mytime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
+                                    <div><uib-timepicker 
+                                        ng-model="mytime" 
+                                        ng-change="changed()" 
+                                        readonly-input='true' 
+                                        hour-step="hstep" 
+                                        minute-step="mstep" 
+                                        show-meridian="ismeridian" 
+                                        max='maxTime' 
+                                        min='minTime' ></uib-timepicker> </div>
                                     </td>
                                 </tr>
                             </table>
@@ -71,13 +79,43 @@
                         </p>
                         <div ng-show="selectedReason=='Other'">
                             <Strong>Description: </Strong>
-                            <textarea name="description" ng-model="description" ng-maxlength="150" ng-required="selectedReason=='Other'"></textarea>
+                            <textarea 
+                                name="description" 
+                                ng-model="description" 
+                                ng-maxlength="150" 
+                                ng-required="selectedReason=='Other'"></textarea>
                             <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
                         </div>
                         <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
                             <Strong>Course Code: </Strong>
-                            <textarea rows ="1" name="courseCode" ng-model="description" ng-maxlength="20" ng-required="selectedReason=='Course' || selectedReason=='Coursework'"></textarea>
+                            <textarea 
+                                rows ="1" 
+                                name="courseCode" 
+                                ng-model="description" 
+                                ng-maxlength="20" 
+                                ng-required="selectedReason=='Course' || selectedReason=='Coursework'"></textarea>
                             <p ng-show=" (makeBookingForm.$submitted) || (makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine)"> A course code is required</p>
+                        </div>
+                        <div class="box" ng-show="userType !='student'">
+                            <div>
+                                <Strong> Recurring Booking: </Strong>
+                              <input
+                                type="checkbox"
+                                name="reccurBool"
+                                ng-checked="false"
+                                ng-model="reccurBool"
+                              > 
+                            </div>
+                            <div>
+                                <Strong> Number of Weeks: </Strong>
+                              <input
+                                type="number"
+                                name="numWeeks"
+                                ng-model="numWeeks"
+                                ng-required="reccurBool == true"
+                                ng-max="9"
+                              > 
+                            </div>
                         </div>
                     
                     </div>

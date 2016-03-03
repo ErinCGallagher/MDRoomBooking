@@ -15,7 +15,8 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.date = dateTime.format("MMM D, YYYY");
   $scope.startTime = dateTime.format("h:mm a");
   $scope.description = "";
-
+  $scope.reccurBool = false;
+  $scope.userType = SharedVariableService.userType;
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
 
@@ -58,17 +59,17 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
               alertSending(errorStatus);
             });
           }
-          else{ //search page
-            //call booking service to send booking info to the database
-            SearchService.bookRoom(bookingInfo)
-              .then(function(response){
-                alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-                $uibModalInstance.close(alert);
-              },
-                function(errorStatus){
-                  alertSending(errorStatus);
-                });
-          }
+      else{ //search page
+        //call booking service to send booking info to the database
+        SearchService.bookRoom(bookingInfo)
+          .then(function(response){
+            alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+            $uibModalInstance.close(alert);
+          },
+            function(errorStatus){
+              alertSending(errorStatus);
+            });
+      }
     }
     
   };

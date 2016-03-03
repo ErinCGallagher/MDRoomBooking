@@ -20,7 +20,10 @@
 	outline: black solid thick;
 }
 
-
+.box{
+ 	border: 1px solid #e5e5e5;
+    padding: 10px;
+ }
 
 @media(min-width:768px){
 	.navbar-centered .navbar-nav{
