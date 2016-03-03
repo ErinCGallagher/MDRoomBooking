@@ -72,7 +72,7 @@
    </div>
 
      <!-- Make Booking Popup Template -->
-    <div>
+   <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
 
             <!-- Modal content-->
@@ -81,8 +81,9 @@
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
                     <h4 class="modal-title">Book Room</h4>
                 </div>
-                <div class="modal-body">
-                    <form class="book-Room">
+                <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" >
+                    <div class="modal-body">
+                    
                         <div class="book-room-info">
                             <p><strong>Building:</strong> {{building}}</p>
                             <p><strong>Room #:</strong> {{roomNum}}</p>
@@ -97,7 +98,7 @@
                                     <div><uib-timepicker ng-model="mytime" ng-change="changed()" readonly-input='true' hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" max='maxTime' min='minTime' ></uib-timepicker> </div>
                                     </td>
                                 </tr>
-                        </table>
+                            </table>
                         </div>
                         <p>
                             <strong>Number of People: </strong>
@@ -109,18 +110,21 @@
                         </p>
                         <div ng-show="selectedReason=='Other'">
                             <Strong>Description: </Strong>
-                            <textarea name="textareaDescription" ng-model="description" ng-maxlength="150"></textarea>
+                            <textarea name="description" ng-model="description" ng-maxlength="150" ng-required="selectedReason=='Other'"></textarea>
+                            <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
                         </div>
-                        <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
+                        <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'" ng-class="{'has-error' : makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine}">
                             <Strong>Course Code: </Strong>
-                            <textarea rows ="1" name="textareaDescription" ng-model="description" ng-maxlength="20"></textarea>
+                            <textarea rows ="1" name="courseCode" ng-model="description" ng-maxlength="20" ng-required="selectedReason=='Course' || selectedReason=='Coursework'"></textarea>
+                            <p ng-show="makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine"> A course code is required</p>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn" ng-click="cancel()">Back</button>
-                    <button type="submit" class="btn" ng-click="submitBooking()">Book Room</button>
-                </div>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="cancel()">Back</button>
+                        <button type="submit" class="btn">Book Room</button>
+                    </div>
+                </form>
             </div>
         </script>  
     </div>
