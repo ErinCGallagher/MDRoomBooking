@@ -182,8 +182,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		//loop through the bookings for that day
 		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].start));
-			var checkEnd = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].end));
+			var checkStart = moment.utc(bookingsService.weeklyBookings[i].start);
+			var checkEnd = moment.utc(bookingsService.weeklyBookings[i].end);
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
