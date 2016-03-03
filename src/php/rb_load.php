@@ -42,7 +42,7 @@
   
   	//Drop all tables
   	mysqli_query($cxn,"drop table Blocks;");
-    	mysqli_query($cxn,"drop table Master;");
+    mysqli_query($cxn,"drop table Master;");
   	mysqli_query($cxn,"drop table User;");
   	mysqli_query($cxn,"drop table UGroups;");
   	mysqli_query($cxn,"drop table Permission;");
@@ -118,14 +118,21 @@
 					roomID				VARCHAR(20)	NOT NULL,
 					building			VARCHAR(30)	NOT NULL,
 					capacity			INTEGER		NOT NULL,
-					reqKey				VARCHAR(3) 	NOT NULL,
-					upright				VARCHAR(3)	NOT NULL,	
+					reqKey				VARCHAR(100) 	NOT NULL,
+					fee					VARCHAR(100) NOT NULL,
+					contents			TEXT 		NOT NULL,
+					setup				VARCHAR(50) NOT NULL,
+					upright				VARCHAR(3)	NOT NULL,					
 					grand				VARCHAR(3) 	NOT NULL,
-					openSpace			VARCHAR(3) 	NOT NULL,
 					mirror				VARCHAR(3) 	NOT NULL,
-					projector			VARCHAR(3) 	NOT NULL,
+					stands				VARCHAR(3) 	NOT NULL,
+					chairs				VARCHAR(3) 	NOT NULL,
 					PRIMARY KEY(roomID));");	
-
+	
+	//Insert Rooms
+	include('generateRoomQuery.php');
+	mysqli_query($cxn, $query);
+	
 	mysqli_query($cxn, "INSERT INTO Blocks (blockID, startTime, endTime) VALUES
 			('1', '07:30:00', '08:00:00'),
 			('2', '08:00:00', '08:30:00'),
@@ -161,7 +168,8 @@
 			");
 
 	mysqli_query($cxn,"INSERT INTO Building (buildingID, openTime, closeTime) VALUES
-         		('Harrison LeCaine Hall', '8:00', '23:00'),
+         		('Upper Harrison LeCaine Hall', '8:00', '23:00'),
+         		('Lower Harrison LeCaine Hall', '8:00', '23:00'),
          		('Theological Hall', '7:30', '23:00'),
          		('Chown Hall', '7:30', '23:00'),
          		('The Isabel', '8:00', '20:00')");
@@ -178,7 +186,8 @@
      		('CHOWN 105','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 107','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
-
+		
+			
 	//Close the connection
 	mysqli_close($cxn); 
 

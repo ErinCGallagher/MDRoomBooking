@@ -5,7 +5,7 @@ angular
 function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableService, SearchService) {
 	$scope.pageClass = 'search'; //used to change pages in index.html
 	$scope.buildings = SharedVariableService.buildings;
-  $scope.selectedBuilding = "Harrison LeCaine Hall";
+  $scope.selectedBuilding = SharedVariableService.defaultBuilding;
   $scope.contents=["Upright Piano", "Grand Piano", "Open Space", "Mirror", "Projector"];
   
   $scope.events = SearchService.roomSearchResults;

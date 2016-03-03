@@ -1,0 +1,56 @@
+,System Name,Building,"Capacity
+","Key Requirement
+(yes or no)",Rental fee,"Contents
+ex. (Piano, projector, # chairs)","Room Setup
+ex. (lecture hall)",Upright Piano,Grand Piano,Mirrors,Music Stands,Chairs,Other Notes?
+,Wardrobe,Theological Hall,12,Yes,Yes,"Washer, dryer, sewing machines, work tables.",Costume Shop,No,No,No,No,No,"Washer, dryer, sewing machines, work tables."
+,Dressing Room A - Big,Theological Hall,12,Yes,"No, except when used as performance space.","Chairs, mirrors, racks, lights, sinks",Dressing Room,No,No,Yes,No,Yes,"Chairs, mirrors, racks, lights, sinks"
+,Dressing Room B - Big,Theological Hall,12,Yes,"No, except when used as performance space.","Chairs, mirrors, racks, lights, sinks",Dressing Room,No,No,Yes,No,Yes,"Chairs, mirrors, racks, lights, sinks"
+,Dressing Room - Small,Theological Hall,4,Yes,"No, except when used as performance space.","Chairs, mirrors, racks, lights, sinks",Dressing Room,No,No,Yes,No,Yes,"Chairs, mirrors, racks, lights, sinks"
+,THEO 102,Theological Hall,80,No,"No, except when used as performance space.","A mix of tablet arm chairs and fixed tables. Projector, screen, sound system. Lighting grid, 16 stage lights. Black curtains along one wall.",Classroom,No,No,No,No,Yes,Doubles as class room and studio theatre
+,THEO 106,Theological Hall,40,No,No,N/A,Empty,No,No,No,No,No,"Sprung floor, a few chairs and tables, no permanent setup."
+,THEO 115,Theological Hall,20,No,No,Tables and chairs,Seminar,No,No,No,No,Yes,Tables and chairs
+,THEO 114,Theological Hall,10,Yes,Yes,"Worktables, Power tools.",Workshop,No,No,No,No,No,Carpentry and paint workshop tools and equipment
+,THEO 118,Theological Hall,20,No,No,Tables and chairs,Seminar,No,No,No,No,Yes,Doubles as lobby for Rotunda Theatre
+,Rotunda Theatre,Theological Hall,100,No,"No, except when used as performance space.",N/A,Theatre,No,No,No,No,No,
+,Convocation Hall,Theological Hall,230,No,"No, except when used as performance space.",N/A,Theatre,No,No,No,No,No,"Includes, Theatre, Lobby and control room."
+,THEO 307,Theological Hall,60,No,"No, except when used as performance space.",N/A,Empty,No,No,No,No,Yes,"A few chairs and tables, no permanent setup."
+,Isabel 104,The Isabel,100,FOB,"No, except when used as performance space.",Lots.,Theatre,No,No,No,No,No,"Fob required. Dressing rooms, Green room, Kitchenette. Lighting, sound, projection, masking"
+,Isabel 105,The Isabel,75,,,"grand piano, upright piano, music stands, chairs,",Music Rehearsal Hall,Yes,Yes,No,Yes,Yes,
+,HLH 101,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 102,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 103,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 104,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 105,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 106,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 107,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 108,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 109,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 110,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 111,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 112,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+,HLH 114,Lower Harrison LeCaine Hall,1,No,,"upright piano, mirror, music stand",Practice Room,Yes,No,Yes,Yes,No,
+Ignore,HLH 120,Lower Harrison LeCaine Hall,50,Yes,,"grand piano, upright piano, stands, chairs, whiteboards,",Classroom,Yes,Yes,No,Yes,Yes,"only booked by admin, faculty, staff, and students registered in PERFORAMCE group"
+,HLH 121,Lower Harrison LeCaine Hall,4,Yes,,"grand piano, stands, chairs, table",Practice Room,No,Yes,No,Yes,Yes,
+,HLH 124,Lower Harrison LeCaine Hall,75,Yes,,"grand piano, A/V system, theatre seating, table",Lecture Hall,No,Yes,No,No,,"only booked by admin, faculty, and students registered in PERFORAMCE group"
+,HLH 213,Upper Harrison LeCaine Hall,24,Yes,,"grand piano, upright piano, stands, chairs, whiteboards,",Seminar Room,Yes,Yes,No,Yes,Yes,
+,HLH 214,Upper Harrison LeCaine Hall,2,Yes,,"grand piano, upright piano, table",Applied Teaching Room,Yes,Yes,No,No,No,
+Ignore,HLH 220,Upper Harrison LeCaine Hall,1,,,N/A,Faculty Office,,,,,,only booked by admin and Gordon Craig
+Ignore,HLH 221,Upper Harrison LeCaine Hall,1,,,N/A,Faculty Office,,,,,,only booked by admin and Wolf Tormann
+Ignore,HLH 222,Upper Harrison LeCaine Hall,1,,,N/A,Faculty Office,,,,,,only booked by admin and Donelda Gartshore
+Ignore,HLH 223,Upper Harrison LeCaine Hall,1,,,N/A,Faculty Office,,,,,,only booked by admin and Dan Tremblay
+Ignore,HLH 224,Upper Harrison LeCaine Hall,1,,,N/A,Faculty Office,,,,,,only booked by admin and Dianne Baird
+Ignore,HLH 225,Upper Harrison LeCaine Hall,1,,,N/A,Faculty Office,,,,,,"only booked by admin, Peter Freeman, and Chantal Brunette"
+,HLH 226,Upper Harrison LeCaine Hall,2,Yes,,grand piano,Applied Teaching Room,No,Yes,No,No,No,
+,HLH 227,Upper Harrison LeCaine Hall,2,Yes,,grand piano,Applied Teaching Room,No,Yes,No,No,No,
+,HLH 228,Upper Harrison LeCaine Hall,6,Yes,,"grand piano, chairs, music stands,",Chamber Ensemble Practice Room,No,Yes,No,Yes,Yes,
+,HLH 229,Upper Harrison LeCaine Hall,12,,,"electronic keyboards, table, whiteboard",Keyboard Lab,No,No,No,No,No,only booked by admin and faculty
+,HLH 308,Upper Harrison LeCaine Hall,2,Yes,,grand piano,Applied Teaching Room,No,Yes,No,No,No,
+,HLH 312,Upper Harrison LeCaine Hall,4,Yes,,"2 grand pianos, stands, chairs, chalkboards,",Applied Teaching Room,No,Yes,No,Yes,Yes,
+,HLH 316,Upper Harrison LeCaine Hall,4,Yes,,"grand piano, upright piano, stands, chairs, chalkboards,",Applied Teaching Room,Yes,Yes,No,Yes,Yes,
+,Chown 1,Chown Hall,1,need to rent key for year.,,upright piano,Practice Room,Yes,No,No,No,No,
+,Chown 2,Chown Hall,1,need to rent key for year.,,upright piano,Practice Room,Yes,No,No,No,No,
+,Chown 3,Chown Hall,1,need to rent key for year.,,upright piano,Practice Room,Yes,No,No,No,No,
+,Chown 4,Chown Hall,1,need to rent key for year.,,upright piano,Practice Room,Yes,No,No,No,No,
+,Chown 5,Chown Hall,1,need to rent key for year.,,upright piano,Practice Room,Yes,No,No,No,No,
+,Chown 6,Chown Hall,1,need to rent key for year.,,upright piano,Practice Room,Yes,No,No,No,No,
