@@ -15,16 +15,35 @@
 		return $val;
 	}
 
-	// get netId from queen's email
+	// get netid from queen's email
 	function getNetId($email) {
-		$netId = false;
+		$netid = false;
 
 		$email = strtolower(trim($email));
 		$isQueensEmail = strcmp('@queensu.ca', substr($email, -11)) == 0; //$email is a queen's email
 		if ($isQueensEmail) {
-			$netId = substr_replace($email, '', -11);
+			$netid = substr_replace($email, '', -11);
 		}
-		return $netId;
+		return $netid;
+	}
+
+	// get user info from table
+	function getCurUserInfo($db, $netid) {
+		$userInfoQuery = "SELECT firstName, lastName, class FROM User WHERE uID = ?";
+		$userInfoStmt = $db->prepare($userInfoQuery);
+		$userInfoStmt->execute(array($netid));
+		return $userInfoStmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function potentiallyUpdateUserInfo($db, $netid, $userData, $curUserInfo){
+		if (strcmp($userData[1], $curUserInfo['firstName']) != 0
+			|| strcmp($userData[2], $curUserInfo['lastName']) != 0
+			|| strcmp($userData[3], $curUserInfo['class']) != 0) {
+				//update user info
+				$updateInfoQuery = "UPDATE User SET firstName = ?, lastName = ?, class = ? WHERE uID = ?";
+				$updateInfoStmt = $db->prepare($updateInfoQuery);
+				$updateInfoStmt->execute(array($userData[1], $userData[2], $userData[3], $netid));
+		}
 	}
 	
 	// reads in file and stores contents in $contents
@@ -76,9 +95,18 @@
 						$insertMasterString .= "(?, ?), ";
 						array_push($insertMasterArray, $netid, $department);
 
-						//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs', 'thirdWeekHrs', 'hasBookingDurationRestriction')
-						$insertUserString .= "(?, ?, ?, ?, ?, ?, ?, ?), ";
-						array_push($insertUserArray, $netid, $userData[1], $userData[2], $userData[3], $defaultHrs, $defaultHrs, $defaultHrs, 'Yes');
+						$curUserInfo = getCurUserInfo($db, $netid);
+						if (0 == sizeof($curUserInfo)) {
+							//user not in User table, add them to user table
+							//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs', 'thirdWeekHrs', 'hasBookingDurationRestriction')
+							$insertUserString .= "(?, ?, ?, ?, ?, ?, ?, ?), ";
+							array_push($insertUserArray, $netid, $userData[1], $userData[2], $userData[3], $defaultHrs, $defaultHrs, $defaultHrs, 'Yes');
+							// get class, etc
+						} else {
+							potentiallyUpdateUserInfo($db, $netid, $userData, $curUserInfo);
+						}
+
+						
 					} else {
 						$badEmailUsers[] = $user;
 					}
