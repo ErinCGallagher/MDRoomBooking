@@ -107,6 +107,9 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 				},
 				badClassUsers: function () {
 					return data.badClassUsers;
+				},
+				badEmailUsers: function () {
+					return data.badEmailUsers;
 				}
 			}
 	    });
@@ -127,13 +130,14 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 
 angular.module('mainApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
 
-function ModalInstanceCtrl ($scope, $uibModalInstance, department, numUsersInDept, numUsersDeleted, badFormatUsers, badClassUsers) {
+function ModalInstanceCtrl ($scope, $uibModalInstance, department, numUsersInDept, numUsersDeleted, badFormatUsers, badClassUsers, badEmailUsers) {
 
 	$scope.department = department;
 	$scope.numUsersInDept = numUsersInDept;
 	$scope.numUsersDeleted = numUsersDeleted;
 	$scope.badFormatUsers = badFormatUsers;
 	$scope.badClassUsers = badClassUsers;
+	$scope.badEmailUsers = badEmailUsers;
 
 
 	$scope.ok = function () {
