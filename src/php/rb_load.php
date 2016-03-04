@@ -45,6 +45,7 @@
     mysqli_query($cxn,"drop table Master;");
   	mysqli_query($cxn,"drop table User;");
   	mysqli_query($cxn,"drop table UGroups;");
+  	mysqli_query($cxn,"drop table UGroupsPermanent;");
   	mysqli_query($cxn,"drop table Permission;");
   	mysqli_query($cxn,"drop table BookingSlots;");
   	mysqli_query($cxn,"drop table Bookings;");
@@ -84,6 +85,9 @@
 					startDate			VARCHAR(35)	NOT NULL,
 					endDate				VARCHAR(35) 	NOT NULL,		
 					PRIMARY KEY(groupID));");
+
+	mysqli_query($cxn,"CREATE TABLE UGroupsPermanent(
+		groupID INT NOT NULL, FOREIGN KEY (groupID) REFERENCES UGroups(groupID) ON DELETE RESTRICT);");
   
 	mysqli_query($cxn,"CREATE TABLE Permission(
 					uID		VARCHAR(10)	NOT NULL,
@@ -132,7 +136,17 @@
 	//Insert Rooms
 	include('generateRoomQuery.php');
 	mysqli_query($cxn, $query);
-	
+
+	// Create EMS group that can't be deleted for EMS students
+	$startDay = new DateTime();
+	$today = date_format($startDay, "Y-m-d");
+	date_add($startDay, date_interval_create_from_date_string('1 year')); //will be updated in semester update script
+	$oneYear  = date_format($startDay, "Y-m-d");
+	mysqli_query($cxn, "INSERT INTO UGroups(groupID, groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES
+		('1', 'EMS', 'week', '0', 'Yes', '$today', '$oneYear');");
+
+	mysqli_query($cxn, "INSERT INTO UGroupsPermanent(groupID) VALUES ('1');");
+
 	mysqli_query($cxn, "INSERT INTO Blocks (blockID, startTime, endTime) VALUES
 			('1', '07:30:00', '08:00:00'),
 			('2', '08:00:00', '08:30:00'),
