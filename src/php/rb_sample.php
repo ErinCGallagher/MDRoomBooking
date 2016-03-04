@@ -45,8 +45,7 @@
 				('11lmb23', 'Laura', 'Brooks', 'Student', '5', '0', '5', 'No'),
 				('11ecg5', 'Erin', 'Admin', 'Admin', NULL, NULL, NULL, 'No')
 				");		
-				
-//	/*			
+						
 	mysqli_query($cxn, "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES
 				('MUSC 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
 				('Ensemble A', 'week', '5', 'Yes', '2016-01-01', '2016-04-30'),
@@ -54,8 +53,7 @@
 				('DRAM 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
 				('DRAM 450', 'week', '3', 'No', '2016-01-01', '2016-04-30')  
 				");
-//	*/	
-//	/*				
+				
 	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, specialHrs) VALUES
 				('12af', '2', '0'),
 				('13eg', '1', '0'),
@@ -65,8 +63,6 @@
 				('14sk', '5', '0'),
 				('15lb', '5', '0')
 				");	
-//	*/	
-					
 	
 	$startDay = new DateTime();
 	$today = date_format($startDay, "Y-m-d");
