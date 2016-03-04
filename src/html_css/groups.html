@@ -24,7 +24,7 @@
 
         <button class="btn" ng-click="openViewUsersPopup()">Manage Users</button>
         <button class="btn" ng-click="modifyGroup()">Modify Group</button>
-        <button class="btn" ng-click="deleteGroup()">Delete Group</button>
+        <button class="btn" ng-click="deleteGroup()" ng-disabled="groupId == 1">Delete Group</button>
     </div>
 </div>
 
