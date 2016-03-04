@@ -42,14 +42,18 @@
             <div class="modal-body">
                 <p>{{numUsersInDept}} Users in {{department}}</p>
                 <p>{{numUsersDeleted}} Users Deleted</p>
-                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
+                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0 || badEmailUsers.length != 0"> <br></div>
+                <div ng-show="badEmailUsers.length != 0">
+                    <p><strong>Users With Invalid Email Format (Not Uploaded):</strong>
+                    <li ng-repeat="user in badEmailUsers" track by $index>{{user}}</li></p>
+                </div>
                 <div ng-show="badFormatUsers.length != 0">
 	                <p><strong>Users With Invalid Format (Not Uploaded):</strong>
-	                <li ng-repeat="user in badFormatUsers">{{user}}</li></p>
+	                <li ng-repeat="user in badFormatUsers" track by $index>{{user}}</li></p>
 	            </div>
 	            <div ng-show="badClassUsers.length != 0">
 	                <p><strong>Users With Invalid Type (Not Uploaded): </strong> 
-	                <li ng-repeat="user in badClassUsers">{{user}}</li></p>
+	                <li ng-repeat="user in badClassUsers" track by $index>{{user}}</li></p>
                 </div>
                 <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
                 <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
