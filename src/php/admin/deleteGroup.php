@@ -12,6 +12,11 @@
 	//Get parameters from 
 	$groupID = $data->groupID;
 
+	if (1==$groupID) { //This is the EMS group, cannot be deleted
+		http_response_code(409); //Conflict
+		die("Cannot delete EMS group."); 
+	}
+
 	// update DB
 	try {
 		//begin transaction
