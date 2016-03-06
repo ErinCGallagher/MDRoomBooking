@@ -52,11 +52,7 @@
 	require '../uploadFile.php';
 	$fileLines = processFile();
 
-	if ('Music' == $department) {
-		$defaultHrs = 5;
-	} else {
-		$defaultHrs = 0;
-	}
+	$defaultHrs = getDepartmentDefaultWeeklyHours($db, $department);
 
 	try {
 		$db->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

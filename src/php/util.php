@@ -6,4 +6,12 @@
 		return $stmt;
 	}
 
+	function getDepartmentDefaultWeeklyHours ($db, $department) {
+		if ('Music' == $department) {
+			return 5;
+		} else { // Drama
+			return 0;
+		}
+	}
+
 ?>

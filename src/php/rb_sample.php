@@ -41,27 +41,26 @@
                 
 	mysqli_query($cxn, "INSERT INTO User (uID, firstName, lastName, class, curWeekHrs, nextWeekHrs, thirdWeekHrs, hasBookingDurationRestriction) VALUES
 				('12ajf', 'Lexi', 'Admin', 'Admin', NULL, NULL, NULL, 'No'),
-				('12sak2', 'Shannon', 'Klett', 'Student', '5', '7', '11', 'No'),
-				('11lmb23', 'Laura', 'Brooks', 'Student', '5', '0', '5', 'No'),
+				('12sak2', 'Shannon', 'Klett', 'Student', '5', '7', '12', 'No'),
+				('11lmb23', 'Laura', 'Brooks', 'Student', '1', '0', '3', 'No'),
 				('11ecg5', 'Erin', 'Admin', 'Admin', NULL, NULL, NULL, 'No')
 				");		
 						
 	mysqli_query($cxn, "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES
 				('MUSC 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
-				('Ensemble A', 'week', '5', 'Yes', '2016-01-01', '2016-04-30'),
+				('Ensemble A', 'week', '5', 'Yes', '2016-05-01', '2016-08-31'),
 				('DRAM 205', 'special', '6', 'No', '2016-01-01', '2016-04-30'),
-				('DRAM 100', 'week', '2', 'Yes', '2016-01-01', '2016-04-30'),
+				('DRAM 100', 'special', '10', 'Yes', '2016-05-01', '2016-08-31'),
 				('DRAM 450', 'week', '3', 'No', '2016-01-01', '2016-04-30')  
 				");
 				
 	mysqli_query($cxn, "INSERT INTO Permission (uID, groupID, specialHrs) VALUES
-				('12af', '2', '0'),
-				('13eg', '1', '0'),
-				('14sk', '3', '6'),
-				('14sk', '4', '0'),
-				('15lb', '1', '0'),
-				('14sk', '5', '0'),
-				('15lb', '5', '0')
+				('12sak2', '2', '0'),
+				('12sak2', '3', '0'),
+				('12sak2', '4', '6'),
+				('11lmb23', '4', '6'),
+				('11lmb23', '5', '10'),
+				('11lmb23', '6', '0')
 				");	
 	
 	$startDay = new DateTime();
