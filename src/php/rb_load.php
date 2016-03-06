@@ -44,8 +44,8 @@
   	mysqli_query($cxn,"drop table Blocks;");
     mysqli_query($cxn,"drop table Master;");
   	mysqli_query($cxn,"drop table User;");
+  	mysqli_query($cxn,"drop table UGroupsPermanent;"); //must drop before UGroups
   	mysqli_query($cxn,"drop table UGroups;");
-  	mysqli_query($cxn,"drop table UGroupsPermanent;");
   	mysqli_query($cxn,"drop table Permission;");
   	mysqli_query($cxn,"drop table BookingSlots;");
   	mysqli_query($cxn,"drop table Bookings;");
