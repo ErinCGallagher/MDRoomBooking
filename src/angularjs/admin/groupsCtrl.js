@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('GroupsCtrl', GroupsCtrl);
 
-function GroupsCtrl($scope, $uibModal, AdminGroupsService){
+function GroupsCtrl($scope, $uibModal, ConfirmationPopupService, AdminGroupsService){
 	$scope.pageClass = 'groups';  //used to change pages in index.html
 	$scope.groupId; // used by addUsers(), set by showGroup()
 	$scope.groups = [];
@@ -320,7 +320,14 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		$scope.showModGroup = true;
 	}
 
-	$scope.deleteGroup = function() {
+	$scope.confirmDeleteGroup = function() {
+		var userString = $scope.numUsers == 1 ? $scope.numUsers + " user" : $scope.numUsers + " users";
+		var msg = "<div> Are you sure you want to delete group <b>"  + $scope.groupName + "</b>?<br> <b>"
+			+ userString + " </b> will be removed from this group.";
+		var popupInstance = ConfirmationPopupService.open(deleteGroup, null, msg);
+	}
+
+	deleteGroup = function() {
 		AdminGroupsService.deleteGroup($scope.groupId)
 			.then(function(data){
 				//update group list?
