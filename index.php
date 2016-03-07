@@ -54,6 +54,7 @@
         <script type="text/javascript" src="src/angularjs/admin/userCommService.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/searchService.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/myBookingsService.js"></script>
+        <script type="text/javascript" src="src/angularjs/confirmationPopupService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
