@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('ViewUsersModalCtrl', ViewUsersModalCtrl);
 
-function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, AdminGroupsService, groupId, groupName) {
+function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, $sce, AdminGroupsService, groupId, groupName) {
 
 	$scope.groupId = groupId;
 	$scope.groupName = groupName;
@@ -31,20 +31,58 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, AdminGroupsSe
 			});
 	}
 
-	$scope.deleteUserFromGroup = function(user) {
+	openConfirmPopup = function(submitFunction, submitData, msgString) {
+		//need to sanitize msg first if using html tags
+		var htmlMsg = $sce.trustAsHtml(msgString);
+		var popupInstance = $uibModal.open({
+			templateUrl: 'confirmation.html',
+			controller: 'ConfirmationPopupCtrl',
+			resolve: {
+				submitFunction: function () {
+					return submitFunction; //set by getGroupInfo
+				},
+				submitData: function () {
+					return submitData;
+				},
+				msg: function () {
+					return htmlMsg;
+				}
+			}
+	    });
+	    return popupInstance;
+	}
+
+	$scope.confirmDeleteUserFromGroup = function(user) {
+		var msg = "<div> Are you sure you want to remove user <b>" + user.uID + "</b> from group <b>" + $scope.groupName + "</b>?";
+		var popupInstance = openConfirmPopup(deleteUserFromGroup, user, msg);
+	    
+	    popupInstance.result.then(function () {
+			//TODO: fix so only removes user from list if they were successfully deleted
+			var index = $scope.userList.indexOf(user);
+			$scope.userList.splice(index, 1);
+		});
+	}
+
+	deleteUserFromGroup = function(user) {
 		AdminGroupsService.deleteUserFromGroup(user.uID, $scope.groupId)
 			.then(function(){
-
-				//TODO: fix so only removes user from list if they were successfully deleted
-				var index = $scope.userList.indexOf(user);
-				$scope.userList.splice(index, 1);
+				//handled on close of popup
 			},
 			function(errorMsg) {
 				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
 			});
 	}
 
-	$scope.deleteAllUsersFromGroup = function() {
+	$scope.confirmDeleteAllUsersFromGroup = function() {
+		var msg = "<div> Are you sure you want to remove <b>all " + $scope.userList.length + " users</b> from group <b>" + $scope.groupName + "</b>?";
+		var popupInstance = openConfirmPopup(deleteAllUsersFromGroup, null, msg);
+	    
+	    popupInstance.result.then(function () {
+			$scope.userList = [];
+		});
+	}
+
+	deleteAllUsersFromGroup = function() {
 		AdminGroupsService.deleteAllUsersFromGroup($scope.groupId)
 			.then(function(data){
 				$scope.userList = [];
