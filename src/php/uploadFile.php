@@ -32,13 +32,5 @@
 	    	return file($_FILES["fileToUpload"]["tmp_name"], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		}
 	}
-
-	function saveFileAs($name) {
-		$fileContents = processFile();
-		//save file to server
-		move_uploaded_file( $_FILES['fileToUpload']['tmp_name'], $name); 
-		return $fileContents;
-
-	}
 	
 ?>
