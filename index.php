@@ -32,15 +32,21 @@
         <script type="text/javascript" src="src/angularjs/appCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/calendarCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/searchCtrl.js"></script>
-        <script type="text/javascript" src="src/angularjs/bookings/myBookingsCtrl.js"></script>
-        <script type="text/javascript" src="src/angularjs/bookings/makeBookingPopupCtrl.js"></script>
-        <script type="text/javascript" src="src/angularjs/bookings/viewBookingPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/groupsCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/usersCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/loginCtrl.js"></script>
-        <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
+        
         <script type="text/javascript" src="src/angularjs/signOutCtrl.js"></script>
+        
+
+        <!-- Modal Controllers-->
+        <script type="text/javascript" src="src/angularjs/bookings/myBookingsCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/makeBookingPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/viewBookingPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/bookingConfirmationPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/recurringBookingConfirmationPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/confirmCancelCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>

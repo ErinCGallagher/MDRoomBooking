@@ -57,7 +57,7 @@
                                     <td class="date-column"><strong>End Date:</strong> {{date}}</td>
                                     <td class="end-time date-column"><div><strong>End Time: </strong></div>
                                     <div><uib-timepicker 
-                                        ng-model="mytime" 
+                                        ng-model="myTime" 
                                         ng-change="changed()" 
                                         readonly-input='true' 
                                         hour-step="hstep" 
@@ -161,6 +161,39 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">Cancel Booking</button>
                     <button type="submit" class="btn" ng-click="cancel()">Back</button>
+
+                </div>
+            </div>
+        </script>  
+    </div>
+
+     <!--Booking Confirmation Popup Template -->
+    <div>
+        <script type="text/ng-template" id="bookingConfirmationPopup.html">
+            <!-- Modal content-->
+            <div class="modal-content confirmation-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title " ng-class="{'success' : success, 'confirmation-error' : !success }">{{statusText}}</h4>
+                </div>
+                <div class="modal-body confirmation-body">
+                        <div class="book-room-info">
+                            <p><strong>Building:</strong> {{building}}</p>
+                            <p><strong>Room #:</strong> {{roomNum}}</p>
+                            <p><strong>Date:</strong> {{date}}</p>
+                            <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
+                            <p><strong>Number of People: </strong> {{numPeople}}</p>
+                            <p><strong>Reason:</strong> {{reason}}</p>
+                            <div ng-show="reason=='Other'">
+                                <p><Strong>Description: </Strong> {{description}}</p>
+                            </div>
+                            <div ng-show="reason=='Course' || reason=='Coursework'">
+                                <p><Strong>Course Code: </Strong> {{description}}</p>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn" ng-click="cancel()">Ok</button>
 
                 </div>
             </div>

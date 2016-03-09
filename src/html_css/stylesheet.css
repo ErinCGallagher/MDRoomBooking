@@ -25,6 +25,23 @@
     padding: 10px;
  }
 
+ .success{
+ 	color:green;
+ 	font-size:150%;
+ }
+.confirmation-content{
+	text-align:center;
+}
+
+.confirmation-body{
+	display:inline-block;
+	text-align:left;
+}
+
+.confirmation-error{
+	color:red;
+}
+
 @media(min-width:768px){
 	.navbar-centered .navbar-nav{
 		float:none;

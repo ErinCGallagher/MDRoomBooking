@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('MakeBookingPopupCtrl', MakeBookingPopupCtrl);
 
-function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService) {
+function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService,  $uibModal) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -17,13 +17,13 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.description = "";
   $scope.reccurBool = false;
   $scope.userType = SharedVariableService.userType;
+  $scope.cancelled = false; //informs if the user cancelled out of the popup
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
 
-    if(validForm){
-
+    if(validForm && !$scope.cancelled){
       /* convert end time from local (with offset added) back to UTC moment object*/
-      var endTimestamp = $scope.mytime - BookingsService.generateOffset(dateTime);
+      var endTimestamp = $scope.myTime - BookingsService.generateOffset(dateTime);
       endTimestamp =moment(endTimestamp).utc();
       console.log(endTimestamp);
 
@@ -52,40 +52,38 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
         //call booking service to send booking info to the database
         BookingsService.bookRoom(bookingInfo)
           .then(function(response){
-            alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-            $uibModalInstance.close(alert);
+            $uibModalInstance.dismiss('cancel');
+            $scope.bookingConfirmation(true,"Your booking was successfully made");
           },
             function(errorStatus){
-              alertSending(errorStatus);
+              $uibModalInstance.dismiss('cancel');
+              $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
             });
           }
       else{ //search page
         //call booking service to send booking info to the database
         SearchService.bookRoom(bookingInfo)
           .then(function(response){
-            alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-            $uibModalInstance.close(alert);
+            $uibModalInstance.dismiss('cancel');
+            $scope.bookingConfirmation(true,"Your booking was successfully made");
+            
           },
             function(errorStatus){
-              alertSending(errorStatus);
+              $uibModalInstance.dismiss('cancel');
+              $scope.bookingConfirmation(false,"Error: " + errorStatus);
+              
             });
       }
     }
     
   };
 
-  //sends out differen alerts bassed on response
-  alertSending = function(errorStatus){
-    alert = { type: 'danger', msg:errorStatus};
-  
-    $uibModalInstance.close(alert);
+  $scope.cancel = function(){
+    $scope.cancelled = true;
+    $uibModalInstance.dismiss('cancel');
   }
 
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-
-  /* Date Picker */
+   /* Date Picker */
   console.log(dateTime);
 
   $scope.hstep = 1;
@@ -96,10 +94,58 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   var TimeZoned = BookingsService.convertoUTCForDisplay(dateTime);
 
   //add 30 minutes because the minimum booking time is 30 minutes
-  var TimeZoned = TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
+  TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
+
 
   //local time with UTC offset (so actually UTC time but javascript wants it to be local)
-  $scope.mytime = TimeZoned; //displayed to user 
+  $scope.myTime = TimeZoned; //displayed to user 
 
   $scope.minTime = TimeZoned; //min time restriction
+
+
+  /* alert on eventClick */
+ //called when a booking is clicked
+  $scope.bookingConfirmation = function(success,statusText){
+
+    console.log(SharedVariableService.userType);
+    var viewBookingPopupInstance = $uibModal.open({
+      templateUrl: 'bookingConfirmationPopup.html',
+      controller: 'BookingConfirmationPopupCtrl',
+      backdrop: 'static',
+      resolve: {
+        building: function () {
+          return $scope.building;
+        },
+        roomNum: function () {
+          return $scope.roomNum;
+        },
+        reason: function () {
+          return $scope.selectedReason;
+        },
+        numPeople:function() {
+          return $scope.selectedNumPeople;
+        },
+        date: function () {
+          return $scope.date;
+        },
+        startTime: function () {
+          return $scope.startTime;
+        },
+        endTime: function () {
+          return moment($scope.myTime).format("h:mm a");
+        },
+        statusText: function () {
+          return statusText;
+        },
+        success: function(){
+          return success;
+        },
+        sourcePage: function () {
+          return "bookings";
+        }
+      }
+    });
+  };
+
+ 
 };
