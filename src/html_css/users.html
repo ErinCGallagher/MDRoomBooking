@@ -9,6 +9,14 @@
     <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">Upload Drama List</button>
 </div>
 
+<div class="uploadDiv">
+    <!-- Music Download Button -->
+    <button class="btn" ng-click="getUsersFile('Music')">Download Music Users</button>
+
+    <!-- Drama Download Button -->
+    <button class="btn dramUpload" ng-click="getUsersFile('Drama')">Download Drama Users</button>
+</div>
+
 <b>Download Key List</b>
 <div ng-show="showDate">
 	<strong>Set Key Date:</strong>

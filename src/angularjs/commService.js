@@ -138,6 +138,18 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.getUsersFile = function(dept){
+		var q = $q.defer();
+		UserCommService.getUsersFile(dept)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(data){
+				q.reject(data.data);
+			});
+		return q.promise;
+	}
+
 	commService.getWeeklyBookingsFromDb = function(start, end, building){
 		var q = $q.defer();
 		BookingCommService.getWeeklyBookingsFromDb(start, end, building)

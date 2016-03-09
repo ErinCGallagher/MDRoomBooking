@@ -33,7 +33,7 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 	
-		adminCommService.keyList = function(info) {
+	adminCommService.keyList = function(info) {
 
 		var promisePost =  $http.post('src/php/admin/getKeyList.php', info)
 		    .success(function(data, status) {
