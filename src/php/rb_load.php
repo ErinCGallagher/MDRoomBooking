@@ -70,9 +70,9 @@
 					firstName			VARCHAR(35)	NOT NULL,
 					lastName			VARCHAR(35)	NOT NULL,
 					class				VARCHAR(35) 	NOT NULL,
-					curWeekHrs			DECIMAL(11,2),
-					nextWeekHrs			DECIMAL(11,2),
-					thirdWeekHrs		DECIMAL(11,2),
+					curWeekHrs			DECIMAL(11,2) NOT NULL DEFAULT '0',
+					nextWeekHrs			DECIMAL(11,2)	NOT NULL DEFAULT '0',
+					thirdWeekHrs		DECIMAL(11,2) NOT NULL DEFAULT '0',
 					hasBookingDurationRestriction 	VARCHAR(5) 	NOT NULL,
 					PRIMARY KEY(uID));");				
 
