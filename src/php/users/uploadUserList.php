@@ -1,6 +1,7 @@
 <?php
 
 	include("../connection.php");
+	require_once("../util.php");
 
 	//Get parameters from frontend
 	$department = htmlspecialchars($_POST['department']);
