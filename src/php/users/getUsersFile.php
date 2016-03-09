@@ -12,23 +12,14 @@
    	$getUsersQuery = "SELECT user.uID, firstName, lastName, class FROM user JOIN master ON user.UID = master.uID WHERE department = ? ORDER BY class DESC, lastName";
    	$getUsersStmt = runQuery($db, $getUsersQuery, array($department));
 
-   	print_r($getUsersStmt->fetchAll(PDO::FETCH_ASSOC));
+	$fileText = "";
+
+	while ($row = $getUsersStmt->fetch(PDO::FETCH_ASSOC)) {
+		$fileText.= implode(",", $row)."\n";
+	}
 	
-	//Clear File
-	// $myfile = fopen("../KeyList.txt", "w");
-	// $txt = "Key List For " . $date . "\n";
-	// fwrite($myfile, $txt);
-	// fclose($myfile);
-	
-	//Check if result is empty, meaning no keys needed that day
-	// if ($rows != NULL) {
-	
-		
-		
-	// 	echo "sucess";
-	// }
-	// else {
-	// 	echo "No data";
-	// }  
+	$myfile = fopen('../../../user_list_'.$department.'.csv', "w");
+	fwrite($myfile, $fileText);
+	fclose($myfile); 
 
 ?>
