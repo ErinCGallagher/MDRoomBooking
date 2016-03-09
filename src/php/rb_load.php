@@ -107,8 +107,7 @@
 					bookingID			INTEGER	  	NOT NULL 	AUTO_INCREMENT,
 					uID				VARCHAR(10)	NOT NULL,
 					reason				VARCHAR(50) 	NOT NULL,
-					otherDesc			VARCHAR(100),
-					academicYr			VARCHAR(9)	NOT NULL,	
+					otherDesc			VARCHAR(100),	
 					numParticipants			VARCHAR(9)	NOT NULL,
 					PRIMARY KEY(bookingID));");
 
@@ -137,13 +136,13 @@
 	include('generateRoomQuery.php');
 	mysqli_query($cxn, $query);
 
-	// Create EMS group that can't be deleted for EMS students
+	// Create Sonic Arts Studio group that can't be deleted for Sonic Arts Studio students
 	$startDay = new DateTime();
 	$today = date_format($startDay, "Y-m-d");
 	date_add($startDay, date_interval_create_from_date_string('1 year')); //will be updated in semester update script
 	$oneYear  = date_format($startDay, "Y-m-d");
 	mysqli_query($cxn, "INSERT INTO UGroups(groupID, groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES
-		('1', 'EMS', 'week', '0', 'Yes', '$today', '$oneYear');");
+		('1', 'Sonic Arts Studio', 'week', '0', 'Yes', '$today', '$oneYear');");
 
 	mysqli_query($cxn, "INSERT INTO UGroupsPermanent(groupID) VALUES ('1');");
 
