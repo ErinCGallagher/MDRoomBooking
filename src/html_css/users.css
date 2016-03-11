@@ -6,3 +6,7 @@
 .users .dramUpload {
 	margin-left: 20px;
 }
+
+.users .downloadForm {
+	display: inline;
+}
