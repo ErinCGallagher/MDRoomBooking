@@ -11,10 +11,16 @@
 
 <div class="uploadDiv">
     <!-- Music Download Button -->
-    <button class="btn" ng-click="getUsersFile('Music')">Download Music Users</button>
+    <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
+        <button type="submit" class="btn">Download Music Users</button>
+        <input type="hidden" name="department" value="Music" />
+    </form>
 
     <!-- Drama Download Button -->
-    <button class="btn dramUpload" ng-click="getUsersFile('Drama')">Download Drama Users</button>
+    <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
+        <button type="submit" class="btn">Download Drama Users</button>
+        <input type="hidden" name="department" value="Drama" />
+    </form>
 </div>
 
 <b>Download Key List</b>
