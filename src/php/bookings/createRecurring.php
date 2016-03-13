@@ -133,13 +133,14 @@
 				
 				$recurringID = $bookingID;
 				$created = 1;
-				echo "<br> created = $created, total = $totalWeeks<br>";
-				while ($created <= $totalWeeks) {
+				//echo "<br> created = $created, total = $totalWeeks<br>";
+				while ($created <= $totalWeeks-1) {
 					$startDate = strtotime('+1 weeks', strtotime($startDate));
 					$startDate = date('Y-m-d', $startDate);
 					createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
 					$created = $created + 1;
 				}
+				$result['bookingID'] = $recurringID;
 			}
 		}
 	

@@ -55,7 +55,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		      numParticipants: roomInformation.numPeople, 
 		      otherDesc:roomInformation.description,
 		      recurringBooking:roomInformation.recurringBooking, //true or false
-          	  numWeeksRecur:roomInformation.numWeeksRecur //including the current week
+          	  totalWeeks:roomInformation.numWeeksRecur //including the current week
 		    };
 		console.log(data);
 
@@ -71,7 +71,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 return promisePost;
 		}
 		else{ //recurring booking
-			var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
+			var promisePost =  $http.post('src/php/bookings/createRecurring.php', data)
 			    .success(function(response) {
 			    	console.log(response);
 			    })
