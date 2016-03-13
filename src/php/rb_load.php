@@ -97,6 +97,7 @@
 					bookingDate			DATE		NOT NULL,
 					roomID				VARCHAR(20)	NOT NULL,
 					hrsSource			VARCHAR(20)	NOT NULL,
+					recurringID			INTEGER,
 					PRIMARY KEY(roomId, blockID, bookingDate));");
   
 	mysqli_query($cxn,"CREATE TABLE Bookings(
