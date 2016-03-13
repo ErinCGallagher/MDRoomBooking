@@ -1,0 +1,93 @@
+  <script type="text/ng-template" id="makeBookingPopup.html">
+
+            
+  <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title">Book Room</h4>
+                </div>
+                <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" >
+                    <div class="modal-body">
+                    
+                        <div class="book-room-info">
+                            <p><strong>Building:</strong> {{building}}</p>
+                            <p><strong>Room #:</strong> {{roomNum}}</p>
+                            <Table>
+                                <tr>
+                                    <td class="date-column"><strong>Start Date:</strong> {{date}}</td>
+                                    <td class="date-column"><strong>Start Time:</strong> {{startTime}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="date-column"><strong>End Date:</strong> {{date}}</td>
+                                    <td class="end-time date-column"><div><strong>End Time: </strong></div>
+                                    <div><uib-timepicker 
+                                        ng-model="myTime" 
+                                        ng-change="changed()" 
+                                        readonly-input='true' 
+                                        hour-step="hstep" 
+                                        minute-step="mstep" 
+                                        show-meridian="ismeridian" 
+                                        max='maxTime' 
+                                        min='minTime' ></uib-timepicker> </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p>
+                            <strong>Number of People: </strong>
+                            <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
+                        </p>
+                        <p>
+                            <strong>Reason</strong>
+                            <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons" ></select>
+                        </p>
+                        <div ng-show="selectedReason=='Other'">
+                            <Strong>Description: </Strong>
+                            <textarea 
+                                name="description" 
+                                ng-model="description" 
+                                ng-maxlength="150" 
+                                ng-required="selectedReason=='Other'"></textarea>
+                            <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
+                        </div>
+                        <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
+                            <Strong>Course Code: </Strong>
+                            <textarea 
+                                rows ="1" 
+                                name="courseCode" 
+                                ng-model="description" 
+                                ng-maxlength="20" 
+                                ng-required="selectedReason=='Course' || selectedReason=='Coursework'"></textarea>
+                            <p ng-show=" (makeBookingForm.$submitted) || (makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine)"> A course code is required</p>
+                        </div>
+                        <div class="box" ng-show="userType !='student'">
+                            <div>
+                                <Strong> Recurring Booking: </Strong>
+                              <input
+                                type="checkbox"
+                                name="reccurBool"
+                                ng-checked="false"
+                                ng-model="reccurBool"
+                              > 
+                            </div>
+                            <div>
+                                <Strong> Number of Weeks: </Strong>
+                              <input
+                                type="number"
+                                name="numWeeks"
+                                ng-model="numWeeks"
+                                ng-required="reccurBool == true"
+                                ng-max="9"
+                              > 
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="cancel()">Back</button>
+                        <button type="submit" class="btn">Book Room</button>
+                    </div>
+                </form>
+            </div>
+        </script> 
