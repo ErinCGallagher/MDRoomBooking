@@ -16,9 +16,23 @@
      <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 
    <div class="date-navigation-bar">
+        <div class="date-picker-cal">
+            <button type="button" class="btn btn-default " ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+            <input 
+                ng-hide="true" 
+                type="text" 
+                uib-datepicker-popup="{{format}}" 
+                ng-model="selectedDate" 
+                is-open="popup1.opened" 
+                datepicker-options="dateOptions"  
+                close-text="Close" 
+                show-button-bar="true"/>
+        </div>
         <button class="previous-date-button" ng-click="previousDate()"><i class="fa fa-caret-left"></i></button>
         <h2 class="date-text">{{date}}</h2>
         <button class="next-date-button" ng-click="nextDate()"><i class="fa fa-caret-right"></i></button>
+
+        
    </div>
 
    </br>

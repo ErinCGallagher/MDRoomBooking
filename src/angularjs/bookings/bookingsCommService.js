@@ -9,6 +9,8 @@ function BookingCommService($http){
 	var selectedBuilding = "Harrison LeCaine Hall";
 
 
+//retirves all bookings for a building and all it's rooms
+//between 2 dates given building
 bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		selectedBuilding = building;
 		var promisePost = $http.post('src/php/bookings/getRoomWeeklyBookings.php', { "start" :start, "end" :end, "building":building })
@@ -18,13 +20,13 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    })
 		    .error(function(data, status) {
 		    	return 'error';
-		      //$rootScope.data = data || "Request failed";
-		      //$rootScope.status = status;     
+   
 		    });
 
 		return promisePost;
 		}
 
+	//retrieves the booking information for a booking given the bookingID
 	bookingCommService.getBookingInformation = function(bookingId){
 		var promisePost = $http.post('src/php/bookings/getBookingInfo.php', { "bookingID" : bookingId})
 		    .success(function(data, status) {
@@ -33,14 +35,14 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    })
 		    .error(function(data, status) {
 		    	return 'error';
-		      //$rootScope.data = data || "Request failed";
-		      //$rootScope.status = status;     
+    
 		    });
 		return promisePost;
 		   
 		}		
 
 	//call the php script that adds a booking to the DB
+	//if recurringBooking is true, then call make recurring booking script
 	bookingCommService.bookRoomInDB = function(roomInformation){
 
 		var data = {
@@ -52,16 +54,32 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		      roomID: roomInformation.roomNum,  
 		      numParticipants: roomInformation.numPeople, 
 		      otherDesc:roomInformation.description,
+		      recurringBooking:roomInformation.recurringBooking, //true or false
+          	  numWeeksRecur:roomInformation.numWeeksRecur //including the current week
 		    };
 		console.log(data);
-		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
-		    .success(function(response) {
-		    	console.log(response);
-		    })
-		    .error(function(responseDate) { //request to the php scirpt failed
-		    	return responseDate.status;
-		    });
-		 return promisePost;
+
+		//non-recurring booking
+		if(!roomInformation.recurringBooking){
+			var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
+			    .success(function(response) {
+			    	console.log(response);
+			    })
+			    .error(function(responseDate) { //request to the php scirpt failed
+			    	return responseDate.status;
+			    });
+			 return promisePost;
+		}
+		else{ //recurring booking
+			var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
+			    .success(function(response) {
+			    	console.log(response);
+			    })
+			    .error(function(responseDate) { //request to the php scirpt failed
+			    	return responseDate.status;
+			    });
+			 return promisePost;
+		}
 
 	}
 
@@ -182,6 +200,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 	}
 
+	//retrieves all the users bookings that occur before the current date and time
 	bookingCommService.retrieveUserBookings = function(){
 		var promisePost =  $http.post('src/php/bookings/getUserBookings.php')
 		    .success(function(data) {
