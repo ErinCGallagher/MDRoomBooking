@@ -17,7 +17,9 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.description = "";
   $scope.reccurBool = false;
   $scope.userType = SharedVariableService.userType;
+  
   $scope.cancelled = false; //informs if the user cancelled out of the popup
+
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
 
@@ -102,6 +104,10 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
   $scope.minTime = TimeZoned; //min time restriction
 
+  /*Reccur Weekly settings*/
+
+
+  $scope.maxReccur = BookingsService.determineMaxReccuringWeeks(dateTime);
 
   /* alert on eventClick */
  //called when a booking is clicked

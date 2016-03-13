@@ -35,7 +35,6 @@
     <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,8 +112,11 @@
                                 name="numWeeks"
                                 ng-model="numWeeks"
                                 ng-required="reccurBool == true"
-                                ng-max="9"
+                                max="maxReccur"
+                                min="2"
                               > 
+                              <p ng-show=" (numWeeks > maxReccur) && (reccurBool == true)"> The number of weeks cannot exceed {{maxReccur}}</p>
+                              <p ng-show=" (numWeeks < 2) && (reccurBool == true)"> The number of weeks must exceed 1</p>
                             </div>
                         </div>
                     
