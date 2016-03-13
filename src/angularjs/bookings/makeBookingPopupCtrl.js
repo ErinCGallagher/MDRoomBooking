@@ -23,7 +23,9 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
 
-    if(validForm && !$scope.cancelled){
+    //confirm the form is valid before preceeding to try and make the booking
+    if(validForm && !$scope.cancelled && reccurBoolValid()){
+
       /* convert end time from local (with offset added) back to UTC moment object*/
       var endTimestamp = $scope.myTime - BookingsService.generateOffset(dateTime);
       endTimestamp =moment(endTimestamp).utc();
@@ -46,7 +48,9 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           numPeople: $scope.selectedNumPeople, 
           description: $scope.description,
           stick:true,
-          bookingUserType: SharedVariableService.userType
+          bookingUserType: SharedVariableService.userType,
+          recurringBooking:$scope.reccurBool, //true or false
+          numWeeksRecur: $scope.numWeeks //including the current week
           };
 
       if(sourcePage == "bookings"){
@@ -90,7 +94,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
   $scope.hstep = 1;
   $scope.mstep = 30;
-
   $scope.ismeridian = true;
 
   var TimeZoned = BookingsService.convertoUTCForDisplay(dateTime);
@@ -101,13 +104,26 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
   //local time with UTC offset (so actually UTC time but javascript wants it to be local)
   $scope.myTime = TimeZoned; //displayed to user 
-
   $scope.minTime = TimeZoned; //min time restriction
 
+  
   /*Reccur Weekly settings*/
-
-
   $scope.maxReccur = BookingsService.determineMaxReccuringWeeks(dateTime);
+
+  //if reccuring booking is chosen, return true if the number of reccurings is 
+  //less than or equal to maxReccur
+  reccurBoolValid = function(){
+    if($scope.reccurBool){
+      if($scope.numWeeks <= $scope.maxReccur){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    return true; 
+  }
+  
 
   /* alert on eventClick */
  //called when a booking is clicked
