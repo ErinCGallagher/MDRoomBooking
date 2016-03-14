@@ -6,3 +6,50 @@
 .users .dramUpload {
 	margin-left: 20px;
 }
+
+
+.users table{
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    
+}
+
+.users th{
+	text-align: center;
+    padding: 15px;
+    border: solid 1px;
+    background-color: #c2d2d6;
+    font-weight:bold;
+}
+
+.users td{
+	border: solid 1px;
+    padding: 10px;
+    text-align: center;
+}
+
+.users .user-info{
+    font-size: 140%;
+    text-align: center;
+    border: solid 3px;
+    padding: 20px 40px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    background-color: #c2d2d6;
+}
+
+.users .searchNet{
+    font-size: 140%;
+    text-align: center;
+    border: solid 3px;
+    padding: 20px 40px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    background-color: #c2d2d6;
+}
+.users input { 
+    text-align: center; 
+}

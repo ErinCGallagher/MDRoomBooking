@@ -4,61 +4,88 @@ angular
 
 function UsersCtrl($scope, $uibModal, AdminUsersService) {
 	$scope.pageClass = 'users';  //used to change pages in index.php
+	$scope.showUserInfo = false;
+	$scope.showNoUser= false;
+	$scope.userGroups = [];
+	$scope.userBookings = [];
+	$scope.num = 0;
+	
+	$scope.searchUser = function() {
+		$scope.userGroups = [];
+		$scope.userBookings = [];
+		getUserInfo($scope.userSearch);
+	}
+	
+	getUserInfo = function(uID){
+		AdminUsersService.getUserInfo(uID)
+			.then(function(userInfo){
+			if (userInfo.data[0] == "nothing") {
+				$scope.user = userInfo.data[1];
+				$scope.showUserInfo = false;
+				$scope.showNoUser= true;
+			}
+			else {
+				$scope.showNoUser= false;
+				$scope.showUserInfo = true;
+				$scope.user = uID;
+				$scope.firstName = userInfo.data[0].firstName; 
+				$scope.lastName = userInfo.data[0].lastName;
+				$scope.curWeekHrs = userInfo.data[0].curWeekHrs;
+				$scope.nextWeekHrs = userInfo.data[0].nextWeekHrs;
+				num = parseInt(userInfo.data[1].numGroups);
+				console.log("NUM GROUPS");
+				console.log(num);		
+				num = num + 2;	
+				console.log(num);	
+				for (var i = 2; i < num; i++) {
+					//userInfo.data[i].startTime = new Date(userInfo.data[i].startTime)
+					if (userInfo.data[i].addHrsType == "week") {
+						userInfo.data[i].specialHrs = "N/A"
+					}
+					$scope.userGroups.push(userInfo.data[i])
+				}
+				
+				for (var i = num; i < userInfo.data.length; i++) {
+					$scope.userBookings.push(userInfo.data[i])
+				}	
+			}
+				
+			},
+			function() {
+				alert("err");
+			});
+		
+	}
+	
 
-	$scope.showDownload = true;
-	$scope.showDate = false;
-	$scope.keyDate = new Date();
 	
-	//convert the offset from local to UTC time
-  	//return an integer that represents the UTC offset from the local time
-  	UsersCtrl.generateOffset = function(timestamp){
-  		//date manipulation crap
-		var jsDate = new Date(timestamp); //converts to javascript date object
-		var offset = jsDate.getTimezoneOffset() * 60000; //retrieves offset from utc time
-		return offset;
- 	 }
-	
-	//convert javascript date back to local from UTC time
-	//do this before sending data back to the database
-	//the database is going to convert this back to its version of UTC time 
-  	UsersCtrl.convertFromUTCtoLocal = function(timestamp){
-  		//date manipulation crap
-	  	var jsDate = new Date(timestamp); //converts to javascript date object
-	  	var offset = UsersCtrl.generateOffset(timestamp);
+	//cancel a booking, open modal for comfirmation
+	$scope.cancel = function(bookingInfo){
+		console.log(bookingInfo);
 
-	  	var selectedTime = jsDate.getTime(); //retrieves the time selected
-	  	var utc = selectedTime - offset; //convert to UTC time by adding the offset
-	  	var TimeZoned = new Date(utc) //create new date object with this time
+	    var confirmCancelPopupInstance = $uibModal.open({
+	        templateUrl: 'confirmCancel.html',
+	        controller: 'ConfirmCancelCtrl',
+	        resolve: {
+	        	bookingInfo: function () {
+	            	return bookingInfo;
+	          },
 
-	  	return TimeZoned;
-  	}
-  	
-	var prevDate = new Date($scope.keyDate);
-	prevDate.setDate($scope.keyDate.getDate());
-	prevDate = UsersCtrl.convertFromUTCtoLocal(prevDate);
-	
-	var today = {keyDate: prevDate}
-	AdminUsersService.keyList(today);
-	
-	$scope.generateKeyList = function() {
-	
-		var prevDate = new Date($scope.keyDate);
-		prevDate.setDate($scope.keyDate.getDate());
-		prevDate = UsersCtrl.convertFromUTCtoLocal(prevDate);
-	
-		var info = {
-			keyDate: prevDate
-		}
-			AdminUsersService.keyList(info);
-			$scope.showDate = false;
-			$scope.showDownload = true;	
+	        }
+	    });
+
+	    confirmCancelPopupInstance.result.then(function (alert) {
+	     //   $scope.alerts.push(alert);
+	     $scope.userGroups = [];
+		 $scope.userBookings = [];
+	     getUserInfo($scope.user);
+	        
+	    }, function () {
+	       // $log.info('Modal dismissed at: ' + new Date());
+	    });
 	}
 	
 	
-	$scope.removeKeyList = function() {
-		$scope.showDownload = false;
-		$scope.showDate = true;		
-	}
 
 	openUploadPopup = function(data, dept){
 

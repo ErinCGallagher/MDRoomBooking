@@ -11,7 +11,7 @@
 	//Databse connection 
  	$host = "localhost";
  	$user = "root";
- 	$password = "";
+ 	$password = "newpass";
  	$database = "mdroombooking";
  	/*
  	//development environment
@@ -115,7 +115,7 @@
 					PRIMARY KEY(buildingID));");
 					
 	mysqli_query($cxn,"CREATE TABLE Rooms(
-					roomID				VARCHAR(20)	NOT NULL,
+					roomID				VARCHAR(50)	NOT NULL,
 					building			VARCHAR(30)	NOT NULL,
 					capacity			INTEGER		NOT NULL,
 					reqKey				VARCHAR(100) 	NOT NULL,
@@ -186,6 +186,12 @@
      		('CHOWN 105','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 107','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
+		
+		
+		
+			
+					
+		
 		
 			
 	//Close the connection

@@ -25,6 +25,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		AdminCommService.createGroup(groupInfo)
 		.then(function(groupID){
 				// don't know why, but the return from adminCommService is an object
+				//q.resolve(groupID.data);
 				q.resolve(groupID.data);
 			},
 			function(err){
@@ -38,7 +39,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		AdminCommService.keyList(info)
 		.then(function(success){
-				// don't know why, but the return from adminCommService is an object
+				// don't know why, but the return is an object
 				q.resolve(success);
 			},
 			function(err){
@@ -52,7 +53,6 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		var q = $q.defer();
 		AdminCommService.saveModifyGroup(groupInfo)
 		.then(function(groupID){
-				// don't know why, but the return from adminCommService is an object
 				q.resolve(groupID.data);
 			},
 			function(err){
@@ -65,7 +65,11 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	commService.getGroupInfo = function(groupID) {
 		return AdminCommService.getGroupInfo(groupID);
 	}
-
+	
+	commService.getUserInfo = function(uID) {
+		return AdminCommService.getUserInfo(uID);
+		
+	}
 	commService.addUsers = function(fileFormData){
 		var q = $q.defer();
 		AdminCommService.addUsers(fileFormData)

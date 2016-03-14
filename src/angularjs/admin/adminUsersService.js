@@ -5,7 +5,7 @@ angular
 function AdminUsersService(CommService, $q){
 	var adminUsersService = {};
 	
-	
+	/*
 	adminUsersService.keyList = function(info) {
 		var q = $q.defer();
 		CommService.keyList(info)
@@ -19,6 +19,22 @@ function AdminUsersService(CommService, $q){
 		return q.promise;
 	
 	}
+	*/
+	
+	adminUsersService.getUserInfo = function(info) {
+		var q = $q.defer();
+		CommService.getUserInfo(info)
+		.then(function(success){
+				q.resolve(success);
+			},
+			function(err){
+				alert("error with UserInfo");
+				q.reject();
+			});
+		return q.promise;
+	}
+	
+	
 	
 	adminUsersService.uploadMasterList = function(uploadFile, dept) {
 		var fileFormData = new FormData();

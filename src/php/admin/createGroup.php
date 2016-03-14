@@ -15,7 +15,6 @@
 	$endDate = $data->endDate;
 	$addHrsType = $data->addHrsType;
 
-	
 	if ($addHrsType == "1") {
 		$addHrsType = "week";
 	}
@@ -134,7 +133,6 @@
 	//Add Group to database
 	$query = "INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES (?,?,?,?,?,?)";
 	
-	
 	//Get booking info from database
    	$sth = $db->prepare("INSERT INTO UGroups(groupName, addHrsType, hours, hasBookingDurationRestriction, startDate, endDate) VALUES (?,?,?,?,?,?)");
 	$sth->execute(array($groupName, $addHrsType, $hours, $hasBookingDurationRestriction, $startDate, $endDate));
@@ -145,6 +143,7 @@
 	//Close the connection
 	$db = NULL;
 
+	
  	//Return GroupID to front end
 	echo $groupID;
    

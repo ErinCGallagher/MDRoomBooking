@@ -19,6 +19,7 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 				for (var i = 0; i < groupList.length; i++){
 					$scope.groups.push(groupList[i]);
 				}
+				
 			},
 			function(err) {
 				alert("could not retrieve groups from database");
@@ -28,6 +29,16 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	getAllGroups();
 
 	$scope.newGroup = function(){
+		$scope.newName = "New Group";
+		$scope.hours = 1;
+		$scope.addHrsType = "1";
+		$scope.hasBookingDurationRestriction = true;
+		$scope.fall = 'NO';
+		$scope.winter = 'NO';
+		$scope.summer = 'NO';
+		$scope.startDate = new Date();
+		$scope.endDate = new Date();
+		$scope.showGroupTwo();
 		$scope.showNewGroup = true;
 		$scope.showInfo = false;
 		$scope.showModGroup = false;
@@ -128,10 +139,10 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
         	$scope.summerM = 'YES';
         }
     } 
+	
 	$scope.createGroup = function(){
 		//Keep a record of the new group name
-		var newGroupName = $scope.newName;
-		
+		var newGroupName = $scope.newName;	
 		//Set variables of inputs to send to back end 
 		var info = {
 			groupName: $scope.newName,
@@ -147,22 +158,17 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		
 		//Send info about new group to back end
 		AdminGroupsService.createGroup(info)
-		$scope.newName = "";
-		$scope.hours = "";
-		$scope.addHrsType = '1';
-		$scope.hasBookingDurationRestriction = true;
-		$scope.fall = 'NO';
-		$scope.winter = 'NO';
-		$scope.summer = 'NO';
-		$scope.startDate = new Date();
-		$scope.endDate = new Date();
-		getAllGroups();
-	//		.then(function(newGroupId){
-	///			$scope.groups.push({groupID: newGroupId, groupName: newGroupName});
-		//	},
-		//	function() {
-		//		alert("err");
-		//	});
+			.then(function(newGroupID){
+				getGroupInfo(newGroupID);
+				getAllGroups();
+		
+			//	$scope.group = ({groupID: newGroupId, groupName: newGroupName});
+			},
+			function() {
+				alert("err");
+			});
+		$scope.showGroupTwo();
+		
 	}
 	
 	$scope.cancelCreateGroup = function() {
@@ -172,7 +178,6 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 	}
 	
 	$scope.saveModifyGroup = function(){
-		
 		//Set variables of inputs to send to back end 
 		var info = {
 			groupName: $scope.newNameM,
@@ -188,15 +193,25 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		}
 		
 		//Send info about new group to back end
-		AdminGroupsService.saveModifyGroup(info);
-		//alert("Group Changes Saved");
-		getAllGroups();
-		$scope.showGroup($scope.group);
+		AdminGroupsService.saveModifyGroup(info)
+			.then(function(groupID){
+				getGroupInfo(groupID);
+				getAllGroups();
+			//	$scope.showGroup($scope.group);
+				$scope.showGroupTwo();
+				
+			},
+			function() {
+				alert("err");
+			});		
+		//getAllGroups();
+
 	}
 	
 	$scope.cancelModifyGroup = function() {
 		$scope.showGroup($scope.group);
 	}
+	
 	
 	$scope.showGroup = function(group) {
 		$scope.group = group; // used by deleteGroup()
@@ -206,7 +221,13 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		$scope.showModGroup = false;
 		getGroupInfo($scope.groupId);
 	}
-
+	
+	$scope.showGroupTwo = function() {
+		$scope.showInfo = true;
+		$scope.showNewGroup = false;
+		$scope.showModGroup = false;
+	}
+	
 	getGroupInfo = function(groupId){
 		AdminGroupsService.getGroupInfo(groupId)
 			.then(function(groupInfo){
@@ -283,8 +304,6 @@ function GroupsCtrl($scope, $uibModal, AdminGroupsService){
 		}
 		//console.log(start);
 		//console.log(end);
-		
-		
 		
 		$scope.hoursM = parseInt($scope.setHours);
 		

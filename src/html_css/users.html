@@ -9,29 +9,115 @@
     <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">Upload Drama List</button>
 </div>
 
-<b>Download Key List</b>
-<div ng-show="showDate">
-	<strong>Set Key Date:</strong>
-		<input type="date" ng-model="keyDate">
-		<button class="key-button" ng-click="generateKeyList()"> Generate Key List </button>
-</div>
-
-<div ng-show="showDownload">     
-    <div class="download" class="container info-container">
-    	<div>
-    	<p>* To download a key list for a different day select the "Change Date" button *</p>
-    	<p></p>
-    	
- 		<a download href="./src/php/KeyList.txt"> Click Here to Download Key List For: {{keyDate | date:'fullDate'}} </a> 
- 		<button class="key-button" ng-click="removeKeyList()"> Change Date </button>
-		</div>
-	</div>
-</div>
-
 <p></p>
 <p></p>
 
-<!-- popup after attempting to make a booking -->
+<div class="container">
+<form name="search" class="searchNet">
+	<p><strong>Search For A User</strong>
+		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
+		<span ng-show="search.userSearch.$error.required"><font color="red">Enter NetID</font></span></p>
+		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
+		
+</form>
+</div>
+
+</br></br>
+
+<div ng-show="showNoUser" class="container info-container">
+ <p><strong><center><h3>NetID <font color=red>"{{user}}"</font> Not Found</h3></center></strong> </p>
+</div>
+
+<div ng-show="showUserInfo" class="container info-container">     
+	<div class="group-info">
+	<div class="user-info">
+    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong> </p>
+        <p><strong>Name: </strong> {{firstName}} {{lastName}}</p>
+        <p><strong>Remaining Weekly Hours <u>This</u> Week: </strong> {{curWeekHrs}} </p>
+        <p><strong>Remaining Weekly Hours <u>Next</u> Week: </strong> {{nextWeekHrs}} </p>
+    </div>
+        </br>
+        
+        <p><strong><h3>{{firstName}}'s Groups</h3></strong></p>
+        <table border="1" style="width:100%">
+        <tr>
+            <th><strong><center> Group Name </center></strong></th>
+            <th><strong><center> Hours Type </center></strong></th>
+            <th><strong><center> Hours Given </center></strong></th>
+            <th><strong><center> Special Hours Remaining </center></strong></th>
+            <th><strong><center> Start Date </center></strong></th>
+            <th><strong><center> End Date </center></strong></th>
+            <th><strong><center> Has Duration Restriction </center></strong></th>
+            </tr>
+            
+		<tr data-ng-repeat="userGroup in userGroups">
+            <td>{{ userGroup.groupName }}</td>
+            <td>{{ userGroup.addHrsType }}</td>
+            <td>{{ userGroup.hours }}</td>
+            <td>{{ userGroup.specialHrs }}</td>
+            <td>&nbsp; &nbsp;{{ userGroup.startDate }}</td>
+            <td>{{ userGroup.endDate }}</td>
+            <td>{{ userGroup.hasBookingDurationRestriction}}</td>
+        </tr>
+        </table>
+        
+        
+        </br>
+        <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
+			 <table border="1" style="width:100%">
+			  	<tr>
+			  	<th><strong><center> Date </center></strong></th>
+           		 <th><strong><center> Time </center></strong></th>
+           		 <th><strong><center> Building </center></strong></th>
+           		 <th><strong><center> Room </center></strong></th>
+           		 <th><strong><center> Reason </center></strong></th>
+           		 <th><strong><center> Click to Cancel </center></strong></th>
+           		 </tr>
+			 <tr data-ng-repeat="userBooking in userBookings">
+           		 <td>{{ userBooking.bookingDate | date:'EEE, MMM d yyyy'}}</td>
+           		 <td>{{ userBooking.start | date:'h:mm a' }} - {{ userBooking.endTime | date:'h:mm a'}}</td>
+           		 <td>{{ userBooking.building }}</td>
+           		 <td>{{ userBooking.roomID }}</td>
+           		 <td>{{ userBooking.reason }}</td>
+           		 <td><button ng-click="cancel(userBooking)" class="btn"> X </button></td>
+       		 </tr>
+			 </table>       
+    	</br>
+    	</br>
+       
+    </div>
+</div>
+
+
+    <div>
+        <script type="text/ng-template" id="confirmCancel.html">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+                </div>
+                <div class="modal-body">
+                	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
+                	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
+				<!---	<div><strong>Building:</strong> {{booking.building}}</div> --->
+					<div><strong>Room #:</strong> {{booking.roomID}}</div>
+					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
+					<div><strong>Reason:</strong> {{booking.reason}}</div>
+					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
+            	</div>
+            	<div class="modal-footer">
+                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
+                    <button type="submit" class="btn" ng-click="back()">Back</button>
+
+                </div>
+        </script>  
+    </div>
+
+
+
+
+
 <div>
     <script type="text/ng-template" id="uploadPopup.html">
         <!-- Modal content-->

@@ -17,8 +17,7 @@
         <p><strong>Group Name:</strong> {{groupName}}</p>
         <p><strong>Number of Users:</strong> {{numUsers}}</p>
         <p><strong>Has Booking Duration Restriction:</strong> {{hasBookingDurationRestriction}} </p>
-        <p><strong>Hours Type:</strong> {{addHrsType}}
-        <strong>Hours:</strong> {{setHours}} </p>
+        <p><strong>Hours Type:</strong> {{addHrsType}} <strong>Hours:</strong> {{setHours}} </p>
         <p><strong>Start Date:</strong> {{setStartDate}} </p>
         <p><strong>End Date:</strong> {{setEndDate}} </p>
 
@@ -29,27 +28,34 @@
 </div>
 
 <div ng-show="showNewGroup" class="container info-container">    
-    <form class="group-info">
+    <form name="cGroup" class="group-info">
     		<p><h3><strong><centre>Create A Group</centre></strong></h3></p>
-            <p><strong>Group Name:</strong> 
-				<input type="text" ng-model="newName" class="form-control textbox" </p>
-			<p>*Check option below if users need to make bookings longer than 1.5 hours at a time*</p>
+            
+            <div class="boxed">
+            <p><strong>Group Name:</strong> 		
+			<input name="gName" type="text" name="groupName" ng-init="newName='New Group'" ng-model="newName" class="form-control textbox" required >
+			<span ng-show="cGroup.gName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
+			
 			<p><strong>Has Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "></p>
-				
+				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() ">*</p>
+				<p>*Allows users to make bookings longer than 1.5 hours at a time</p>
+			</div>
+			</br>
 			<div class="boxed">
-				<p><h3>STEP 1: Choose Type of Hours</h3></p>
+				<p><h4>Hours Settings</h4></p>
 				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
 			<strong>Hours Per Week</strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsType"> 
 			<strong>Total Hours</strong></p>
-				<p><h3>STEP 2: # of Hours</h3></p><p><input type="number" ng-model="hours" min=0 max=168 value=1 class="form-control textbox"> </p>
+				<p><strong>Number of Hours:</strong>
+				<input name="newHrs" type="number" ng-init="hours=1" ng-model="hours" min=0 max=100 class="form-control textbox" required>
+				<span ng-show="cGroup.newHrs.$error.required"><font color="red">Please Enter # of Hours</font></span></p>
 			</div>
-			</br>
 			
+			</br>
 			<div class="boxed">
-			<p><h3> STEP 3: Choose Duration</h3></p>
+			<p><h4>Duration Settings</h4></p>
 			<p><strong>Active:</strong>
 				<input type="checkbox" ng-model="fall" ng-init="fall = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
 				<input type="checkbox" ng-model="winter" ng-init="winter = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
@@ -62,47 +68,53 @@
 			</div>
 			
 			</br>
-            <button class="btn create-group-button" ng-click="createGroup()">Create Group</button> 
+			
+            <button class="btn create-group-button" type="submit" ng-click="createGroup()" ng-disabled="cGroup.$invalid">Create Group</button> 
             <button class="btn modify-cancel-button" ng-click="cancelCreateGroup()">Cancel</button> 
    			
     </form>
 </div>
 
 <div ng-show="showModGroup" class="container info-container">    
-    <form class="modify-group">
+    <form name="modGroup" class="modify-group">
 		<p><h3><strong><centre>Modify Group</centre></strong></h3></p>
+           <div class="boxed">
             <p><strong>Group Name:</strong> 
-				<input type="text" ng-model="newNameM" class="form-control textbox"> </p>
-			<p>*Check option below if users need to make bookings longer than 1.5 hours at a time*</p>
+				<input name=modName type="text" ng-model="newNameM" class="form-control textbox" required>
+				<span ng-show="modGroup.modName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
 			<p><strong>Has Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM() "></p>
-				
+				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM()">*</p>
+				<p>*Allows users to make bookings longer than 1.5 hours at a time</p>
+			</div>
+			</br>
 			<div class="boxed">
-				<p><h3>STEP 1: Choose Type of Hours</h3></p>
+				<p><h4>Hours Setting</h4></p>
 				<p><input type="radio" ng-value="1" ng-model="addHrsTypeM"> 
 			<strong>Hours Per Week</strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsTypeM"> 
 			<strong>Total Hours</strong></p>
-				<p><h3>STEP 2: # of Hours</h3></p><p><input type="number" ng-model="hoursM" min=0 max=168 value=1 class="form-control textbox"> </p>
+				<p><strong>Number of Hours:</strong><input name="modHrs" type="number" ng-model="hoursM" min=0 max=100 value=1 class="form-control textbox" required> 
+				<span ng-show="modGroup.modHrs.$error.required"><font color="red">Please Enter # of Hours</font></span></p>
 			</div>
 			</br>
 			
 			<div class="boxed">
-			<p><h3> STEP 3: Choose Duration</h3></p>
-			<br>
+			<p><h4>Duration Settings</h4></p>
 			<p><strong>Active:</strong>
 				<input type="checkbox" ng-model="fallM" ng-init="fallM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFallM() ">Fall  
 				<input type="checkbox" ng-model="winterM" ng-init="winterM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinterM() ">Winter  
 				<input type="checkbox" ng-model="summerM" ng-init="summerM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummerM() ">Summer<br></p>
 			<strong> -- OR -- </strong>
 			<p><strong>Start Date:</strong>
-				<input type="date" ng-model="startDateM">
+				<input name="modStart" type="date" ng-model="startDateM" required>
+				<span ng-show="modGroup.modStart.$error.required"><font color="red">Please Enter A Start Date</font></span>
 			<strong>End Date:</strong>
-				<input type="date" ng-model="endDateM"> </p>
+				<input name="modeEd" type="date" ng-model="endDateM" required> </p>
+				<span ng-show="modGroup.modEnd.$error.required"><font color="red">Please Enter A End Date</font></span>
 			</div>
 			</br>
-            <button class="btn modify-group-button" ng-click="saveModifyGroup()">Save Group Modifications</button> 
+            <button type="submit" class="btn modify-group-button" ng-click="saveModifyGroup()" ng-disabled="modGroup.$invalid">Save Group Modifications</button> 
             <button class="btn modify-cancel-button" ng-click="cancelModifyGroup()">Cancel</button> 
             </br>
             </br>
