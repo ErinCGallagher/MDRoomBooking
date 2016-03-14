@@ -11,7 +11,7 @@
 	//Databse connection 
  	$host = "localhost";
  	$user = "root";
- 	$password = "";
+ 	$password = "newpass";
  	$database = "mdroombooking";
  	/*
  	//development environment

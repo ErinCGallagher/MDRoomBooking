@@ -32,7 +32,7 @@
 <div ng-show="showUserInfo" class="container info-container">     
 	<div class="group-info">
 	<div class="user-info">
-    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong></p>
+    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong> </p>
         <p><strong>Name: </strong> {{firstName}} {{lastName}}</p>
         <p><strong>Remaining Weekly Hours <u>This</u> Week: </strong> {{curWeekHrs}} </p>
         <p><strong>Remaining Weekly Hours <u>Next</u> Week: </strong> {{nextWeekHrs}} </p>
@@ -88,6 +88,77 @@
        
     </div>
 </div>
+
+
+    <div>
+        <script type="text/ng-template" id="confirmCancel.html">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+                </div>
+                <div class="modal-body">
+                	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
+                	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
+				<!---	<div><strong>Building:</strong> {{booking.building}}</div> --->
+					<div><strong>Room #:</strong> {{booking.roomID}}</div>
+					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
+					<div><strong>Reason:</strong> {{booking.reason}}</div>
+					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
+            	</div>
+            	<div class="modal-footer">
+                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
+                    <button type="submit" class="btn" ng-click="back()">Back</button>
+
+        <tr>
+            <th><strong><center> Group Name </center></strong></th>
+            <th><strong><center> Hours Type </center></strong></th>
+            <th><strong><center> Hours Given </center></strong></th>
+            <th><strong><center> Special Hours Remaining </center></strong></th>
+            <th><strong><center> Start Date </center></strong></th>
+            <th><strong><center> End Date </center></strong></th>
+            <th><strong><center> Has Duration Restriction </center></strong></th>
+            </tr>
+            
+		<tr data-ng-repeat="userGroup in userGroups">
+            <td>{{ userGroup.groupName }}</td>
+            <td>{{ userGroup.addHrsType }}</td>
+            <td>{{ userGroup.hours }}</td>
+            <td>{{ userGroup.specialHrs }}</td>
+            <td>&nbsp; &nbsp;{{ userGroup.startDate }}</td>
+            <td>{{ userGroup.endDate }}</td>
+            <td>{{ userGroup.hasBookingDurationRestriction}}</td>
+        </tr>
+        </table>
+        
+        
+        </br>
+        <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
+			 <table border="1" style="width:100%">
+			  	<tr>
+			  	<th><strong><center> Date </center></strong></th>
+           		 <th><strong><center> Time </center></strong></th>
+           		 <th><strong><center> Building </center></strong></th>
+           		 <th><strong><center> Room </center></strong></th>
+           		 <th><strong><center> Reason </center></strong></th>
+           		 <th><strong><center> Click to Cancel </center></strong></th>
+           		 </tr>
+			 <tr data-ng-repeat="userBooking in userBookings">
+           		 <td>{{ userBooking.bookingDate | date:'EEE, MMM d yyyy'}}</td>
+           		 <td>{{ userBooking.start | date:'h:mm a' }} - {{ userBooking.endTime | date:'h:mm a'}}</td>
+           		 <td>{{ userBooking.building }}</td>
+           		 <td>{{ userBooking.roomID }}</td>
+           		 <td>{{ userBooking.reason }}</td>
+           		 <td><button ng-click="cancel(userBooking)" class="btn"> X </button></td>
+       		 </tr>
+			 </table>       
+    	</br>
+    	</br>
+       
+                </div>
+        </script>  
+    </div>
 
 
     <div>

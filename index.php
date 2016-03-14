@@ -44,6 +44,7 @@
         <script type="text/javascript" src="src/angularjs/bookings/confirmCancelCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/keyListCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/confirmationPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/admin/keyListCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
@@ -58,6 +59,7 @@
         <script type="text/javascript" src="src/angularjs/bookings/myBookingsService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminKeyService.js"></script>
         <script type="text/javascript" src="src/angularjs/confirmationPopupService.js"></script>
+        <script type="text/javascript" src="src/angularjs/admin/adminKeyService.js"></script>
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
