@@ -14,7 +14,8 @@
 
 <div class="container">
 <form name="search" class="searchNet">
-	<p><strong>Search For A User</strong>
+	<p><strong>Search For A User</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
+	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
 		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
 		<span ng-show="search.userSearch.$error.required"><font color="red">Enter NetID</font></span></p>
 		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
@@ -31,7 +32,7 @@
 <div ng-show="showUserInfo" class="container info-container">     
 	<div class="group-info">
 	<div class="user-info">
-    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong> </p>
+    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong></p>
         <p><strong>Name: </strong> {{firstName}} {{lastName}}</p>
         <p><strong>Remaining Weekly Hours <u>This</u> Week: </strong> {{curWeekHrs}} </p>
         <p><strong>Remaining Weekly Hours <u>Next</u> Week: </strong> {{nextWeekHrs}} </p>
@@ -100,7 +101,7 @@
                 <div class="modal-body">
                 	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
                 	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
-				<!---	<div><strong>Building:</strong> {{booking.building}}</div> --->
+				<div><strong>Building:</strong> {{booking.building}}</div>
 					<div><strong>Room #:</strong> {{booking.roomID}}</div>
 					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
 					<div><strong>Reason:</strong> {{booking.reason}}</div>
