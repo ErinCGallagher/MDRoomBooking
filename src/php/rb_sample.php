@@ -11,7 +11,7 @@
  	//Database connection variables 
  	$host = "localhost";
  	$user = "root";
- 	$password = "newpass";
+ 	$password = "";
  	$database = "mdroombooking";
 	
  	/*
