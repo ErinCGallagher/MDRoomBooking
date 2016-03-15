@@ -16,6 +16,9 @@ function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, $filter, MyB
 			});
 		
 	}
+	
+	
+	
 
 	$scope.back = function(){
 		$uibModalInstance.dismiss('cancel');

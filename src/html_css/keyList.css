@@ -1,21 +1,11 @@
-.users .uploadDiv {
-	text-align: center;
-	padding: 10px;
-}
-
-.users .dramUpload {
-	margin-left: 20px;
-}
-
-
-.users table{
+.keyList table{
     margin-left: auto;
     margin-right: auto;
     width: 75%;
     
 }
 
-.users th{
+.keyList th{
 	text-align: center;
     padding: 15px;
     border: solid 1px;
@@ -23,13 +13,12 @@
     font-weight:bold;
 }
 
-.users td{
+.keyList td{
 	border: solid 1px;
     padding: 10px;
-    text-align: center;
 }
 
-.users .user-info{
+.keyList .set-date{
     font-size: 140%;
     text-align: center;
     border: solid 3px;
@@ -40,8 +29,8 @@
     background-color: #c2d2d6;
 }
 
-.users .searchNet{
-    font-size: 140%;
+.keyList .download{
+ 	font-size: 140%;
     text-align: center;
     border: solid 3px;
     padding: 20px 40px;
@@ -49,7 +38,4 @@
     margin-right: auto;
     width: 75%;
     background-color: #c2d2d6;
-}
-.users input { 
-    text-align: center; 
 }

@@ -19,25 +19,29 @@ function AdminGroupsService(CommService, $q){
 	}
 
 	adminGroupsService.createGroup = function(groupInfo) {
+		var q = $q.defer();
 		CommService.createGroup(groupInfo)
-		.then(function(newGroupId){
-				
+			.then(function(newGroupId) {
+				q.resolve(newGroupId);
 				//adminGroupsService.groups.push({groupID:newGroupId, groupName:newGroupName})
 			},
 			function(err){
 				alert("error with saveModifyGroup");
 			});
+		return q.promise;
 	}	
 
 	adminGroupsService.saveModifyGroup = function(groupInfo) {
+		var q = $q.defer();
 		CommService.saveModifyGroup(groupInfo)
-		.then(function(newGroupId){
-				
+		.then(function(info){
+				q.resolve(info);
 				//adminGroupsService.groups.push({groupID:newGroupId, groupName:newGroupName})
 			},
 			function(err){
 				alert("error with saveModifyGroup");
 			});
+		return q.promise;
 	}	
 
 	adminGroupsService.getGroupInfo = function(groupId) {

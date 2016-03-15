@@ -34,6 +34,10 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
   //retrieve constant text from service
   //only display if Admin user
   $scope.UserText = "USERS";
+  
+  //retrieve constant text from service
+  //only display if Admin user
+  $scope.KeyText = "KEY LIST";
 
   //retrieve constant text from service
   //only display if Admin user
@@ -41,6 +45,8 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
 
   //retrieve constant text from service
   $scope.SignOutText = "SIGN OUT";
+  
+  
 
   $scope.confirmInitialLoad = function(){
     if(SharedVariableService.initialLoadComplete == false){

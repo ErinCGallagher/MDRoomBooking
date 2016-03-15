@@ -73,6 +73,23 @@ function AdminCommService($http){
 		    });
 		 return promisePost;
 	}
+	
+	adminCommService.getUserInfo = function(id) {
+		var data = {userID:id};
+
+		var promisePost =  $http.post('src/php/users/getUserInfo.php', data)
+		    .success(function(data, status) {
+		    	console.log("getUserInfo ", data);
+		    	return data;
+		    })
+		    .error(function(data, status) { //request to the php scirpt failed
+		    	return 'error';
+		    });
+		 return promisePost;
+	}
+	
+	
+	
 
 	adminCommService.addUsers = function(fileFormData){
 		// send config object as well
