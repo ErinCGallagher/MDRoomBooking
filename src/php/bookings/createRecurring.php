@@ -140,6 +140,8 @@
 					createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
 					$created = $created + 1;
 				}
+				$result['success'] = $datesCreated;
+				$result['failed'] = $datesFailed;
 				$result['bookingID'] = $recurringID;
 			}
 		}
@@ -186,7 +188,6 @@
 			$sth->execute(array($bookingID));
 			$datesFailed[] = $startDate;
 			$result['msg'] = "Your booking could not be completed because it conflicted with another booking";
-			http_response_code(409); //conflict
 		} else {	
 			$datesCreated[] = $startDate;
 			$result['msg'] = 'Successfully booked: "' . $room . ', ' . $startDate . ' ' . $startTime . '-' . $endDate . ' ' . $endTime;
