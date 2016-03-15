@@ -122,6 +122,37 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
+	//
+	BookingsService.bookRoomRecurring = function(bookingInfo){
+		var roomInformation = {};
+		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = bookingsService.selectedroom;
+		//determine if there are conflicts
+		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
+			//add booking to the dailyBookings list
+			CommService.bookRoomInDB(newBookingInfo)
+				.then(function(bookingID){
+					q.resolve(true);
+					newBookingInfo.bookingID = bookingID;
+					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
+					buildingWeeklyBookings[room].push(newBookingInfo);
+					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
+						bookingsService.weeklyBookings.push(newBookingInfo);
+					}
+				},
+				function(errorStatus){
+					q.reject(errorStatus);
+				});
+		}
+		else{
+			//there is a booking conflict
+			q.reject("Your booking could not be completed because it conflicted with another booking");
+		}
+		return q.promise;
+
+	}
+
 	//calculate the end timestamp given the selected duration and the startTimestamp
 	bookingsService.calclEndTime = function(durations, selectedDuration, startTimestamp){
 	    var durationHours = 0;

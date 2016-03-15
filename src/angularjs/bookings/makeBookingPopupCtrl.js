@@ -55,30 +55,62 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
       if(sourcePage == "bookings"){
 
-        //call booking service to send booking info to the database
-        BookingsService.bookRoom(bookingInfo)
-          .then(function(response){
-            $uibModalInstance.dismiss('cancel');
-            $scope.bookingConfirmation(true,"Your booking was successfully made");
-          },
-            function(errorStatus){
+        if($scope.reccurBool){
+
+           //call booking service to send booking info to the database
+          BookingsService.bookRoomRecurring(bookingInfo)
+            .then(function(response){
               $uibModalInstance.dismiss('cancel');
-              $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
+              $scope.bookingConfirmation(true,"Your booking was successfully made");
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
+            });
+
+        }else{
+          //call booking service to send booking info to the database
+          BookingsService.bookRoom(bookingInfo)
+            .then(function(response){
+              $uibModalInstance.dismiss('cancel');
+              $scope.bookingConfirmation(true,"Your booking was successfully made");
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
             });
           }
+        }
+
+
       else{ //search page
-        //call booking service to send booking info to the database
-        SearchService.bookRoom(bookingInfo)
-          .then(function(response){
-            $uibModalInstance.dismiss('cancel');
-            $scope.bookingConfirmation(true,"Your booking was successfully made");
-            
-          },
-            function(errorStatus){
+         
+         if($scope.reccurBool){
+          //call booking service to send booking info to the database
+          SearchService.bookRoomRecurring(bookingInfo)
+            .then(function(response){
               $uibModalInstance.dismiss('cancel');
-              $scope.bookingConfirmation(false,"Error: " + errorStatus);
-              
+              $scope.bookingConfirmation(true,"Your booking was successfully made");
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
             });
+
+        }else{
+          //call booking service to send booking info to the database
+          SearchService.bookRoom(bookingInfo)
+            .then(function(response){
+              $uibModalInstance.dismiss('cancel');
+              $scope.bookingConfirmation(true,"Your booking was successfully made");
+              
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.bookingConfirmation(false,"Error: " + errorStatus);
+                
+            });
+        }
       }
     }
     
