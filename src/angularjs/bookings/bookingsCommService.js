@@ -184,9 +184,9 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			date : searchCriterai.date,
 			uprightPiano : searchCriterai.contents["Upright Piano"],
 			grandPiano : searchCriterai.contents["Grand Piano"],
-			openSpace : searchCriterai.contents["Open Space"],
+			stands : searchCriterai.contents["Music Stands"],
 			mirror : searchCriterai.contents["Mirror"],
-			projector : searchCriterai.contents["Projector"]
+			chairs : searchCriterai.contents["Chairs"]
 		}
 		console.log(data);
 		var promisePost =  $http.post('src/php/bookings/search.php', data)

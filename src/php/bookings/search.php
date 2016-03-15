@@ -13,9 +13,9 @@ $date = $data->date;
 //Contents
 $upright = $data->uprightPiano;
 $grand = $data->grandPiano;
-$openSpace = $data->openSpace;
+$chairs = $data->chairs;
 $mirror = $data->mirror;
-$projector = $data->projector;
+$stands = $data->stands;
 
 date_default_timezone_set('UTC');
 
@@ -82,14 +82,14 @@ if ($upright){
 if ($grand){
 	$query = $query . " AND grand = 'Yes'";
 }
-if ($openSpace){
-	$query = $query . " AND openSpace = 'Yes'";
+if ($chairs){
+	$query = $query . " AND chairs = 'Yes'";
 }
 if ($mirror){
 	$query = $query . " AND mirror = 'Yes'";
 }
-if ($projector){
-	$query = $query . " AND projector = 'Yes'";
+if ($stands){
+	$query = $query . " AND stands = 'Yes'";
 }	
 $search = array();
 
