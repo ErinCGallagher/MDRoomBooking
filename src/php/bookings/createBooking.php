@@ -121,18 +121,20 @@
 				$duration = ($totalB * 30.0) / 60.0;
 				//echo $duration;
 
+				$hasBookingDurationRestriction = getHasBookingDurationRestriction($db, $uID);
 				// check booking duration restrictions
-				if (!getHasBookingDurationRestriction($db, $uID)){
-					if ($duration > 1 && ($building == "Chown Hall")) {
-						$result['msg'] = "As a student user, you cannot book a room in Chown Hall for more than 1 hour.";
-						http_response_code(406);
-					} else if ($duration > 1 && ($building == "Upper Harrison LeCaine Hall" || $building == "Lower Harrison LeCaine Hall")) { 
-						$result['msg'] = "As a student user, you cannot book a room in Harrison LeCaine Hall for more than 1 hour.";
-						http_response_code(406);
-					} else if ($duration > 1.5 && ($building == "Theological Hall")) { 
-						$result['msg'] = "As a student user, you cannot book a room in Theological Hall for more than 1.5 hours.";
-						http_response_code(406);
-					}
+				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate)) {
+					$result['msg'] = "As a Music student, you cannot book rooms for more than 1 hour a day.";
+					http_response_code(406);
+				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Chown Hall")) {
+					$result['msg'] = "As a student user, you cannot book a room in Chown Hall for more than 1 hour.";
+					http_response_code(406);
+				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Upper Harrison LeCaine Hall" || $building == "Lower Harrison LeCaine Hall")) { 
+					$result['msg'] = "As a student user, you cannot book a room in Harrison LeCaine Hall for more than 1 hour.";
+					http_response_code(406);
+				} else if ($hasBookingDurationRestriction && $duration > 1.5 && ($building == "Theological Hall")) { 
+					$result['msg'] = "As a student user, you cannot book a room in Theological Hall for more than 1.5 hours.";
+					http_response_code(406);
 				} else {
 
 					//determnes which week the booking was booked in
@@ -409,7 +411,17 @@
 		$sth = $db->prepare("SELECT hasBookingDurationRestriction FROM User WHERE uID = ?");
 		$sth->execute(array($uID));
 		$queryOutput = $sth->fetch(PDO::FETCH_NUM);
-		return sizeof($queryOutput) != 0 && $queryOutput[0] == 'No';
+		return sizeof($queryOutput) != 0 && $queryOutput[0] == 'Yes';
+	}
+
+	function isOverDailyMusicMax($db, $uID, $totalBookingSlots, $bookingDate) {
+		// Music students can only book for an hour a day
+		$sth = $db->prepare("SELECT COUNT(*) FROM BookingSlots JOIN Bookings ON BookingSlots.bookingID = Bookings.bookingID 
+			JOIN Master ON Bookings.uID = Master.uID WHERE Bookings.uID = ? AND department = 'Music' AND bookingDate = ?");
+		$sth->execute(array($uID, $bookingDate));
+		$queryOutput = $sth->fetch(PDO::FETCH_NUM);
+		// print_r($queryOutput) ;
+		return (sizeof($queryOutput)) != 0 && (($queryOutput[0] + $totalBookingSlots) > 2);
 	}
 
 
