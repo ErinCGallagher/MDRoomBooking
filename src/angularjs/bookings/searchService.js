@@ -80,7 +80,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 
 	}
 
-		//sends info to database to book a room
+	//sends info to database to book a room
 	//waits until a successful or non-successful response is returned
 	//newBookingInfo may be an array with all the attributes
 	searchService.bookRoom = function(newBookingInfo){
@@ -107,7 +107,36 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		}
 		else{
 			//there is a booking conflict
-			q.reject(409);
+			q.reject("Your booking could not be completed because it conflicted with another booking");
+		}
+		return q.promise;
+	}
+
+	searchService.bookRoomRecurring = function(newBookingInfo){
+		var roomInformation = {};
+		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = searchService.selectedSearchRoom;
+		//determine if there are conflicts
+		if(searchService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
+			//add booking to the dailyBookings list
+			CommService.bookRoomRecurrInDB(newBookingInfo)
+				.then(function(response){
+					q.resolve(response);
+					newBookingInfo.bookingID = response.bookingID;
+					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
+					buildingSearchResults[room].push(newBookingInfo);
+					if(searchService.selectedSearchRoom == room){ //if the room has changed don't add it
+						searchService.roomSearchResults.push(newBookingInfo);
+					}
+				},
+				function(errorStatus){
+					q.reject(errorStatus);
+				});
+		}
+		else{
+			//there is a booking conflict
+			q.reject("Your booking could not be completed because it conflicted with another booking");
 		}
 		return q.promise;
 	}
@@ -122,8 +151,8 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		//loop through the bookings for that day
 		for(var i=0; i<searchService.roomSearchResults.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(searchService.convertFromUTCtoLocal(searchService.roomSearchResults[i].start));
-			var checkEnd = moment.utc(searchService.convertFromUTCtoLocal(searchService.roomSearchResults[i].end));
+			var checkStart = moment.utc(searchService.roomSearchResults[i].start);
+			var checkEnd = moment.utc(searchService.roomSearchResults[i].end);
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
@@ -157,6 +186,21 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 			.then(function(){
 				q.resolve();
 				searchService.updateDisplayBookings(bookingID, room);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
+	//cancel all recurring bookings
+	searchService.cancelAllRecurringBookings = function(reccurringID){
+		var room = searchService.selectedSearchRoom;
+		var q = $q.defer();
+		CommService.cancelAllRecurringBookings(reccurringID)
+			.then(function(){
+				q.resolve();
+				searchService.updateDisplayBookings(reccurringID, room);
 			},
 			function(err){
 				q.reject();

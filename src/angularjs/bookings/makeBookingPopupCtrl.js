@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('MakeBookingPopupCtrl', MakeBookingPopupCtrl);
 
-function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService) {
+function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService,  $uibModal) {
 
   $scope.building = building;
   $scope.roomNum = roomNum;
@@ -15,87 +15,237 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.date = dateTime.format("MMM D, YYYY");
   $scope.startTime = dateTime.format("h:mm a");
   $scope.description = "";
+  $scope.reccurBool = false;
+  $scope.userType = SharedVariableService.userType;
+  
+  $scope.cancelled = false; //informs if the user cancelled out of the popup
 
   //submit the booking to the database and notify user if successfully booked
-  $scope.submitBooking = function () {
+  $scope.submitBooking = function (validForm) {
 
-    /* convert end time from local (with offset added) back to UTC moment object*/
-    var endTimestamp = $scope.mytime - BookingsService.generateOffset(dateTime);
-    endTimestamp =moment(endTimestamp).utc();
-    console.log(endTimestamp);
+    //confirm the form is valid before preceeding to try and make the booking
+    if(validForm && !$scope.cancelled && reccurBoolValid()){
 
-    /*
-    //calculate the end time & date given the duration
-    //only works for 30m, 1h & 1.5h
-    var endTimestamp = BookingsService.calclEndTime($scope.durations, "1.5 hour", dateTime);
-    */
-    $scope.endTime = endTimestamp.format("h:mm a");
+      /* convert end time from local (with offset added) back to UTC moment object*/
+      var endTimestamp = $scope.myTime - BookingsService.generateOffset(dateTime);
+      endTimestamp =moment(endTimestamp).utc();
+      console.log(endTimestamp);
 
-    var bookingInfo = {
-        title: $scope.selectedReason,
-        start: dateTime,
-        end: endTimestamp,
-        allDay: false,
-        building: building, 
-        roomNum: roomNum,
-        numPeople: $scope.selectedNumPeople, 
-        description: $scope.description,
-        stick:true,
-        bookingUserType: SharedVariableService.userType
-        };
+      /*
+      //calculate the end time & date given the duration
+      //only works for 30m, 1h & 1.5h
+      var endTimestamp = BookingsService.calclEndTime($scope.durations, "1.5 hour", dateTime);
+      */
+      $scope.endTime = endTimestamp.format("h:mm a");
 
-    if(sourcePage == "bookings"){
+      var bookingInfo = {
+          title: $scope.selectedReason,
+          start: dateTime,
+          end: endTimestamp,
+          allDay: false,
+          building: building, 
+          roomNum: roomNum,
+          numPeople: $scope.selectedNumPeople, 
+          description: $scope.description,
+          stick:true,
+          bookingUserType: SharedVariableService.userType,
+          recurringBooking:$scope.reccurBool, //true or false
+          numWeeksRecur: $scope.numWeeks //including the current week
+          };
 
-      //call booking service to send booking info to the database
-      BookingsService.bookRoom(bookingInfo)
-        .then(function(response){
-          alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-          $uibModalInstance.close(alert);
-        },
-          function(errorStatus){
-            alertSending(errorStatus);
-          });
+      if(sourcePage == "bookings"){ //main calendar page
+
+        if($scope.reccurBool){
+
+           //call booking service to send booking info to the database
+          BookingsService.bookRoomRecurring(bookingInfo)
+            .then(function(response){
+              $uibModalInstance.dismiss('cancel');
+              $scope.reccurringBookingConfirmation(true,"Your booking was successfully made",response.failed, response.success,response.bookingID);
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.reccurringBookingConfirmation(false,"Error: You booking was not successful. " + errorStatus,[],[],"");
+            });
+
+        }else{
+          //call booking service to send booking info to the database
+          BookingsService.bookRoom(bookingInfo)
+            .then(function(response){
+              $uibModalInstance.dismiss('cancel');
+              $scope.bookingConfirmation(true,"Your booking was successfully made");
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
+            });
+          }
         }
-        else{ //search page
+
+
+      else{ //search page
+         
+         if($scope.reccurBool){
+          //call booking service to send booking info to the database
+          SearchService.bookRoomRecurring(bookingInfo)
+            .then(function(response){
+              $uibModalInstance.dismiss('cancel');
+              $scope.reccurringBookingConfirmation(true,"Your booking was successfully made",response.failed, response.success,response.bookingID);
+            },
+              function(errorStatus){
+                $uibModalInstance.dismiss('cancel');
+                $scope.reccurringBookingConfirmation(false,"Error: You booking was not successful. " + errorStatus,[],[],"");
+            });
+
+        }else{
           //call booking service to send booking info to the database
           SearchService.bookRoom(bookingInfo)
             .then(function(response){
-              alert = { type: 'success', msg: 'Successfully booked: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
-              $uibModalInstance.close(alert);
+              $uibModalInstance.dismiss('cancel');
+              $scope.bookingConfirmation(true,"Your booking was successfully made");
+              
             },
               function(errorStatus){
-                alertSending(errorStatus);
-              });
+                $uibModalInstance.dismiss('cancel');
+                $scope.bookingConfirmation(false,"Error: " + errorStatus);
+                
+            });
         }
+      }
+    }
     
   };
 
-  //sends out differen alerts bassed on response
-  alertSending = function(errorStatus){
-    alert = { type: 'danger', msg:errorStatus};
-  
-    $uibModalInstance.close(alert);
+  $scope.cancel = function(){
+    $scope.cancelled = true;
+    $uibModalInstance.dismiss('cancel');
   }
 
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-
-  /* Date Picker */
+   /* Date Picker */
   console.log(dateTime);
 
   $scope.hstep = 1;
   $scope.mstep = 30;
-
   $scope.ismeridian = true;
 
   var TimeZoned = BookingsService.convertoUTCForDisplay(dateTime);
 
   //add 30 minutes because the minimum booking time is 30 minutes
-  var TimeZoned = TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
+  TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
+
 
   //local time with UTC offset (so actually UTC time but javascript wants it to be local)
-  $scope.mytime = TimeZoned; //displayed to user 
-
+  $scope.myTime = TimeZoned; //displayed to user 
   $scope.minTime = TimeZoned; //min time restriction
+
+  
+  /*Reccur Weekly settings*/
+  $scope.maxReccur = BookingsService.determineMaxReccuringWeeks(dateTime);
+
+  //if reccuring booking is chosen, return true if the number of reccurings is 
+  //less than or equal to maxReccur
+  reccurBoolValid = function(){
+    if($scope.reccurBool){
+      if($scope.numWeeks <= $scope.maxReccur){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    return true; 
+  }
+  
+
+  //called when a non reccuring booking is attempted
+  //either confirms the sucess or informs the user of the failure
+  $scope.bookingConfirmation = function(success,statusText){
+
+    console.log(SharedVariableService.userType);
+    var viewBookingPopupInstance = $uibModal.open({
+      templateUrl: 'bookingConfirmationPopup.html',
+      controller: 'BookingConfirmationPopupCtrl',
+      backdrop: 'static',
+      resolve: {
+        building: function () {
+          return $scope.building;
+        },
+        roomNum: function () {
+          return $scope.roomNum;
+        },
+        reason: function () {
+          return $scope.selectedReason;
+        },
+        numPeople:function() {
+          return $scope.selectedNumPeople;
+        },
+        date: function () {
+          return $scope.date;
+        },
+        startTime: function () {
+          return $scope.startTime;
+        },
+        endTime: function () {
+          return moment($scope.myTime).format("h:mm a");
+        },
+        statusText: function () {
+          return statusText;
+        },
+        success: function(){
+          return success;
+        },
+        sourcePage: function () {
+          return sourcePage;
+        }
+      }
+    });
+  };
+
+  //caled when a recurring booking is attempted
+  //either confirms the sucess or informs the user of the failure
+  $scope.reccurringBookingConfirmation = function(success,statusText,failedBookings,successfulBookings, bookingID){
+
+    var viewRecurringBookingPopupInstance = $uibModal.open({
+      templateUrl: 'recurringBookingConfirmationPopup.html',
+      controller: 'RecurringBookingConfirmationPopupCtrl',
+      backdrop: 'static',
+      resolve: {
+        building: function () {
+          return $scope.building;
+        },
+        roomNum: function () {
+          return $scope.roomNum;
+        },
+        date: function () {
+          return $scope.date;
+        },
+        startTime: function () {
+          return $scope.startTime;
+        },
+        endTime: function () {
+          return moment($scope.myTime).format("h:mm a");
+        },
+        statusText: function () {
+          return statusText;
+        },
+        success: function(){
+          return success;
+        },
+        failedBookings: function(){
+          return failedBookings;
+        },
+        successfulBookings: function(){
+          return successfulBookings;
+        },
+        reccurringID: function(){
+          return bookingID;
+        },
+        sourcePage: function () {
+          return sourcePage;
+        }
+      }
+    });
+  };
+
+ 
 };

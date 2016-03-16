@@ -31,7 +31,6 @@ while(! feof($file)){
 		
 	}
 }
-echo $query;
 fclose($file);
 
 

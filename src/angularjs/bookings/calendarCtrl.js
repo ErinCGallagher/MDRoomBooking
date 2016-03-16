@@ -14,6 +14,32 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
   //updated by the bookingServce
   $scope.eventSources = [$scope.events]; 
 
+  // DATE PICKER
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.selectedDate = BookingsService.convertoUTCForDisplay( new Date() ); //initialy current date
+  $scope.format = 'EEEE, MMM d, yyyy'; //Friday, Feb 5, 2016
+
+  $scope.$watch('selectedDate', function() {
+    if(uiCalendarConfig.calendars.myCalendar != null){
+      console.log($scope.selectedDate);
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('gotoDate', $scope.selectedDate);
+    }
+  });
+
+  
+
+  $scope.open = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.popup1 = {
+    opened: false
+  };
+
   //change the previous calendar date
   $scope.previousDate = function(){
       uiCalendarConfig.calendars.myCalendar.fullCalendar('prev');

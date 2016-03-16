@@ -194,6 +194,17 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.bookRoomRecurrInDB = function(roomInformation){
+		var q = $q.defer();
+		BookingCommService.bookRoomRecurrInDB(roomInformation)
+			.then(function(bookingObject){
+				q.resolve(bookingObject.data);
+			},function(errorStatus){
+				q.reject(errorStatus.data.msg);
+			});
+		return q.promise;
+	}
+
 
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.
@@ -206,6 +217,18 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	commService.cancelBooking = function(bookingID,startTime) {
 		var q = $q.defer();
 		BookingCommService.cancelBooking(bookingID,startTime)
+			.then(function(){
+				q.resolve();
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
+	commService.cancelAllRecurringBookings = function(reccurringID){
+		var q = $q.defer();
+		BookingCommService.cancelAllRecurringBookings(reccurringID)
 			.then(function(){
 				q.resolve();
 			},

@@ -122,6 +122,37 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
+	//
+	bookingsService.bookRoomRecurring = function(newBookingInfo){
+		var roomInformation = {};
+		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = bookingsService.selectedroom;
+		//determine if there are conflicts
+		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
+			//add booking to the dailyBookings list
+			CommService.bookRoomRecurrInDB(newBookingInfo)
+				.then(function(failedSuceededBookings){
+					q.resolve(failedSuceededBookings);
+					newBookingInfo.bookingID = failedSuceededBookings.bookingID;
+					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
+					buildingWeeklyBookings[room].push(newBookingInfo);
+					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
+						bookingsService.weeklyBookings.push(newBookingInfo);
+					}
+				},
+				function(errorStatus){
+					q.reject(errorStatus);
+				});
+		}
+		else{
+			//there is a booking conflict
+			q.reject("Your booking could not be completed because it conflicted with another booking");
+		}
+		return q.promise;
+
+	}
+
 	//calculate the end timestamp given the selected duration and the startTimestamp
 	bookingsService.calclEndTime = function(durations, selectedDuration, startTimestamp){
 	    var durationHours = 0;
@@ -182,8 +213,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		//loop through the bookings for that day
 		for(var i=0; i<bookingsService.weeklyBookings.length; i++){
 			//isAfter, isBefore & IsSame does not work unless moment object is in utc mode
-			var checkStart = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].start));
-			var checkEnd = moment.utc(bookingsService.convertFromUTCtoLocal(bookingsService.weeklyBookings[i].end));
+			var checkStart = moment.utc(bookingsService.weeklyBookings[i].start);
+			var checkEnd = moment.utc(bookingsService.weeklyBookings[i].end);
 
 			if((checkStart).isSame(potentialStartTime)){
 				return false;
@@ -241,6 +272,79 @@ function BookingsService(CommService, $q, SharedVariableService){
 				q.reject();
 			});
 		return q.promise;
+	}
+
+	//cancel all recurring bookings
+	bookingsService.cancelAllRecurringBookings = function(reccurringID){
+		var room = bookingsService.selectedroom;
+		var q = $q.defer();
+		CommService.cancelAllRecurringBookings(reccurringID)
+			.then(function(){
+				q.resolve();
+				bookingsService.updateDisplayBookings(reccurringID, room);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
+	bookingsService.determineMaxReccuringWeeks = function(reccuringStartDate){
+
+		var oneDay = 24*60*60*1000
+		var startDate = new Date(reccuringStartDate);
+		var currentDate = new Date();
+		var semesterTwoYear = currentDate.getFullYear();
+		var currentSemester = "fall";
+
+		//if the current Month is between Setempber & Decemeber Inclusive
+		//it's first semester 
+		if(currentDate.getMonth() >= 8 && currentDate.getMonth() <= 11){
+			semesterTwoYear = currentDate.getFullYear()+1; //semester 2 will be next year
+			currentSemester = "fall";
+		}
+		//if the current Month is between January & April Inclusive
+		//it's second semester 
+		else if(currentDate.getMonth() >= 0 && currentDate.getMonth() <= 3){
+			semesterTwoYear = currentDate.getFullYear(); //currently in smester 2
+			currentSemester = "winter";
+		}
+		//if the current Month is between May & August Inclusive
+		//it's summer semester
+		else{
+			semesterTwoYear = currentDate.getFullYear();
+			currentSemester = "summer";
+		}
+		
+		var startSemesterOne = new Date(currentDate.getFullYear(),08,01); //Sept 1st
+		var endSemesterOne = new Date(currentDate.getFullYear(),11,31); //December 31st
+		var startSemesterTwo = new Date(semesterTwoYear,00,01); //Jan 1st
+		var endSemesterTwo = new Date(semesterTwoYear,03,31); //April 31st
+		var startSemesterSummer = new Date(semesterTwoYear,04,01); //May 1st
+		var endSemesterSummer = new Date(semesterTwoYear,07,31); //August 31st
+
+		//can book reccuring booking over the entire year
+		if(SharedVariableService.userType == "admin"){
+			var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterSummer.getTime())/oneDay);
+			var numWeeks = Math.floor(numDaysBetween/7);
+
+		}
+		else{//if faculty, can book reccuring booking for the current semester
+			if(currentSemester == "fall"){
+				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterOne.getTime())/oneDay);
+				var numWeeks = Math.floor(numDaysBetween/7);
+			}
+			else if(currentSemester = "winter"){
+				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterTwo.getTime())/oneDay);
+				var numWeeks = Math.floor(numDaysBetween/7);
+			}
+			else{ //currentSemester == "summer"
+				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterSummer.getTime())/oneDay);
+				var numWeeks = Math.floor(numDaysBetween/7);
+			}
+		}
+
+		return numWeeks; //return the max number of weeks the user can reccur over
 	}
 
 
