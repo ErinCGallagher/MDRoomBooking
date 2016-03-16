@@ -9,6 +9,18 @@
     <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">Upload Drama List</button>
 </div>
 
+<div class="uploadDiv">
+    <!-- Music Download Button -->
+    <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
+        <button type="submit" class="btn">Download Music Users</button>
+        <input type="hidden" name="department" value="Music" />
+    </form>
+
+    <!-- Drama Download Button -->
+    <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
+        <button type="submit" class="btn">Download Drama Users</button>
+        <input type="hidden" name="department" value="Drama" />
+    </form>
 <p></p>
 <p></p>
 
@@ -21,6 +33,8 @@
 		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
 		
 </form>
+</div>
+
 </div>
 
 </br></br>
@@ -187,7 +201,7 @@
     </div>
 
 
-
+<!-- popup after uploading users -->
 
 
 <div>
@@ -200,18 +214,24 @@
             <div class="modal-body">
                 <p>{{numUsersInDept}} Users in {{department}}</p>
                 <p>{{numUsersDeleted}} Users Deleted</p>
-                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0 || badEmailUsers.length != 0"> <br></div>
+                <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0 || badEmailUsers.length != 0"> 
+                <br><em>
+                The following users were not uploaded. The expected format is:<br>
+                <b>netid@queensu.ca,Firstname,Lastname,Type</b><br>
+                Where "Type" is one of Admin, Faculty, or Student<br><br>
+                </em>
+                </div>
                 <div ng-show="badEmailUsers.length != 0">
-                    <p><strong>Users With Invalid Email Format (Not Uploaded):</strong>
+                    <p><strong>Invalid Email Format:</strong>
                     <li ng-repeat="user in badEmailUsers" track by $index>{{user}}</li></p>
                 </div>
-                <div ng-show="badFormatUsers.length != 0">
-	                <p><strong>Users With Invalid Format (Not Uploaded):</strong>
-	                <li ng-repeat="user in badFormatUsers" track by $index>{{user}}</li></p>
-	            </div>
 	            <div ng-show="badClassUsers.length != 0">
-	                <p><strong>Users With Invalid Type (Not Uploaded): </strong> 
+	                <p><strong>Invalid Type:</strong> 
 	                <li ng-repeat="user in badClassUsers" track by $index>{{user}}</li></p>
+                </div>
+                <div ng-show="badFormatUsers.length != 0">
+                    <p><strong>Unexpected Format:</strong>
+                    <li ng-repeat="user in badFormatUsers" track by $index>{{user}}</li></p>
                 </div>
                 <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
                 <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>

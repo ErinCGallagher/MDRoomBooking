@@ -62,6 +62,19 @@ function UserCommService($http){
 		 return promisePost;
 	}
 
+	userCommService.getUsersFile = function(dept){
+		var data = {department:dept};
+		var promisePost = $http.post('src/php/users/getUsersFile.php', data)
+		    .success(function(data, status) {
+		    	console.log(data);
+		    })
+		    .error(function(data, status) {
+
+		    });
+
+	return promisePost;
+	}
+
 	return userCommService;
 }
 

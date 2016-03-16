@@ -50,6 +50,10 @@ function AdminUsersService(CommService, $q){
 				q.reject(errorMsg);
 			});
 		return q.promise;
+	}
+
+	adminUsersService.getUsersFile = function(dept) {
+		CommService.getUsersFile(dept);
 	}	
 
 	return adminUsersService;

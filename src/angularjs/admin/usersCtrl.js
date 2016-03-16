@@ -126,6 +126,10 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 			});
 	}
 
+	$scope.getUsersFile = function(dept) {
+		AdminUsersService.getUsersFile(dept);
+	}
+
 };
 
 angular.module('mainApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
