@@ -245,9 +245,9 @@
                     <div ng-repeat="entry in failedBookings">{{entry | date:'MMM d yyyy'}}</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" ng-click="cancel()" ng-show="success">Continue with successful bookings </button>
-                    <button type="submit" class="btn" ng-click="cancel()" ng-show="!success">Ok </button>
-                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn" ng-click="cancel()">Cancel All Bookings</button>
+                    <button type="submit" class="btn" ng-click="closePopup()" ng-show="success">Continue with successful bookings </button>
+                    <button type="submit" class="btn" ng-click="closePopup()" ng-show="!success">Ok </button>
+                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn" ng-click="cancelAll()">Cancel All Bookings</button>
 
                 </div>
             </div>

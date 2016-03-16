@@ -175,11 +175,24 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		return formattedBookings;
 
 	}
-
+	//cancel a single booking 
 	bookingCommService.cancelBooking = function(bookingID,startTime) {
 
 		var data = {bookingID:bookingID, start:startTime};
 		var promisePost =  $http.post('src/php/bookings/cancel.php', data)
+		    .success(function(data) {
+		    	console.log(data);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+
+		    });
+		 return promisePost;
+	}
+
+	//cancel all bokings asscoiated with a reccurring booking
+	bookingCommService.cancelAllRecurringBookings = function(recurringID){
+		var data = {recurringID:recurringID};
+		var promisePost =  $http.post('src/php/bookings/cancelRecurring.php', data)
 		    .success(function(data) {
 		    	console.log(data);
 		    })

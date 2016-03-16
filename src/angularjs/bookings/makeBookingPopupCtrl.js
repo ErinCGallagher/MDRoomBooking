@@ -53,7 +53,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           numWeeksRecur: $scope.numWeeks //including the current week
           };
 
-      if(sourcePage == "bookings"){
+      if(sourcePage == "bookings"){ //main calendar page
 
         if($scope.reccurBool){
 
@@ -61,11 +61,11 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           BookingsService.bookRoomRecurring(bookingInfo)
             .then(function(response){
               $uibModalInstance.dismiss('cancel');
-              $scope.reccurringBookingConfirmation(true,"Your booking was successfully made",response.failed, response.success );
+              $scope.reccurringBookingConfirmation(true,"Your booking was successfully made",response.failed, response.success,response.bookingID);
             },
               function(errorStatus){
                 $uibModalInstance.dismiss('cancel');
-                $scope.reccurringBookingConfirmation(false,"Error: You booking was not successful. " + errorStatus,[],[]);
+                $scope.reccurringBookingConfirmation(false,"Error: You booking was not successful. " + errorStatus,[],[],"");
             });
 
         }else{
@@ -77,7 +77,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
             },
               function(errorStatus){
                 $uibModalInstance.dismiss('cancel');
-                $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus,[],[]);
+                $scope.bookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
             });
           }
         }
@@ -90,11 +90,11 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           SearchService.bookRoomRecurring(bookingInfo)
             .then(function(response){
               $uibModalInstance.dismiss('cancel');
-              $scope.reccurringBookingConfirmation(true,"Your booking was successfully made",response.failed, response.success );
+              $scope.reccurringBookingConfirmation(true,"Your booking was successfully made",response.failed, response.success,response.bookingID);
             },
               function(errorStatus){
                 $uibModalInstance.dismiss('cancel');
-                $scope.reccurringBookingConfirmation(false,"Error: You booking was not successful. " + errorStatus);
+                $scope.reccurringBookingConfirmation(false,"Error: You booking was not successful. " + errorStatus,[],[],"");
             });
 
         }else{
@@ -157,8 +157,8 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   }
   
 
-  /* alert on eventClick */
- //called when a booking is clicked
+  //called when a non reccuring booking is attempted
+  //either confirms the sucess or informs the user of the failure
   $scope.bookingConfirmation = function(success,statusText){
 
     console.log(SharedVariableService.userType);
@@ -195,15 +195,15 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           return success;
         },
         sourcePage: function () {
-          return "bookings";
+          return sourcePage;
         }
       }
     });
   };
 
-  /* alert on eventClick */
- //called when a booking is clicked
-  $scope.reccurringBookingConfirmation = function(success,statusText,failedBookings,successfulBookings){
+  //caled when a recurring booking is attempted
+  //either confirms the sucess or informs the user of the failure
+  $scope.reccurringBookingConfirmation = function(success,statusText,failedBookings,successfulBookings, bookingID){
 
     var viewRecurringBookingPopupInstance = $uibModal.open({
       templateUrl: 'recurringBookingConfirmationPopup.html',
@@ -215,12 +215,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
         },
         roomNum: function () {
           return $scope.roomNum;
-        },
-        reason: function () {
-          return $scope.selectedReason;
-        },
-        numPeople:function() {
-          return $scope.selectedNumPeople;
         },
         date: function () {
           return $scope.date;
@@ -243,8 +237,11 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
         successfulBookings: function(){
           return successfulBookings;
         },
+        reccurringID: function(){
+          return bookingID;
+        },
         sourcePage: function () {
-          return "bookings";
+          return sourcePage;
         }
       }
     });

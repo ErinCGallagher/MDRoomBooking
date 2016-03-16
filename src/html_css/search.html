@@ -206,7 +206,7 @@
         </script>  
     </div>
 
-     <!--Booking Confirmation Popup Template -->
+        <!--Booking Confirmation Popup Template -->
     <div>
         <script type="text/ng-template" id="bookingConfirmationPopup.html">
             <!-- Modal content-->
@@ -239,3 +239,40 @@
         </script>  
     </div>
 
+    <!--Recurring Booking Confirmation Popup Template -->
+    <div>
+        <script type="text/ng-template" id="recurringBookingConfirmationPopup.html">
+            <!-- Modal content-->
+            <div class="modal-content confirmation-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()">&times;</button>
+                    <h4 class="modal-title " ng-class="{'success' : success, 'confirmation-error' : !success || !allBookingsSucceeded }">{{statusText}}</h4>
+                </div>
+                <div class="modal-body confirmation-body">
+                    <div class="book-room-info">
+                        <p><strong>Building:</strong> {{building}}</p>
+                        <p><strong>Room #:</strong> {{roomNum}}</p>
+                        <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
+                    </div>
+                </div>
+                <div class="box confirmPop green" ng-show="success">
+                    <div>
+                        <Strong> Successful Bookings: </Strong>
+                    </div>
+                    <div ng-repeat="entry in successfulBookings">{{entry | date:'MMM d, yyyy'}}</div>
+                </div>
+                <div class="box confirmPop red" ng-show="!allBookingsSucceeded">
+                    <div>
+                        <Strong> Failed Bookings: </Strong>
+                    </div>
+                    <div ng-repeat="entry in failedBookings">{{entry | date:'MMM d yyyy'}}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn" ng-click="closePopup()" ng-show="success">Continue with successful bookings </button>
+                    <button type="submit" class="btn" ng-click="closePopup()" ng-show="!success">Ok </button>
+                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn" ng-click="cancelAll()">Cancel All Bookings</button>
+
+                </div>
+            </div>
+        </script>  
+    </div>

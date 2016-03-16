@@ -210,6 +210,18 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.cancelAllRecurringBookings = function(reccurringID){
+		var q = $q.defer();
+		BookingCommService.cancelAllRecurringBookings(reccurringID)
+			.then(function(){
+				q.resolve();
+			},
+			function(err){
+				q.reject(err);
+			});
+		return q.promise;
+	}
+
 	// USER COMM SERVICE FUNCTIONS
 	commService.initialRetrival = function(){
 		var q = $q.defer();

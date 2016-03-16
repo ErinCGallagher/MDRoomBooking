@@ -274,6 +274,21 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
+	//cancel all recurring bookings
+	bookingsService.cancelAllRecurringBookings = function(reccurringID){
+		var room = bookingsService.selectedroom;
+		var q = $q.defer();
+		CommService.cancelAllRecurringBookings(reccurringID)
+			.then(function(){
+				q.resolve();
+				bookingsService.updateDisplayBookings(reccurringID, room);
+			},
+			function(err){
+				q.reject();
+			});
+		return q.promise;
+	}
+
 	bookingsService.determineMaxReccuringWeeks = function(reccuringStartDate){
 
 		var oneDay = 24*60*60*1000

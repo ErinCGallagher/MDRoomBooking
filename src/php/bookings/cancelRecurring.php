@@ -10,7 +10,7 @@
 	date_default_timezone_set('UTC');
 
   	//Get post datastream from front end
-	//$data = json_decode(file_get_contents("php://input"));
+	$data = json_decode(file_get_contents("php://input"));
 
 	//Set parameters from datastream
 	$recurringID = $data->recurringID;
