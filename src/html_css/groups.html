@@ -23,7 +23,10 @@
 
         <button class="btn" ng-click="openViewUsersPopup()">Manage Users</button>
         <button class="btn" ng-click="modifyGroup()">Modify Group</button>
-        <button class="btn" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button>
+        <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group and cannot be deleted." >
+        <button class="btn" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button></span>
+        <button class="btn" ng-click="confirmDeleteGroup()" ng-show="groupId != 1">Delete Group</button>
+
     </div>
 </div>
 
@@ -80,7 +83,9 @@
 		<p><h3><strong><centre>Modify Group</centre></strong></h3></p>
            <div class="boxed">
             <p><strong>Group Name:</strong> 
-				<input name=modName type="text" ng-model="newNameM" class="form-control textbox" required>
+                <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group whose name cannot be modified." >
+				<input name=modName type="text" ng-readonly="groupId == 1" ng-model="newNameM" class="form-control textbox" required></span>
+                <input name=modName type="text" ng-show="groupId != 1" ng-model="newNameM" class="form-control textbox" required>
 				<span ng-show="modGroup.modName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
 			<p><strong>Has Booking Duration Restriction:</strong>
 				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM()">*</p>
