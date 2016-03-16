@@ -27,6 +27,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
     if(uiCalendarConfig.calendars.myCalendar != null){
       console.log($scope.selectedDate);
       uiCalendarConfig.calendars.myCalendar.fullCalendar('gotoDate', $scope.selectedDate);
+      selectTab();
     }
   });
 
