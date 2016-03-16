@@ -21,21 +21,20 @@
         <button type="submit" class="btn">Download Drama Users</button>
         <input type="hidden" name="department" value="Drama" />
     </form>
-<p></p>
-<p></p>
+</div>
+<br>
 
 <div class="container">
-<form name="search" class="searchNet">
-	<p><strong>Search For A User</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
-	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
-		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
-		<span ng-show="search.userSearch.$error.required"><font color="red">Enter NetID</font></span></p>
-		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
-		
-</form>
+    <form name="search" class="searchNet">
+    	<p><strong>Search For A User</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
+    	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
+    		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
+    		<span ng-show="search.userSearch.$error.required"><font color="red">Enter NetID</font></span></p>
+    		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
+    		
+    </form>
 </div>
 
-</div>
 
 </br></br>
 

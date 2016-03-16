@@ -383,6 +383,7 @@
 		}
 	}
 
+	// updates hours source for all of the booking slots
 	function update($db, $blockID, $bookingID, $hoursSoure){
 		$sth = $db->prepare("UPDATE BookingSLots SET hrsSource = ? WHERE bookingID = ? and blockID = ?;");
 		$sth->execute(array($hoursSoure, $bookingID, $blockID));

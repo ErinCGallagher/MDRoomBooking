@@ -6,13 +6,9 @@
 	//set default time to UTC so it does not count daylight savings
   	//do not remove!
 	date_default_timezone_set('UTC');
-
-	
-
 	updateUIDsForPrevSemester($db);
+	$db = NULL;
 
-
-	
 	function getToday() { //for testing purposes
 		return new DateTime(); //today
 		// return new DateTime('2015-05-30'); //for testing

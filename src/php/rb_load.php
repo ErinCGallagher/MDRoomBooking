@@ -200,13 +200,6 @@
      		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
      		('CHOWN 107','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
 		
-		
-		
-			
-					
-		
-		
-			
 	//Close the connection
 	mysqli_close($cxn); 
 
