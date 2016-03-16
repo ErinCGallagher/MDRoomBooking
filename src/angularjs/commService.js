@@ -178,6 +178,17 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
+	commService.bookRoomRecurrInDB = function(roomInformation){
+		var q = $q.defer();
+		BookingCommService.bookRoomRecurrInDB(roomInformation)
+			.then(function(bookingObject){
+				q.resolve(bookingObject.data);
+			},function(errorStatus){
+				q.reject(errorStatus.data.msg);
+			});
+		return q.promise;
+	}
+
 
 	//convert the daily bookings information to the correct font end format
 	//not called by anything outside this service so does not need commService.

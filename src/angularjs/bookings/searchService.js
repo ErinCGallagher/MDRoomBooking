@@ -80,7 +80,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 
 	}
 
-		//sends info to database to book a room
+	//sends info to database to book a room
 	//waits until a successful or non-successful response is returned
 	//newBookingInfo may be an array with all the attributes
 	searchService.bookRoom = function(newBookingInfo){
@@ -92,6 +92,35 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 		if(searchService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
 			CommService.bookRoomInDB(newBookingInfo)
+				.then(function(bookingID){
+					q.resolve(true);
+					newBookingInfo.bookingID = bookingID;
+					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
+					buildingSearchResults[room].push(newBookingInfo);
+					if(searchService.selectedSearchRoom == room){ //if the room has changed don't add it
+						searchService.roomSearchResults.push(newBookingInfo);
+					}
+				},
+				function(errorStatus){
+					q.reject(errorStatus);
+				});
+		}
+		else{
+			//there is a booking conflict
+			q.reject(409);
+		}
+		return q.promise;
+	}
+
+	searchService.bookRoomRecurring = function(newBookingInfo){
+		var roomInformation = {};
+		var q = $q.defer();
+		//ensures that if a building or room change happens it does not impact current booking
+		var room = searchService.selectedSearchRoom;
+		//determine if there are conflicts
+		if(searchService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
+			//add booking to the dailyBookings list
+			CommService.bookRoomRecurrInDB(newBookingInfo)
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;

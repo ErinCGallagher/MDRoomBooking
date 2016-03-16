@@ -123,7 +123,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 	}
 
 	//
-	BookingsService.bookRoomRecurring = function(bookingInfo){
+	bookingsService.bookRoomRecurring = function(newBookingInfo){
 		var roomInformation = {};
 		var q = $q.defer();
 		//ensures that if a building or room change happens it does not impact current booking
@@ -131,10 +131,10 @@ function BookingsService(CommService, $q, SharedVariableService){
 		//determine if there are conflicts
 		if(bookingsService.confirmNoBookingConflicts(newBookingInfo.start,newBookingInfo.end)){
 			//add booking to the dailyBookings list
-			CommService.bookRoomInDB(newBookingInfo)
-				.then(function(bookingID){
-					q.resolve(true);
-					newBookingInfo.bookingID = bookingID;
+			CommService.bookRoomRecurrInDB(newBookingInfo)
+				.then(function(failedSuceededBookings){
+					q.resolve(failedSuceededBookings);
+					newBookingInfo.bookingID = failedSuceededBookings.bookingID;
 					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
 					buildingWeeklyBookings[room].push(newBookingInfo);
 					if(bookingsService.selectedroom == room){ //if the room has changed don't add it

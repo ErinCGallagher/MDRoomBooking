@@ -59,27 +59,44 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    };
 		console.log(data);
 
-		//non-recurring booking
-		if(!roomInformation.recurringBooking){
-			var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
-			    .success(function(response) {
-			    	console.log(response);
-			    })
-			    .error(function(responseDate) { //request to the php scirpt failed
-			    	return responseDate.status;
-			    });
-			 return promisePost;
-		}
-		else{ //recurring booking
-			var promisePost =  $http.post('src/php/bookings/createRecurring.php', data)
-			    .success(function(response) {
-			    	console.log(response);
-			    })
-			    .error(function(responseDate) { //request to the php scirpt failed
-			    	return responseDate.status;
-			    });
-			 return promisePost;
-		}
+
+		var promisePost =  $http.post('src/php/bookings/createBooking.php', data)
+		    .success(function(response) {
+		    	console.log(response);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	return responseDate.status;
+		    });
+		 return promisePost;
+
+	}
+
+	//call the php script that adds a booking to the DB
+	//if recurringBooking is true, then call make recurring booking script
+	bookingCommService.bookRoomRecurrInDB = function(roomInformation){
+
+		var data = {
+			  uID:"11ecg5",
+		      reason: roomInformation.title,
+		      start: roomInformation.start,
+		      end: roomInformation.end,
+		      building: roomInformation.building, 
+		      roomID: roomInformation.roomNum,  
+		      numParticipants: roomInformation.numPeople, 
+		      otherDesc:roomInformation.description,
+		      recurringBooking:roomInformation.recurringBooking, //true or false
+          	  totalWeeks:roomInformation.numWeeksRecur //including the current week
+		    };
+		console.log(data);
+
+		var promisePost =  $http.post('src/php/bookings/createRecurring.php', data)
+		    .success(function(response) {
+		    	console.log(response);
+		    })
+		    .error(function(responseDate) { //request to the php scirpt failed
+		    	return responseDate.status;
+		    });
+		 return promisePost;
 
 	}
 

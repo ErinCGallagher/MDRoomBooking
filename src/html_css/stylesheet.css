@@ -25,6 +25,18 @@
     padding: 10px;
  }
 
+ .box.confirmPop {
+ 	border: 1px solid #e5e5e5;
+    padding: 10px;
+    margin: 10px 30px;
+ }
+ .box.confirmPop.red {
+ 	border: 1px solid red;
+ }
+ .box.confirmPop.green {
+ 	border: 1px solid green;
+ }
+
  .success{
  	color:green;
  	font-size:150%;
