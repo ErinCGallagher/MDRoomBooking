@@ -36,7 +36,7 @@
 <div ng-show="showNewGroup" class="container info-container">    
     <form name="cGroup" class="group-info">
     		<p><h3><strong><centre>Create A Group</centre></strong>
-    		<span  style="margin-top: 5em;"  uib-tooltip= "Fill out all fields below then select the 'Create Group' button, users may be added to a group, once it has been created" >
+    		<span  style="margin-top: 5em;"  uib-tooltip= "Fill out all fields below then select the 'Create Group' button, users may be added to a group once it has been created" >
 			<img src="info-icon.png" style="width:4%;height:4%;"> </span></h3></p>
             
             <div class="boxed">
@@ -45,18 +45,20 @@
 			<span ng-show="cGroup.gName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
 			
 			<p><strong>Has Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() ">*</p>
-				<p>*Allows users to make bookings longer than 1.5 hours at a time</p>
+				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "> 
+				<span  style="margin-top: 5em;"  uib-tooltip= "if checked, allows users to make bookings longer than 1.5 hours at a time">
+				<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
 			</div>
 			</br>
 			<div class="boxed">
-				<p><h4>Hours Settings</h4></p>
+				<p><h4>Hours Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose type of hours and number of hours below">
+				<img src="info-icon.png" style="width:4%;height:4%;"> </span></h4></p>
 				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
 			<strong>Hours Per Week <span  style="margin-top: 5em;"  uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
 			<img src="info-icon.png" style="width:3%;height:3%;"> </span> </strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsType"> 
-			<strong>Total Hours <span  style="margin-top: 5em;"  uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
+			<strong>Special Hours <span  style="margin-top: 5em;"  uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
 			<img src="info-icon.png" style="width:3%;height:3%;"> </span></strong></p>
 				<p><strong>Number of Hours:</strong>
 				<input name="newHrs" type="number" ng-init="hours=1" ng-model="hours" min=0 max=100 class="form-control textbox" required>
@@ -89,7 +91,8 @@
 
 <div ng-show="showModGroup" class="container info-container">    
     <form name="modGroup" class="modify-group">
-		<p><h3><strong><centre>Modify Group</centre></strong></h3></p>
+		<p><h3><strong><centre>Modify Group</centre></strong><span  style="margin-top: 5em;"  uib-tooltip= "Make changes to the fields below, slelect the 'Save Group Modifications' button to save chnages and apply permissions to any users of the group" >
+			<img src="info-icon.png" style="width:4%;height:4%;"> </span></h3></p>
            <div class="boxed">
             <p><strong>Group Name:</strong> 
                 <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group whose name cannot be modified." >
@@ -97,24 +100,30 @@
                 <input name=modName type="text" ng-show="groupId != 1" ng-model="newNameM" class="form-control textbox" required>
 				<span ng-show="modGroup.modName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
 			<p><strong>Has Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM()">*</p>
-				<p>*Allows users to make bookings longer than 1.5 hours at a time</p>
+				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM()">
+				<span  style="margin-top: 5em;"  uib-tooltip= "if checked, allows users to make bookings longer than 1.5 hours at a time">
+				<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
 			</div>
 			</br>
 			<div class="boxed">
-				<p><h4>Hours Settings</h4></p>
+				<p><h4>Hours Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose type of hours and number of hours below">
+				<img src="info-icon.png" style="width:4%;height:4%;"> </span></h4></p>
 				<p><input type="radio" ng-value="1" ng-model="addHrsTypeM"> 
-			<strong>Hours Per Week</strong>
+			<strong>Hours Per Week <span  style="margin-top: 5em;"  uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
+			<img src="info-icon.png" style="width:3%;height:3%;"> </span> </strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsTypeM"> 
-			<strong>Total Hours</strong></p>
+			<strong>Special Hours <span  style="margin-top: 5em;"  uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
+			<img src="info-icon.png" style="width:3%;height:3%;"> </span></strong></p>
 				<p><strong>Number of Hours:</strong><input name="modHrs" type="number" ng-model="hoursM" min=0 max=100 value=1 class="form-control textbox" required> 
 				<span ng-show="modGroup.modHrs.$error.required"><font color="red">Please Enter # of Hours</font></span></p>
 			</div>
 			</br>
 			
 			<div class="boxed">
-			<p><h4>Duration Settings</h4></p>
+			<p><h4>Duration Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
+																					NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
+				<img src="info-icon.png" style="width:4%;height:4%;"> </span></h4></p>
 			<p><strong>Active:</strong>
 				<input type="checkbox" ng-model="fallM" ng-init="fallM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFallM() ">Fall  
 				<input type="checkbox" ng-model="winterM" ng-init="winterM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinterM() ">Winter  
