@@ -1,46 +1,14 @@
 <?php
-		
-//Database connection variables
-include('../connection.php');	
-session_start();
 
-//Format day
-date_default_timezone_set('America/Toronto');
-	
-	//determine current date so you only retrieve bookings after it
+/*
+THIS FILE IS USED FOR TESTING
+
+
+	include('../connection.php');
+	date_default_timezone_set('America/Toronto');
 	$currentDate = date('Y-m-d');
 	$currentTime = date('H:i:s');
-	$user = $_SESSION["netID"];
-
-	$bookings = array();
-
-
-	//get daily bookings from database
-	$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Rooms.building, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE (BookingSlots.recurringID IS NULL AND bookingDate >= ? AND uID = ? and BookingSlots.blockID >= (SELECT blockID FROM Blocks WHERE startTime >= ? LIMIT 1) ) OR (bookingDate > ? and uID = ?) GROUP BY bookingID ORDER BY bookingDate, startTime ASC;");
-	$sth->execute(array($currentDate, $user, $currentTime, $currentDate, $user));
-	
-	//Loop through each returned row 
-	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-		//Get number of blocks
-		$numBlocks = $row['numBlocks'];
-		
-		//Add thirty minutes to start time for each 
-		//block in booking if there is more than one
-		if ($numBlocks != 1) {
-			$startTime = $row['startTime'];
-			$endTime =  strtotime($startTime);
-		
-			while ($numBlocks >= 1) {
-				$endTime = date("H:i:s", strtotime('+30 minutes', $endTime));
-				$endTime = strtotime($endTime);
-				$numBlocks = ($numBlocks - 1);
-			}
-
-			//change the endtime to appropriate value
-			$row['endTime'] = date("H:i:s", $endTime);
-		}
-		array_push($bookings, $row);
-	}
+	$user = "11ecg5";
 	
 	//get all recurringIDs and amount of remainingBookings
 	$sth = $db->prepare("SELECT DISTINCT recurringID FROM BookingSlots JOIN Bookings ON Bookings.bookingID = BookingSlots.bookingID WHERE bookingDate >= ? AND uID = ? and BookingSlots.blockID >= (SELECT blockID FROM Blocks WHERE startTime >= ? LIMIT 1) OR (bookingDate > ? and uID = ?);");
@@ -102,14 +70,24 @@ date_default_timezone_set('America/Toronto');
 		}
 	}
 	
+	foreach ($recurringResults as $r) {
+		echo "<br>RecurringID: " . $r['recurringID'];
+		echo "<br>DayOfWeek: " . $r['dayOfWeek'];
+		echo "<br>Time: " . $r['time'];
+		echo "<br>Building: " . $r['building'];
+		echo "<br>Room: " . $r['room'];
+		echo "<br>Reason: " . $r['reason'];
+		echo "<br>Remaining: " . $r['weeksRemaining'];
+		foreach ($r['bookings'] as $b){
+			echo "<br>Bid:" . $b[0];
+			echo "<br>Date:" . $b[1];
+		}
+	}
 	
-$result['bookings'] = $bookings;
-$result['recurringBookings'] = $recurringResults;
+*/
 	
-//Close the connection
-$db = NULL;
-
-//encode result to json format
-$json = json_encode($result);
-echo $json;
+	
 ?>
+	
+	
+
