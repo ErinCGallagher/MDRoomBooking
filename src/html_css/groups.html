@@ -3,6 +3,8 @@
             <button class="new-group-button" ng-click="newGroup()"> 
                 <span class="glyphicon glyphicon-plus" aria-label="New Group"></span>
             </button>
+            <span  style="margin-top: 5em;b"  uib-tooltip= "Select the '+' button on the left to create a new group or select a group from the list below to view more information about that group" >
+			<img src="info-icon.png" style="width:4%;height:4%;"> </span>
 
     <div class="group-list">
         <div class="group-element" data-ng-repeat="group in groups" ng-click="showGroup(group)">
@@ -23,16 +25,20 @@
 
         <button class="btn" ng-click="openViewUsersPopup()">Manage Users</button>
         <button class="btn" ng-click="modifyGroup()">Modify Group</button>
-        <button class="btn" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button>
+        <button class="btn" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button> 
+        <span  style="margin-top: 5em;"  uib-tooltip= "Manage Users: view all users, add users, delete users || Modify Group: Make changes to group settings || Delete Group: delete group and all permissions" >
+		<img src="info-icon.png" style="width:4%;height:4%;"> </span>
     </div>
 </div>
 
 <div ng-show="showNewGroup" class="container info-container">    
     <form name="cGroup" class="group-info">
-    		<p><h3><strong><centre>Create A Group</centre></strong></h3></p>
+    		<p><h3><strong><centre>Create A Group</centre></strong>
+    		<span  style="margin-top: 5em;"  uib-tooltip= "Fill out all fields below then select the 'Create Group' button, users may be added to a group, once it has been created" >
+			<img src="info-icon.png" style="width:4%;height:4%;"> </span></h3></p>
             
             <div class="boxed">
-            <p><strong>Group Name:</strong> 		
+            <p><strong>Group Name:</strong>  		
 			<input name="gName" type="text" name="groupName" ng-init="newName='New Group'" ng-model="newName" class="form-control textbox" required >
 			<span ng-show="cGroup.gName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
 			
@@ -44,10 +50,12 @@
 			<div class="boxed">
 				<p><h4>Hours Settings</h4></p>
 				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
-			<strong>Hours Per Week</strong>
+			<strong>Hours Per Week <span  style="margin-top: 5em;"  uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
+			<img src="info-icon.png" style="width:3%;height:3%;"> </span> </strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsType"> 
-			<strong>Total Hours</strong></p>
+			<strong>Total Hours <span  style="margin-top: 5em;"  uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
+			<img src="info-icon.png" style="width:3%;height:3%;"> </span></strong></p>
 				<p><strong>Number of Hours:</strong>
 				<input name="newHrs" type="number" ng-init="hours=1" ng-model="hours" min=0 max=100 class="form-control textbox" required>
 				<span ng-show="cGroup.newHrs.$error.required"><font color="red">Please Enter # of Hours</font></span></p>
@@ -55,8 +63,10 @@
 			
 			</br>
 			<div class="boxed">
-			<p><h4>Duration Settings</h4></p>
-			<p><strong>Active:</strong>
+			<p><h4>Duration Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
+																					NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
+				<img src="info-icon.png" style="width:4%;height:4%;"> </span></h4></p>
+			<p><strong>Active Semester:</strong>
 				<input type="checkbox" ng-model="fall" ng-init="fall = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
 				<input type="checkbox" ng-model="winter" ng-init="winter = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeWinter() ">Winter  
 				<input type="checkbox" ng-model="summer" ng-init="summer = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeSummer() ">Summer<br></p>

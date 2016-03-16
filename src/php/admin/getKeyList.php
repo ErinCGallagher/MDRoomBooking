@@ -122,12 +122,13 @@
 		$result[0] = "No data";
 		$result[1] = $date;
 	}
+		$db = NULL;
+		
+		//Convert to json
+		$json = json_encode($result);
 	
-			//Convert to json
-			$json = json_encode($result);
-	
-			// echo the json string
-			echo $json;
+		// echo the json string
+		echo $json;
 	
 	
 	
