@@ -186,20 +186,9 @@
          		('Lower Harrison LeCaine Hall', '8:00', '23:00'),
          		('Theological Hall', '7:30', '23:00'),
          		('Chown Hall', '7:30', '23:00'),
-         		('The Isabel', '8:00', '20:00')");
+         		('The Isabel', '8:00', '20:00'),
+         		('Sonic Arts Studio', '8:00', '23:00')");
 
-	mysqli_query($cxn,"INSERT INTO Rooms (roomID, building, capacity, reqKey, upright, grand, openSpace, mirror, projector) VALUES
-     		('HLH 102','Harrison LeCaine Hall','100','No','Yes','No','No','Yes', 'No'),
-     		('HLH 103','Harrison LeCaine Hall','50', 'No','No', 'No', 'No', 'No', 'Yes'),
-     		('HLH 104','Harrison LeCaine Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('THEO 119','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('THEO 102','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('THEO 330','Theological Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('ISABEL 104','The Isabel','50', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('CHOWN 104','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('CHOWN 105','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('CHOWN 106','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No'),
-     		('CHOWN 107','Chown Hall','10', 'Yes','Yes', 'No', 'Yes','Yes','No')");
 		
 	//Close the connection
 	mysqli_close($cxn); 

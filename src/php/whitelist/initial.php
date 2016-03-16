@@ -4,28 +4,6 @@ session_start();
 include('../connection.php');
 include('checkBooking.php');
 
-//Get all buildings, rooms & building hours
-$allBuildings = array();
-
-$sth = $db->prepare("SELECT * FROM Building");
-$sth->execute();
-//Put result in an array 
-while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-	$building = $row['buildingID'];
-	$allBuildings[$building] = array();
-	$allBuildings[$building]['openTime'] = $row['openTime'];
-	$allBuildings[$building]['closeTime'] = $row['closeTime'];
-	
-	//get all rooms for building
-	$allBuildings[$building]['rooms'] = array();
-	$sth2 = $db->prepare("SELECT roomID FROM Rooms WHERE building = ?");
-	$sth2->execute(array($building));
-	while($room = $sth2->fetch(PDO::FETCH_ASSOC)) {
-		$allBuildings[$building]['rooms'][] = $room['roomID'];
-	}	
-}
-
-$_SESSION["buildings"] = $allBuildings;
 
 //Check if user can book
 //$user = $_SERVER["HTTP_QUEENSU_NETID"];
@@ -84,6 +62,48 @@ if($class != 'Admin'){
 	}
 
 }
+//confirm if student user that they have permission to view the Sonic Music Studio
+$studentWithSonicPermission = false;
+if($class == "Student"){
+	$sth = $db->prepare("SELECT * FROM Permission WHERE uID=$user and groupID=1");
+	$sth->execute();
+
+	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		$studentWithSonicPermission = true;
+	}
+}
+
+//Get all buildings, rooms & building hours
+$allBuildings = array();
+
+if(($class=='Student' && !$studentWithSonicPermission) || $class == "NonBooking"){
+	$sth = $db->prepare("SELECT * FROM Building WHERE buildingID <> 'Sonic Arts Studio';");
+	$sth->execute();
+}
+else{
+	$sth = $db->prepare("SELECT * FROM Building;");
+	$sth->execute();
+}
+
+
+//Put result in an array 
+while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+	$building = $row['buildingID'];
+	$allBuildings[$building] = array();
+	$allBuildings[$building]['openTime'] = $row['openTime'];
+	$allBuildings[$building]['closeTime'] = $row['closeTime'];
+	
+	//get all rooms for building
+	$allBuildings[$building]['rooms'] = array();
+	$sth2 = $db->prepare("SELECT roomID FROM Rooms WHERE building = ?");
+	$sth2->execute(array($building));
+	while($room = $sth2->fetch(PDO::FETCH_ASSOC)) {
+		$allBuildings[$building]['rooms'][] = $room['roomID'];
+	}	
+}
+
+
+$_SESSION["buildings"] = $allBuildings;
 
 $db = NULL;
 $data = array();

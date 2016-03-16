@@ -40,7 +40,7 @@
 	
 	$result = array();
 	
-	
+	// quick checks
 	if($_SESSION["class"] == "NonBooking"){
 		http_response_code(403); //Invalid Entry
 	}else if (!in_array($reason, $reasonsList)) {
@@ -66,7 +66,6 @@
 		$currentDate = date('Y-m-d');
 		$currentTime = date('H:i:s');
 		$class = $_SESSION['class'];
-		
 		
 		$twoWeeks = strtotime('+2 weeks', strtotime($currentDate));
 		$twoWeeks = date('Y-m-d', $twoWeeks);
@@ -121,115 +120,133 @@
 				$hrsSource = $_SESSION["class"];
 				$duration = ($totalB * 30.0) / 60.0;
 				//echo $duration;
-				//determnes which week the booking was booked in
-				$week = determineWhichWeek($startDate);
-				$hoursRemaining = 0;
 
-				//confirm if there are weekly hours for that week
-				$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
-				$sth->execute(array($uID));
-				while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					//Get number of blocks
+				$hasBookingDurationRestriction = getHasBookingDurationRestriction($db, $uID);
+				// check booking duration restrictions
+				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate)) {
+					$result['msg'] = "As a Music student, you cannot book rooms for more than 1 hour a day.";
+					http_response_code(406);
+				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Chown Hall")) {
+					$result['msg'] = "As a student user, you cannot book a room in Chown Hall for more than 1 hour.";
+					http_response_code(406);
+				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Upper Harrison LeCaine Hall" || $building == "Lower Harrison LeCaine Hall")) { 
+					$result['msg'] = "As a student user, you cannot book a room in Harrison LeCaine Hall for more than 1 hour.";
+					http_response_code(406);
+				} else if ($hasBookingDurationRestriction && $duration > 1.5 && ($building == "Theological Hall")) { 
+					$result['msg'] = "As a student user, you cannot book a room in Theological Hall for more than 1.5 hours.";
+					http_response_code(406);
+				} else {
 
-					$hoursRemaining = $row[$week];
-				}
-				
+					//determnes which week the booking was booked in
+					$week = determineWhichWeek($startDate);
+					$hoursRemaining = 0;
 
-				//if there are more weekly hours remaining than the hours required for the book
-				if($hoursRemaining >= $duration ){
-					$hrsSource = "Weekly"; //because they used their weekly hours to book it
-					
-					//create booking
-					$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
-					//Send bookingID to front end
-					$result['bookingID'] = $bookingID;
-
+					//confirm if there are weekly hours for that week
 					$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
 					$sth->execute(array($uID));
 					while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 						//Get number of blocks
-						$newWeeklyHrs = $row[$week] - $duration;
+
+						$hoursRemaining = $row[$week];
 					}
+					
 
-					for($k = 0; $k<$totalB; $k++){
-						array_push($hoursSourecList, "weekly");
-					}
-
-					//only if the booking is successful do you remove the hours
-					$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
-					$sth->execute(array($newWeeklyHrs,$uID));
-
-					//update hours Source for the booking the appropraite values
-					//in this case it will all be weekly
-					updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
-
-					http_response_code(200); //success
-				}
-				//still has some weekly hours left
-				else if($hoursRemaining > 0){
-
-					//calculate the new duration after using weekly hours
-					$remainingDuration = $duration - $hoursRemaining;
-
-					//check and see if the user has special hours valid this week
-					//if there are sufficien special hours to make the booking, book the room
-					if(SufficientSpecialHours($db, $uID, $startDate, $remainingDuration)){
-
-						//book the room
+					//if there are more weekly hours remaining than the hours required for the book
+					if($hoursRemaining >= $duration ){
+						$hrsSource = "Weekly"; //because they used their weekly hours to book it
+						
+						//create booking
 						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
-
 						//Send bookingID to front end
 						$result['bookingID'] = $bookingID;
 
-						//only if the booking is successful do you remove the hours
-						$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
-						$sth->execute(array(0,$uID));
+						$sth = $db->prepare("SELECT $week FROM User WHERE uID = ?");
+						$sth->execute(array($uID));
+						while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+							//Get number of blocks
+							$newWeeklyHrs = $row[$week] - $duration;
+						}
 
-						for($k = 0; $k<(($hoursRemaining * 60) / 30); $k++){
+						for($k = 0; $k<$totalB; $k++){
 							array_push($hoursSourecList, "weekly");
 						}
 
-						//remove the hours from the user's special groups
-						useSpecialHours($db, $uID, $startDate, $remainingDuration);
+						//only if the booking is successful do you remove the hours
+						$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
+						$sth->execute(array($newWeeklyHrs,$uID));
 
-						//update the hourse source for the blocks of the booking
+						//update hours Source for the booking the appropraite values
+						//in this case it will all be weekly
 						updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
 
 						http_response_code(200); //success
 					}
-					else{ //not sufficient hours
-						
-						$result['msg'] = "You do not have sufficient special hours to complete this booking after using all your weekly hours";
-						http_response_code(406);
+					//still has some weekly hours left
+					else if($hoursRemaining > 0){
+
+						//calculate the new duration after using weekly hours
+						$remainingDuration = $duration - $hoursRemaining;
+
+						//check and see if the user has special hours valid this week
+						//if there are sufficien special hours to make the booking, book the room
+						if(SufficientSpecialHours($db, $uID, $startDate, $remainingDuration)){
+
+							//book the room
+							$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
+
+							//Send bookingID to front end
+							$result['bookingID'] = $bookingID;
+
+							//only if the booking is successful do you remove the hours
+							$sth = $db->prepare("UPDATE User SET $week = ? WHERE uID = ?");
+							$sth->execute(array(0,$uID));
+
+							for($k = 0; $k<(($hoursRemaining * 60) / 30); $k++){
+								array_push($hoursSourecList, "weekly");
+							}
+
+							//remove the hours from the user's special groups
+							useSpecialHours($db, $uID, $startDate, $remainingDuration);
+
+							//update the hourse source for the blocks of the booking
+							updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
+
+							http_response_code(200); //success
+						}
+						else{ //not sufficient hours
+							
+							$result['msg'] = "You do not have sufficient special hours to complete this booking after using all your weekly hours";
+							http_response_code(406);
+						}
+		
 					}
-	
+					//no weekly hours left, does the user have enough secial hours to make the booking?
+					else if ($hoursRemaining <= 0){
+						//check and see if the user has special hours valid this week
+						//if there are sufficien special hours to make the booking, book the room
+						if(SufficientSpecialHours($db, $uID, $startDate,  $duration)){
+							//book the room
+							$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
+							//Send bookingID to front end
+							$result['bookingID'] = $bookingID;
+
+							//remove the hours from the user's special groups
+							useSpecialHours($db, $uID, $startDate, $duration);
+
+							
+							//update the hourse source for the blocks of the booking
+							updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
+
+							http_response_code(200); //success
+						}
+						else{ //not sufficient hours
+							$result['msg'] = "You do not have sufficient special hours to complete this booking, you also have no general weekly hours.";
+							
+							http_response_code(406);
+						}
+					}
+
 				}
-				//no weekly hours left, does the user have enough secial hours to make the booking?
-				else if ($hoursRemaining <= 0){
-					//check and see if the user has special hours valid this week
-					//if there are sufficien special hours to make the booking, book the room
-					if(SufficientSpecialHours($db, $uID, $startDate,  $duration)){
-						//book the room
-						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
-						//Send bookingID to front end
-						$result['bookingID'] = $bookingID;
-
-						//remove the hours from the user's special groups
-						useSpecialHours($db, $uID, $startDate, $duration);
-
-						
-						//update the hourse source for the blocks of the booking
-						updateHrsSource($db, $uID, $bookingID, $hoursSourecList);
-
-						http_response_code(200); //success
-					}
-					else{ //not sufficient hours
-						$result['msg'] = "You do not have sufficient special hours to complete this booking, you also have no general weekly hours.";
-						
-						http_response_code(406);
-					}
-				}
-
 			}
 			else{//faculty & admin have unlimited hours
 				//create booking
@@ -387,6 +404,24 @@
 	function update($db, $blockID, $bookingID, $hoursSoure){
 		$sth = $db->prepare("UPDATE BookingSLots SET hrsSource = ? WHERE bookingID = ? and blockID = ?;");
 		$sth->execute(array($hoursSoure, $bookingID, $blockID));
+	}
+
+	function getHasBookingDurationRestriction($db, $uID) {
+		// see if user is in any groups that has no booking duration restriction
+		$sth = $db->prepare("SELECT hasBookingDurationRestriction FROM User WHERE uID = ?");
+		$sth->execute(array($uID));
+		$queryOutput = $sth->fetch(PDO::FETCH_NUM);
+		return sizeof($queryOutput) != 0 && $queryOutput[0] == 'Yes';
+	}
+
+	function isOverDailyMusicMax($db, $uID, $totalBookingSlots, $bookingDate) {
+		// Music students can only book for an hour a day
+		$sth = $db->prepare("SELECT COUNT(*) FROM BookingSlots JOIN Bookings ON BookingSlots.bookingID = Bookings.bookingID 
+			JOIN Master ON Bookings.uID = Master.uID WHERE Bookings.uID = ? AND department = 'Music' AND bookingDate = ?");
+		$sth->execute(array($uID, $bookingDate));
+		$queryOutput = $sth->fetch(PDO::FETCH_NUM);
+		// print_r($queryOutput) ;
+		return (sizeof($queryOutput)) != 0 && (($queryOutput[0] + $totalBookingSlots) > 2);
 	}
 
 
