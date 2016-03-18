@@ -51,7 +51,7 @@
 	// each element has format <email>,<firstName>,<lastName>,<type>
 	// <type> = "Student" | "Faculty" | "Admin"
 	require '../uploadFile.php';
-	$fileLines = processFile();
+	$fileLines = saveFileAs('../../../user_list_'.$department.'.csv'); //should be saved in top level folder
 
 	$defaultHrs = getDepartmentDefaultWeeklyHours($db, $department);
 
