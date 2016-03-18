@@ -80,12 +80,12 @@
 		}
 		else {
 			//faculty can only book for current semester
-			if ($class = "Faculty" && $totalWeeks <= weeksLeftInSemester($currentDate, $startDate)){
+			if ($class == "Faculty" && $totalWeeks <= weeksLeftInSemester($currentDate, $startDate)){
 				$canBook = True;
-			} else if ($class = "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
+			} else if ($class == "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
 				$result['msg'] = "Faculty may only make bookings in the current semester.";
 				http_response_code(406); //Invalid Entry
-			} else if ($class = "Admin") {
+			} else if ($class == "Admin") {
 				$canBook = True;
 			} else {
 				$canBook = False;
@@ -126,7 +126,7 @@
 
 				//create first booking of total
 				$recurringID = -1;
-				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
+				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
 				
 				$sth = $db->prepare("UPDATE BookingSlots SET recurringID = ? WHERE bookingID = ?");
 				$sth->execute(array($bookingID, $bookingID));
@@ -137,7 +137,7 @@
 				while ($created <= $totalWeeks-1) {
 					$startDate = strtotime('+1 weeks', strtotime($startDate));
 					$startDate = date('Y-m-d', $startDate);
-					createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
+					createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
 					$created = $created + 1;
 				}
 				$result['success'] = $datesCreated;
@@ -157,13 +157,13 @@
 
 
 	//after determining the user has the hours to make a booking, insert the booking into the database
-	function createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource, $recurringID){
+	function createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource, $recurringID){
 
 		global $result, $datesCreated, $datesFailed;
 		
 		//create a booking 
-		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, academicYr, numParticipants) VALUES (?,?,?,?,?)");	
-		$sth->execute(array($uID,$reason,$desc,$year,$numP));
+		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, numParticipants) VALUES (?,?,?,?)");	
+		$sth->execute(array($uID,$reason,$desc,$numP));
 		
 		$bookingID = $db->lastInsertId();
 		//add to blocks to BookingSlots

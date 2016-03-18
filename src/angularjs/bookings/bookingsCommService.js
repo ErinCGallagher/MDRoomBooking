@@ -268,6 +268,36 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		return formattedDailyBookings;
 	}
 
+	bookingCommService.convertRecurringUserBookingsToExpectedFormat = function(bookings){
+		var formattedDailyBookings = [];
+
+		for(var i = 0; i<bookings.length;i++){
+
+			formattedDailyBookings[i] =  
+			{building: bookings[i].building, 
+			 dayOfWeek:bookings[i].dayOfWeek,
+			 recurringID:bookings[i].recurringID,
+			 roomNum: bookings[i].room,
+			 time: bookings[i].time,
+			 reason:bookings[i].reason,
+			 weeksRemaining:bookings[i].weeksRemaining,  
+			};
+
+			formattedDailyBookings[i].recurringBooking = [];
+			for(var j = 0; j<bookings[i].bookings.length;j++){
+				formattedDailyBookings[i].recurringBooking[j] = [];
+				formattedDailyBookings[i].recurringBooking[j] = 
+				{bookingID:bookings[i].bookings[j][0],
+				 date:bookings[i].bookings[j][1],
+				 recurringID:bookings[i].recurringID
+				};
+			}
+
+		}
+		return formattedDailyBookings;
+
+	}
+
 	//retirve the hours remaining for a week.
 	//determines the week based on the date provided and the week it is within
 	bookingCommService.hoursRemaining = function(date){

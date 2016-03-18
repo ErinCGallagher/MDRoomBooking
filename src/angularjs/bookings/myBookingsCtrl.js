@@ -9,6 +9,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	$scope.userName = SharedVariableService.name;
 	$scope.email = SharedVariableService.netID + "@queensu.ca";
 	$scope.bookings = MyBookingsService.userBookings;
+	$scope.recurringBookings = MyBookingsService.recurringUserBookings;
 
 	//retrieve future user bookings for display
 	MyBookingsService.retrieveUserBookings();
@@ -37,17 +38,13 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	    $scope.alerts.splice(index, 1);
 	};
 
-
-	//cancel a booking, open modal for comfirmation
-	$scope.cancel = function(bookingInfo){
-		console.log(bookingInfo);
-
-	    var confirmCancelPopupInstance = $uibModal.open({
-	        templateUrl: 'confirmCancel.html',
-	        controller: 'ConfirmCancelCtrl',
+	$scope.cancelAllRecur = function(reBooking){
+		var confirmCancelPopupInstance = $uibModal.open({
+	        templateUrl: 'confirmCancelAllRecur.html',
+	        controller: 'ConfirmCancelAllRecurCtrl',
 	        resolve: {
 	        	bookingInfo: function () {
-	            	return bookingInfo;
+	            	return reBooking;
 	          },
 
 	        }
@@ -60,5 +57,36 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	        $log.info('Modal dismissed at: ' + new Date());
 	    });
 	}
+
+
+	//cancel a booking, open modal for comfirmation
+	$scope.cancel = function(bookingInfo,recurring){
+
+	    var confirmCancelPopupInstance = $uibModal.open({
+	        templateUrl: 'confirmCancel.html',
+	        controller: 'ConfirmCancelCtrl',
+	        resolve: {
+	        	bookingInfo: function () {
+	            	return bookingInfo;
+	          },
+	          recurring: function () {
+	            	return recurring;
+	          },
+
+	        }
+	    });
+
+	    confirmCancelPopupInstance.result.then(function (alert) {
+	        $scope.alerts.push(alert);
+	        $scope.retrieveHours();
+	    }, function () {
+	        $log.info('Modal dismissed at: ' + new Date());
+	    });
+	}
+
+	$scope.toggleDetail = function(rID) {
+        //$scope.isVisible = $scope.isVisible == 0 ? true : false;
+        $scope.activePosition = $scope.activePosition == rID ? -1 : rID;
+    };
 
 };

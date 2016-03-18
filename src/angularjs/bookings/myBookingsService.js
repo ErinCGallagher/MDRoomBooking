@@ -6,17 +6,24 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 
 	var myBookingsService = {};
 	myBookingsService.userBookings = [];
+	myBookingsService.recurringUserBookings = [];
 
 	//retrieve the users future bookings for display
 	myBookingsService.retrieveUserBookings = function(){
 
 		CommService.retrieveUserBookings()
-			.then(function(bookings){
+			.then(function(bookingsResponse){
+				//non recurring bookings
 				myBookingsService.userBookings.splice(0,myBookingsService.userBookings.length);
-				for(var  i = 0; i < bookings.length; i++){
-					myBookingsService.userBookings.push(bookings[i]);
+				for(var  i = 0; i < bookingsResponse.bookings.length; i++){
+					myBookingsService.userBookings.push(bookingsResponse.bookings[i]);
 				}
 
+				//recurring bookings
+				myBookingsService.recurringUserBookings.splice(0,myBookingsService.recurringUserBookings.length);
+				for(var  j = 0; j < bookingsResponse.recurringBookings.length; j++){
+					myBookingsService.recurringUserBookings.push(bookingsResponse.recurringBookings[j]);
+				}
 			},
 			function(error){
 
@@ -38,11 +45,29 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 
 
 	//cancel a users own booking from the my bookings page
-	myBookingsService.cancelBooking = function(bookingID,startTime){
+	myBookingsService.cancelBooking = function(bookingID,startTime,recurring){
 		var q = $q.defer();
 		CommService.cancelBooking(bookingID,startTime)
 		.then(function(){
-			updateDisplay(bookingID);
+			if(!recurring){
+				updateBookingsDisplay(bookingID);
+			}else{
+				updateBookingsDisplay(bookingID); //TODO update booking from recurring
+			}
+
+			q.resolve();
+		},
+		function(err){
+			q.resolve(err);
+		});
+		return q.promise;
+	}
+	//cancel all bookings associated with a reccuring booking
+	myBookingsService.cancelAllRecurringBookings = function(reccurringID){
+		var q = $q.defer();
+		CommService.cancelAllRecurringBookings(reccurringID)
+		.then(function(){
+			updateRecurringDisplay(reccurringID);
 			q.resolve();
 		},
 		function(err){
@@ -52,7 +77,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 	}
 
 	//after a booking has been canceled successfully, remove it from the my bookings table
-	updateDisplay = function(bookingID){
+	updateBookingsDisplay = function(bookingID){
 		var i = 0
 		while(i < myBookingsService.userBookings.length){
 			if(myBookingsService.userBookings[i].bookingID == bookingID){
@@ -63,6 +88,20 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 		}
 
 	}
+
+	//after a booking has been canceled successfully, remove it from the my bookings table
+	updateRecurringDisplay = function(reccurringID){
+		var i = 0
+		while(i < myBookingsService.recurringUserBookings.length){
+			if(myBookingsService.recurringUserBookings[i].recurringID == reccurringID){
+				myBookingsService.recurringUserBookings.splice(i, 1);
+				i = myBookingsService.recurringUserBookings.length;
+			}
+		i++;
+		}
+
+	}
+
 
 	return myBookingsService;
 

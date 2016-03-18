@@ -1,18 +1,28 @@
 angular
 .module('mainApp')
 .controller('ConfirmCancelCtrl', ConfirmCancelCtrl)
-function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, $filter, MyBookingsService) {
+function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, recurring, $filter, MyBookingsService) {
 	$scope.booking = bookingInfo;
 
 	//called on "Cancel Booking" buton press
 	$scope.cancelBooking = function(){
+
+		if(recurring){
+			var bookingID = bookingInfo.bookingID;
+			var start = bookingInfo.date;
+
+		}
+		else{
+			var bookingID = bookingInfo.bookingID;
+			var start = bookingInfo.start;
+		}
 		
-		MyBookingsService.cancelBooking(bookingInfo.bookingID,bookingInfo.start) 
+		MyBookingsService.cancelBooking(bookingID,start,recurring) 
 			.then(function(){
 				alertSending("200");
 			},
 			function(){
-				alertSending("200");
+				alertSending("406");
 			});
 		
 	}

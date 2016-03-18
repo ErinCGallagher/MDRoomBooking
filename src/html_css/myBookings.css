@@ -10,6 +10,7 @@
 }
 
 .myBookings .user-information-cnontainer{
+    margin-bottom: 45px;
 	text-align: center;
     margin-top: 3%;
 }
@@ -25,8 +26,11 @@
 	font-size:100%;
 }
 
+.myBookings .myBookings-header{
+    text-align:center;
+}
+
 .myBookings .bookings{
-	margin-top: 45px;
     display: flex;
     justify-content: center;
     text-align: center;

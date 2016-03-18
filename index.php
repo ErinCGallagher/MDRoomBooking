@@ -50,6 +50,7 @@
         <script type="text/javascript" src="src/angularjs/confirmationPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/keyListCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/confirmCancelAllRecurCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>
