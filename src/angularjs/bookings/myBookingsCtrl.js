@@ -9,6 +9,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	$scope.userName = SharedVariableService.name;
 	$scope.email = SharedVariableService.netID + "@queensu.ca";
 	$scope.bookings = MyBookingsService.userBookings;
+	$scope.recurringBookings = MyBookingsService.recurringUserBookings;
 
 	//retrieve future user bookings for display
 	MyBookingsService.retrieveUserBookings();
@@ -60,5 +61,14 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	        $log.info('Modal dismissed at: ' + new Date());
 	    });
 	}
+
+	$scope.toggleDetail = function($index) {
+
+		console.log($index);
+        //$scope.isVisible = $scope.isVisible == 0 ? true : false;
+
+        console.log($scope.activePosition);
+        $scope.activePosition = $scope.activePosition == $index ? -1 : $index;
+    };
 
 };

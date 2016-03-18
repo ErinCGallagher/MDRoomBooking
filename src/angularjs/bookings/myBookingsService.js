@@ -6,17 +6,24 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 
 	var myBookingsService = {};
 	myBookingsService.userBookings = [];
+	myBookingsService.recurringUserBookings = [];
 
 	//retrieve the users future bookings for display
 	myBookingsService.retrieveUserBookings = function(){
 
 		CommService.retrieveUserBookings()
-			.then(function(bookings){
+			.then(function(bookingsResponse){
+				//non recurring bookings
 				myBookingsService.userBookings.splice(0,myBookingsService.userBookings.length);
-				for(var  i = 0; i < bookings.length; i++){
-					myBookingsService.userBookings.push(bookings[i]);
+				for(var  i = 0; i < bookingsResponse.bookings.length; i++){
+					myBookingsService.userBookings.push(bookingsResponse.bookings[i]);
 				}
 
+				//recurring bookings
+				myBookingsService.recurringUserBookings.splice(0,myBookingsService.recurringUserBookings.length);
+				for(var  j = 0; j < bookingsResponse.recurringBookings.length; j++){
+					myBookingsService.recurringUserBookings.push(bookingsResponse.recurringBookings[j]);
+				}
 			},
 			function(error){
 

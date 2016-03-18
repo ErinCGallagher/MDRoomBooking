@@ -10,6 +10,7 @@
 	<div class="info"><strong>Name: </strong>{{userName}}</div>
 	<div class="info"><strong>Email: </strong>{{email}}</div>
 </div>
+<h3 class="myBookings-header"> My Bookings </h3>
 <div class="bookings">
 	<table>
 		<tr>
@@ -31,6 +32,36 @@
 			<td>{{booking.reason}}</td>
 			<td><button ng-click="cancel(booking)"> X </button></td>
 		</tr>
+	</table>
+</div>
+
+<h3 class="myBookings-header"> My Recurring Bookings </h3>
+<div class="bookings">
+	<table>
+		<tr>
+			<th>Day of the Week</th>
+			<th>Time</th>
+			<th>Bookings Remaining</th>
+			<th>Building</th>
+			<th>Room number</th>
+			<th>Reason</th>
+			<th>Click to Cancel</th>
+		</tr>
+		<tbody ng-repeat="reBooking in recurringBookings">
+			<tr ng-click="toggleDetail($index)">
+				<td>{{reBooking.dayOfWeek}}</td>
+				<td>{{reBooking.time }}</td>
+				<td>{{reBooking.weeksRemaining}}</td>
+				<td>{{reBooking.building}}</td>
+				<td>{{reBooking.roomNum}}</td>
+				<td>{{reBooking.reason}}</td>
+				<td><button ng-click=""> X </button></td>
+			</tr>
+			<tr ng-repeat="booking in reBooking.recurringBooking">
+				<td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
+				<td colspan="1"><button ng-click=""> X </button></td>
+			</tr>
+		</tbody>
 	</table>
 </div>
 

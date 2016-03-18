@@ -59,8 +59,8 @@ date_default_timezone_set('America/Toronto');
 			
 			$count = 0;
 			//get information about each recurring booking
-			$sth2 = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Rooms.building, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE (BookingSlots.recurringID = ? AND bookingDate >= ? AND uID = ? and BookingSlots.blockID >= (SELECT blockID FROM Blocks WHERE startTime >= ? LIMIT 1) ) OR (bookingDate > ? and uID = ?) GROUP BY bookingID ORDER BY bookingDate, startTime ASC;");
-			$sth2->execute(array($rid, $currentDate, $user, $currentTime, $currentDate, $user));
+			$sth2 = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Rooms.building, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE (BookingSlots.recurringID = ? AND bookingDate >= ? AND uID = ? and BookingSlots.blockID >= (SELECT blockID FROM Blocks WHERE startTime >= ? LIMIT 1) ) OR (bookingDate > ? and uID = ? and BookingSlots.recurringID = ?) GROUP BY bookingID ORDER BY bookingDate, startTime ASC;");
+			$sth2->execute(array($rid, $currentDate, $user, $currentTime, $currentDate, $user,$rid));
 			
 			//Loop through each returned row 
 			while($row2 = $sth2->fetch(PDO::FETCH_ASSOC)) {

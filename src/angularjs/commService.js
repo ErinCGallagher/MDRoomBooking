@@ -261,26 +261,15 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
-	/*
-	//for user testing only
-	commService.changeUserType = function(userPermision){
-		var q = $q.defer();
-		UserCommService.changeUserType(userPermision)
-			.then(function(response){
-				q.resolve();
-			},
-			function(err){
-				q.reject();
-			});
-		return q.promise;
-	}
-	*/
-
+	//retirieve a users bookings
 	commService.retrieveUserBookings = function(){
 		var q = $q.defer();
 		BookingCommService.retrieveUserBookings()
 			.then(function(userBookings){
-				var formatteduserBookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data);
+				var formatteduserBookings = {};
+				 formatteduserBookings.bookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data.bookings);
+				 formatteduserBookings.recurringBookings = BookingCommService.convertRecurringUserBookingsToExpectedFormat(userBookings.data.recurringBookings);
+				console.log(formatteduserBookings);
 				q.resolve(formatteduserBookings);
 			},
 			function(err){
