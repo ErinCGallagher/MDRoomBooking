@@ -63,11 +63,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	}
 
 	$scope.toggleDetail = function($index) {
-
-		console.log($index);
         //$scope.isVisible = $scope.isVisible == 0 ? true : false;
-
-        console.log($scope.activePosition);
         $scope.activePosition = $scope.activePosition == $index ? -1 : $index;
     };
 

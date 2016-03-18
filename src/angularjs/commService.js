@@ -269,7 +269,6 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 				var formatteduserBookings = {};
 				 formatteduserBookings.bookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data.bookings);
 				 formatteduserBookings.recurringBookings = BookingCommService.convertRecurringUserBookingsToExpectedFormat(userBookings.data.recurringBookings);
-				console.log(formatteduserBookings);
 				q.resolve(formatteduserBookings);
 			},
 			function(err){
