@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('ViewUsersModalCtrl', ViewUsersModalCtrl);
 
-function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationPopupService, AdminGroupsService, groupId, groupName) {
+function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, $sce, AdminGroupsService, groupId, groupName) {
 
 	$scope.groupId = groupId;
 	$scope.groupName = groupName;
@@ -31,11 +31,32 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 			});
 	}
 
+	openConfirmPopup = function(submitFunction, submitData, msgString) {
+		//need to sanitize msg first if using html tags
+		var htmlMsg = $sce.trustAsHtml(msgString);
+		var popupInstance = $uibModal.open({
+			templateUrl: 'confirmation.html',
+			controller: 'ConfirmationPopupCtrl',
+			resolve: {
+				submitFunction: function () {
+					return submitFunction; //set by getGroupInfo
+				},
+				submitData: function () {
+					return submitData;
+				},
+				msg: function () {
+					return htmlMsg;
+				}
+			}
+	    });
+	    return popupInstance;
+	}
+
 	$scope.confirmDeleteUserFromGroup = function(user) {
 		var msg = "<div> Are you sure you want to remove user <b>" 
 			+ user.firstName + " " + user.lastName + " (" + user.uID 
 			+ ") </b> from group <b>" + $scope.groupName + "</b>?";
-		var popupInstance = ConfirmationPopupService.open(deleteUserFromGroup, user, msg);
+		var popupInstance = openConfirmPopup(deleteUserFromGroup, user, msg);
 	    
 	    popupInstance.result.then(function () {
 			//TODO: fix so only removes user from list if they were successfully deleted
@@ -57,7 +78,7 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 	$scope.confirmDeleteAllUsersFromGroup = function() {
 		var userString = $scope.userList.length == 1 ? "1 user" : "all " + $scope.userList.length + " users";
 		var msg = "<div> Are you sure you want to remove <b> " + userString + " </b> from group <b>" + $scope.groupName + "</b>?";
-		var popupInstance = ConfirmationPopupService.open(deleteAllUsersFromGroup, null, msg);
+		var popupInstance = openConfirmPopup(deleteAllUsersFromGroup, null, msg);
 	    
 	    popupInstance.result.then(function () {
 			$scope.userList = [];
