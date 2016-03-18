@@ -45,11 +45,16 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 
 
 	//cancel a users own booking from the my bookings page
-	myBookingsService.cancelBooking = function(bookingID,startTime){
+	myBookingsService.cancelBooking = function(bookingID,startTime,recurring){
 		var q = $q.defer();
 		CommService.cancelBooking(bookingID,startTime)
 		.then(function(){
-			updateBookingsDisplay(bookingID);
+			if(!recurring){
+				updateBookingsDisplay(bookingID);
+			}else{
+				updateBookingsDisplay(bookingID); //TODO update booking from recurring
+			}
+
 			q.resolve();
 		},
 		function(err){
@@ -96,6 +101,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 		}
 
 	}
+
 
 	return myBookingsService;
 

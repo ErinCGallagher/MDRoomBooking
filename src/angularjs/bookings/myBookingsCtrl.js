@@ -60,7 +60,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 
 
 	//cancel a booking, open modal for comfirmation
-	$scope.cancel = function(bookingInfo){
+	$scope.cancel = function(bookingInfo,recurring){
 
 	    var confirmCancelPopupInstance = $uibModal.open({
 	        templateUrl: 'confirmCancel.html',
@@ -68,6 +68,9 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	        resolve: {
 	        	bookingInfo: function () {
 	            	return bookingInfo;
+	          },
+	          recurring: function () {
+	            	return recurring;
 	          },
 
 	        }

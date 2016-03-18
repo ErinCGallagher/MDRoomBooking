@@ -30,7 +30,7 @@
 			<td>{{booking.roomNum}}</td>
 			<td>{{booking.keyRequired}}</td>
 			<td>{{booking.reason}}</td>
-			<td><button ng-click="cancel(booking)"> X </button></td>
+			<td><button ng-click="cancel(booking,false)"> X </button></td>
 		</tr>
 	</table>
 </div>
@@ -60,7 +60,7 @@
 			</tr>
 			<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
 				<td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
-				<td colspan="1"><button ng-click=""> X </button></td>
+				<td colspan="1"><button ng-click="cancel(booking,true)"> X </button></td>
 			</tr>
 		</tbody>
 	</table>

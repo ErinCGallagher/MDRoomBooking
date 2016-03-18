@@ -17,7 +17,6 @@
 	$reason = $data->reason;
 	$building = $data->building;
 	$desc = $data->otherDesc;
-	$year = "2015/2016";
 	$numP = $data->numParticipants;
 	$localStart = $data->start;
 	$localEnd = $data->end;
@@ -141,7 +140,7 @@
 					$hrsSource = "Weekly"; //because they used their weekly hours to book it
 					
 					//create booking
-					$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
+					$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
 					//Send bookingID to front end
 					$result['bookingID'] = $bookingID;
 
@@ -177,7 +176,7 @@
 					if(SufficientSpecialHours($db, $uID, $startDate, $remainingDuration)){
 
 						//book the room
-						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
+						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
 
 						//Send bookingID to front end
 						$result['bookingID'] = $bookingID;
@@ -211,7 +210,7 @@
 					//if there are sufficien special hours to make the booking, book the room
 					if(SufficientSpecialHours($db, $uID, $startDate,  $duration)){
 						//book the room
-						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
+						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource);
 						//Send bookingID to front end
 						$result['bookingID'] = $bookingID;
 
@@ -234,7 +233,7 @@
 			}
 			else{//faculty & admin have unlimited hours
 				//create booking
-				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class);
+				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class);
 				//Send bookingID to front end
 				$result['bookingID'] = $bookingID;
 			}
@@ -252,13 +251,13 @@
 
 
 	//after determining the user has the hours to make a booking, insert the booking into the database
-	function createBookingInDB($db,$uID,$reason,$desc,$year,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource){
+	function createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource){
 
 		global $result;
 		//echo $totalB;
 		//create a booking 
-		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, academicYr, numParticipants) VALUES (?,?,?,?,?)");	
-		$sth->execute(array($uID,$reason,$desc,$year,$numP));
+		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, numParticipants) VALUES (?,?,?,?)");	
+		$sth->execute(array($uID,$reason,$desc,$numP));
 		
 		$bookingID = $db->lastInsertId();
 		//add to blocks to BookingSlots
