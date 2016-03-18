@@ -34,36 +34,37 @@
 		</tr>
 	</table>
 </div>
-
-<h3 class="myBookings-header"> My Recurring Bookings </h3>
-<p class="myBookings-header">Click Row To Expand Recurring Bookings</p>
-<div class="bookings">
-	<table>
-		<tr>
-			<th>Day of the Week</th>
-			<th>Time</th>
-			<th>Bookings Remaining</th>
-			<th>Building</th>
-			<th>Room number</th>
-			<th>Reason</th>
-			<th>Click to Cancel</th>
-		</tr>
-		<tbody ng-repeat="reBooking in recurringBookings">
-			<tr ng-click="toggleDetail(reBooking.recurringID)">
-				<td>{{reBooking.dayOfWeek}}</td>
-				<td>{{reBooking.time }}</td>
-				<td>{{reBooking.weeksRemaining}}</td>
-				<td>{{reBooking.building}}</td>
-				<td>{{reBooking.roomNum}}</td>
-				<td>{{reBooking.reason}}</td>
-				<td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
+<div ng-show="userType != 'student'">
+	<h3 class="myBookings-header"> My Recurring Bookings </h3>
+	<p class="myBookings-header">Click Row To Expand Recurring Bookings</p>
+	<div class="bookings">
+		<table>
+			<tr>
+				<th>Day of the Week</th>
+				<th>Time</th>
+				<th>Bookings Remaining</th>
+				<th>Building</th>
+				<th>Room number</th>
+				<th>Reason</th>
+				<th>Click to Cancel</th>
 			</tr>
-			<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
-				<td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
-				<td colspan="1"><button ng-click="cancel(booking,true)"> X </button></td>
-			</tr>
-		</tbody>
-	</table>
+			<tbody ng-repeat="reBooking in recurringBookings">
+				<tr ng-click="toggleDetail(reBooking.recurringID)">
+					<td>{{reBooking.dayOfWeek}}</td>
+					<td>{{reBooking.time }}</td>
+					<td>{{reBooking.weeksRemaining}}</td>
+					<td>{{reBooking.building}}</td>
+					<td>{{reBooking.roomNum}}</td>
+					<td>{{reBooking.reason}}</td>
+					<td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
+				</tr>
+				<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
+					<td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
+					<td colspan="1"><button ng-click="cancel(booking,true)"> X </button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <!-- View Booking Popup Template -->

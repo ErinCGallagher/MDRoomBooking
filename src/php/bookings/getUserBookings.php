@@ -92,11 +92,11 @@ date_default_timezone_set('America/Toronto');
 					//change the endtime to appropriate value
 					$row2['endTime'] = date("H:i:s", $endTime);
 				}
-				
+				$count = $count + 1;
 				$recurring[$rid]['weeksRemaining'] = $count;
 				$recurring[$rid]['time'] = $startTime . " - " . $endTime;
 		
-				$count = $count + 1;
+				
 			}
 			$recurringResults[] = $recurring[$rid];
 		}
