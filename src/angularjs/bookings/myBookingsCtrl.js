@@ -7,6 +7,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	$scope.pageClass = 'myBookings'; //used to change pages in index.html
 	$scope.hours = 0;
 	$scope.userName = SharedVariableService.name;
+	$scope.userType = SharedVariableService.userType;
 	$scope.email = SharedVariableService.netID + "@queensu.ca";
 	$scope.bookings = MyBookingsService.userBookings;
 	$scope.recurringBookings = MyBookingsService.recurringUserBookings;
