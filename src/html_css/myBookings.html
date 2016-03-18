@@ -36,6 +36,7 @@
 </div>
 
 <h3 class="myBookings-header"> My Recurring Bookings </h3>
+<p class="myBookings-header">Click Row To Expand Recurring Bookings</p>
 <div class="bookings">
 	<table>
 		<tr>
@@ -48,16 +49,16 @@
 			<th>Click to Cancel</th>
 		</tr>
 		<tbody ng-repeat="reBooking in recurringBookings">
-			<tr ng-click="toggleDetail($index)">
+			<tr ng-click="toggleDetail(reBooking.recurringID)">
 				<td>{{reBooking.dayOfWeek}}</td>
 				<td>{{reBooking.time }}</td>
 				<td>{{reBooking.weeksRemaining}}</td>
 				<td>{{reBooking.building}}</td>
 				<td>{{reBooking.roomNum}}</td>
 				<td>{{reBooking.reason}}</td>
-				<td><button ng-click=""> X </button></td>
+				<td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
 			</tr>
-			<tr ng-repeat="booking in reBooking.recurringBooking">
+			<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
 				<td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
 				<td colspan="1"><button ng-click=""> X </button></td>
 			</tr>
@@ -66,28 +67,56 @@
 </div>
 
 <!-- View Booking Popup Template -->
-    <div>
-        <script type="text/ng-template" id="confirmCancel.html">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
-                </div>
-                <div class="modal-body">
-                	<div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
-                	<div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
-					<div><strong>Building:</strong> {{booking.building}}</div>
-					<div><strong>Room #:</strong> {{booking.roomNum}}</div>
-					<div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
-					<div><strong>Reason:</strong> {{booking.reason}}</div>
-					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
-            	</div>
-            	<div class="modal-footer">
-                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn" ng-click="back()">Back</button>
+<div>
+    <script type="text/ng-template" id="confirmCancel.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+            </div>
+            <div class="modal-body">
+            	<div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
+            	<div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
+				<div><strong>Building:</strong> {{booking.building}}</div>
+				<div><strong>Room #:</strong> {{booking.roomNum}}</div>
+				<div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
+				<div><strong>Reason:</strong> {{booking.reason}}</div>
+				<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
+        	</div>
+        	<div class="modal-footer">
+                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
+                <button type="submit" class="btn" ng-click="back()">Back</button>
 
-                </div>
-        </script>  
-    </div>
+            </div>
+    </script>  
+</div>
+
+<!-- View Booking Popup Template -->
+<div>
+    <script type="text/ng-template" id="confirmCancelAllRecur.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Are you sure you want to cancel ALL the recurring bookings associated with this booking?</h4>
+            </div>
+            <div class="modal-body">
+            	<div><strong>Building:</strong> {{recurrBookings.building}}</div>
+				<div><strong>Room #:</strong> {{recurrBookings.roomNum}}</div>
+            	<div><strong>Time:</strong> {{recurrBookings.time}}</div>
+
+            	<h4> Recurring Bookings </h4>
+            	<div ng-repeat="booking in recurrBookings.recurringBooking">
+            	<div><strong>Date:</strong> {{booking.date}}</div>
+            	</div>
+				
+
+        	<div class="modal-footer">
+                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel All Bookings</button>
+                <button type="submit" class="btn" ng-click="back()">Back</button>
+
+            </div>
+    </script>  
+</div>
 

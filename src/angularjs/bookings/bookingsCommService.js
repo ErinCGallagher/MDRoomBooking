@@ -287,7 +287,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 				formattedDailyBookings[i].recurringBooking[j] = [];
 				formattedDailyBookings[i].recurringBooking[j] = 
 				{bookingID:bookings[i].bookings[j][0],
-				 date:bookings[i].bookings[j][1]
+				 date:bookings[i].bookings[j][1],
+				 recurringID:bookings[i].recurringID
 				};
 			}
 

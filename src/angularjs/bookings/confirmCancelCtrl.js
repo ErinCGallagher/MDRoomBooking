@@ -12,7 +12,7 @@ function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, $filter, MyB
 				alertSending("200");
 			},
 			function(){
-				alertSending("200");
+				alertSending("406");
 			});
 		
 	}

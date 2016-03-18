@@ -47,6 +47,7 @@
         <script type="text/javascript" src="src/angularjs/bookings/recurringBookingConfirmationPopupCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/bookings/confirmCancelCtrl.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/viewUsersPopupCtrl.js"></script>
+        <script type="text/javascript" src="src/angularjs/bookings/confirmCancelAllRecurCtrl.js"></script>
 
         <!-- Services -->
         <script type="text/javascript" src="src/angularjs/commService.js"></script>

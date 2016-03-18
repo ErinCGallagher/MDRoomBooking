@@ -38,10 +38,29 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	    $scope.alerts.splice(index, 1);
 	};
 
+	$scope.cancelAllRecur = function(reBooking){
+		var confirmCancelPopupInstance = $uibModal.open({
+	        templateUrl: 'confirmCancelAllRecur.html',
+	        controller: 'ConfirmCancelAllRecurCtrl',
+	        resolve: {
+	        	bookingInfo: function () {
+	            	return reBooking;
+	          },
+
+	        }
+	    });
+
+	    confirmCancelPopupInstance.result.then(function (alert) {
+	        $scope.alerts.push(alert);
+	        $scope.retrieveHours();
+	    }, function () {
+	        $log.info('Modal dismissed at: ' + new Date());
+	    });
+	}
+
 
 	//cancel a booking, open modal for comfirmation
 	$scope.cancel = function(bookingInfo){
-		console.log(bookingInfo);
 
 	    var confirmCancelPopupInstance = $uibModal.open({
 	        templateUrl: 'confirmCancel.html',
@@ -62,9 +81,9 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	    });
 	}
 
-	$scope.toggleDetail = function($index) {
+	$scope.toggleDetail = function(rID) {
         //$scope.isVisible = $scope.isVisible == 0 ? true : false;
-        $scope.activePosition = $scope.activePosition == $index ? -1 : $index;
+        $scope.activePosition = $scope.activePosition == rID ? -1 : rID;
     };
 
 };
