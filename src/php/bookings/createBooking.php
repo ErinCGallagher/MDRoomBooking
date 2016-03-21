@@ -123,7 +123,7 @@
 
 				$hasBookingDurationRestriction = getHasBookingDurationRestriction($db, $uID);
 				// check booking duration restrictions
-				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate)) {
+				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate) && ($building != "Theological Hall")) {
 					$result['msg'] = "As a Music student, you cannot book rooms for more than 1 hour a day.";
 					http_response_code(406);
 				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Chown Hall")) {
@@ -392,7 +392,7 @@
 	function updateHrsSource($db, $uID, $bookingID, $hoursSourecList){
 	
 		$numBlock = 0;
-		$sth = $db->prepare("SELECT blockID FROM BookingSLots WHERE bookingID = ?;");
+		$sth = $db->prepare("SELECT blockID FROM BookingSlots WHERE bookingID = ?;");
 		$sth->execute(array($bookingID));
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			update($db, $row['blockID'], $bookingID, $hoursSourecList[$numBlock]);
@@ -402,7 +402,7 @@
 
 	// updates hours source for all of the booking slots
 	function update($db, $blockID, $bookingID, $hoursSoure){
-		$sth = $db->prepare("UPDATE BookingSLots SET hrsSource = ? WHERE bookingID = ? and blockID = ?;");
+		$sth = $db->prepare("UPDATE BookingSlots SET hrsSource = ? WHERE bookingID = ? and blockID = ?;");
 		$sth->execute(array($hoursSoure, $bookingID, $blockID));
 	}
 
