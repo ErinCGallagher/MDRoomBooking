@@ -12,7 +12,7 @@
 	function createUsersFile ($db, $department){ 
 		
 		//Get info from database
-	   	$getUsersQuery = "SELECT user.uID, firstName, lastName, class FROM user JOIN master ON user.UID = master.uID WHERE department = ? ORDER BY class DESC, lastName";
+	   	$getUsersQuery = "SELECT User.uID, firstName, lastName, class FROM User JOIN Master ON User.UID = Master.uID WHERE department = ? ORDER BY class DESC, lastName";
 	   	$getUsersStmt = runQuery($db, $getUsersQuery, array($department));
 
 		$fileText = "";
