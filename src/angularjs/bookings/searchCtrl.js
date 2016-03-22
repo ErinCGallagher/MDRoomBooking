@@ -125,6 +125,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
           
 					$scope.calRender = SearchService.calRender;
           uiCalendarConfig.calendars.myCalendar.fullCalendar( 'gotoDate', selectedDate );
+          selectTab();
         },
 				function(err){
 				});
@@ -146,6 +147,17 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
         SearchService.clearData();
 
     });
+
+    selectTab = function(){
+      $scope.selectedTab = SearchService.roomTabs[0];
+    for(var key in $scope.tabs){
+        if ($scope.tabs[key].title ==  $scope.selectedTab.title){
+          $scope.tabs[key].active = true;
+        }else{
+          $scope.tabs[key].active = false;
+        }
+      }
+  }
 
 
   //CALENDAR
