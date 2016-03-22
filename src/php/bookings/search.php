@@ -109,7 +109,7 @@ if ($sth->rowCount() > 0) {
 			//there is at least one block available
 			$search[$room['roomID']] = array();
 			
-			$sth3 = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID WHERE roomID = ? AND bookingDate = ? GROUP BY bookingID ASC;");
+			$sth3 = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, User.uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, User.firstName, User.lastName, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks JOIN User ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID AND User.uID = Bookings.uID WHERE roomID = ? AND bookingDate = ? GROUP BY bookingID ASC;");
 			$sth3->execute(array($room['roomID'],$startDate));
 			
 			//Loop through each returned row 

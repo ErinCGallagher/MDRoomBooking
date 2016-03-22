@@ -133,7 +133,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 	}
 
 
-	//convert the daily bookings information to the correct font end format
+	//convert the weekly bookings information to the correct font end format
 	bookingCommService.convertToExpectedFormat = function(dailyBookings,userType){
 		//assumes that events have been combined if they have the same booking ID	
 		var formattedDailyBookings = [];

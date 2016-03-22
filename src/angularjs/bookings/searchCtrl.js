@@ -208,32 +208,8 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
       controller: 'ViewBookingPopupCtrl',
       backdrop: 'static',
       resolve: {
-        building: function () {
-          return date.building;
-        },
-        roomNum: function () {
-          return date.roomNum;
-        },
-        reason: function () {
-          return date.title;
-        },
-        date: function () {
-          return date.start.format("MMM D, YYYY");
-        },
-        startTime: function () {
-          return date.start;
-        },
-        endTime: function () {
-          return date.end;
-        },
-        bookingID: function () {
-          return date.bookingID;
-        },
-        bookingUserType: function () {
-          return date.bookingUserType;
-        },
-        userType: function () {
-          return SharedVariableService.userType;
+        booking: function(){
+          return date;
         },
         sourcePage: function () {
           return "search";
