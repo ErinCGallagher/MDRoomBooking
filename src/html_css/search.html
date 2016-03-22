@@ -71,10 +71,9 @@
    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
    </div>
 
-     <!-- Make Booking Popup Template -->
+    <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -125,6 +124,15 @@
                                 ng-required="selectedReason=='Other'"></textarea>
                             <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
                         </div>
+                        <div ng-show="selectedReason=='Performance'">
+                            <Strong>Performance Title: </Strong>
+                            <textarea 
+                                name="description" 
+                                ng-model="description" 
+                                ng-maxlength="200" 
+                                ng-required="selectedReason=='Performance'"></textarea>
+                            <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
+                        </div>
                         <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
                             <Strong>Course Code: </Strong>
                             <textarea 
@@ -152,8 +160,11 @@
                                 name="numWeeks"
                                 ng-model="numWeeks"
                                 ng-required="reccurBool == true"
-                                ng-max="9"
+                                max="maxReccur"
+                                min="2"
                               > 
+                              <p ng-show=" (numWeeks > maxReccur) && (reccurBool == true)"> The number of weeks cannot exceed {{maxReccur}}</p>
+                              <p ng-show=" (numWeeks < 2) && (reccurBool == true)"> The number of weeks must exceed 1</p>
                             </div>
                         </div>
                     
@@ -188,6 +199,9 @@
                         <p><strong>Reason:</strong> {{reason}}</p>
                         <div ng-show="reason=='Other'">
                             <p><Strong>Description: </Strong> {{description}}</p>
+                        </div>
+                        <div ng-show="reason=='Performance'">
+                            <p><Strong>Performance Title: </Strong> {{description}}</p>
                         </div>
                         <div ng-show="reason=='Course' || reason=='Coursework'">
                             <p><Strong>Course Code: </Strong> {{description}}</p>

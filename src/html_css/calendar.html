@@ -99,6 +99,15 @@
                                 ng-required="selectedReason=='Other'"></textarea>
                             <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
                         </div>
+                        <div ng-show="selectedReason=='Performance'">
+                            <Strong>Performance Title: </Strong>
+                            <textarea 
+                                name="description" 
+                                ng-model="description" 
+                                ng-maxlength="200" 
+                                ng-required="selectedReason=='Performance'"></textarea>
+                            <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
+                        </div>
                         <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
                             <Strong>Course Code: </Strong>
                             <textarea 
@@ -165,6 +174,9 @@
                         <p><strong>Reason:</strong> {{reason}}</p>
                         <div ng-show="reason=='Other'">
                             <p><Strong>Description: </Strong> {{description}}</p>
+                        </div>
+                        <div ng-show="reason=='Performance'">
+                            <p><Strong>Performance Title: </Strong> {{description}}</p>
                         </div>
                         <div ng-show="reason=='Course' || reason=='Coursework'">
                             <p><Strong>Course Code: </Strong> {{description}}</p>
