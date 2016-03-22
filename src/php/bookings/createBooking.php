@@ -123,13 +123,15 @@
 
 				$hasBookingDurationRestriction = getHasBookingDurationRestriction($db, $uID);
 				// check booking duration restrictions
-				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate) && ($building != "Theological Hall")) {
+				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate) 
+					&& ($building != "Theological Hall" && $building != "The Isabel")) {
 					$result['msg'] = "As a Music student, you cannot book rooms for more than 1 hour a day.";
 					http_response_code(406);
 				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Chown Hall")) {
 					$result['msg'] = "As a student user, you cannot book a room in Chown Hall for more than 1 hour.";
 					http_response_code(406);
-				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Upper Harrison LeCaine Hall" || $building == "Lower Harrison LeCaine Hall")) { 
+				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Upper Harrison LeCaine Hall" || $building == "Lower Harrison LeCaine Hall"
+					|| $building == "Sonic Arts Studio")) { 
 					$result['msg'] = "As a student user, you cannot book a room in Harrison LeCaine Hall for more than 1 hour.";
 					http_response_code(406);
 				} else if ($hasBookingDurationRestriction && $duration > 1.5 && ($building == "Theological Hall")) { 
