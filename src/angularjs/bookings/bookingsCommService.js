@@ -134,8 +134,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 
 	//convert the daily bookings information to the correct font end format
-	//not called by anything outside this service so does not need bookingCommService.
-	bookingCommService.convertToExpectedFormat = function(dailyBookings){
+	bookingCommService.convertToExpectedFormat = function(dailyBookings,userType){
 		//assumes that events have been combined if they have the same booking ID	
 		var formattedDailyBookings = [];
 
@@ -145,6 +144,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			if(dailyBookings[i].hrsSource != "Faculty" && dailyBookings[i].hrsSource != "Admin"){
 				dailyBookings[i].hrsSource = "student";
 			}
+
+
 			var newStartDate = new Date(startTime);
 			var newEndDate = new Date(endTime);
  
@@ -161,16 +162,23 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 bookingUserType:dailyBookings[i].hrsSource.toLowerCase(),
 			 color:colour
 			};
+
+			if(userType != "student"){ //user name only for Faculty & Admin users
+				formattedDailyBookings[i].userName = dailyBookings[i].firstName + " " + dailyBookings[i].lastName;
+			}
+			if(userType == "admin"){ //email
+				formattedDailyBookings[i].userEmail = dailyBookings[i].uID + "@queensu.ca";
+			}
 		}
 		
 		return formattedDailyBookings;
 	}
 
 	//loop through the object of weekly bookings for all rooms in a building and format it appropriately
-	bookingCommService.formatBuildingWeeklyBookings = function(buildingWeeklyBookings){
+	bookingCommService.formatBuildingWeeklyBookings = function(buildingWeeklyBookings, userType){
 		var formattedBookings = [];
 		for(var key in buildingWeeklyBookings){
-			formattedBookings[key] = bookingCommService.convertToExpectedFormat(buildingWeeklyBookings[key]);
+			formattedBookings[key] = bookingCommService.convertToExpectedFormat(buildingWeeklyBookings[key], userType);
 		}
 
 		return formattedBookings;

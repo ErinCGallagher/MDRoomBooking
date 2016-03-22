@@ -16,7 +16,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.getWeeklyBookings = function(start, end, building){
 		bookingsService.selectedBuilding = building;
 		//call communication Service
-		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding)
+		CommService.getWeeklyBookingsFromDb(start, end, bookingsService.selectedBuilding, SharedVariableService.userType)
 			.then(function(retrievedBookings){
 				bookingsService.weeklyBookings.length = 0;
 				buildingWeeklyBookings = retrievedBookings;

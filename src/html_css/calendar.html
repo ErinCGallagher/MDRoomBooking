@@ -170,8 +170,16 @@
                             <p><Strong>Course Code: </Strong> {{description}}</p>
                         </div>
                         <div ng-show="userType != 'student'">
-                         <p><strong>Booking User:</strong> {{bookingUserType}}</p>
-                         </div>
+                        <Strong> Booking User Information </Strong>
+                            <div class="box">
+                                
+                                 <p><strong>Name:</strong> {{userName}}</p>
+                                 <p><strong>Type:</strong> {{bookingUserType}}</p>
+                                 <div ng-show="userType == 'admin'">
+                                    <p><strong>Email:</strong> {{userEmail}}</p>
+                                 </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

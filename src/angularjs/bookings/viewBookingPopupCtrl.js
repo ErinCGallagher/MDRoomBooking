@@ -2,17 +2,25 @@ angular
 .module('mainApp')
 .controller('ViewBookingPopupCtrl', ViewBookingPopupCtrl);
 
-function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, reason, date, startTime, endTime, bookingID, bookingUserType, userType, sourcePage, BookingsService, SharedVariableService, SearchService) {
+function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, BookingsService, SharedVariableService, SearchService) {
 
-  $scope.building = building;
-  $scope.roomNum = roomNum;
-  $scope.reason = reason;
-  $scope.date = date;
-  $scope.startTime = startTime.format("h:mm a");
-  $scope.endTime = endTime.format("h:mm a");
+  $scope.building = booking.building;
+  $scope.roomNum = booking.roomNum;
+  $scope.reason = booking.title;
+  $scope.date = booking.start.format("MMM D, YYYY");
+  $scope.startTime = booking.start.format("h:mm a");
+  $scope.endTime = booking.end.format("h:mm a");
+  $scope.bookingUserType = booking.bookingUserType;
   $scope.userType = SharedVariableService.userType;
-  $scope.bookingUserType = bookingUserType;
-  $scope.userType = userType;
+  var bookingID = booking.bookingID;
+  console.log(booking);
+
+  if(SharedVariableService.userType != "student"){
+    $scope.userName = booking.userName;
+  }
+  if(SharedVariableService.userType == "admin"){
+     $scope.userEmail = booking.userEmail;
+  }
 
   //retrieve booking information from the database
   BookingsService.getBookingInformation(bookingID)
@@ -32,29 +40,29 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, rea
     $uibModalInstance.dismiss('cancel');
   };
 
-    $scope.cancelBooking = function () {
-      if(sourcePage == "bookings"){
-      BookingsService.cancelBooking(bookingID,startTime)
-        .then(function(){
-           alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+  $scope.cancelBooking = function () {
+    if(sourcePage == "bookings"){
+    BookingsService.cancelBooking(bookingID,startTime)
+      .then(function(){
+         alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+        $uibModalInstance.close(alert);
+      },
+      function(err){
+          alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
           $uibModalInstance.close(alert);
-        },
-        function(err){
-            alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
-            $uibModalInstance.close(alert);
-        });
-      }
-      else{
-        SearchService.cancelBooking(bookingID,startTime)
-        .then(function(){
-           alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+      });
+    }
+    else{
+      SearchService.cancelBooking(bookingID,startTime)
+      .then(function(){
+         alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+        $uibModalInstance.close(alert);
+      },
+      function(err){
+          alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
           $uibModalInstance.close(alert);
-        },
-        function(err){
-            alert = { type: 'danger', msg: 'Error: You may not cancel a booking which has already occured'};
-            $uibModalInstance.close(alert);
-        });
-      }
+      });
+    }
 
   };
 };

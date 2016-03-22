@@ -154,11 +154,11 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
-	commService.getWeeklyBookingsFromDb = function(start, end, building){
+	commService.getWeeklyBookingsFromDb = function(start, end, building, userType){
 		var q = $q.defer();
 		BookingCommService.getWeeklyBookingsFromDb(start, end, building)
 			.then(function(buildingWeeklyBookings){
-				var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(buildingWeeklyBookings.data);
+				var formattedBuildingWeeklyBookings = BookingCommService.formatBuildingWeeklyBookings(buildingWeeklyBookings.data, userType);
 				console.log(formattedBuildingWeeklyBookings);
 				q.resolve(formattedBuildingWeeklyBookings);
 			},
@@ -264,7 +264,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 		return q.promise;
 	}
 
-	commService.search = function(searchCriteria){
+	commService.search = function(searchCriteria,userType){
 		var q = $q.defer();
 		BookingCommService.search(searchCriteria)
 		.then(function(reponse){

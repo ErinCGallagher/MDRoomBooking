@@ -24,7 +24,7 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 			date : searchService.convertFromUTCtoLocal(selectedDate)
 		}
 		var q = $q.defer();
-		CommService.search(searchCriteria)
+		CommService.search(searchCriteria, SharedVariableService.userType)
 			.then(function(response){
 				searchService.roomSearchResults.splice(0,searchService.roomSearchResults.length);
 				buildingSearchResults = response;
