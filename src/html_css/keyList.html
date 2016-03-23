@@ -1,7 +1,7 @@
 <html>
 
 <b><h2><center>Key List<center></h2></b>
-<div ng-show="showDate" class="set-date"><h3><center>
+<div ng-show="showDate" class="set-date" ng-init="confirmInitialLoad()"><h3><center>
 	<span  style="margin-top: 5em;b"  uib-tooltip= "Choose the date you would like to view the key list in the selector to the right, then press the 'Generate Key List' button" >
 	<img src="info-icon.png" style="width:3%;height:3%;"> </span><strong>Set Key Date:</strong>
 		<input type="date" ng-model="keyDate">

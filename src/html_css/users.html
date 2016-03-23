@@ -1,5 +1,5 @@
 
-<div class="uploadDiv">
+<div class="uploadDiv" ng-init="confirmInitialLoad()">
     <!-- Music Upload Button -->
     <input type="file" style="display:none" id="musicFile" name="musicFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadMasterList(this, 'Music')" />
     <button class="btn" onclick="document.getElementById('musicFile').click();">Upload Music List</button>
