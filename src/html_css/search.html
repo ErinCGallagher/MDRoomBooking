@@ -71,7 +71,7 @@
    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
    </div>
 
-    <!-- Make Booking Popup Template -->
+        <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
             <!-- Modal content-->
@@ -95,7 +95,7 @@
                                                     <td class="date-column"><strong>End Date:</strong> {{bookingDetails.date}}</td>
                                                     <td class="end-time date-column"><div><strong>End Time: </strong></div>
                                                     <div><uib-timepicker 
-                                                        ng-model="myTime" 
+                                                        ng-model="timeInfo.myTime" 
                                                         ng-change="changed()" 
                                                         readonly-input='true' 
                                                         hour-step="hstep" 

@@ -35,9 +35,9 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
 
   $scope.cancelBooking = function () {
     if(sourcePage == "bookings"){
-    BookingsService.cancelBooking(bookingID,startTime)
+    BookingsService.cancelBooking(bookingID,$scope.startTime)
       .then(function(){
-         alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+         alert = { type: 'success', msg: 'Successfully canceled: "' + $scope.building + ' ' + $scope.roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
         $uibModalInstance.close(alert);
       },
       function(err){
@@ -46,9 +46,9 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
       });
     }
     else{
-      SearchService.cancelBooking(bookingID,startTime)
+      SearchService.cancelBooking(bookingID,$scope.startTime)
       .then(function(){
-         alert = { type: 'success', msg: 'Successfully canceled: "' + building + ' ' + roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
+         alert = { type: 'success', msg: 'Successfully canceled: "' + $scope.building + ' ' + $scope.roomNum + ', ' + $scope.startTime + '-' + $scope.endTime +'"'};
         $uibModalInstance.close(alert);
       },
       function(err){
