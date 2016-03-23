@@ -1,4 +1,22 @@
 <?php
+//can run with rb_load
+mysqli_query($cxn,"drop table Rooms;");
+
+mysqli_query($cxn,"CREATE TABLE Rooms(
+					roomID				VARCHAR(50)	NOT NULL,
+					building			VARCHAR(30)	NOT NULL,
+					capacity			INTEGER		NOT NULL,
+					reqKey				VARCHAR(100) 	NOT NULL,
+					fee					VARCHAR(100) NOT NULL,
+					contents			TEXT 		NOT NULL,
+					setup				VARCHAR(50) NOT NULL,
+					upright				VARCHAR(3)	NOT NULL,					
+					grand				VARCHAR(3) 	NOT NULL,
+					mirror				VARCHAR(3) 	NOT NULL,
+					stands				VARCHAR(3) 	NOT NULL,
+					chairs				VARCHAR(3) 	NOT NULL,
+					PRIMARY KEY(roomID));");
+
 $file = fopen("rooms.csv","r");
 fgetcsv($file);
 

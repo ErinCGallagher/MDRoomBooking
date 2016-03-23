@@ -50,7 +50,6 @@
   	mysqli_query($cxn,"drop table BookingSlots;");
   	mysqli_query($cxn,"drop table Bookings;");
   	mysqli_query($cxn,"drop table Building;");
-  	mysqli_query($cxn,"drop table Rooms;");
   	
   	
   	//Create all tables 
@@ -118,20 +117,7 @@
 					closeTime			VARCHAR(5)	NOT NULL,
 					PRIMARY KEY(buildingID));");
 					
-	mysqli_query($cxn,"CREATE TABLE Rooms(
-					roomID				VARCHAR(50)	NOT NULL,
-					building			VARCHAR(30)	NOT NULL,
-					capacity			INTEGER		NOT NULL,
-					reqKey				VARCHAR(100) 	NOT NULL,
-					fee					VARCHAR(100) NOT NULL,
-					contents			TEXT 		NOT NULL,
-					setup				VARCHAR(50) NOT NULL,
-					upright				VARCHAR(3)	NOT NULL,					
-					grand				VARCHAR(3) 	NOT NULL,
-					mirror				VARCHAR(3) 	NOT NULL,
-					stands				VARCHAR(3) 	NOT NULL,
-					chairs				VARCHAR(3) 	NOT NULL,
-					PRIMARY KEY(roomID));");	
+		
 	
 	//Insert Rooms
 	include('generateRoomQuery.php');
@@ -182,8 +168,8 @@
 			");
 
 	mysqli_query($cxn,"INSERT INTO Building (buildingID, openTime, closeTime) VALUES
-         		('Upper Harrison LeCaine Hall', '8:00', '23:00'),
-         		('Lower Harrison LeCaine Hall', '8:00', '23:00'),
+         		('Harrison LeCaine Hall - Upper', '8:00', '23:00'),
+         		('Harrison LeCaine Hall - Lower', '8:00', '23:00'),
          		('Theological Hall', '7:30', '23:00'),
          		('Chown Hall', '7:30', '23:00'),
          		('The Isabel', '8:00', '20:00'),

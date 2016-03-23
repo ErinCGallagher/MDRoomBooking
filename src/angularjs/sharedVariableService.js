@@ -12,7 +12,7 @@ function SharedVariableService($q, CommService){
 	sharedVariableService.buildingAndRooms = []; //array of building and their associated rooms
 	sharedVariableService.netID = "11ecg5";
 	sharedVariableService.name = "Erin Gallagher";
-	sharedVariableService.defaultBuilding = "Upper Harrison LeCaine Hall";
+	sharedVariableService.defaultBuilding = "Harrison LeCaine Hall - Upper";
 	sharedVariableService.initialLoadComplete = false;
 	sharedVariableService.reasonList = [];
 	sharedVariableService.numPeopleList = [];
