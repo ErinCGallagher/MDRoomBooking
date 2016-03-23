@@ -188,6 +188,9 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
         endTime: function () {
           return moment($scope.myTime).format("h:mm a");
         },
+        description: function() {
+          return $scope.description;
+        },
         statusText: function () {
           return statusText;
         },

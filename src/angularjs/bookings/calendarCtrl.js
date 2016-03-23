@@ -126,12 +126,13 @@ function CalendarCtrl($scope, $uibModal,$compile, $log, $location, uiCalendarCon
 
   };
 
-    $scope.eventRender = function( event, element, view ) { 
+    $scope.eventRender = function(event, element, view) { 
 
      //element.attr({'tooltip': event.title,'tooltip-append-to-body': true});
-        
-    element.find('.fc-title').append("<div class='desc'>" + event.description + "</div>");
-        $compile(element)($scope);
+    if(event.title == "Performance" || event.title == "Course"){
+      element.find('.fc-title').append("<div class='desc'>" + event.description + "</div>");
+      $compile(element)($scope);
+    }
   };
 
 
