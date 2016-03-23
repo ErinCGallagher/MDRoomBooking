@@ -30,9 +30,7 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
       selectTab();
     }
   });
-
   
-
   $scope.open = function() {
     $scope.popup1.opened = true;
   };
