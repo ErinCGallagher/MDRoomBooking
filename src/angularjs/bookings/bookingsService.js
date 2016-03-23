@@ -349,9 +349,20 @@ function BookingsService(CommService, $q, SharedVariableService){
 
 		return numWeeks; //return the max number of weeks the user can reccur over
 	}
-
-
-
+	
+	bookingsService.getRoomInfo = function(info) {
+		var q = $q.defer();
+		CommService.getRoomInfo(info)
+			.then(function(info) {
+				q.resolve(info);
+			},
+			function(err) {
+				alert("could not retrieve room from database");
+				q.resolve(err);
+			});
+		return q.promise;
+	}
+	
 	//determine possible durations
 	return bookingsService;
 }

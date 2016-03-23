@@ -19,6 +19,21 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 			});
 		return q.promise;
 	}
+	
+	commService.getRoomInfo = function(info) {
+		var q = $q.defer();
+		BookingCommService.getRoomInfo(info)
+		.then(function(data){
+				q.resolve(data);
+			},
+			function(err){
+				alert("error with getRoomInfo");
+				q.reject();
+			});
+		return q.promise;
+	}
+
+
 
 	commService.createGroup = function(groupInfo) {
 		var q = $q.defer();
