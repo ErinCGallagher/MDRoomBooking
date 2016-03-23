@@ -25,21 +25,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 		return promisePost;
 		}
-
-	//retrieves the booking information for a booking given the bookingID
-	bookingCommService.getBookingInformation = function(bookingId){
-		var promisePost = $http.post('src/php/bookings/getBookingInfo.php', { "bookingID" : bookingId})
-		    .success(function(data, status) {
-		    	 console.log("retrieved booking information from database: ");
-		    	 console.log(data);
-		    })
-		    .error(function(data, status) {
-		    	return 'error';
-    
-		    });
-		return promisePost;
-		   
-		}		
+	
 
 	//call the php script that adds a booking to the DB
 	//if recurringBooking is true, then call make recurring booking script
@@ -160,6 +146,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 building: selectedBuilding, 
 			 roomNum: dailyBookings[i].roomID,
 			 bookingUserType:dailyBookings[i].hrsSource.toLowerCase(),
+			 numPeople:dailyBookings[i].numParticipants,
+			 description:dailyBookings[i].otherDesc,
 			 color:colour
 			};
 

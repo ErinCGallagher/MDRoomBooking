@@ -10,6 +10,8 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
   $scope.date = booking.start.format("MMM D, YYYY");
   $scope.startTime = booking.start.format("h:mm a");
   $scope.endTime = booking.end.format("h:mm a");
+  $scope.numPeople = booking.numPeople;
+  $scope.description = booking.description;
   $scope.bookingUserType = booking.bookingUserType;
   $scope.userType = SharedVariableService.userType;
   var bookingID = booking.bookingID;
@@ -22,15 +24,6 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
      $scope.userEmail = booking.userEmail;
   }
 
-  //retrieve booking information from the database
-  BookingsService.getBookingInformation(bookingID)
-  	.then(function(bookingInfo){
-  		$scope.numPeople = bookingInfo.data[0].numParticipants;
-  		$scope.description = bookingInfo.data[0].otherDesc;
-  	},
-	  function(){
-		  alert("err");
-	  });
   
   $scope.ok = function () {
     $uibModalInstance.close();

@@ -166,19 +166,7 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 				q.reject();
 			});
 		return q.promise;
-	}
-
-	commService.getBookingInformation = function(bookingId){
-		var q = $q.defer();
-		BookingCommService.getBookingInformation(bookingId)
-			.then(function(bookingInformation){
-				q.resolve(bookingInformation);
-			},
-			function(err){
-				q.reject();
-			});
-		return q.promise;
-	}		
+	}	
 
 	//call the php script that adds a booking to the DB
 	commService.bookRoomInDB = function(roomInformation){

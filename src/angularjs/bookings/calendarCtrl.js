@@ -3,7 +3,7 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
+function CalendarCtrl($scope, $uibModal,$compile, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
 
   $scope.buildings = SharedVariableService.buildings;
   $scope.selectedBuilding = SharedVariableService.defaultBuilding;
@@ -126,6 +126,14 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
 
   };
 
+    $scope.eventRender = function( event, element, view ) { 
+
+     //element.attr({'tooltip': event.title,'tooltip-append-to-body': true});
+        
+    element.find('.fc-title').append("<div class='desc'>" + event.description + "</div>");
+        $compile(element)($scope);
+  };
+
 
 	/* config object */
   $scope.uiConfig = {
@@ -159,8 +167,11 @@ function CalendarCtrl($scope, $uibModal, $log, $location, uiCalendarConfig, Book
 
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,
-    }
+      eventRender: $scope.eventRender,
+    },
   };
+
+
 
   $scope.calRender = false; //if there are no rooms for the building hide the calendar
   //retirves the selected building when the go button is pressed
