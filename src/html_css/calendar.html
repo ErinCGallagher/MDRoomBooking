@@ -59,15 +59,15 @@
        						     <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" >
                                     <div class="modal-body">
                                         <div class="book-room-info">
-                                            <p><strong>Building:</strong> {{building}}</p>
-                                            <p><strong>Room #:</strong> {{roomNum}}</p>
+                                            <p><strong>Building:</strong> {{bookingDetails.building}}</p>
+                                            <p><strong>Room #:</strong> {{bookingDetails.roomNum}}</p>
                                             <table>
                                                 <tr>
-                                                    <td class="date-column"><strong>Start Date:</strong> {{date}}</td>
-                                                    <td class="date-column"><strong>Start Time:</strong> {{startTime}}</td>
+                                                    <td class="date-column"><strong>Start Date:</strong> {{bookingDetails.date}}</td>
+                                                    <td class="date-column"><strong>Start Time:</strong> {{bookingDetails.startTime}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="date-column"><strong>End Date:</strong> {{date}}</td>
+                                                    <td class="date-column"><strong>End Date:</strong> {{bookingDetails.date}}</td>
                                                     <td class="end-time date-column"><div><strong>End Time: </strong></div>
                                                     <div><uib-timepicker 
                                                         ng-model="myTime" 
@@ -84,48 +84,48 @@
                                         </div>
                                         <p>
                                             <strong>Number of People: </strong>
-                                            <select ng-model="selectedNumPeople" ng-options="num as num for num in numPeople"></select>
+                                            <select ng-model="bookingDetails.selectedNumPeople" ng-options="num as num for num in bookingDetails.numPeople"></select>
                                         </p>
                                         <p>
                                             <strong>Reason</strong>
-                                            <select ng-model="selectedReason" ng-options="reason as reason for reason in reasons" ></select>
+                                            <select ng-model="bookingDetails.selectedReason" ng-options="reason as reason for reason in bookingDetails.reasons" ></select>
                                         </p>
-                                        <div ng-show="selectedReason=='Other'">
+                                        <div ng-show="bookingDetails.selectedReason=='Other'">
                                             <Strong>Description: </Strong>
                                             <textarea 
                                                 name="description" 
-                                                ng-model="description" 
+                                                ng-model="bookingDetails.description" 
                                                 ng-maxlength="150" 
-                                                ng-required="selectedReason=='Other'"></textarea>
-                                            <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
+                                                ng-required="bookingDetails.selectedReason=='Other'"></textarea>
+                                            <p ng-show="makeBookingForm.bookingDetails.description.$invalid && !makeBookingForm.bookingDetails.description.$pristine"> A description is required</p>
                                         </div>
-                                        <div ng-show="selectedReason=='Performance'">
+                                        <div ng-show="bookingDetails.selectedReason=='Performance'">
                                             <Strong>Performance Title: </Strong>
                                             <textarea 
                                                 name="description" 
-                                                ng-model="description" 
+                                                ng-model="bookingDetails.description" 
                                                 ng-maxlength="200" 
-                                                ng-required="selectedReason=='Performance'"></textarea>
-                                            <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine"> A description is required</p>
+                                                ng-required="bookingDetails.selectedReason=='Performance'"></textarea>
+                                            <p ng-show="makeBookingForm.bookingDetails.description.$invalid && !makeBookingForm.bookingDetails.description.$pristine"> A description is required</p>
                                         </div>
-                                        <div ng-show="selectedReason=='Course' || selectedReason=='Coursework'">
+                                        <div ng-show="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'">
                                             <Strong>Course Code: </Strong>
                                             <textarea 
                                                 rows ="1" 
                                                 name="courseCode" 
-                                                ng-model="description" 
+                                                ng-model="bookingDetails.description" 
                                                 ng-maxlength="20" 
-                                                ng-required="selectedReason=='Course' || selectedReason=='Coursework'"></textarea>
-                                            <p ng-show=" (makeBookingForm.$submitted) || (makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine)"> A course code is required</p>
+                                                ng-required="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'"></textarea>
+                                            <p ng-show=" (makeBookingForm.$submitted) || (makeBookingForm.bookingDetails.courseCode.$invalid && !makeBookingForm.bookingDetails.courseCode.$pristine)"> A course code is required</p>
                                         </div>
-                                        <div class="box" ng-show="userType !='student'">
+                                        <div class="box" ng-show="bookingDetails.userType !='student'">
                                             <div>
                                                 <Strong> Recurring Booking: </Strong>
                                               <input
                                                 type="checkbox"
                                                 name="reccurBool"
                                                 ng-checked="false"
-                                                ng-model="reccurBool"
+                                                ng-model="bookingDetails.reccurBool"
                                               > 
                                             </div>
                                             <div>
@@ -133,13 +133,13 @@
                                               <input
                                                 type="number"
                                                 name="numWeeks"
-                                                ng-model="numWeeks"
-                                                ng-required="reccurBool == true"
-                                                max="maxReccur"
+                                                ng-model="bookingDetails.numWeeks"
+                                                ng-required="bookingDetails.reccurBool == true"
+                                                max="bookingDetails.maxReccur"
                                                 min="2"
                                               > 
-                                              <p ng-show=" (numWeeks > maxReccur) && (reccurBool == true)"> The number of weeks cannot exceed {{maxReccur}}</p>
-                                              <p ng-show=" (numWeeks < 2) && (reccurBool == true)"> The number of weeks must exceed 1</p>
+                                              <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
+                                              <p ng-show=" (bookingDetails.numWeeks < 2) && (bookingDetails.reccurBool == true)"> The number of weeks must exceed 1</p>
                                             </div>
                                         </div>
                                     
