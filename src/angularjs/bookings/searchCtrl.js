@@ -257,6 +257,12 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
         center: '',
         right: ''
       },
+      views: {
+        agendaDay: { // name of view
+            columnFormat: 'dddd, MMM DD, YYYY'
+            // other view-specific options here
+        }
+    },
 
       dayClick : $scope.bookRoomInCalendar,
       eventClick: $scope.viewBookingInformation,

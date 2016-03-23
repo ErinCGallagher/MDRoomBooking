@@ -61,7 +61,6 @@
 }
 
 .fully-transparent{
-	display:none;
     opacity: 0;
     filter: alpha(opacity=0); /* For IE8 and earlier */
 }
