@@ -136,6 +136,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 				.then(function(failedSuceededBookings){
 					q.resolve(failedSuceededBookings);
 					newBookingInfo.bookingID = failedSuceededBookings.bookingID;
+					newBookingInfo.userName = SharedVariableService.name;
+					newBookingInfo.userEmail = SharedVariableService.netID + "@queensu.ca";
 					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
 					buildingWeeklyBookings[room].push(newBookingInfo);
 					if(bookingsService.selectedroom == room){ //if the room has changed don't add it

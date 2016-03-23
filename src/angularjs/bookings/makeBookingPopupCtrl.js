@@ -4,30 +4,63 @@ angular
 
 function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService,  $uibModal) {
 
-  $scope.building = building;
-  $scope.roomNum = roomNum;
+  $scope.bookingDetails = {};
+  $scope.bookingDetails.building = building;
+  $scope.bookingDetails.roomNum = roomNum;
   //$scope.selectedDuration = "30 minutes"; //initializes the duration dropdown
-  $scope.selectedReason = SharedVariableService.reasonList[0]; //initializes the reason dropdown
-  $scope.reasons = SharedVariableService.reasonList;
+  $scope.bookingDetails.selectedReason = SharedVariableService.reasonList[0]; //initializes the reason dropdown
+  $scope.bookingDetails.reasons = SharedVariableService.reasonList;
  // $scope.durations = ["30 minutes", "1 hour", "1.5 hour"];
-  $scope.selectedNumPeople = SharedVariableService.numPeopleList[0];
-  $scope.numPeople = SharedVariableService.numPeopleList;
-  $scope.date = dateTime.format("MMM D, YYYY");
-  $scope.startTime = dateTime.format("h:mm a");
-  $scope.description = "";
-  $scope.reccurBool = false;
-  $scope.userType = SharedVariableService.userType;
+  $scope.bookingDetails.selectedNumPeople = SharedVariableService.numPeopleList[0];
+  $scope.bookingDetails.numPeople = SharedVariableService.numPeopleList;
+  $scope.bookingDetails.date = dateTime.format("MMM D, YYYY");
+  $scope.bookingDetails.startTime = dateTime.format("h:mm a");
+  $scope.bookingDetails.description = "";
+  $scope.bookingDetails.reccurBool = false;
+  $scope.bookingDetails.userType = SharedVariableService.userType;
   
-  $scope.cancelled = false; //informs if the user cancelled out of the popup
-
+  $scope.bookingDetails.cancelled = false; //informs if the user cancelled out of the popup
+  loadRoomInfo = function(){
+  	var info = {
+		roomID: $scope.bookingDetails.roomNum	
+	 }
+  
+  	BookingsService.getRoomInfo(info)
+			.then(function(roomInfo){
+				$scope.infoBuilding = roomInfo.data[0].building;
+				$scope.capacity = roomInfo.data[0].capacity;
+				$scope.contents = roomInfo.data[0].contents;
+				
+				if (roomInfo.data[0].fee == ""){
+					$scope.fee = "None";
+				}
+				else {
+					$scope.fee = roomInfo.data[0].fee;
+				}
+				$scope.reqKey = roomInfo.data[0].reqKey;
+				$scope.roomID = roomInfo.data[0].roomID;
+				$scope.setup = roomInfo.data[0].setup;
+				
+				$scope.openTime = roomInfo.data[1].openTime;
+				$scope.closeTime = roomInfo.data[1].closeTime;
+				
+			},
+			function() {
+				alert("err");
+			});
+  }
+  
+  loadRoomInfo();
+  
+  
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
 
     //confirm the form is valid before preceeding to try and make the booking
-    if(validForm && !$scope.cancelled && reccurBoolValid()){
+    if(validForm && !$scope.bookingDetails.cancelled && reccurBoolValid()){
 
       /* convert end time from local (with offset added) back to UTC moment object*/
-      var endTimestamp = $scope.myTime - BookingsService.generateOffset(dateTime);
+      var endTimestamp = $scope.timeInfo.myTime - BookingsService.generateOffset(dateTime);
       endTimestamp =moment(endTimestamp).utc();
       console.log(endTimestamp);
 
@@ -39,23 +72,23 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       $scope.endTime = endTimestamp.format("h:mm a");
 
       var bookingInfo = {
-          title: $scope.selectedReason,
+          title: $scope.bookingDetails.selectedReason,
           start: dateTime,
           end: endTimestamp,
           allDay: false,
           building: building, 
-          roomNum: roomNum,
-          numPeople: $scope.selectedNumPeople, 
-          description: $scope.description,
+          roomNum: $scope.bookingDetails.roomNum,
+          numPeople: $scope.bookingDetails.selectedNumPeople, 
+          description: $scope.bookingDetails.description,
           stick:true,
           bookingUserType: SharedVariableService.userType,
-          recurringBooking:$scope.reccurBool, //true or false
-          numWeeksRecur: $scope.numWeeks //including the current week
+          recurringBooking:$scope.bookingDetails.reccurBool, //true or false
+          numWeeksRecur: $scope.bookingDetails.numWeeks //including the current week
           };
 
       if(sourcePage == "bookings"){ //main calendar page
 
-        if($scope.reccurBool){
+        if($scope.bookingDetails.reccurBool){
 
            //call booking service to send booking info to the database
           BookingsService.bookRoomRecurring(bookingInfo)
@@ -85,7 +118,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
       else{ //search page
          
-         if($scope.reccurBool){
+         if($scope.bookingDetails.reccurBool.reccurBool){
           //call booking service to send booking info to the database
           SearchService.bookRoomRecurring(bookingInfo)
             .then(function(response){
@@ -117,7 +150,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   };
 
   $scope.cancel = function(){
-    $scope.cancelled = true;
+    $scope.bookingDetails.cancelled = true;
     $uibModalInstance.dismiss('cancel');
   }
 
@@ -133,20 +166,20 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   //add 30 minutes because the minimum booking time is 30 minutes
   TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
 
-
+  $scope.timeInfo = {};
   //local time with UTC offset (so actually UTC time but javascript wants it to be local)
-  $scope.myTime = TimeZoned; //displayed to user 
+  $scope.timeInfo.myTime = TimeZoned; //displayed to user 
   $scope.minTime = TimeZoned; //min time restriction
 
   
   /*Reccur Weekly settings*/
-  $scope.maxReccur = BookingsService.determineMaxReccuringWeeks(dateTime);
+  $scope.bookingDetails.maxReccur = BookingsService.determineMaxReccuringWeeks(dateTime);
 
   //if reccuring booking is chosen, return true if the number of reccurings is 
   //less than or equal to maxReccur
   reccurBoolValid = function(){
-    if($scope.reccurBool){
-      if($scope.numWeeks <= $scope.maxReccur){
+    if($scope.bookingDetails.reccurBool.reccurBool){
+      if($scope.bookingDetails.numWeeks <= $scope.bookingDetails.maxReccur){
         return true;
       }
       else{
@@ -168,28 +201,28 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       backdrop: 'static',
       resolve: {
         building: function () {
-          return $scope.building;
+          return $scope.bookingDetails.building;
         },
         roomNum: function () {
-          return $scope.roomNum;
+          return $scope.bookingDetails.roomNum;
         },
         reason: function () {
-          return $scope.selectedReason;
+          return $scope.bookingDetails.selectedReason;
         },
         numPeople:function() {
-          return $scope.selectedNumPeople;
+          return $scope.bookingDetails.selectedNumPeople;
         },
         date: function () {
-          return $scope.date;
+          return $scope.bookingDetails.date;
         },
         startTime: function () {
-          return $scope.startTime;
+          return $scope.bookingDetails.startTime;
         },
         endTime: function () {
-          return moment($scope.myTime).format("h:mm a");
+          return moment($scope.timeInfo.myTime).format("h:mm a");
         },
         description: function() {
-          return $scope.description;
+          return $scope.bookingDetails.description;
         },
         statusText: function () {
           return statusText;
@@ -214,19 +247,19 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       backdrop: 'static',
       resolve: {
         building: function () {
-          return $scope.building;
+          return $scope.bookingDetails.building;
         },
         roomNum: function () {
-          return $scope.roomNum;
+          return $scope.bookingDetails.roomNum;
         },
         date: function () {
-          return $scope.date;
+          return $scope.bookingDetails.date;
         },
         startTime: function () {
-          return $scope.startTime;
+          return $scope.bookingDetails.startTime;
         },
         endTime: function () {
-          return moment($scope.myTime).format("h:mm a");
+          return moment($scope.timeInfo.myTime).format("h:mm a");
         },
         statusText: function () {
           return statusText;
