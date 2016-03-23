@@ -121,7 +121,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
           else{
             alert = { type: 'success', msg: "Results found for your search!!"};
             $scope.alerts.push(alert);
-            $scope.makeTransparent = true;
+            $scope.makeTransparent = false;
           }
           
           
