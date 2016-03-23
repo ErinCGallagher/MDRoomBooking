@@ -3,14 +3,14 @@ angular
 .controller('LoginCtrl', LoginCtrl);
 
 
-function LoginCtrl($scope, $location, SharedVariableService){
+function LoginCtrl($scope, $location, SharedVariableService, ConstantTextSerivce){
   
   SharedVariableService.initialSetup()
   	.then(function(){
   		$location.path('/calendar');
   	},
   	function(err){
-		alert("could not retrieve all initial setup information");
+		alert(ConstantTextSerivce.LOGIN.NAME);
 	});
 
 

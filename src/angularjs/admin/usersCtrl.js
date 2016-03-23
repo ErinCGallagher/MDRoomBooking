@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('UsersCtrl', UsersCtrl);
 
-function UsersCtrl($scope, $uibModal, AdminUsersService) {
+function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce) {
 	$scope.pageClass = 'users';  //used to change pages in index.php
 	$scope.showUserInfo = false;
 	$scope.showNoUser= false;
@@ -130,7 +130,36 @@ function UsersCtrl($scope, $uibModal, AdminUsersService) {
 		AdminUsersService.getUsersFile(dept);
 	}
 
+
+	/* This Page's Text */
+	$scope.upload_music = ConstantTextSerivce.USERS.UPLOAD_MUSIC.NAME;
+	$scope.upload_drama = ConstantTextSerivce.USERS.UPLOAD_DRAMA.NAME;
+	$scope.download_music = ConstantTextSerivce.USERS.DOWNLOAD_MUSIC.NAME;
+	$scope.download_drama = ConstantTextSerivce.USERS.DOWNLOAD_DRAMA.NAME;
+	$scope.user_search_title = ConstantTextSerivce.USERS.USER_SEARCH_TITLE.NAME;
+	$scope.sarch_netID = ConstantTextSerivce.USERS.SEARCH_NETID.NAME;
+	$scope.search_button = ConstantTextSerivce.USERS.SEARCH_BUTTON.NAME;
+	$scope.netID = ConstantTextSerivce.USERS.NETID.NAME; 
+	$scope.netID_not_found = ConstantTextSerivce.USERS.NETID_NOT_FOUND.NAME;
+	$scope.netID_search_results = ConstantTextSerivce.USERS.NETID_SARCH_RESULT.NAME;
+	$scope.user_name = ConstantTextSerivce.USERS.NAME.NAME; 
+	$scope.weekly_hrs_remain = ConstantTextSerivce.USERS.WEEKLY_HRS_REMAIN.NAME;
+	$scope.this_week = ConstantTextSerivce.USERS.THIS_WEEK.NAME;
+	$scope.next_week = ConstantTextSerivce.USERS.NEXT_WEEK.NAME;
+	$scope.week = ConstantTextSerivce.USERS.WEEK.NAME; 
+	$scope.groups_ending = ConstantTextSerivce.USERS.GROUPS.NAME;
+	$scope.groups_name = ConstantTextSerivce.USERS.GROUP_NAME.NAME;
+	$scope.hrs_given = ConstantTextSerivce.USERS.HOURS_GIVEN.NAME;
+	$scope.spec_hrs_remain = ConstantTextSerivce.USERS.SPEC_HRS_REMAIN.NAME;
+	$scope.start_date = ConstantTextSerivce.USERS.START_DATE.NAME;
+	$scope.end_date = ConstantTextSerivce.USERS.END_DATE.NAME;
+	$scope.duration_restrict = ConstantTextSerivce.USERS.DURATION_RESTRICT.NAME;
+	$scope.hours_type = ConstantTextSerivce.USERS.HOURS_TYPE.NAME;
+
 };
+
+
+		
 
 angular.module('mainApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
 

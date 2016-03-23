@@ -2,23 +2,23 @@
 <div class="uploadDiv" ng-init="confirmInitialLoad()">
     <!-- Music Upload Button -->
     <input type="file" style="display:none" id="musicFile" name="musicFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadMasterList(this, 'Music')" />
-    <button class="btn" onclick="document.getElementById('musicFile').click();">Upload Music List</button>
+    <button class="btn" onclick="document.getElementById('musicFile').click();">{{upload_music}}</button>
 
     <!-- Drama Upload Button -->
     <input type="file" style="display:none" id="dramaFile" name="dramaFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadMasterList(this, 'Drama')" />
-    <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">Upload Drama List</button>
+    <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">{{upload_drama}}</button>
 </div>
 
 <div class="uploadDiv">
     <!-- Music Download Button -->
     <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
-        <button type="submit" class="btn">Download Music Users</button>
+        <button type="submit" class="btn">{{download_music}}</button>
         <input type="hidden" name="department" value="Music" />
     </form>
 
     <!-- Drama Download Button -->
     <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
-        <button type="submit" class="btn">Download Drama Users</button>
+        <button type="submit" class="btn">{{download_drama}}</button>
         <input type="hidden" name="department" value="Drama" />
     </form>
 </div>
@@ -26,11 +26,11 @@
 
 <div class="container">
     <form name="search" class="searchNet">
-    	<p><strong>Search For A User</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
+    	<p><strong>{{user_search_title}}</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
     	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
     		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
-    		<span ng-show="search.userSearch.$error.required"><font color="red">Enter NetID</font></span></p>
-    		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
+    		<span ng-show="search.userSearch.$error.required"><font color="red">{{sarch_netID}}</font></span></p>
+    		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">{{search_button}}</button> 
     		
     </form>
 </div>
@@ -39,29 +39,29 @@
 </br></br>
 
 <div ng-show="showNoUser" class="container info-container">
- <p><strong><center><h3>NetID <font color=red>"{{user}}"</font> Not Found</h3></center></strong> </p>
+ <p><strong><center><h3>{{netID}} <font color=red>"{{user}}"</font> {{netID_not_found}}</h3></center></strong> </p>
 </div>
 
 <div ng-show="showUserInfo" class="container info-container">     
 	<div class="group-info">
 	<div class="user-info">
-    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong> </p>
-        <p><strong>Name: </strong> {{firstName}} {{lastName}}</p>
-        <p><strong>Remaining Weekly Hours <u>This</u> Week: </strong> {{curWeekHrs}} </p>
-        <p><strong>Remaining Weekly Hours <u>Next</u> Week: </strong> {{nextWeekHrs}} </p>
+    	<p><strong><h3>{{netID_search_results}} <font color="dark grey">'{{user}}'</font></h3></strong> </p>
+        <p><strong>{{user_name}} </strong> {{firstName}} {{lastName}}</p>
+        <p><strong>{{weekly_hrs_remain}} <u>{{this_week}}</u> {{week}} </strong> {{curWeekHrs}} </p>
+        <p><strong>{{weekly_hrs_remain}} <u>{{next_week}}</u> {{week}} </strong> {{nextWeekHrs}} </p>
     </div>
         </br>
         
-        <p><strong><h3>{{firstName}}'s Groups</h3></strong></p>
+        <p><strong><h3>{{firstName}}{{groups_ending}}</h3></strong></p>
         <table border="1" style="width:100%">
         <tr>
-            <th><strong><center> Group Name </center></strong></th>
-            <th><strong><center> Hours Type </center></strong></th>
-            <th><strong><center> Hours Given </center></strong></th>
-            <th><strong><center> Special Hours Remaining </center></strong></th>
-            <th><strong><center> Start Date </center></strong></th>
-            <th><strong><center> End Date </center></strong></th>
-            <th><strong><center> Has Duration Restriction </center></strong></th>
+            <th><strong><center> {{groups_name}} </center></strong></th>
+            <th><strong><center> {{hours_type}} </center></strong></th>
+            <th><strong><center> {{hrs_given}} </center></strong></th>
+            <th><strong><center> {{spec_hrs_remain}} </center></strong></th>
+            <th><strong><center> {{start_date}} </center></strong></th>
+            <th><strong><center> {{end_date}} </center></strong></th>
+            <th><strong><center> {{duration_restrict}} </center></strong></th>
             </tr>
             
 		<tr data-ng-repeat="userGroup in userGroups">

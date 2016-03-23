@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('SearchCtrl', SearchCtrl);
 
-function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableService, SearchService) {
+function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableService, SearchService, ConstantTextSerivce) {
 	$scope.pageClass = 'search'; //used to change pages in index.html
 	$scope.buildings = SharedVariableService.buildings;
   $scope.selectedBuilding = SharedVariableService.defaultBuilding;
@@ -271,6 +271,15 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
       eventClick: $scope.viewBookingInformation,
     }
   };
+
+  /* All The Page's Text */
+  $scope.date_selection = ConstantTextSerivce.SEARCH.DATE_SELECTION.NAME;
+  $scope.building_selection = ConstantTextSerivce.SEARCH.BUILDING_SELECTION.NAME;
+  $scope.time_selection = ConstantTextSerivce.SEARCH.TIME_SELECTION.NAME;
+  $scope.time_between = ConstantTextSerivce.SEARCH.TIME_BETWEEN.NAME;
+  $scope.search_button = ConstantTextSerivce.SEARCH.SEARCH_BUTTON.NAME;
+  $scope.search_explanation = ConstantTextSerivce.SEARCH.SEARCH_EXPLA.NAME;
+  $scope.no_results = ConstantTextSerivce.SEARCH.NO_RESULTS.NAME;
 
 };
 
