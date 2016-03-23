@@ -95,6 +95,8 @@ function SearchService(CommService, BookingsService, $q, SharedVariableService){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
+					newBookingInfo.userName = SharedVariableService.name;
+					newBookingInfo.userEmail = SharedVariableService.netID + "@queensu.ca";
 					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
 					buildingSearchResults[room].push(newBookingInfo);
 					if(searchService.selectedSearchRoom == room){ //if the room has changed don't add it

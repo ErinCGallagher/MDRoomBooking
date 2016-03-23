@@ -60,7 +60,6 @@ function BookingsService(CommService, $q, SharedVariableService){
 				bookingsService.weeklyBookings.push(buildingWeeklyBookings[bookingsService.selectedroom][i]);
 			}
 		}
-		console.log(bookingsService.weeklyBookings);
 	}
 
 
@@ -105,6 +104,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 				.then(function(bookingID){
 					q.resolve(true);
 					newBookingInfo.bookingID = bookingID;
+					newBookingInfo.userName = SharedVariableService.name;
+					newBookingInfo.userEmail = SharedVariableService.netID + "@queensu.ca";
 					newBookingInfo.color = CommService.eventColourPicker(newBookingInfo.title);
 					buildingWeeklyBookings[room].push(newBookingInfo);
 					if(bookingsService.selectedroom == room){ //if the room has changed don't add it
