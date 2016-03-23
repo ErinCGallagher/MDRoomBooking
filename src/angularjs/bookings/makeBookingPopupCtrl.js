@@ -60,7 +60,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     if(validForm && !$scope.bookingDetails.cancelled && reccurBoolValid()){
 
       /* convert end time from local (with offset added) back to UTC moment object*/
-      var endTimestamp = $scope.myTime - BookingsService.generateOffset(dateTime);
+      var endTimestamp = $scope.timeInfo.myTime - BookingsService.generateOffset(dateTime);
       endTimestamp =moment(endTimestamp).utc();
       console.log(endTimestamp);
 
@@ -166,9 +166,9 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   //add 30 minutes because the minimum booking time is 30 minutes
   TimeZoned.setMinutes(TimeZoned.getMinutes() + 30)
 
-
+  $scope.timeInfo = {};
   //local time with UTC offset (so actually UTC time but javascript wants it to be local)
-  $scope.myTime = TimeZoned; //displayed to user 
+  $scope.timeInfo.myTime = TimeZoned; //displayed to user 
   $scope.minTime = TimeZoned; //min time restriction
 
   
@@ -219,7 +219,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           return $scope.bookingDetails.startTime;
         },
         endTime: function () {
-          return moment($scope.myTime).format("h:mm a");
+          return moment($scope.timeInfo.myTime).format("h:mm a");
         },
         description: function() {
           return $scope.bookingDetails.description;
@@ -259,7 +259,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
           return $scope.bookingDetails.startTime;
         },
         endTime: function () {
-          return moment($scope.myTime).format("h:mm a");
+          return moment($scope.timeInfo.myTime).format("h:mm a");
         },
         statusText: function () {
           return statusText;
