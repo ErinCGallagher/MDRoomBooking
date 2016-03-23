@@ -9,17 +9,17 @@
  */
 	
  	// //Database connection variables 
- 	// $host = "localhost";
- 	// $user = "root";
- 	// $password = "";
- 	// $database = "mdroombooking";
+ 	$host = "localhost";
+ 	$user = "root";
+ 	$password = "";
+ 	$database = "mdroombooking";
 	
  	
 	//development environment
-	$host = "10.20.49.11:3306";
-	$user = "DMRoomBooking";
-	$password = "UYXE9F5o4f4V";
-	$database = "DMRoomBooking";
+	// $host = "10.20.49.11:3306";
+	// $user = "DMRoomBooking";
+	// $password = "UYXE9F5o4f4V";
+	// $database = "DMRoomBooking";
  	
  	//Connect to database
 	$cxn = mysqli_connect($host,$user,$password, $database);
@@ -30,6 +30,9 @@
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
 		die();
 	}
+
+	mysqli_query($cxn,"DELETE FROM BookingSlots;");
+	mysqli_query($cxn,"DELETE FROM Bookings;");
 
 	$startDay = new DateTime();
 	$curYear = date_format($startDay, "Y");

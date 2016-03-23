@@ -1,24 +1,31 @@
-# all output from cron will be sent to the MAILTO address
+# Output from cron will be sent to the MAILTO address
 # pipe unwanted output to dev/null (ie command >/dev/null)
 MAILTO=shannon.klett@gmail.com
-PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/
+#unsure if this path thing actually does anything
+PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking:/usr/local/bin:/usr/bin:/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/automated
 
 # ORDER OF ARGUMENTS
 # min hour day month day-of-week(0-7) command-to-execute
 
-# writes output to log file every minute
-# * * * * * test var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron_debug_log.log
+# FOR DEBUGGING - writes output to log file every minute
+# * * * * * test var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
 
-# * * * * * test
+# TEST weekly script
+# * * * * * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runWeekly.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
 
-# Update weekly hours script runs 12:01am every Monday
-# 1 0 * * 1 automated/runWeekly
+# TEST semester script
+# * * * * * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
 
-# Archive fall data runs at 12:05am every Jan 1
-# 5 12 1 1 * automated/runSemester
+# Update weekly hours script runs once every Monday
+* * * * 1 usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runWeekly.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
 
-# Archive winter data runs at 12:05am every May 1
-# 5 12 1 5 * automated/runSemester
+# Archive fall data runs once every Jan 1
+# * * 1 1 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
 
-# Archive summer data runs at 12:05am every Sept 1
-# 5 12 1 9 * automated/runSemester
+# Archive winter data runs once every May 1
+# * * 1 5 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+
+# Archive summer data runs once every Sept 1
+# * * 1 9 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+
+

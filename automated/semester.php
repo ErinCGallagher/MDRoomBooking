@@ -1,7 +1,7 @@
 <?php
 
-	require_once("../src/php/connection.php");
-	require_once("../src/php/util.php");
+	require_once("/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/src/php/connection.php");
+	require_once("/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/src/php/util.php");
 
 	//set default time to UTC so it does not count daylight savings
   	//do not remove!
