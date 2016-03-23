@@ -1,7 +1,7 @@
 <?php
 
-	require_once("../connection.php");
-	require_once("../util.php");
+	require_once("../src/php/connection.php");
+	require_once("../src/php/util.php");
 
 	function getGroupsWeeklyHours($db, $userID) {
 		//TODO check this is the correct date to use

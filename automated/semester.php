@@ -1,7 +1,7 @@
 <?php
 
-	require_once("../connection.php");
-	require_once("../util.php");
+	require_once("../src/php/connection.php");
+	require_once("../src/php/util.php");
 
 	//set default time to UTC so it does not count daylight savings
   	//do not remove!
@@ -69,10 +69,11 @@
 			$checkQueryStmt = runQuery($db, $checkQuery, []);
 			$outputArray = $checkQueryStmt->fetchAll(PDO::FETCH_ASSOC);
 			if (sizeof($outputArray) > 0 ) {
-				foreach ($outputArray as $rows){
-					print_r($rows);
-					echo "<br>";
-				}	
+				// DO NOTHING. Uncomment for debugging
+				// foreach ($outputArray as $rows){
+				// 	print_r($rows);
+				// 	echo "<br>";
+				// }	
 			} else {
 				echo "<br>There are no bookings or booking slots in the database.<br>";
 			}

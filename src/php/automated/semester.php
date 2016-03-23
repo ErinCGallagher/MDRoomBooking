@@ -69,10 +69,11 @@
 			$checkQueryStmt = runQuery($db, $checkQuery, []);
 			$outputArray = $checkQueryStmt->fetchAll(PDO::FETCH_ASSOC);
 			if (sizeof($outputArray) > 0 ) {
-				foreach ($outputArray as $rows){
-					print_r($rows);
-					echo "<br>";
-				}	
+				// DO NOTHING. Uncomment for debugging
+				// foreach ($outputArray as $rows){
+				// 	print_r($rows);
+				// 	echo "<br>";
+				// }	
 			} else {
 				echo "<br>There are no bookings or booking slots in the database.<br>";
 			}
