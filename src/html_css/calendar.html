@@ -53,11 +53,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <div class="modal-title">
-            		<uib-tabset active="active" justified="true">
-   						 <uib-tab index="0" heading="Book Room">
-   						  <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" >
+                    <h4 class="modal-title">Book Room</h4>
+                </div>
+                <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" >
                     <div class="modal-body">
+                    
                         <div class="book-room-info">
                             <p><strong>Building:</strong> {{building}}</p>
                             <p><strong>Room #:</strong> {{roomNum}}</p>
@@ -149,38 +149,6 @@
                         <button type="submit" class="btn">Book Room</button>
                     </div>
                 </form>
-   						 
-   				</uib-tab>
-                    
-   						 <uib-tab index="1" heading="Room Information">
-   						 	 
-   						 	
-   						 	 
-   						 	 <div class="modal-body">
-   						 	 
-   						 	 
-   						 	 	<p><strong>Building: </strong>{{infoBuilding}}</p>
-   						 	 	<p><strong>Room #: </strong>{{roomID}}</p>
-							 	<p><strong>Capacity: </strong>{{capacity}}</p>
-							 	<p><strong>Fee: </strong>{{fee}}</p>
-							 	<p><strong>Requires Key: </strong>{{reqKey}}</p>
-							 	<p><strong>Room Setup: </strong>{{setup}}</p>
-							 	<p><strong>Contents: </strong>{{contents}}</p>
-							 	<p><strong>Open Time: </strong>{{openTime}}  <strong>Close Time: </strong>{{closeTime}}</p>
-							  
-				
-   						 	 </div> 
-   						 	 
-   						 	 <div class="modal-footer">
-   						 	  	<button class="btn" ng-click="cancel()">Exit</button>
-   						 	 </div>
-   						</uib-tab> 	 
-                     </uib-tabset>
-                    
-                    
-                    </div>
-                </div>
-               
             </div>
         </script>  
     </div>

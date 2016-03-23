@@ -306,20 +306,6 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    });
 		 return promisePost;
 	}
-	
-	bookingCommService.getRoomInfo = function(info){
-
-		var promisePost = $http.post('src/php/bookings/getRoomInfo.php', info)
-		    .success(function(data, status) {
-		    	console.log("getRoomInfo", data);
-		    	return data;
-		    })
-		    .error(function(data, status) {
-		    	return 'error';   
-		    });
-
-		return promisePost;
-	}
 
 	return bookingCommService;
 }

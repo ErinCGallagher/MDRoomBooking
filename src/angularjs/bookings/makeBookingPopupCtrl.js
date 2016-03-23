@@ -20,41 +20,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   
   $scope.cancelled = false; //informs if the user cancelled out of the popup
 
-  
-  loadRoomInfo = function(){
-  	var info = {
-		roomID: $scope.roomNum	
-	}
-  
-  	BookingsService.getRoomInfo(info)
-			.then(function(roomInfo){
-				$scope.infoBuilding = roomInfo.data[0].building;
-				$scope.capacity = roomInfo.data[0].capacity;
-				$scope.contents = roomInfo.data[0].contents;
-				
-				if (roomInfo.data[0].fee == ""){
-					$scope.fee = "None";
-				}
-				else {
-					$scope.fee = roomInfo.data[0].fee;
-				}
-				$scope.reqKey = roomInfo.data[0].reqKey;
-				$scope.roomID = roomInfo.data[0].roomID;
-				$scope.setup = roomInfo.data[0].setup;
-				
-				$scope.openTime = roomInfo.data[1].openTime;
-				$scope.closeTime = roomInfo.data[1].closeTime;
-				
-			},
-			function() {
-				alert("err");
-			});
-
-  }
-  
-  loadRoomInfo();
-  
-  
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
 
