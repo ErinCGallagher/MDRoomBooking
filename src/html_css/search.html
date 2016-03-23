@@ -67,7 +67,7 @@
         </uib-tab>
   </uib-tabset>
   <h1 ng-show="searchResults"> Your Search Returned No Results </h1>
-    <div id="calendar-container" ng-if="calRender">
+    <div id="calendar-container" ng-if="calRender"  ng-class="{'fully-transparent' : makeTransparent}">
    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
    </div>
 

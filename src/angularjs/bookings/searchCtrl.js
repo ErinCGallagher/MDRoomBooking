@@ -91,6 +91,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 	 $scope.searchResults = false;
 
   $scope.search = function(){
+    $scope.makeTransparent = true;
 		if($scope.myEndTime <= $scope.myStartTime ){
        alert = { type: 'danger', msg: "Error: Your end time cannot be before your start time"};
       $scope.alerts.push(alert);
@@ -120,6 +121,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
           else{
             alert = { type: 'success', msg: "Results found for your search!!"};
             $scope.alerts.push(alert);
+            $scope.makeTransparent = true;
           }
           
           

@@ -102,29 +102,29 @@ function CalendarCtrl($scope, $uibModal,$compile, $log, $location, uiCalendarCon
 
  /* alert on eventClick */
  //called when a booking is clicked
-  $scope.viewBookingInformation = function(date, jsEvent, view){
+$scope.viewBookingInformation = function(date, jsEvent, view){
 
-    console.log(SharedVariableService.userType);
-    var viewBookingPopupInstance = $uibModal.open({
-      templateUrl: 'viewBookingPopup.html',
-      controller: 'ViewBookingPopupCtrl',
-      backdrop: 'static',
-      resolve: {
-        booking: function(){
-          return date;
-        },
-        sourcePage: function () {
-          return "bookings";
-        }
+  console.log(SharedVariableService.userType);
+  var viewBookingPopupInstance = $uibModal.open({
+    templateUrl: 'viewBookingPopup.html',
+    controller: 'ViewBookingPopupCtrl',
+    backdrop: 'static',
+    resolve: {
+      booking: function(){
+        return date;
+      },
+      sourcePage: function () {
+        return "bookings";
       }
-    });
-    viewBookingPopupInstance.result.then(function (alert) {
-      $scope.alerts.push(alert);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    }
+  });
+  viewBookingPopupInstance.result.then(function (alert) {
+    $scope.alerts.push(alert);
+  }, function () {
+    $log.info('Modal dismissed at: ' + new Date());
+  });
 
-  };
+};
 
     $scope.eventRender = function(event, element, view) { 
 
