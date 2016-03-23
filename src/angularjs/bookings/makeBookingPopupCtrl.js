@@ -24,7 +24,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   loadRoomInfo = function(){
   	var info = {
 		roomID: $scope.roomNum	
-	}
+	 }
   
   	BookingsService.getRoomInfo(info)
 			.then(function(roomInfo){
@@ -49,7 +49,6 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 			function() {
 				alert("err");
 			});
-
   }
   
   loadRoomInfo();
