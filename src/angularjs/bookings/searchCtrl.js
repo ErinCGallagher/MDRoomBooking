@@ -119,6 +119,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
 						$scope.searchResults = true;
 					}
           else{
+            $scope.closeAlert(0);
             alert = { type: 'success', msg: "Results found for your search!!"};
             $scope.alerts.push(alert);
             $scope.makeTransparent = false;
@@ -168,7 +169,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
      $scope.alerts = [];
 
   $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
+    $scope.alerts.splice(0, $scope.alerts.length);
   };
 
   //called when emtpy calendar timeslot is selected
@@ -199,6 +200,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
       });
 
       makeBookingPopupInstance.result.then(function (alert) {
+
         $scope.alerts.push(alert);
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -231,6 +233,7 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
       }
     });
     viewBookingPopupInstance.result.then(function (alert) {
+
       $scope.alerts.push(alert);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
