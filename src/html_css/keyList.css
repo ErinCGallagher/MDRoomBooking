@@ -19,7 +19,6 @@
 }
 
 .keyList .set-date{
-    font-size: 140%;
     text-align: center;
     border: solid 3px;
     padding: 20px 40px;
@@ -30,7 +29,6 @@
 }
 
 .keyList .download{
- 	font-size: 140%;
     text-align: center;
     border: solid 3px;
     padding: 20px 40px;
