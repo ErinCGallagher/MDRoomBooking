@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('UsersCtrl', UsersCtrl);
 
-function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, SharedVariableService) {
+function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSerivce, SharedVariableService) {
 	$scope.pageClass = 'users';  //used to change pages in index.php
 	$scope.showUserInfo = false;
 	$scope.showNoUser= false;
@@ -48,7 +48,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 				*/
 				num = parseInt(userInfo[1].numGroups);	
 				num = num + 2;	
-				console.log(num);	
+				$scope.userGroups.splice(0,$scope.userGroups.length);
 				for (var i = 2; i < num; i++) {
 					//userInfo[i].startTime = new Date(userInfo[i].startTime)
 					if (userInfo[i].addHrsType == "week") {
