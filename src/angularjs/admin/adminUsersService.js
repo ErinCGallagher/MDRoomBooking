@@ -75,7 +75,7 @@ function AdminUsersService(CommService, $q){
 			if(!recurring){
 				adminUsersService.updateBookingsDisplay(bookingID);
 			}else{
-				adminUsersService.updateBookingsDisplay(bookingID); //TODO update booking from recurring
+				adminUsersService.updateSingleRecurringBooking(bookingID)
 			}
 
 			q.resolve();
@@ -111,6 +111,30 @@ function AdminUsersService(CommService, $q){
 		i++;
 		}
 
+	}
+
+		//cancel a single booking from a reccuring booking group
+	//remove the enitre group if no more bookings remain
+	adminUsersService.updateSingleRecurringBooking = function(bookingID){
+		var i = 0;
+		var j = 0;;
+		while(i < adminUsersService.recurringUserBookings.length){
+			while(j < adminUsersService.recurringUserBookings[i].recurringBooking.length){
+				if(adminUsersService.recurringUserBookings[i].recurringBooking[j].bookingID == bookingID){
+					adminUsersService.recurringUserBookings[i].recurringBooking.splice(j, 1);
+					adminUsersService.recurringUserBookings[i].weeksRemaining -=1;
+					j = adminUsersService.recurringUserBookings[i].recurringBooking.length;
+				}
+				if(j == 0){//if no recurring bookings are left, cancel the entire group
+					updateRecurringDisplay(adminUsersService.recurringUserBookings[i].recurringID);
+					i = adminUsersService.recurringUserBookings.length;
+					break;
+				}
+			j++;
+			}
+
+		i++;
+		}	
 	}
 
 	//after a booking has been canceled successfully, remove it from the my bookings table
