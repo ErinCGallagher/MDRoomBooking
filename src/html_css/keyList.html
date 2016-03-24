@@ -1,20 +1,20 @@
 <html>
 
-<b><h2><center>Key List<center></h2></b>
-<div ng-show="showDate" class="set-date" ng-init="confirmInitialLoad()"><h3><center>
+<b style="font-size:22px;"><center>Key List<center></b>
+<div ng-show="showDate" class="set-date" ng-init="confirmInitialLoad()"><center>
 	<span  style="margin-top: 5em;b"  uib-tooltip= "Choose the date you would like to view the key list in the selector to the right, then press the 'Generate Key List' button" >
 	<img src="info-icon.png" style="width:3%;height:3%;"> </span><strong>Set Key Date:</strong>
 		<input type="date" ng-model="keyDate">
 		<button class="btn" ng-click="generateKeyList()"> Generate Key List </button>
-<center></h3></div>
+<center></div>
 
 <div ng-show="showDownload">
 	
 	<div class="download">
-    	<!--- <p>* To view a key list for a different day select the "Change Date" button *</p> ------->
+    	<!--- <p>* To view a key list for a different day select the "Change Date" button *</p> -->
     	
-		<p><h3><span  style="margin-top: 5em;b"  uib-tooltip= "To generate the key list for a different date, select the 'Change Date' button on the right" >
-		<img src="info-icon.png" style="width:3%;height:3%;"></span> {{keyDate | date:'fullDate'}} <button class="btn" ng-click="removeKeyList()"> Change Date </button></h3></p>
+		<p style="font-size: 18px;"><span  style="margin-top: 5em;b"  uib-tooltip= "To generate the key list for a different date, select the 'Change Date' button on the right" >
+		<img src="info-icon.png" style="width:3%;height:3%;"></span> {{keyDate | date:'fullDate'}} <button class="btn" ng-click="removeKeyList()"> Change Date </button></p>
 		<p><h5>
  		<a download href="./src/php/KeyList.txt"> Click Here to Download Key List For: {{keyDate | date:'fullDate'}} </a> </h5></p>
 	</div>
@@ -40,7 +40,7 @@
 	<div ng-show="showNoData" class="container info-container">
 
 
- 		<p><strong><h3><center>No Rooms with Keys Booked on<font color="red"> <u>{{noDate | date:'fullDate'}}</u></font></center></h3></strong> </p>
+ 		<p><strong><center style="font-size:18px;">No Rooms with Keys Booked on<font color="red"> <u>{{noDate | date:'fullDate'}}</u></font></center></strong> </p>
 
 	</div>
 

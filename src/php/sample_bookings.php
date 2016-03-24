@@ -8,19 +8,19 @@
  *          sample data.
  */
 	
- 	//Database connection variables 
+ 	// //Database connection variables 
  	$host = "localhost";
  	$user = "root";
  	$password = "";
  	$database = "mdroombooking";
 	
- 	/*
+ 	
 	//development environment
-	$host = "10.20.49.11:3306";
-	$user = "DMRoomBooking";
-	$password = "UYXE9F5o4f4V";
-	$database = "DMRoomBooking";
- 	*/
+	// $host = "10.20.49.11:3306";
+	// $user = "DMRoomBooking";
+	// $password = "UYXE9F5o4f4V";
+	// $database = "DMRoomBooking";
+ 	
  	//Connect to database
 	$cxn = mysqli_connect($host,$user,$password, $database);
  	
@@ -31,12 +31,15 @@
 		die();
 	}
 
+	mysqli_query($cxn,"DELETE FROM BookingSlots;");
+	mysqli_query($cxn,"DELETE FROM Bookings;");
+
 	$startDay = new DateTime();
 	$curYear = date_format($startDay, "Y");
 	$lastYear = $curYear - 1;
 	$nextYear = $curYear + 1;
 
-	mysqli_query($cxn,"INSERT INTO bookings (bookingID, uID, reason, otherDesc, numParticipants) VALUES
+	mysqli_query($cxn,"INSERT INTO Bookings (bookingID, uID, reason, otherDesc, numParticipants) VALUES
 				(1, 'facID', 'Individual Rehearsal', '', '1'),
 				(2, 'adID', 'Individual Rehearsal', '', '1'),
 				(3, 'studID', 'Individual Rehearsal', '', '1'),
@@ -67,7 +70,7 @@
 				(26, 'adID', 'Individual Rehearsal', '', '1'),
 				(27, 'facID', 'Individual Rehearsal', '', '1');");
 				
-	mysqli_query($cxn,"INSERT INTO bookingslots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES
+	mysqli_query($cxn,"INSERT INTO BookingSlots (bookingID, blockID, bookingDate, roomID, hrsSource) VALUES
 				(1, 2, '$lastYear-01-01', 'Chown 5', 'Faculty'),
 				(2, 8, '$lastYear-04-12', 'HLH 213', 'Admin'),
 				(3, 26, '$lastYear-04-30', 'HLH 213', 'Weekly'),

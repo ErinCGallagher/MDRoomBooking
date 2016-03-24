@@ -3,6 +3,7 @@
 
 	//Database connection
 	include('../connection.php');
+	include('../email.php');
 
 	//set default time to UTC so it does not count daylight savings
   	//do not remove!
@@ -298,7 +299,7 @@
 			$result['msg'] = "Your booking could not be completed because it conflicted with another booking";
 			http_response_code(409); //conflict
 		} else {
-			
+			bookingConf($room, $building, $startDate, $startTime, $endTime, $reason, $desc, $numP, $db);
 			$result['msg'] = 'Successfully booked: "' . $room . ', ' . $startDate . ' ' . $startTime . '-' . $endDate . ' ' . $endTime;
 		}
 

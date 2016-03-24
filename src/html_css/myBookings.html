@@ -1,5 +1,5 @@
 
-<div class="hours-remaining" ng-init="confirmInitialLoad()"> Hours Remaining This Week: 
+<div class="hours-remaining" ng-init="confirmInitialLoad()"> {{hours_remain }}
 	<span>{{hours}}</span>
 </div>
 
@@ -7,20 +7,20 @@
 
 <div class="user-information-cnontainer">
 	<div class="title">User Information </div>
-	<div class="info"><strong>Name: </strong>{{userName}}</div>
-	<div class="info"><strong>Email: </strong>{{email}}</div>
+	<div class="info"><strong>{{user_name}} </strong>{{userName}}</div>
+	<div class="info"><strong>{{user_email}} </strong>{{email}}</div>
 </div>
-<h3 class="myBookings-header"> My Bookings </h3>
+<h3 class="myBookings-header"> {{title_my_bookings}} </h3>
 <div class="bookings">
 	<table>
 		<tr>
-			<th>Date</th>
-			<th>Time</th>
-			<th>Building</th>
-			<th>Room number</th>
-			<th>Key Required</th>
-			<th>Reason</th>
-			<th>Click to Cancel</th>
+			<th>{{header_date}}</th>
+			<th>{{header_time}}</th>
+			<th>{{header_building_name}}</th>
+			<th>{{header_room_num}}</th>
+			<th>{{header_key_req}}</th>
+			<th>{{header_reason}}</th>
+			<th>{{header_click_cancel}}</th>
 		</tr>
 		<tr ng-repeat="booking in bookings">
 
@@ -35,27 +35,27 @@
 	</table>
 </div>
 <div ng-show="userType != 'student'">
-	<h3 class="myBookings-header"> My Recurring Bookings </h3>
-	<p class="myBookings-header">Click Row To Expand Recurring Bookings</p>
+	<h3 class="myBookings-header"> {{title_rec_bookings}} </h3>
+	<p class="myBookings-header">{{rec_info}}</p>
 	<div class="bookings">
 		<table>
 			<tr>
-				<th>Day of the Week</th>
-				<th>Time</th>
-				<th>Bookings Remaining</th>
-				<th>Building</th>
-				<th>Room number</th>
-				<th>Reason</th>
-				<th>Click to Cancel</th>
+				<th>{{header_day_week}}</th>
+				<th>{{header_time}}</th>
+				<th>{{header_bookings_remain}}</th>
+				<th>{{header_building_name}}</th>
+				<th>{{header_room_num}}</th>
+				<th>{{header_reason}}</th>
+				<th>{{header_click_cancel}}</th>
 			</tr>
 			<tbody ng-repeat="reBooking in recurringBookings">
-				<tr ng-click="toggleDetail(reBooking.recurringID)">
-					<td>{{reBooking.dayOfWeek}}</td>
-					<td>{{reBooking.time }}</td>
-					<td>{{reBooking.weeksRemaining}}</td>
-					<td>{{reBooking.building}}</td>
-					<td>{{reBooking.roomNum}}</td>
-					<td>{{reBooking.reason}}</td>
+				<tr >
+					<td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.dayOfWeek}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.time }}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.weeksRemaining}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.building}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.roomNum}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.reason}}</td>
 					<td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
 				</tr>
 				<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">

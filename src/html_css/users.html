@@ -2,23 +2,23 @@
 <div class="uploadDiv" ng-init="confirmInitialLoad()">
     <!-- Music Upload Button -->
     <input type="file" style="display:none" id="musicFile" name="musicFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadMasterList(this, 'Music')" />
-    <button class="btn" onclick="document.getElementById('musicFile').click();">Upload Music List</button>
+    <button class="btn" onclick="document.getElementById('musicFile').click();">{{upload_music}}</button>
 
     <!-- Drama Upload Button -->
     <input type="file" style="display:none" id="dramaFile" name="dramaFile" ng-model="selectedFile" onchange="angular.element(this).scope().uploadMasterList(this, 'Drama')" />
-    <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">Upload Drama List</button>
+    <button class="btn dramUpload" onclick="document.getElementById('dramaFile').click();">{{upload_drama}}</button>
 </div>
 
 <div class="uploadDiv">
     <!-- Music Download Button -->
     <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
-        <button type="submit" class="btn">Download Music Users</button>
+        <button type="submit" class="btn">{{download_music}}</button>
         <input type="hidden" name="department" value="Music" />
     </form>
 
     <!-- Drama Download Button -->
     <form class="downloadForm" action="src/php/users/getUsersFile.php" method="post">
-        <button type="submit" class="btn">Download Drama Users</button>
+        <button type="submit" class="btn">{{download_drama}}</button>
         <input type="hidden" name="department" value="Drama" />
     </form>
 </div>
@@ -26,11 +26,10 @@
 
 <div class="container">
     <form name="search" class="searchNet">
-    	<p><strong>Search For A User</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
+    	<p style="font-size: 16px"><strong>{{user_search_title}}</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
     	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
-    		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
-    		<span ng-show="search.userSearch.$error.required"><font color="red">Enter NetID</font></span></p>
-    		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">Search</button> 
+    		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required placeholder="Enter NetID" style="margin: 5px; margin-bottom:10px;"> 
+    		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">{{search_button}}</button> 
     		
     </form>
 </div>
@@ -39,29 +38,37 @@
 </br></br>
 
 <div ng-show="showNoUser" class="container info-container">
- <p><strong><center><h3>NetID <font color=red>"{{user}}"</font> Not Found</h3></center></strong> </p>
+ <p style="font-size: 20px;"><strong><center><h3>{{netID}} <font color=red>"{{user}}"</font> {{netID_not_found}}</h3></center></strong> </p>
 </div>
 
 <div ng-show="showUserInfo" class="container info-container">     
 	<div class="group-info">
-	<div class="user-info">
-    	<p><strong><h3>User Search For NetID <font color="dark grey">'{{user}}'</font></h3></strong> </p>
-        <p><strong>Name: </strong> {{firstName}} {{lastName}}</p>
-        <p><strong>Remaining Weekly Hours <u>This</u> Week: </strong> {{curWeekHrs}} </p>
-        <p><strong>Remaining Weekly Hours <u>Next</u> Week: </strong> {{nextWeekHrs}} </p>
-    </div>
+    	<div class="user-info">
+        	<p style="font-size:18px"><strong>{{netID_search_results}} <font color="dark grey">'{{user}}'</font></strong> </p>
+            <p><strong>{{user_name}} </strong> {{firstName}} {{lastName}}</p>
+            <p><strong>User Type: </strong> {{searchedUserType}}</p>
+            <p><strong>Department(s): </strong> {{userDepartment}}</p>
+            
+             <p><span  style="margin-top: 5em;b"  uib-tooltip= "This represents the number of special and weekly hours a user has left for a given week. Please note: special hours may exist accross multiple weeks" >
+        <img src="info-icon.png" style="width:3%;height:3%;"> </span><strong>This Weeks Hours Remaining: </strong>{{curHrs}}</p>
+            <p><strong>Next Weeks Hours Remaining: </strong>{{nextHrs}}</p>
+            <!--
+            <p><strong>{{weekly_hrs_remain}} <u>{{this_week}}</u> {{week}} </strong> {{curWeekHrs}} </p>
+            <p><strong>{{weekly_hrs_remain}} <u>{{next_week}}</u> {{week}} </strong> {{nextWeekHrs}} </p>
+            -->
+        </div>
         </br>
         
-        <p><strong><h3>{{firstName}}'s Groups</h3></strong></p>
+        <p class="myBookings-header">{{firstName}}{{groups_ending}}</p>
         <table border="1" style="width:100%">
         <tr>
-            <th><strong><center> Group Name </center></strong></th>
-            <th><strong><center> Hours Type </center></strong></th>
-            <th><strong><center> Hours Given </center></strong></th>
-            <th><strong><center> Special Hours Remaining </center></strong></th>
-            <th><strong><center> Start Date </center></strong></th>
-            <th><strong><center> End Date </center></strong></th>
-            <th><strong><center> Has Duration Restriction </center></strong></th>
+            <th><strong><center> {{groups_name}} </center></strong></th>
+            <th><strong><center> {{hours_type}} </center></strong></th>
+            <th><strong><center> {{hrs_given}} </center></strong></th>
+            <th><strong><center> {{spec_hrs_remain}} </center></strong></th>
+            <th><strong><center> {{start_date}} </center></strong></th>
+            <th><strong><center> {{end_date}} </center></strong></th>
+            <th><strong><center> {{duration_restrict}} </center></strong></th>
             </tr>
             
 		<tr data-ng-repeat="userGroup in userGroups">
@@ -69,7 +76,7 @@
             <td>{{ userGroup.addHrsType }}</td>
             <td>{{ userGroup.hours }}</td>
             <td>{{ userGroup.specialHrs }}</td>
-            <td>&nbsp; &nbsp;{{ userGroup.startDate }}</td>
+            <td>{{ userGroup.startDate }}</td>
             <td>{{ userGroup.endDate }}</td>
             <td>{{ userGroup.hasBookingDurationRestriction}}</td>
         </tr>
@@ -77,7 +84,8 @@
         
         
         </br>
-        <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+        <p class="myBookings-header">{{firstName}}'s Bookings</p>
 			 <table border="1" style="width:100%">
 			  	<tr>
 			  	<th><strong><center> Date </center></strong></th>
@@ -87,117 +95,107 @@
            		 <th><strong><center> Reason </center></strong></th>
            		 <th><strong><center> Click to Cancel </center></strong></th>
            		 </tr>
-			 <tr data-ng-repeat="userBooking in userBookings">
-           		 <td>{{ userBooking.bookingDate | date:'EEE, MMM d yyyy'}}</td>
-           		 <td>{{ userBooking.start | date:'h:mm a' }} - {{ userBooking.endTime | date:'h:mm a'}}</td>
+			 <tr data-ng-repeat="userBooking in bookings">
+           		 <td>{{ userBooking.date | date:'EEE, MMM d yyyy'}}</td>
+           		 <td>{{ userBooking.start | date:'h:mm a' }} - {{ userBooking.end | date:'h:mm a'}}</td>
            		 <td>{{ userBooking.building }}</td>
-           		 <td>{{ userBooking.roomID }}</td>
+           		 <td>{{ userBooking.roomNum }}</td>
            		 <td>{{ userBooking.reason }}</td>
-           		 <td><button ng-click="cancel(userBooking)" class="btn"> X </button></td>
+           		 <td><button ng-click="cancel(userBooking,false)" class="btn"> X </button></td>
        		 </tr>
 			 </table>       
     	</br>
     	</br>
+        <div ng-show="recurringBookings.length > 0">
+            <p class="myBookings-header"> {{title_rec_bookings}} </p>
+            <p class="myBookings-subheader">{{rec_info}}</p>
+            <div class="bookings">
+                <table style="width:100%">
+                    <tr>
+                        <th>{{header_day_week}}</th>
+                        <th>{{header_time}}</th>
+                        <th>{{header_bookings_remain}}</th>
+                        <th>{{header_building_name}}</th>
+                        <th>{{header_room_num}}</th>
+                        <th>{{header_reason}}</th>
+                        <th>{{header_click_cancel}}</th>
+                    </tr>
+                    <tbody ng-repeat="reBooking in recurringBookings">
+                        <tr>
+                            <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.dayOfWeek}}</td>
+                            <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.time }}</td>
+                            <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.weeksRemaining}}</td>
+                            <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.building}}</td>
+                            <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.roomNum}}</td>
+                            <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.reason}}</td>
+                            <td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
+                        </tr>
+                        <tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
+                            <td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
+                            <td colspan="1"><button ng-click="cancel(booking,true)"> X </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
        
     </div>
 </div>
 
 
-    <div>
-        <script type="text/ng-template" id="confirmCancel.html">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
-                </div>
-                <div class="modal-body">
-                	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
-                	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
-				<!---	<div><strong>Building:</strong> {{booking.building}}</div> --->
-					<div><strong>Room #:</strong> {{booking.roomID}}</div>
-					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
-					<div><strong>Reason:</strong> {{booking.reason}}</div>
-					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
-            	</div>
-            	<div class="modal-footer">
-                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn" ng-click="back()">Back</button>
+ <!-- View Booking Popup Template -->
+<div>
+    <script type="text/ng-template" id="confirmCancel.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+            </div>
+            <div class="modal-body">
+                <div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
+                <div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
+                <div><strong>Building:</strong> {{booking.building}}</div>
+                <div><strong>Room #:</strong> {{booking.roomNum}}</div>
+                <div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
+                <div><strong>Reason:</strong> {{booking.reason}}</div>
+                <div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
+                <button type="submit" class="btn" ng-click="back()">Back</button>
 
-        <tr>
-            <th><strong><center> Group Name </center></strong></th>
-            <th><strong><center> Hours Type </center></strong></th>
-            <th><strong><center> Hours Given </center></strong></th>
-            <th><strong><center> Special Hours Remaining </center></strong></th>
-            <th><strong><center> Start Date </center></strong></th>
-            <th><strong><center> End Date </center></strong></th>
-            <th><strong><center> Has Duration Restriction </center></strong></th>
-            </tr>
-            
-		<tr data-ng-repeat="userGroup in userGroups">
-            <td>{{ userGroup.groupName }}</td>
-            <td>{{ userGroup.addHrsType }}</td>
-            <td>{{ userGroup.hours }}</td>
-            <td>{{ userGroup.specialHrs }}</td>
-            <td>&nbsp; &nbsp;{{ userGroup.startDate }}</td>
-            <td>{{ userGroup.endDate }}</td>
-            <td>{{ userGroup.hasBookingDurationRestriction}}</td>
-        </tr>
-        </table>
-        
-        
-        </br>
-        <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
-			 <table border="1" style="width:100%">
-			  	<tr>
-			  	<th><strong><center> Date </center></strong></th>
-           		 <th><strong><center> Time </center></strong></th>
-           		 <th><strong><center> Building </center></strong></th>
-           		 <th><strong><center> Room </center></strong></th>
-           		 <th><strong><center> Reason </center></strong></th>
-           		 <th><strong><center> Click to Cancel </center></strong></th>
-           		 </tr>
-			 <tr data-ng-repeat="userBooking in userBookings">
-           		 <td>{{ userBooking.bookingDate | date:'EEE, MMM d yyyy'}}</td>
-           		 <td>{{ userBooking.start | date:'h:mm a' }} - {{ userBooking.endTime | date:'h:mm a'}}</td>
-           		 <td>{{ userBooking.building }}</td>
-           		 <td>{{ userBooking.roomID }}</td>
-           		 <td>{{ userBooking.reason }}</td>
-           		 <td><button ng-click="cancel(userBooking)" class="btn"> X </button></td>
-       		 </tr>
-			 </table>       
-    	</br>
-    	</br>
-       
-                </div>
-        </script>  
-    </div>
+            </div>
+    </script>  
+</div>
 
+<!-- View Booking Popup Template -->
+<div>
+    <script type="text/ng-template" id="confirmCancelAllRecur.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Are you sure you want to cancel ALL the recurring bookings associated with this booking?</h4>
+            </div>
+            <div class="modal-body">
+                <div><strong>Building:</strong> {{recurrBookings.building}}</div>
+                <div><strong>Room #:</strong> {{recurrBookings.roomNum}}</div>
+                <div><strong>Time:</strong> {{recurrBookings.time}}</div>
 
-    <div>
-        <script type="text/ng-template" id="confirmCancel.html">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+                <h4> Recurring Bookings </h4>
+                <div ng-repeat="booking in recurrBookings.recurringBooking">
+                <div><strong>Date:</strong> {{booking.date}}</div>
                 </div>
-                <div class="modal-body">
-                	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
-                	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
-				<div><strong>Building:</strong> {{booking.building}}</div>
-					<div><strong>Room #:</strong> {{booking.roomID}}</div>
-					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
-					<div><strong>Reason:</strong> {{booking.reason}}</div>
-					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
-            	</div>
-            	<div class="modal-footer">
-                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn" ng-click="back()">Back</button>
+                
 
-                </div>
-        </script>  
-    </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel All Bookings</button>
+                <button type="submit" class="btn" ng-click="back()">Back</button>
+
+            </div>
+    </script>  
+</div>
 
 
 <!-- popup after uploading users -->

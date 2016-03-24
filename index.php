@@ -65,6 +65,8 @@
         <script type="text/javascript" src="src/angularjs/bookings/myBookingsService.js"></script>
         <script type="text/javascript" src="src/angularjs/confirmationPopupService.js"></script>
         <script type="text/javascript" src="src/angularjs/admin/adminKeyService.js"></script>
+        <script type="text/javascript" src="src/angularjs/constantTextService.js"></script>
+
 
         <!-- Bootstrap/Modal Stuff -->
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" >
@@ -80,7 +82,7 @@
     <body ng-app="mainApp" ng-controller="AppCtrl">
 
     <div class="select-user-type" style="text-align:center;">
-    <strong>Version Number: 3.0</strong>
+    <strong>Version Number: 4.1</strong>
     <table style="text-align:center; width:100%;">
         <tr>
             <!--

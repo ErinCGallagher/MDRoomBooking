@@ -82,9 +82,17 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	}
 	
 	commService.getUserInfo = function(uID) {
-		return AdminCommService.getUserInfo(uID);
-		
+		var q = $q.defer();
+		AdminCommService.getUserInfo(uID)
+			.then(function(response) {
+				q.resolve(response.data);
+			},
+			function(errorMsg){
+				q.reject(errorMsg.data);
+			});
+		return q.promise;	
 	}
+	
 	commService.addUsers = function(fileFormData){
 		var q = $q.defer();
 		AdminCommService.addUsers(fileFormData)
@@ -281,9 +289,9 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	}
 
 	//retirieve a users bookings
-	commService.retrieveUserBookings = function(){
+	commService.retrieveUserBookings = function(uID){
 		var q = $q.defer();
-		BookingCommService.retrieveUserBookings()
+		BookingCommService.retrieveUserBookings(uID)
 			.then(function(userBookings){
 				var formatteduserBookings = {};
 				 formatteduserBookings.bookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data.bookings);
@@ -313,8 +321,6 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	commService.eventColourPicker = function(reason){
 		return BookingCommService.eventColourPicker(reason);
 	}
-
-
 
 	return commService;
 }

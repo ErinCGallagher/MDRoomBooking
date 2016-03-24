@@ -3,7 +3,7 @@ angular
 .controller('CalendarCtrl', CalendarCtrl);
 
 
-function CalendarCtrl($scope, $uibModal,$compile, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService){
+function CalendarCtrl($scope, $uibModal,$compile, $log, $location, uiCalendarConfig, BookingsService, SharedVariableService, ConstantTextSerivce){
 
   $scope.buildings = SharedVariableService.buildings;
   $scope.selectedBuilding = SharedVariableService.defaultBuilding;
@@ -203,6 +203,9 @@ $scope.viewBookingInformation = function(date, jsEvent, view){
         }
       }
   }
+
+  /* ALL APPLICATION TEXT */
+  $scope.building_selection = ConstantTextSerivce.CALENDAR.BUILDING_SELECTION.NAME;
 
 };
 

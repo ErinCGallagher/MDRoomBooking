@@ -1,13 +1,14 @@
 angular
 .module('mainApp')
 .controller('ConfirmCancelAllRecurCtrl', ConfirmCancelAllRecurCtrl)
-function ConfirmCancelAllRecurCtrl ($scope, $uibModalInstance, bookingInfo, MyBookingsService) {
+function ConfirmCancelAllRecurCtrl ($scope, $uibModalInstance, bookingInfo, sourcePage, MyBookingsService, AdminUsersService) {
 	$scope.recurrBookings = bookingInfo;
 
 	//called on "Cancel Booking" buton press
 	$scope.cancelBooking = function(){
-		
-		MyBookingsService.cancelAllRecurringBookings(bookingInfo.recurringID
+
+		if(sourcePage == "myBookings"){
+			MyBookingsService.cancelAllRecurringBookings(bookingInfo.recurringID
 )
 			.then(function(){
 				alertSending("200");
@@ -15,6 +16,19 @@ function ConfirmCancelAllRecurCtrl ($scope, $uibModalInstance, bookingInfo, MyBo
 			function(){
 				alertSending("406");
 			});
+		}else{
+			AdminUsersService.cancelAllRecurringBookings(bookingInfo.recurringID
+)
+			.then(function(){
+				alertSending("200");
+			},
+			function(){
+				alertSending("406");
+			});
+
+		}
+		
+		
 		
 	}
 

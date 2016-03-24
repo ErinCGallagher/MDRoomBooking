@@ -47,23 +47,23 @@ function GroupsCtrl($scope, $uibModal, ConfirmationPopupService, AdminGroupsServ
     //Function to change restriction value when 
     //selected by user creating a group
     $scope.changeRes = function(restriction) {
-        if (restriction == 'YES') {
-        	$scope.restriction = 'NO';
+        if (restriction == 'Yes') {
+        	$scope.restriction = 'No';
         }
-        else if (restriction == 'NO'){
-        	$scope.restriction = 'YES';
+        else if (restriction == 'No'){
+        	$scope.restriction = 'Yes';
         }
     } 
     
     
-      //Function to change restriction value when 
+    //Function to change restriction value when 
     //selected by user creating a group
     $scope.changeResM = function(restrictionM) {
-        if (restrictionM == 'YES') {
-        	$scope.restrictionM = 'NO';
+        if (restrictionM == 'Yes') {
+        	$scope.restrictionM = 'No';
         }
-        else if (restrictionM == 'NO'){
-        	$scope.restrictionM = 'YES';
+        else if (restrictionM == 'No'){
+        	$scope.restrictionM = 'Yes';
         }
     } 
     
@@ -267,11 +267,11 @@ function GroupsCtrl($scope, $uibModal, ConfirmationPopupService, AdminGroupsServ
 			$scope.addHrsTypeM = '2';
 		}
 		
-		if ($scope.hasBookingDurationRestriction == 'YES') {
-			$scope.restrictionM = 'YES';
+		if ($scope.hasBookingDurationRestriction == 'Yes') {
+			$scope.restrictionM = 'Yes';
 		}
-		if ($scope.hasBookingDurationRestriction == 'NO') {
-			$scope.restrictionM = 'NO';
+		if ($scope.hasBookingDurationRestriction == 'No') {
+			$scope.restrictionM = 'No';
 		}
 		
 		var start = $scope.setStartDate;

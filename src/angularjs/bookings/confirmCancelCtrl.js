@@ -1,7 +1,7 @@
 angular
 .module('mainApp')
 .controller('ConfirmCancelCtrl', ConfirmCancelCtrl)
-function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, recurring, $filter, MyBookingsService) {
+function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, recurring, sourcePage, $filter, MyBookingsService, AdminUsersService) {
 	$scope.booking = bookingInfo;
 
 	//called on "Cancel Booking" buton press
@@ -16,14 +16,25 @@ function ConfirmCancelCtrl ($scope, $uibModalInstance, bookingInfo, recurring, $
 			var bookingID = bookingInfo.bookingID;
 			var start = bookingInfo.start;
 		}
+
+		if(sourcePage == "myBookings"){
 		
-		MyBookingsService.cancelBooking(bookingID,start,recurring) 
-			.then(function(){
-				alertSending("200");
-			},
-			function(){
-				alertSending("406");
-			});
+			MyBookingsService.cancelBooking(bookingID,start,recurring) 
+				.then(function(){
+					alertSending("200");
+				},
+				function(){
+					alertSending("406");
+				});
+		}else{
+			AdminUsersService.cancelBooking(bookingID,start,recurring) 
+				.then(function(){
+					alertSending("200");
+				},
+				function(){
+					alertSending("406");
+				});
+		}
 		
 	}
 	

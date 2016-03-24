@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('AppCtrl', AppCtrl)
 
-function AppCtrl($scope, $location, $route, SharedVariableService){
+function AppCtrl($scope, $location, $route, SharedVariableService, ConstantTextSerivce){
 
 //may need to handle back button functionality here espeically on phones
 
@@ -19,32 +19,32 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
   //detect user type (ADMIN OR NOT ADMIN)
   
   //retrieve constant text from service from service
-  $scope.calendarText = "CALENDAR";
+  $scope.calendarText = ConstantTextSerivce.NAV_BAR.CALENDAR.NAME;
   
   //retrieve constant text from service
-  $scope.searchText = "SEARCH";
+  $scope.searchText = ConstantTextSerivce.NAV_BAR.SEARCH.NAME;
 
   //retrieve constant text from service
-  $scope.myBookingsText = "MY BOOKINGS";
-
-  //retrieve constant text from service
-  //only display if Admin user
-  $scope.AdminText = "ADMIN";
+  $scope.myBookingsText = ConstantTextSerivce.NAV_BAR.MY_BOOKINGS.NAME;
 
   //retrieve constant text from service
   //only display if Admin user
-  $scope.UserText = "USERS";
+  $scope.AdminText = ConstantTextSerivce.NAV_BAR.ADMIN.NAME;
+
+  //retrieve constant text from service
+  //only display if Admin user
+  $scope.UserText = ConstantTextSerivce.NAV_BAR.USERS.NAME;
   
   //retrieve constant text from service
   //only display if Admin user
-  $scope.KeyText = "KEY LIST";
+  $scope.KeyText = ConstantTextSerivce.NAV_BAR.KEY_LIST.NAME;
 
   //retrieve constant text from service
   //only display if Admin user
-  $scope.GroupsText = "GROUPS";
+  $scope.GroupsText = ConstantTextSerivce.NAV_BAR.GROUPS.NAME;
 
   //retrieve constant text from service
-  $scope.SignOutText = "SIGN OUT";
+  $scope.SignOutText = ConstantTextSerivce.NAV_BAR.SIGN_OUT.NAME;
   
   
 
@@ -53,19 +53,5 @@ function AppCtrl($scope, $location, $route, SharedVariableService){
       $location.path("/"); //return to the login page to 
     }
   }
-
-  /*
-
-  //for user testing only
-  $scope.$watch('userPermision', function(userPermision) {
-    if(userPermision == undefined){
-      SharedVariableService.userType = "admin";
-      SharedVariableService.changeUserType("admin"); 
-    }else{
-       SharedVariableService.changeUserType(userPermision); 
-    }
-
- });
- */
 
 }
