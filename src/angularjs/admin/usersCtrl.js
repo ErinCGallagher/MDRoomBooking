@@ -21,8 +21,8 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 	getUserInfo = function(uID){
 		AdminUsersService.getUserInfo(uID)
 			.then(function(userInfo){
-			if (userInfo.data[0] == "nothing") {
-				$scope.user = userInfo.data[1];
+			if (userInfo== "nothing") {
+				$scope.user = userInfo;
 				$scope.showUserInfo = false;
 				$scope.showNoUser= true;
 			}
@@ -30,25 +30,26 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 				$scope.showNoUser= false;
 				$scope.showUserInfo = true;
 				$scope.user = uID;
-				$scope.firstName = userInfo.data[0].firstName; 
-				$scope.lastName = userInfo.data[0].lastName;
-				$scope.curWeekHrs = userInfo.data[0].curWeekHrs;
+				$scope.firstName = userInfo[0].firstName; 
+				$scope.lastName = userInfo[0].lastName;
+				$scope.searchedUserType = userInfo.class;
+				$scope.userDepartment = userInfo.department;
+				$scope.curHrs = userInfo.curWeekHrs;
+				$scope.nextHrs = userInfo.nextWeekHrs;
+				/*
+				$scope.curWeekHrs = userInfo[0].curWeekHrs;
 				$scope.nextWeekHrs = userInfo.data[0].nextWeekHrs;
-				num = parseInt(userInfo.data[1].numGroups);	
+				*/
+				num = parseInt(userInfo[1].numGroups);	
 				num = num + 2;	
 				console.log(num);	
 				for (var i = 2; i < num; i++) {
-					//userInfo.data[i].startTime = new Date(userInfo.data[i].startTime)
-					if (userInfo.data[i].addHrsType == "week") {
-						userInfo.data[i].specialHrs = "N/A"
+					//userInfo[i].startTime = new Date(userInfo[i].startTime)
+					if (userInfo[i].addHrsType == "week") {
+						userInfo[i].specialHrs = "N/A"
 					}
-					$scope.userGroups.push(userInfo.data[i])
-				}
-				/*
-				for (var i = num; i < userInfo.data.length; i++) {
-					$scope.userBookings.push(userInfo.data[i])
-				}
-				*/	
+					$scope.userGroups.push(userInfo[i])
+				}	
 			}
 				
 			},

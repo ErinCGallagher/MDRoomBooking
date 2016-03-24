@@ -10,7 +10,19 @@
 	
 	//array to hold results
 	$result = array();
-	$result2 = array();
+
+	//Query to get group information
+	$sth = $db->prepare("SELECT Master.department, User.class FROM User JOIN Master ON Master.uID = User.uID WHERE User.uID = ?"); 
+	$sth->execute(array($uID));
+	$rows = $sth->fetchAll();
+	$departmentStr = "";
+	//Put result in an array 
+		foreach($rows as $row) {
+			$result["class"] = $row["class"];
+			$departmentStr .= " ". $row["department"];
+		}
+		$result["department"] = $departmentStr;
+
 	
 	//Query to get group information
 	$sth = $db->prepare("SELECT firstName, lastName, curWeekHrs, nextWeekHrs, hasBookingDurationRestriction FROM User WHERE uID = ?"); 
@@ -46,41 +58,25 @@
 		
 		//Format day
 		date_default_timezone_set('America/Toronto');
-		/*
-		//determine current date so you only retrieve bookings after it
-		$currentDate = date('Y-m-d');
-		$currentTime = date('H:i:s');
-		
+
+		$firstDay = date("Y-m-d", strtotime('monday this week'));  
+		$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
+
+
 
 		//get daily bookings from database
-		$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime as start, endTime, reason, Rooms.building, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE (bookingDate >= ? and uID = ? and BookingSlots.blockID >= (SELECT blockID FROM Blocks WHERE startTime >= ? LIMIT 1) ) OR (bookingDate > ? and uID = ?) GROUP BY bookingID ORDER BY bookingDate, startTime ASC;");
-		$sth->execute(array($currentDate, $uID, $currentTime, $currentDate, $uID));
+		$sth = $db->prepare("SELECT curWeekHrs, nextWeekHrs FROM User where uID = ?;");
+		$sth->execute(array($uID));
 
-		$rows = $sth->fetchAll();
-		
 		//Loop through each returned row 
-		foreach($rows as $row) {
-			//Get number of blocks
-			$numBlocks = $row['numBlocks'];
-			
-			//Add thirty minutes to start time for each 
-			//block in booking if there is more than one
-			if ($numBlocks != 1) {
-				$startTime = $row['start'];
-				$endTime =  strtotime($startTime);
-			
-				while ($numBlocks >= 1) {
-					$endTime = date("H:i:s", strtotime('+30 minutes', $endTime));
-					$endTime = strtotime($endTime);
-					$numBlocks = ($numBlocks - 1);
-				}
-
-				//change the endtime to appropriate value
-				$row['endTime'] = date("H:i:s", $endTime);
-			}
-			array_push($result, $row);
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			$result["curWeekHrs"] = floatval($row["curWeekHrs"]);
+			$result["nextWeekHrs"] = floatval($row["nextWeekHrs"]);
 		}
-		*/	
+		$result["curWeekHrs"] += weeksSpecialHours($db, $uID, $firstDay);
+		$result["nextWeekHrs"] += weeksSpecialHours($db, $uID, $firstDayNextWeek);
+
+	
 	
 	} 
 	else {
@@ -95,6 +91,18 @@
 	$json = json_encode($result);
 
 	echo $json;
-	
+
+	//given a date, determines the specicial hours whch are active
+	function weeksSpecialHours($db, $uID, $startDate){
+		$usableSpecialHours = 0;
+		$sth = $db->prepare("SELECT SUM(Permission.specialHrs) totalHrs FROM Permission JOIN UGroups on UGroups.groupID = Permission.groupID WHERE uID = ? and ? BETWEEN UGroups.startDate and UGroups.endDate");
+		$sth->execute(array($uID, $startDate));
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			//Get number of blocks
+			$usableSpecialHours = $row['totalHrs'];
+		}
+		
+		return floatval($usableSpecialHours);
+	}
 	
 ?>

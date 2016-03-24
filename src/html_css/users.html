@@ -47,8 +47,15 @@
     	<div class="user-info">
         	<p><strong><h3>{{netID_search_results}} <font color="dark grey">'{{user}}'</font></h3></strong> </p>
             <p><strong>{{user_name}} </strong> {{firstName}} {{lastName}}</p>
+            <p><strong>User Type: </strong> {{searchedUserType}}</p>
+            <p><strong>Department(s): </strong> {{userDepartment}}</p>
+            
+            <p>This Weeks Hours Remaining: {{curHrs}}</p>
+            <p>Next Weeks Hours Remaining: {{nextHrs}}</p>
+            <!--
             <p><strong>{{weekly_hrs_remain}} <u>{{this_week}}</u> {{week}} </strong> {{curWeekHrs}} </p>
             <p><strong>{{weekly_hrs_remain}} <u>{{next_week}}</u> {{week}} </strong> {{nextWeekHrs}} </p>
+            -->
         </div>
         </br>
         
@@ -69,7 +76,7 @@
             <td>{{ userGroup.addHrsType }}</td>
             <td>{{ userGroup.hours }}</td>
             <td>{{ userGroup.specialHrs }}</td>
-            <td>&nbsp; &nbsp;{{ userGroup.startDate }}</td>
+            <td>{{ userGroup.startDate }}</td>
             <td>{{ userGroup.endDate }}</td>
             <td>{{ userGroup.hasBookingDurationRestriction}}</td>
         </tr>

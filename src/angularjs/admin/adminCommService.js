@@ -88,8 +88,6 @@ function AdminCommService($http){
 		 return promisePost;
 	}
 	
-	
-	
 
 	adminCommService.addUsers = function(fileFormData){
 		// send config object as well
