@@ -43,6 +43,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 		return q.promise;
 	}
 
+	// Similar code exists in my adminUserService (all below)
 
 	//cancel a users own booking from the my bookings page
 	myBookingsService.cancelBooking = function(bookingID,startTime,recurring){
@@ -75,6 +76,8 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 		});
 		return q.promise;
 	}
+
+
 
 	//after a booking has been canceled successfully, remove it from the my bookings table
 	updateBookingsDisplay = function(bookingID){

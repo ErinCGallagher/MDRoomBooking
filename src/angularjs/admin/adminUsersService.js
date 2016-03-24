@@ -66,6 +66,66 @@ function AdminUsersService(CommService, $q){
 			});
 	}
 
+	// Similar code exists in myBookingsService (all below)
+	//cancel a users own booking from the my bookings page
+	adminUsersService.cancelBooking = function(bookingID,startTime,recurring){
+		var q = $q.defer();
+		CommService.cancelBooking(bookingID,startTime)
+		.then(function(){
+			if(!recurring){
+				adminUsersService.updateBookingsDisplay(bookingID);
+			}else{
+				adminUsersService.updateBookingsDisplay(bookingID); //TODO update booking from recurring
+			}
+
+			q.resolve();
+		},
+		function(err){
+			q.resolve(err);
+		});
+		return q.promise;
+	}
+
+	//cancel all bookings associated with a reccuring booking
+	adminUsersService.cancelAllRecurringBookings = function(reccurringID){
+		var q = $q.defer();
+		CommService.cancelAllRecurringBookings(reccurringID)
+		.then(function(){
+			adminUsersService.updateRecurringDisplay(reccurringID);
+			q.resolve();
+		},
+		function(err){
+			q.resolve(err);
+		});
+		return q.promise;
+	}
+
+	//after a booking has been canceled successfully, remove it from the my bookings table
+	adminUsersService.updateBookingsDisplay = function(bookingID){
+		var i = 0
+		while(i < adminUsersService.userBookings.length){
+			if(adminUsersService.userBookings[i].bookingID == bookingID){
+				adminUsersService.userBookings.splice(i, 1);
+				i = adminUsersService.userBookings.length;
+			}
+		i++;
+		}
+
+	}
+
+	//after a booking has been canceled successfully, remove it from the my bookings table
+	adminUsersService.updateRecurringDisplay = function(reccurringID){
+		var i = 0
+		while(i < adminUsersService.recurringUserBookings.length){
+			if(adminUsersService.recurringUserBookings[i].recurringID == reccurringID){
+				adminUsersService.recurringUserBookings.splice(i, 1);
+				i = adminUsersService.recurringUserBookings.length;
+			}
+		i++;
+		}
+
+	}
+
 	return adminUsersService;
 
 };

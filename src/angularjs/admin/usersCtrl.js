@@ -57,11 +57,17 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 			});
 		
 	}
+
+	$scope.alerts = [];
+
+	$scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	};
+
 	
 	
 	//cancel a booking, open modal for comfirmation
-	$scope.cancel = function(bookingInfo){
-		console.log(bookingInfo);
+	$scope.cancel = function(bookingInfo,recurring){
 
 	    var confirmCancelPopupInstance = $uibModal.open({
 	        templateUrl: 'confirmCancel.html',
@@ -71,20 +77,38 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 	            	return bookingInfo;
 	          },
 	          recurring: function () {
-	            	return false;
+	            	return recurring;
+	          },
+	          sourcePage: function () {
+	            	return "users";
 	          },
 
 	        }
 	    });
 
 	    confirmCancelPopupInstance.result.then(function (alert) {
-	     //   $scope.alerts.push(alert);
-	     $scope.userGroups = [];
-		 $scope.userBookings = [];
-	     getUserInfo($scope.user);
-	        
+	        $scope.alerts.push(alert);
 	    }, function () {
-	       // $log.info('Modal dismissed at: ' + new Date());
+	        $log.info('Modal dismissed at: ' + new Date());
+	    });
+	}
+
+	$scope.cancelAllRecur = function(reBooking){
+		var confirmCancelPopupInstance = $uibModal.open({
+	        templateUrl: 'confirmCancelAllRecur.html',
+	        controller: 'ConfirmCancelAllRecurCtrl',
+	        resolve: {
+	        	bookingInfo: function () {
+	            	return reBooking;
+	          },
+
+	        }
+	    });
+
+	    confirmCancelPopupInstance.result.then(function (alert) {
+	        $scope.alerts.push(alert);
+	    }, function () {
+	        $log.info('Modal dismissed at: ' + new Date());
 	    });
 	}
 	

@@ -73,6 +73,9 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	          recurring: function () {
 	            	return recurring;
 	          },
+	          sourcePage: function () {
+	            	return "myBookings";
+	          },
 
 	        }
 	    });

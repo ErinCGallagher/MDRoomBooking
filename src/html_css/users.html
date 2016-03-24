@@ -77,6 +77,7 @@
         
         
         </br>
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
         <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
 			 <table border="1" style="width:100%">
 			  	<tr>
@@ -93,7 +94,7 @@
            		 <td>{{ userBooking.building }}</td>
            		 <td>{{ userBooking.roomNum }}</td>
            		 <td>{{ userBooking.reason }}</td>
-           		 <td><button ng-click="cancel(userBooking)" class="btn"> X </button></td>
+           		 <td><button ng-click="cancel(userBooking,false)" class="btn"> X </button></td>
        		 </tr>
 			 </table>       
     	</br>
@@ -135,101 +136,59 @@
 </div>
 
 
-    <div>
-        <script type="text/ng-template" id="confirmCancel.html">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
-                </div>
-                <div class="modal-body">
-                	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
-                	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
-				<!---	<div><strong>Building:</strong> {{booking.building}}</div> --->
-					<div><strong>Room #:</strong> {{booking.roomID}}</div>
-					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
-					<div><strong>Reason:</strong> {{booking.reason}}</div>
-					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
-            	</div>
-            	<div class="modal-footer">
-                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn" ng-click="back()">Back</button>
+ <!-- View Booking Popup Template -->
+<div>
+    <script type="text/ng-template" id="confirmCancel.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+            </div>
+            <div class="modal-body">
+                <div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
+                <div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
+                <div><strong>Building:</strong> {{booking.building}}</div>
+                <div><strong>Room #:</strong> {{booking.roomNum}}</div>
+                <div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
+                <div><strong>Reason:</strong> {{booking.reason}}</div>
+                <div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
+                <button type="submit" class="btn" ng-click="back()">Back</button>
 
-        <tr>
-            <th><strong><center> Group Name </center></strong></th>
-            <th><strong><center> Hours Type </center></strong></th>
-            <th><strong><center> Hours Given </center></strong></th>
-            <th><strong><center> Special Hours Remaining </center></strong></th>
-            <th><strong><center> Start Date </center></strong></th>
-            <th><strong><center> End Date </center></strong></th>
-            <th><strong><center> Has Duration Restriction </center></strong></th>
-            </tr>
-            
-		<tr data-ng-repeat="userGroup in userGroups">
-            <td>{{ userGroup.groupName }}</td>
-            <td>{{ userGroup.addHrsType }}</td>
-            <td>{{ userGroup.hours }}</td>
-            <td>{{ userGroup.specialHrs }}</td>
-            <td>&nbsp; &nbsp;{{ userGroup.startDate }}</td>
-            <td>{{ userGroup.endDate }}</td>
-            <td>{{ userGroup.hasBookingDurationRestriction}}</td>
-        </tr>
-        </table>
-        
-        
-        </br>
-        <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
-			 <table border="1" style="width:100%">
-			  	<tr>
-			  	<th><strong><center> Date </center></strong></th>
-           		 <th><strong><center> Time </center></strong></th>
-           		 <th><strong><center> Building </center></strong></th>
-           		 <th><strong><center> Room </center></strong></th>
-           		 <th><strong><center> Reason </center></strong></th>
-           		 <th><strong><center> Click to Cancel </center></strong></th>
-           		 </tr>
-			 <tr data-ng-repeat="userBooking in userBookings">
-           		 <td>{{ userBooking.bookingDate | date:'EEE, MMM d yyyy'}}</td>
-           		 <td>{{ userBooking.start | date:'h:mm a' }} - {{ userBooking.endTime | date:'h:mm a'}}</td>
-           		 <td>{{ userBooking.building }}</td>
-           		 <td>{{ userBooking.roomID }}</td>
-           		 <td>{{ userBooking.reason }}</td>
-           		 <td><button ng-click="cancel(userBooking)" class="btn"> X </button></td>
-       		 </tr>
-			 </table>       
-    	</br>
-    	</br>
-       
-                </div>
-        </script>  
-    </div>
+            </div>
+    </script>  
+</div>
 
+<!-- View Booking Popup Template -->
+<div>
+    <script type="text/ng-template" id="confirmCancelAllRecur.html">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="cancel()">&times;</button>
+                <h4 class="modal-title">Are you sure you want to cancel ALL the recurring bookings associated with this booking?</h4>
+            </div>
+            <div class="modal-body">
+                <div><strong>Building:</strong> {{recurrBookings.building}}</div>
+                <div><strong>Room #:</strong> {{recurrBookings.roomNum}}</div>
+                <div><strong>Time:</strong> {{recurrBookings.time}}</div>
 
-    <div>
-        <script type="text/ng-template" id="confirmCancel.html">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title">Are you sure you want to cancel the following booking?</h4>
+                <h4> Recurring Bookings </h4>
+                <div ng-repeat="booking in recurrBookings.recurringBooking">
+                <div><strong>Date:</strong> {{booking.date}}</div>
                 </div>
-                <div class="modal-body">
-                	<div><strong>Date:</strong> {{booking.bookingDate | date:'EEE, MMM d yyyy'}}</div>
-                	<div><strong>Time:</strong> {{booking.start}} - {{booking.endTime}}</div>
-				<div><strong>Building:</strong> {{booking.building}}</div>
-					<div><strong>Room #:</strong> {{booking.roomID}}</div>
-					<!---<div><strong>Key Required:</strong> {{booking.keyRequired}}</div> --->
-					<div><strong>Reason:</strong> {{booking.reason}}</div>
-					<div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
-            	</div>
-            	<div class="modal-footer">
-                    <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn" ng-click="back()">Back</button>
+                
 
-                </div>
-        </script>  
-    </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel All Bookings</button>
+                <button type="submit" class="btn" ng-click="back()">Back</button>
+
+            </div>
+    </script>  
+</div>
 
 
 <!-- popup after uploading users -->
