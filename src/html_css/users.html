@@ -26,10 +26,9 @@
 
 <div class="container">
     <form name="search" class="searchNet">
-    	<p><strong>{{user_search_title}}</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
+    	<p style="font-size: 16px"><strong>{{user_search_title}}</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
     	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
-    		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required> 
-    		<span ng-show="search.userSearch.$error.required"><font color="red">{{sarch_netID}}</font></span></p>
+    		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required placeholder="Enter NetID" style="margin: 5px; margin-bottom:10px;"> 
     		<button class="btn modify-cancel-button" ng-click="searchUser()" ng-disabled="search.$invalid">{{search_button}}</button> 
     		
     </form>
@@ -39,19 +38,20 @@
 </br></br>
 
 <div ng-show="showNoUser" class="container info-container">
- <p><strong><center><h3>{{netID}} <font color=red>"{{user}}"</font> {{netID_not_found}}</h3></center></strong> </p>
+ <p style="font-size: 20px;"><strong><center><h3>{{netID}} <font color=red>"{{user}}"</font> {{netID_not_found}}</h3></center></strong> </p>
 </div>
 
 <div ng-show="showUserInfo" class="container info-container">     
 	<div class="group-info">
     	<div class="user-info">
-        	<p><strong><h3>{{netID_search_results}} <font color="dark grey">'{{user}}'</font></h3></strong> </p>
+        	<p style="font-size:18px"><strong>{{netID_search_results}} <font color="dark grey">'{{user}}'</font></strong> </p>
             <p><strong>{{user_name}} </strong> {{firstName}} {{lastName}}</p>
             <p><strong>User Type: </strong> {{searchedUserType}}</p>
             <p><strong>Department(s): </strong> {{userDepartment}}</p>
             
-            <p>This Weeks Hours Remaining: {{curHrs}}</p>
-            <p>Next Weeks Hours Remaining: {{nextHrs}}</p>
+             <p><span  style="margin-top: 5em;b"  uib-tooltip= "This represents the number of special and weekly hours a user has left for a given week. Please note: special hours may exist accross multiple weeks" >
+        <img src="info-icon.png" style="width:3%;height:3%;"> </span><strong>This Weeks Hours Remaining: </strong>{{curHrs}}</p>
+            <p><strong>Next Weeks Hours Remaining: </strong>{{nextHrs}}</p>
             <!--
             <p><strong>{{weekly_hrs_remain}} <u>{{this_week}}</u> {{week}} </strong> {{curWeekHrs}} </p>
             <p><strong>{{weekly_hrs_remain}} <u>{{next_week}}</u> {{week}} </strong> {{nextWeekHrs}} </p>
@@ -59,7 +59,7 @@
         </div>
         </br>
         
-        <p><strong><h3>{{firstName}}{{groups_ending}}</h3></strong></p>
+        <p class="myBookings-header">{{firstName}}{{groups_ending}}</p>
         <table border="1" style="width:100%">
         <tr>
             <th><strong><center> {{groups_name}} </center></strong></th>
@@ -85,7 +85,7 @@
         
         </br>
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
-        <p><strong><h3>{{firstName}}'s Bookings</h3></strong> </p>
+        <p class="myBookings-header">{{firstName}}'s Bookings</p>
 			 <table border="1" style="width:100%">
 			  	<tr>
 			  	<th><strong><center> Date </center></strong></th>
@@ -107,8 +107,8 @@
     	</br>
     	</br>
         <div ng-show="recurringBookings.length > 0">
-            <h3 class="myBookings-header"> {{title_rec_bookings}} </h3>
-            <p class="myBookings-header">{{rec_info}}</p>
+            <p class="myBookings-header"> {{title_rec_bookings}} </p>
+            <p class="myBookings-subheader">{{rec_info}}</p>
             <div class="bookings">
                 <table style="width:100%">
                     <tr>

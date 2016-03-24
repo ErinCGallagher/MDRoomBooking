@@ -49,7 +49,7 @@
 				<th>{{header_click_cancel}}</th>
 			</tr>
 			<tbody ng-repeat="reBooking in recurringBookings">
-				<tr>
+				<tr ng-click="toggleDetail(reBooking.recurringID)">
 					<td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.dayOfWeek}}</td>
                     <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.time }}</td>
                     <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.weeksRemaining}}</td>
