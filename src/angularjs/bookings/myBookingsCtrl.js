@@ -46,7 +46,10 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	        resolve: {
 	        	bookingInfo: function () {
 	            	return reBooking;
-	          },
+	          	},
+	          	sourcePage: function () {
+	            	return "myBookings";
+	          	},
 
 	        }
 	    });

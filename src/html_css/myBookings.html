@@ -49,13 +49,13 @@
 				<th>{{header_click_cancel}}</th>
 			</tr>
 			<tbody ng-repeat="reBooking in recurringBookings">
-				<tr ng-click="toggleDetail(reBooking.recurringID)">
-					<td>{{reBooking.dayOfWeek}}</td>
-					<td>{{reBooking.time }}</td>
-					<td>{{reBooking.weeksRemaining}}</td>
-					<td>{{reBooking.building}}</td>
-					<td>{{reBooking.roomNum}}</td>
-					<td>{{reBooking.reason}}</td>
+				<tr>
+					<td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.dayOfWeek}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.time }}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.weeksRemaining}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.building}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.roomNum}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.reason}}</td>
 					<td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
 				</tr>
 				<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">

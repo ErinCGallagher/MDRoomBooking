@@ -33,9 +33,15 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 				$scope.firstName = userInfo[0].firstName; 
 				$scope.lastName = userInfo[0].lastName;
 				$scope.searchedUserType = userInfo.class;
+				if($scope.searchedUserType !="Student"){
+					$scope.curHrs ="Unlimited";
+					$scope.nextHrs = "Unlimited";
+				}else{
+					$scope.curHrs = userInfo.curWeekHrs;
+					$scope.nextHrs = userInfo.nextWeekHrs;
+				}
 				$scope.userDepartment = userInfo.department;
-				$scope.curHrs = userInfo.curWeekHrs;
-				$scope.nextHrs = userInfo.nextWeekHrs;
+				
 				/*
 				$scope.curWeekHrs = userInfo[0].curWeekHrs;
 				$scope.nextWeekHrs = userInfo.data[0].nextWeekHrs;
@@ -89,6 +95,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 
 	    confirmCancelPopupInstance.result.then(function (alert) {
 	        $scope.alerts.push(alert);
+	        getUserInfo($scope.userSearch); //refresh hours
 	    }, function () {
 	        $log.info('Modal dismissed at: ' + new Date());
 	    });
@@ -101,7 +108,10 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 	        resolve: {
 	        	bookingInfo: function () {
 	            	return reBooking;
-	          },
+	          	},
+	          	sourcePage: function () {
+	            	return "users";
+	          	},
 
 	        }
 	    });
