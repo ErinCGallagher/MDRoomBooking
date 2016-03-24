@@ -1,9 +1,9 @@
 <?php
 	session_start();
-	//TODO, put stuff in PHP functions (CLEAN UP)
 
 	//Database connection
 	include('../connection.php');
+	include('../email.php');
 
   	//set default time to UTC so it does not count daylight savings
   	//do not remove!
@@ -24,6 +24,45 @@
 
 	$currentDate = date('Y-m-d');
 	$currentTime = date('H:i:s');
+	
+	//Get Booking Information (for email purposes)
+	$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, otherDesc, Rooms.building, numParticipants, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE Bookings.bookingID = ? GROUP BY bookingID ORDER BY startTime ASC;");
+	$sth->execute(array($bookingID));
+	
+	//Loop through each returned row 
+	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		$user = $row['uID'];
+		$room = $row['roomID'];
+		$building = $row['building'];
+		$reason = $row['reason'];
+		$desc = $row['otherDesc'];
+		$numP = $row['numParticipants'];
+		$end = $row['endTime'];
+		$start = $row['startTime'];
+		
+		//Get number of blocks
+		$numBlocks = $row['numBlocks'];
+		
+		//Add thirty minutes to start time for each 
+		//block in booking if there is more than one
+		if ($numBlocks != 1) {
+			$s = $row['startTime'];
+			$endTime =  strtotime($s);
+		
+			while ($numBlocks >= 1) {
+				$endTime = date("H:i:s", strtotime('+30 minutes', $endTime));
+				$endTime = strtotime($endTime);
+				$numBlocks = ($numBlocks - 1);
+			}
+
+			//change the endtime to appropriate value
+			$row['endTime'] = date("H:i:s", $endTime);
+			$end = $row['endTime'];
+		}
+	}
+	
+	
+	
 
 	//determine if the booking has already occured
 	if ($currentDate > $startDate){
@@ -35,7 +74,7 @@
 		http_response_code(406); //Invalid Entry
 	} else {
 		//Cancel booking
-
+		
 		//if user is not admin, confirm they are trying to cancel their own booking
 		if ($_SESSION["class"] != "Admin"){
 			$sth = $db->prepare("SELECT uID FROM Bookings WHERE bookingID = ?");
@@ -49,14 +88,19 @@
 				http_response_code(406); //Invalid Entry
 			}
 			else{ //it is the user's own booking
+				$to = userEmail();
 				//if faculty, delete booking because they have unlimited hours
 				if($_SESSION["class"] == "Faculty"){
 					deleteBooking($db, $bookingID);
+					
+					//email user
+					cancelBooking($room, $building, $startDate, $start, $end, $reason, $desc, $numP, $db, $to, false);
+					
 					http_response_code(200); //sucess
 				}
 				else{ //student, must return booking hours to the student
 
-					///determine the length of a given booking in hours
+					//determine the length of a given booking in hours
 					$response = determineBookingLength($db,$bookingID);
 
 					$bookingLength = $response[0];
@@ -68,6 +112,9 @@
 
 					//cancel booking
 					deleteBooking($db, $bookingID);
+					
+					//email user
+					cancelBooking($room, $building, $startDate, $start, $end, $reason, $desc, $numP, $db, $to, false);
 
 					//determnes which week the booking was booked in
 					$week = determineWhichWeek($bookingDate);
@@ -95,7 +142,8 @@
 			$sth->execute(array($bookingID));
 			while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 				$bookingUserID = $row['uID'];
-				$class = $row['class'];			}
+				$class = $row['class'];			
+			}
 
 			if($bookingUserID != $_SESSION["netID"] && $class == "Student"){
 				//determine the length of a given booking in hours
@@ -105,11 +153,16 @@
 				$bookingDate = $response[1];
 
 				$hrsSourceList = array();
+				
 				//retrieve hrsSource for each block
 				retrieveHrsSource($db, $bookingID);
 
 				//cancel booking
 				deleteBooking($db, $bookingID);
+				
+				//email user who made booking
+				$to = $bookingUserID . "@queensu.ca";
+				cancelBooking($room, $building, $startDate, $start, $end, $reason, $desc, $numP, $db, $to, true);
 
 				//determnes which week the booking was booked in
 				$week = determineWhichWeek($bookingDate);
@@ -124,11 +177,20 @@
 					}
 				}
 
-				http_response_code(200); //sucess
+				http_response_code(200); //success
+			} else {
+				//otherwise they are admin or deleting a faculty booking
+				deleteBooking($db, $bookingID);
+				
+				//check if admin is deleting a different user's booking
+				if ($bookingUserID != $_SESSION["netID"]) {
+					$to = $bookingUserID . "@queensu.ca";
+					cancelBooking($room, $building, $startDate, $start, $end, $reason, $desc, $numP, $db, $to, true);
+				} else {
+					$to = userEmail();
+					cancelBooking($room, $building, $startDate, $start, $end, $reason, $desc, $numP, $db, $to, false);
+				}
 			}
-
-			//otherwise they are admin or deleting a faculty booking
-			deleteBooking($db, $bookingID);
 			http_response_code(200); //sucess
 		}
 		
