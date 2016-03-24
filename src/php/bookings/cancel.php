@@ -121,12 +121,12 @@
 					
 					//return hours to the appropriate week and group
 					for($i = 0; $i < count($hrsSourceList); $i++){
-						if($hrsSourceList[$i] == "Weekly"){
-							
+						echo $hrsSourceList[$i];
+						//TODO convert o lower case
+						if(strtolower($hrsSourceList[$i]) == "weekly"){
 							returnWeeklyHoursToUser($db, $week, $bookingUserID, 0.5);
 						}
 						else{
-							
 							returnSpecialHoursToUser($db, $bookingUserID, $hrsSourceList[$i], 0.5);
 						}
 					}

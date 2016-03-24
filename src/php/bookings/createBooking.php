@@ -274,6 +274,7 @@
 	function createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource){
 
 		global $result;
+		global $building;
 		//echo $totalB;
 		//create a booking 
 		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, numParticipants) VALUES (?,?,?,?)");	
