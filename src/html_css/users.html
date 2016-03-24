@@ -143,7 +143,7 @@
 </div>
 
 
- <!-- View Booking Popup Template -->
+ <!-- cancel single booking -->
 <div>
     <script type="text/ng-template" id="confirmCancel.html">
         <!-- Modal content-->
@@ -154,7 +154,8 @@
             </div>
             <div class="modal-body">
                 <div><strong>Date:</strong> {{booking.date | date:'EEE, MMM d yyyy'}}</div>
-                <div><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
+                <div ng-show="recurring"><strong>Time:</strong> {{booking.time}}</div>
+                <div ng-show="!recurring"><strong>Time:</strong> {{booking.start | date:'h:mm a'}} - {{booking.end | date:'h:mm a'}}</div>
                 <div><strong>Building:</strong> {{booking.building}}</div>
                 <div><strong>Room #:</strong> {{booking.roomNum}}</div>
                 <div><strong>Key Required:</strong> {{booking.keyRequired}}</div>
@@ -169,7 +170,7 @@
     </script>  
 </div>
 
-<!-- View Booking Popup Template -->
+<!-- cancel all recurring booking -->
 <div>
     <script type="text/ng-template" id="confirmCancelAllRecur.html">
         <!-- Modal content-->

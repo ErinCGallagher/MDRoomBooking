@@ -65,6 +65,23 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 
 	//cancel a booking, open modal for comfirmation
 	$scope.cancel = function(bookingInfo,recurring){
+		if(recurring){
+			var i = 0;
+			var j = 0;;
+			while(i < MyBookingsService.recurringUserBookings.length){
+				while(j < MyBookingsService.recurringUserBookings[i].recurringBooking.length){
+					if(MyBookingsService.recurringUserBookings[i].recurringBooking[j].bookingID == bookingInfo.bookingID){
+						bookingInfo.building = MyBookingsService.recurringUserBookings[i].building;
+						bookingInfo.reason = MyBookingsService.recurringUserBookings[i].reason;
+						bookingInfo.roomNum = MyBookingsService.recurringUserBookings[i].roomNum;
+						bookingInfo.time = MyBookingsService.recurringUserBookings[i].time;
+						bookingInfo.keyRequired = "N/A";
+					}
+					j++;
+				}
+				i++;
+			}
+		}
 
 	    var confirmCancelPopupInstance = $uibModal.open({
 	        templateUrl: 'confirmCancel.html',
