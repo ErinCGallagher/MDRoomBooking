@@ -4,13 +4,17 @@
 include('../connection.php');	
 session_start();
 
+//Get post data stream 
+$data = json_decode(file_get_contents("php://input"));
+//Get parameters from 
+$user = $data->uID;
+
 //Format day
 date_default_timezone_set('America/Toronto');
 	
 	//determine current date so you only retrieve bookings after it
 	$currentDate = date('Y-m-d');
 	$currentTime = date('H:i:s');
-	$user = $_SESSION["netID"];
 
 	$bookings = array();
 

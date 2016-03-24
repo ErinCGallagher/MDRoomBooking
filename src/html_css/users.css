@@ -18,6 +18,7 @@
     
 }
 
+
 .users th{
 	text-align: center;
     padding: 15px;
@@ -31,6 +32,7 @@
     padding: 10px;
     text-align: center;
 }
+
 
 .users .user-info{
     font-size: 140%;
@@ -55,4 +57,8 @@
 }
 .users input { 
     text-align: center; 
+}
+
+.users .myBookings-header{
+    text-align:center;
 }

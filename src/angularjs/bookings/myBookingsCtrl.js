@@ -85,6 +85,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	    });
 	}
 
+	//expands recurring bookin information
 	$scope.toggleDetail = function(rID) {
         //$scope.isVisible = $scope.isVisible == 0 ? true : false;
         $scope.activePosition = $scope.activePosition == rID ? -1 : rID;

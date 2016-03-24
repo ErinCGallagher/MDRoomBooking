@@ -228,8 +228,9 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 	}
 
 	//retrieves all the users bookings that occur before the current date and time
-	bookingCommService.retrieveUserBookings = function(){
-		var promisePost =  $http.post('src/php/bookings/getUserBookings.php')
+	bookingCommService.retrieveUserBookings = function(uID){
+		var data = {uID:uID}
+		var promisePost =  $http.post('src/php/bookings/getUserBookings.php', data)
 		    .success(function(data) {
 		    	console.log(data);
 		    })

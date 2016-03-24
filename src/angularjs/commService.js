@@ -281,9 +281,9 @@ function CommService($http, $q, BookingCommService, AdminCommService, UserCommSe
 	}
 
 	//retirieve a users bookings
-	commService.retrieveUserBookings = function(){
+	commService.retrieveUserBookings = function(uID){
 		var q = $q.defer();
-		BookingCommService.retrieveUserBookings()
+		BookingCommService.retrieveUserBookings(uID)
 			.then(function(userBookings){
 				var formatteduserBookings = {};
 				 formatteduserBookings.bookings = BookingCommService.convertUserBookingsToExpectedFormat(userBookings.data.bookings);

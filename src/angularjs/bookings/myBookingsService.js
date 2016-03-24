@@ -11,7 +11,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 	//retrieve the users future bookings for display
 	myBookingsService.retrieveUserBookings = function(){
 
-		CommService.retrieveUserBookings()
+		CommService.retrieveUserBookings(SharedVariableService.netID)
 			.then(function(bookingsResponse){
 				//non recurring bookings
 				myBookingsService.userBookings.splice(0,myBookingsService.userBookings.length);
