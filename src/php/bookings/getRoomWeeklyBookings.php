@@ -39,7 +39,7 @@ foreach($rooms as $roomID){
 	while ($tempStart <= $end){
 
 		//get daily bookings from database
-		$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, User.uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Bookings.otherDesc, Bookings.numParticipants, BookingSlots.hrsSource, User.firstName, User.lastName, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks JOIN User ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID AND User.uID = Bookings.uID WHERE roomID = ? AND bookingDate = ? GROUP BY bookingID ASC;");
+		$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, User.uID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, Bookings.otherDesc, Bookings.numParticipants, BookingSlots.hrsSource, User.firstName, User.lastName, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots ON Bookings.bookingID = BookingSlots.bookingID JOIN Blocks ON BookingSlots.blockID = Blocks.blockID LEFT JOIN User ON User.uID = Bookings.uID WHERE roomID = ? AND bookingDate = ? GROUP BY bookingID ASC;");
 		$sth->execute(array($roomID,$tempStart));
 		
 		//Loop through each returned row 
