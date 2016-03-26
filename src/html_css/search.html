@@ -19,7 +19,7 @@
    		<td class="width50" colspan="2">
    		<!-- building selection dropdown -->
 	   		<p class="building-selection-title"><strong>{{building_selection}} </strong></p>
-	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
+	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select dropdrown" ng-change="retrieveRooms()"></select>
 	    </td>
 	</tr>
     <tr>
@@ -49,7 +49,7 @@
     </td>
     </tr>
     </table>
-    <button ng-click="search()"> {{search_button}}</button>
+    <button ng-click="search()" class="submit-style"> {{search_button}}</button>
    </div>
 
    <!-- alert after attempting to make a booking -->

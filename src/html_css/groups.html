@@ -22,11 +22,11 @@
         <p><strong>Start Date:</strong> {{setStartDate}} </p>
         <p><strong>End Date:</strong> {{setEndDate}} </p>
 
-        <button class="btn" ng-click="openViewUsersPopup()">Manage Users</button>
-        <button class="btn" ng-click="modifyGroup()">Modify Group</button>
+        <button class="btn submit-style small" ng-click="openViewUsersPopup()">Manage Users</button>
+        <button class="btn submit-style small" ng-click="modifyGroup()">Modify Group</button>
         <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group and cannot be deleted." >
-    	 <button class="btn" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button></span>
-        <button class="btn" ng-click="confirmDeleteGroup()" ng-show="groupId != 1">Delete Group</button>
+    	 <button class="btn submit-style small" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button></span>
+        <button class="btn submit-style small" ng-click="confirmDeleteGroup()" ng-show="groupId != 1">Delete Group</button>
         <span  style="margin-top: 5em;"  uib-tooltip= "Manage Users: view all users, add users, delete users || Modify Group: Make changes to group settings || Delete Group: delete group and all permissions" >
 		<img src="info-icon.png" style="width:4%;height:4%;"> </span>
     </div>

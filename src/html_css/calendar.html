@@ -3,7 +3,7 @@
     <div class="building-search-bar" ng-init="confirmInitialLoad()">
    <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
         <p class="building-selection-title"><strong>{{building_selection}}</strong></p>
-        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
+        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select dropdrown" ng-change="retrieveRooms()"></select>
    </div>
 
    <!-- alert after attempting to make a booking -->
