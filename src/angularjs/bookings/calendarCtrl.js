@@ -145,6 +145,7 @@ $scope.viewBookingInformation = function(date, jsEvent, view){
       slotEventOverlap:false,
       allDaySlot:false,
       timezone: false,
+      firstDay:"1",
       //slotDuration:'00:30:00:00',//default
       header:{ //buttons at the top
         left: '',
