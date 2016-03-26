@@ -1,5 +1,7 @@
 
-<div class="hours-remaining" ng-init="confirmInitialLoad()"> {{hours_remain }}
+<div class="hours-remaining" ng-init="confirmInitialLoad()"> 
+<span  style="margin-top: 5em;b"  uib-tooltip= "Your remaining weekly hours is calculated from Monday to Sunday inclusive. If you cancel a booking made after Sunday your hours will be returned to your next week remaining hours." >
+    	<img src="info-icon.png" style="width:20px;height:20px;">{{hours_remain }}
 	<span>{{hours}}</span>
 </div>
 
@@ -45,6 +47,7 @@
 				<th>{{header_bookings_remain}}</th>
 				<th>{{header_building_name}}</th>
 				<th>{{header_room_num}}</th>
+				<th>{{header_key_req}}</th>
 				<th>{{header_reason}}</th>
 				<th>{{header_click_cancel}}</th>
 			</tr>
@@ -55,11 +58,12 @@
                     <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.weeksRemaining}}</td>
                     <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.building}}</td>
                     <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.roomNum}}</td>
+                    <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.keyRequired}}</td>
                     <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.reason}}</td>
 					<td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
 				</tr>
 				<tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
-					<td colspan="6">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
+					<td colspan="7">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
 					<td colspan="1"><button ng-click="cancel(booking,true)"> X </button></td>
 				</tr>
 			</tbody>

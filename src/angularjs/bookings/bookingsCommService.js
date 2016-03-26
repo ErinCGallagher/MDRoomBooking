@@ -259,7 +259,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: dailyBookings[i].building, 
 			 roomNum: dailyBookings[i].roomID,
-			 keyRequired:true
+			 keyRequired:dailyBookings[i].reqKey.toLowerCase()
 			};
 		}
 		return formattedDailyBookings;
@@ -277,7 +277,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 roomNum: bookings[i].room,
 			 time: bookings[i].time,
 			 reason:bookings[i].reason,
-			 weeksRemaining:bookings[i].weeksRemaining,  
+			 weeksRemaining:bookings[i].weeksRemaining, 
+			 keyRequired:bookings[i].reqKey, 
 			};
 
 			formattedDailyBookings[i].recurringBooking = [];
