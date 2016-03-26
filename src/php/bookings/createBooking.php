@@ -124,6 +124,7 @@
 
 				$hasBookingDurationRestriction = getHasBookingDurationRestriction($db, $uID);
 				// check booking duration restrictions
+				if()
 				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate) 
 					&& ($building != "Theological Hall" && $building != "The Isabel")) {
 					$result['msg'] = "As a Music student, you cannot book rooms for more than 1 hour a day.";
