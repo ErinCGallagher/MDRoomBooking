@@ -93,7 +93,7 @@
 						array_push($insertMasterArray, $netid, $department);
 
 						$curUserInfo = getCurUserInfo($db, $netid);
-						if (0 == sizeof($curUserInfo)) {
+						if (empty($curUserInfo)) {
 							//user not in User table, add them to user table
 							//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs', 'thirdWeekHrs', 'hasBookingDurationRestriction')
 							$insertUserString .= "(?, ?, ?, ?, ?, ?, ?, ?), ";
@@ -122,7 +122,6 @@
 		//remove extra characters
 		$insertMasterString = chop($insertMasterString, ", ");
 		$insertUserString = chop($insertUserString, ", ");
-
 
 		/* update DB */
 
@@ -158,8 +157,6 @@
 		$result["badFormatUsers"] = $badFormatUsers; 
 		$result["badClassUsers"] = $badClassUsers;
 		$result["badEmailUsers"] = $badEmailUsers;
-		// Another format?
-		// $result[0] = (object) array('numUsersInDept' => $insertMasterStmt->rowCount());
 		
 		//Convert to json
 		$json = json_encode($result);
