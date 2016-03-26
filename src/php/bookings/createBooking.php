@@ -311,13 +311,22 @@
 	//determnes which week the booking was booked in
 	//useful when returning hours to users after a booking was canceled
 	function determineWhichWeek($bookingDate){
-		//if today is Sunday, then must use Monday last week to retrieve hours for the current week
-		//TODO
 
-		//determine current date so you can determine where to return hours
-		$firstDay = date("Y-m-d", strtotime('monday this week'));  
-		$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
-		$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+		global $currentDate;
+		//if the current day is a sunday
+		if(date('N',strtotime($currentDate)) == 7){
+			//for some reason if it's sunday it detects tomorrow as the first monday
+			//determine current date so you can determine where to return hours
+			$firstDay = date("Y-m-d", strtotime('monday last week'));  
+			$firstDayNextWeek = date("Y-m-d", strtotime('monday this week'));
+			$firstDayWeek3 = date("Y-m-d", strtotime('monday next week'));
+		}
+		else{
+			//determine current date so you can determine where to return hours
+			$firstDay = date("Y-m-d", strtotime('monday this week'));  
+			$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
+			$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+		}
 
 		//if booking made in the current week
 		if($bookingDate >= $firstDay && $bookingDate < $firstDayNextWeek) {
