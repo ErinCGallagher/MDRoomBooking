@@ -61,16 +61,16 @@
 		}
 	}
 	
-	
-	
 
 	//determine if the booking has already occured
 	if ($currentDate > $startDate){
 		//Booking has already started or has already passed
 		//currently not working because of timezones
+
 		http_response_code(406); //Invalid Entry
 	} else if(($currentDate == $startDate) && ($currentTime > $startTime)){
 		//Booking has already started or has already passed
+
 		http_response_code(406); //Invalid Entry
 	} else {
 		//Cancel booking

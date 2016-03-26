@@ -70,6 +70,7 @@ function AdminUsersService(CommService, $q){
 	//cancel a users own booking from the my bookings page
 	adminUsersService.cancelBooking = function(bookingID,startTime,recurring){
 		var q = $q.defer();
+		console.log(startTime);
 		CommService.cancelBooking(bookingID,startTime)
 		.then(function(){
 			if(!recurring){
