@@ -98,7 +98,7 @@ date_default_timezone_set('America/Toronto');
 				}
 				$count = $count + 1;
 				$recurring[$rid]['weeksRemaining'] = $count;
-				$recurring[$rid]['time'] = $startTime . " - " . $endTime;
+				$recurring[$rid]['time'] = date('g:i A', strtotime($startTime)) . " - " .date('g:i A',strtotime($endTime));
 		
 				
 			}
