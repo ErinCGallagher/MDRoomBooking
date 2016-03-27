@@ -4,6 +4,7 @@
 
 	//Database connection
 	include('../connection.php');
+	include('../email.php');
 
   	//set default time to UTC so it does not count daylight savings
   	//do not remove!
@@ -20,14 +21,51 @@
 	$currentDate = date('Y-m-d');
 	$currentTime = date('H:i:s');
 
-	$sth = $db->prepare("SELECT DISTINCT uID, Bookings.bookingID FROM Bookings INNER JOIN BookingSlots ON Bookings.bookingID=BookingSlots.bookingID WHERE bookingDate >= ? AND recurringID = ?;");
+	$sth = $db->prepare("SELECT DISTINCT uID, BookingSlots.bookingDate, Bookings.bookingID FROM Bookings INNER JOIN BookingSlots ON Bookings.bookingID=BookingSlots.bookingID WHERE bookingDate >= ? AND recurringID = ?;");
 	$sth->execute(array($currentDate, $recurringID));
 	
 	$bookingIDList = array();
+	$cancelDates = array();
 	
 	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		$bookingIDList[] = $row['bookingID'];
 		$bookingUserID = $row['uID'];
+		$cancelDates[] = $row['bookingDate'];
+	}
+	
+	//Get Booking Information (for email purposes)
+	$sth = $db->prepare("SELECT Bookings.bookingID, BookingSlots.blockID, bookingDate, BookingSlots.roomID, startTime, endTime, reason, otherDesc, Rooms.building, numParticipants, COUNT(*) as numBlocks FROM Bookings JOIN BookingSlots JOIN Blocks ON Bookings.bookingID = BookingSlots.bookingID AND BookingSlots.blockID = Blocks.blockID JOIN Rooms on BookingSlots.roomID = Rooms.roomID WHERE Bookings.bookingID = ? GROUP BY bookingID ORDER BY startTime ASC;");
+	$sth->execute(array($bookingIDList[0]));
+	
+	//Loop through each returned row 
+	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		$room = $row['roomID'];
+		$building = $row['building'];
+		$reason = $row['reason'];
+		$desc = $row['otherDesc'];
+		$numP = $row['numParticipants'];
+		$end = $row['endTime'];
+		$start = $row['startTime'];
+		
+		//Get number of blocks
+		$numBlocks = $row['numBlocks'];
+		
+		//Add thirty minutes to start time for each 
+		//block in booking if there is more than one
+		if ($numBlocks != 1) {
+			$s = $row['startTime'];
+			$endTime =  strtotime($s);
+		
+			while ($numBlocks >= 1) {
+				$endTime = date("H:i:s", strtotime('+30 minutes', $endTime));
+				$endTime = strtotime($endTime);
+				$numBlocks = ($numBlocks - 1);
+			}
+
+			//change the endtime to appropriate value
+			$row['endTime'] = date("H:i:s", $endTime);
+			$end = $row['endTime'];
+		}
 	}
 	
 	//Cancel booking	
@@ -40,9 +78,15 @@
 		foreach ($bookingIDList as $bid) {
 			deleteBooking($db, $bid);
 		}
+		$admin = false;
 		if ($_SESSION["class"] == "Admin" && $bookingUserID != $_SESSION["netID"]){
-			//email user to announce cancellation
+			//cancelled by admin
+			$admin = true;
+			$to = $bookingUserID . "@queensu.ca";
+		} else {
+			$to = userEmail();
 		}
+		cancelRecurring($room, $building, $cancelDates, $start, $end, $reason, $desc, $numP, $db, $to, $admin);
 		http_response_code(200); //success
 	}
 

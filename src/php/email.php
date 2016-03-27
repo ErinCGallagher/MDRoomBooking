@@ -36,7 +36,7 @@ function recurringConf($room, $building, $startTime, $endTime, $reason, $desc, $
 	foreach ($success as $day){
 		$msg .= "\n$day";
 	}
-	$dayOfWeek = date("l", strtotime($row2['bookingDate'])); 
+	$dayOfWeek = date("l", strtotime($success[0])); 
 	$msg .= "\n\nDetails:";
 	$msg .= "\nBuilding: $building";
 	$msg .= "\nRoom: $room";
@@ -104,6 +104,38 @@ function cancelBooking($room, $building, $startDate, $startTime, $endTime, $reas
 	$msg .= "\nBuilding: $building";
 	$msg .= "\nRoom: $room";
 	$msg .= "\nDate: $startDate";
+	$msg .= "\nTime: $startTime - $endTime";
+	$msg .= "\nNumber of Participants: $numP";
+	$msg .= "\nKey Required: $key";
+	$msg .= "\nFee: $fee";
+	$msg .= "\nReason: $reason";
+	if ($reason == "Other"){
+		$msg .= "\nDescription: $desc";
+	} elseif ($reason == "Coursework" || $reason == "Course") {
+		$msg .= "\nCourse Code: $desc"; 
+	}
+	sendEmail($to, "Booking Cancellation", $msg);
+}
+
+function cancelRecurring($room, $building, $cancelDates, $startTime, $endTime, $reason, $desc, $numP, $db, $to, $admin) {
+	
+	$details = roomDetails($room, $db);
+	$key = $details['key'];
+	$fee = $details['fee'];
+	
+	if ($admin) {
+		$msg = "The following dates of your recurring booking were cancelled by an administrator:";
+	} else {
+		$msg = "You cancelled the following dates of your recurring booking:";
+	}
+	
+	foreach ($cancelDates as $day){
+		$msg .= "\n$day";
+	}
+
+	$msg .= "\n\nDetails";
+	$msg .= "\nBuilding: $building";
+	$msg .= "\nRoom: $room";
 	$msg .= "\nTime: $startTime - $endTime";
 	$msg .= "\nNumber of Participants: $numP";
 	$msg .= "\nKey Required: $key";
