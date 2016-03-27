@@ -204,7 +204,7 @@
     </div>
 
 
-    <!-- View Booking Popup Template -->
+        <!-- View Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="viewBookingPopup.html">
             <!-- Modal content-->
@@ -231,7 +231,7 @@
                         <div ng-show="reason=='Course' || reason=='Coursework'">
                             <p><Strong>Course Code: </Strong> {{description}}</p>
                         </div>
-                        <div ng-show="userType != 'student'">
+                        <div ng-show="userType != 'student' && userType != 'nonbooking'">
                         <Strong> Booking User Information </Strong>
                             <div class="box">
                                 
