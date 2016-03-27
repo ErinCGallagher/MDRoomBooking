@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('UsersCtrl', UsersCtrl);
 
-function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSerivce, SharedVariableService) {
+function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSerivce, SharedVariableService, ConfirmationPopupService) {
 	$scope.pageClass = 'users';  //used to change pages in index.php
 	$scope.showUserInfo = false;
 	$scope.showNoUser= false;
@@ -170,11 +170,25 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 	    });
 	};
 
-	$scope.uploadMasterList = function(inputElem, dept) {
+	$scope.confirmUploadMasterList = function(inputElem, dept) {
+		var msg = "<div>Are you sure you want to replace the <b>" + dept + "</b> master list with <b>" + inputElem.files[0].name + "</b> ?"
+		+ "<br><br>This action may <b>delete users and their future bookings</b>." 
+		+ " Download the current master list <b>first</b> if you'd like a record of current users. All future bookings of removed users will be permanently deleted.</div>";
+		var functionInput = {inputElem:inputElem, department:dept};
+		var popupInstance = ConfirmationPopupService.open(uploadMasterList, functionInput, msg);
+		popupInstance.result.then(function () {
+			inputElem.value = null;
+		}, function () {
+			inputElem.value = null;
+		});
+	}
+
+	uploadMasterList = function(functionInput) {
+		var inputElem = functionInput.inputElem;
+		var dept = functionInput.department;
 		AdminUsersService.uploadMasterList(inputElem.files[0], dept)
 		.then(function(data){
 				openUploadPopup(data, dept);
-				inputElem.value = null;
 			},
 			function(errorMsg) {
 				alert(errorMsg); 
