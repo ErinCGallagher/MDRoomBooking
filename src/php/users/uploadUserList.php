@@ -151,17 +151,19 @@
 		//Remove future bookings of deleted users.
 		// Only remove bookings after today. Keep others for archival purposes.
 		// TODO: check current time and delete bookings later today as well.
-		$startDay = new DateTime():
+		$startDay = new DateTime();
 		$todayDate = date_format(new DateTime(), "Y-m-d"); 
 		$selectBookingsQuery = "SELECT DISTINCT Bookings.bookingID FROM Bookings JOIN BookingSlots ON BookingSlots.bookingID = Bookings.bookingID
 			WHERE bookingDate > '$todayDate' AND uID NOT IN (SELECT uID FROM Master) ";
 		$selectBookingsStmt = $db->query($selectBookingsQuery);
 		$bookingIDs = $selectBookingsStmt->fetchAll(PDO::FETCH_COLUMN, 0);
-		$arrayStr = implode(",", $bookingIDs);
-		$deleteSlotsQuery = "DELETE FROM BookingSlots WHERE bookingID IN ($arrayStr)";
-		$deleteSlotsStmt = $db->query($deleteSlotsQuery);
-		$deleteBookingsQuery = "DELETE FROM Bookings WHERE bookingID IN ($arrayStr)";
-		$deleteBookingsSlot = $db->query($deleteBookingsQuery);
+		if (!empty($bookingIDs)) {
+			$arrayStr = implode(",", $bookingIDs);
+			$deleteSlotsQuery = "DELETE FROM BookingSlots WHERE bookingID IN ($arrayStr)";
+			$deleteSlotsStmt = $db->query($deleteSlotsQuery);
+			$deleteBookingsQuery = "DELETE FROM Bookings WHERE bookingID IN ($arrayStr)";
+			$deleteBookingsSlot = $db->query($deleteBookingsQuery);
+		}
 		$db->commit();
 		
 		$result = array();
