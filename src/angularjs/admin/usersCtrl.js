@@ -154,8 +154,9 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 	};
 
 	$scope.confirmUploadMasterList = function(inputElem, dept) {
-		var msg = "<div>Are you sure you want to replace the <b>" + dept + " Master List</b> with <b>" + inputElem.files[0].name + "</b> ?<br><br>This action may <b>delete users and their bookings</b>." 
-		+ " Download the current master list first if you would like a backup.</div>";
+		var msg = "<div>Are you sure you want to replace the <b>" + dept + "</b> master list with <b>" + inputElem.files[0].name + "</b> ?"
+		+ "<br><br>This action may <b>delete users and their future bookings</b>." 
+		+ " Download the current master list <b>first</b> if you'd like a record of current users. All future bookings of removed users will be permanently deleted.</div>";
 		var functionInput = {inputElem:inputElem, department:dept};
 		var popupInstance = ConfirmationPopupService.open(uploadMasterList, functionInput, msg);
 		popupInstance.result.then(function () {
