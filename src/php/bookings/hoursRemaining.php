@@ -20,12 +20,21 @@ date_default_timezone_set('America/Toronto');
 	
 //determine current date so you only retrieve bookings after it
 
-//if today is Sunday, then must use Monday last week to retrieve hours for the current week
-//TODO
-
-$firstDay = date("Y-m-d", strtotime('monday this week'));  
-$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
-$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+$currentDate = date('Y-m-d');
+//if the current day is a sunday
+if(date('N',strtotime($currentDate)) == 7){
+	//for some reason if it's sunday it detects tomorrow as the first monday
+	//determine current date so you can determine where to return hours
+	$firstDay = date("Y-m-d", strtotime('monday last week'));  
+	$firstDayNextWeek = date("Y-m-d", strtotime('monday this week'));
+	$firstDayWeek3 = date("Y-m-d", strtotime('monday next week'));
+}
+else{
+	//determine current date so you can determine where to return hours
+	$firstDay = date("Y-m-d", strtotime('monday this week'));  
+	$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
+	$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+} 
 
 //if booking made in the current week
 if($startDate >= $firstDay && $startDate < $firstDayNextWeek) {

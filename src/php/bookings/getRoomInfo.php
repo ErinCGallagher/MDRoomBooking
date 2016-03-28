@@ -13,28 +13,27 @@
 	//Query to get group information
 	$sth = $db->prepare("SELECT * FROM Rooms WHERE RoomID = ?"); 
 	$sth->execute(array($roomID));
-	$rows = $sth->fetchAll();
 	
 	
 	
 	//echo $building;
 	
 	//Put result in an array 
-	foreach($rows as $row) {
+	while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		$result[] = $row;
-		$firstRow = $rows[0];
-		$building = $firstRow['building'];
+		$building = $row['building'];
 	}
 	//$building = $rows[0][building]
 	
 	//Query to get group information
 	$sth2 = $db->prepare("SELECT openTime, closeTime FROM Building WHERE buildingID = ?"); 
 	$sth2->execute(array($building));
-	$rows2 = $sth2->fetchAll();
 	
 	//Put result in an array 
-	foreach($rows2 as $row) {
-		$result[] = $row;
+	while($row2 = $sth2->fetch(PDO::FETCH_ASSOC)) {
+		$result[] = $row2;
+		$result[1]['closeTime'] =  date('g:i A', strtotime($row2['closeTime']));
+		$result[1]['openTime'] = date('g:i A', strtotime($row2['openTime']));
 	}
 	
 

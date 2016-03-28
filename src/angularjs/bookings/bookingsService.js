@@ -266,6 +266,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 	bookingsService.cancelBooking = function(bookingID,startTime) {
 		var room = bookingsService.selectedroom;
 		var q = $q.defer();
+				console.log(startTime);
 		CommService.cancelBooking(bookingID,startTime)
 			.then(function(){
 				q.resolve();

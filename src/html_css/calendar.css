@@ -1,9 +1,9 @@
 .calendar .building-search-bar{
-	display:inline-block;
-	margin:20px 10px 20px 20px;
-	padding:10px;
-	/*min-width:30em;*/
-	background-color:#c2d2d6;
+	display: inline-block;
+    margin: 20px 10px 20px 20px;
+    padding: 15px 15px;
+    background-color: #c2d2d6;
+    border-radius: 4px;
 }
 
 .calendar .building-selection-title{
@@ -48,17 +48,21 @@
 	text-align:center;
 }
 
-.calendar .fc-toolbar{
-	height: 10px;
-	margin:0px;
+.calendar .previous-date-button, .calendar .next-date-button{
+	color: #666 !important;
+    background-color: #eee;
+    font-size: 23px !important;
+    padding: 0px 0px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-bottom-width: 2px;
+    width: 36px;
 }
 
-.calendar .previous-date-button, .calendar .next-date-button{
-	width:40px;
-	font-size:20px;
-	border-radius:5px;
-	margin-right:10px;
-	margin-left:10px;
+.cal-nav-btn{
+	margin-bottom: 7px !important;
 }
 
 /*overide tabs default*/

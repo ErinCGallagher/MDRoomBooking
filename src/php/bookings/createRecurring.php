@@ -3,7 +3,8 @@
 
 	//Database connection
 	include('../connection.php');
-
+	include('../email.php');
+	
 	//set default time to UTC so it does not count daylight savings
   	//do not remove!
 	date_default_timezone_set('UTC');
@@ -143,6 +144,7 @@
 				$result['success'] = $datesCreated;
 				$result['failed'] = $datesFailed;
 				$result['bookingID'] = $recurringID;
+				recurringConf($room, $building, $startTime, $endTime, $reason, $desc, $numP, $db, $datesCreated);
 			}
 		}
 	

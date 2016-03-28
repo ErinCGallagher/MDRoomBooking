@@ -99,8 +99,8 @@
 				$current .= $startTime . "\t  " ;
 				$current .= $endTime . "\n";
 				
-				$row['startTime'] = $startTime;
-				$row['endTime'] = $endTime;
+				$row['startTime'] = date("g:i a", strtotime($startTime));
+				$row['endTime'] = date("g:i a", strtotime($endTime));
 				
 				
 				//$result[] = $time;	

@@ -53,7 +53,7 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 			if(!recurring){
 				updateBookingsDisplay(bookingID);
 			}else{
-				updateBookingsDisplay(bookingID); //TODO update booking from recurring
+				updateSingleRecurringBooking(bookingID); //TODO update booking from recurring
 			}
 
 			q.resolve();
@@ -75,6 +75,30 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 			q.resolve(err);
 		});
 		return q.promise;
+	}
+
+	//cancel a single booking from a reccuring booking group
+	//remove the enitre group if no more bookings remain
+	updateSingleRecurringBooking = function(bookingID){
+		var i = 0;
+		var j = 0;;
+		while(i < myBookingsService.recurringUserBookings.length){
+			while(j < myBookingsService.recurringUserBookings[i].recurringBooking.length){
+				if(myBookingsService.recurringUserBookings[i].recurringBooking[j].bookingID == bookingID){
+					myBookingsService.recurringUserBookings[i].recurringBooking.splice(j, 1);
+					myBookingsService.recurringUserBookings[i].weeksRemaining -=1;
+					j = myBookingsService.recurringUserBookings[i].recurringBooking.length;
+				}
+				if(j == 0){//if no recurring bookings are left, cancel the entire group
+					updateRecurringDisplay(myBookingsService.recurringUserBookings[i].recurringID);
+					i = myBookingsService.recurringUserBookings.length;
+					break;
+				}
+			j++;
+			}
+
+		i++;
+		}	
 	}
 
 

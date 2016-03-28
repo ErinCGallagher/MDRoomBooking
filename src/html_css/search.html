@@ -4,7 +4,7 @@
    <table>
    <tr>
 
-   		<td class="width50" colspan="2" >
+   		<td class="width50 smaller-side-padding" colspan="2">
    			<div class="form-inline">
    			<label class = "date-header"><strong>{{date_selection}}</strong></label>
    			<div class="input-group">
@@ -16,10 +16,10 @@
             </div>
            </div>
    		</td>
-   		<td class="width50" colspan="2">
+   		<td class="width50 smaller-side-padding" colspan="2">
    		<!-- building selection dropdown -->
 	   		<p class="building-selection-title"><strong>{{building_selection}} </strong></p>
-	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
+	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select dropdrown" ng-change="retrieveRooms()"></select>
 	    </td>
 	</tr>
     <tr>
@@ -35,7 +35,8 @@
         
     </tr>
     <tr>
-    <td colspan="4">
+    <td colspan="4" class="default-padding">
+    <span uib-tooltip= "By selecting a contents box the system will find only rooms which contain all of the checked items. If no boxes are selected the system will find rooms that match your other search criteria."><img src="info-icon.png" class="info-i"></span>
     	<!-- contents check boxes -->
     	<label ng-repeat="content in contents">
 		  <input
@@ -49,7 +50,7 @@
     </td>
     </tr>
     </table>
-    <button ng-click="search()"> {{search_button}}</button>
+    <button ng-click="search()" class="submit-style"> {{search_button}}</button>
    </div>
 
    <!-- alert after attempting to make a booking -->
@@ -204,7 +205,7 @@
     </div>
 
 
-    <!-- View Booking Popup Template -->
+        <!-- View Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="viewBookingPopup.html">
             <!-- Modal content-->
@@ -231,7 +232,7 @@
                         <div ng-show="reason=='Course' || reason=='Coursework'">
                             <p><Strong>Course Code: </Strong> {{description}}</p>
                         </div>
-                        <div ng-show="userType != 'student'">
+                        <div ng-show="userType != 'student' && userType != 'nonbooking'">
                         <Strong> Booking User Information </Strong>
                             <div class="box">
                                 

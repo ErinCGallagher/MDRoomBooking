@@ -122,24 +122,67 @@
 				$duration = ($totalB * 30.0) / 60.0;
 				//echo $duration;
 
+				//could be either music, drama or both
+				$department = determineDepartment($db, $uID);
 				$hasBookingDurationRestriction = getHasBookingDurationRestriction($db, $uID);
-				// check booking duration restrictions
-				if ($hasBookingDurationRestriction && isOverDailyMusicMax($db, $uID, $totalB, $startDate) 
-					&& ($building != "Theological Hall" && $building != "The Isabel")) {
-					$result['msg'] = "As a Music student, you cannot book rooms for more than 1 hour a day.";
+				$bookingDurationError = false;
+				//booking duration restriction
+				if($department == "drama"){//drama student
+					if($hasBookingDurationRestriction && $building == "Theological Hall" && $duration > 1.5){
+						$result['msg'] = "As a drama student user you may not book a room in Theological Hall for over 1.5 hours at a time.";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					else if($hasBookingDurationRestriction && ($building == "Harrison LeCaine Hall - Upper" || $building == "Harrison LeCaine Hall - Lower" || $building == "Chown Hall") && $duration > 1){
+						$result['msg'] = "As a drama student user you may not book a room in Harrison LeCaine Hall or Chown Hall for over 1 hour a day";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					else if($hasBookingDurationRestriction && isOverMusicBuildingsDailyMusicMax($db, $uID, $totalB, $startDate) && ($building == "Harrison LeCaine Hall - Upper" || $building == "Harrison LeCaine Hall - Lower" || $building == "Chown Hall")){
+						$result['msg'] = "As a drama student user you may not book any room in Harrison LeCaine Hall or Chown Hall for more than 1 hour per day.";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					//else they can book as much as they want
+				}
+				else if($department == "music"){ //music student
+					//all music students cannot book for over 1 hour a day in any building
+					if($hasBookingDurationRestriction && $duration > 1){
+						$result['msg'] = "As a music student user you may not book a room in any building for over 1 hour a day";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					//all music students cannot book for over 1 hour a day in any building
+					else if($hasBookingDurationRestriction && isOverAllBuildingsDailyMusicMax($db, $uID, $totalB, $startDate)){
+						$result['msg'] = "As a music student user you may not book any room in any building for more than 1 hour per day, total.";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					
+				}
+				else if($department == "both"){
+					if($hasBookingDurationRestriction && $building == "Theological Hall" && $duration > 1.5){
+						$result['msg'] = "As a student user in both music and drama you may not book a room in Theological Hall for over 1.5 hours at a time.";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					else if($hasBookingDurationRestriction && ($building == "Harrison LeCaine Hall - Upper" || $building == "Harrison LeCaine Hall - Lower" || $building == "Chown Hall") && $duration > 1){
+						$result['msg'] = "As a student user in both music and drama you may not book a room in Harrison LeCaine Hall or Chown Hall for over 1 hour a day";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+					else if($hasBookingDurationRestriction && isOverMusicBuildingsDailyMusicMax($db, $uID, $totalB, $startDate) && ($building == "Harrison LeCaine Hall - Upper" || $building == "Harrison LeCaine Hall - Lower" || $building == "Chown Hall")){
+						$result['msg'] = "As a student user in both music and drama you may not book any room in Harrison LeCaine Hall or Chown Hall for more than 1 hour per day.";
+						http_response_code(406);
+						$bookingDurationError = true;
+					}
+				}
+				else if ($department == ""){//how did you get here!?!?!
+					$result['msg'] = "You cannot be found within the Music or Drama department and therefore may not book a room";
 					http_response_code(406);
-				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Chown Hall")) {
-					$result['msg'] = "As a student user, you cannot book a room in Chown Hall for more than 1 hour.";
-					http_response_code(406);
-				} else if ($hasBookingDurationRestriction && $duration > 1 && ($building == "Upper Harrison LeCaine Hall" || $building == "Lower Harrison LeCaine Hall"
-					|| $building == "Sonic Arts Studio")) { 
-					$result['msg'] = "As a student user, you cannot book a room in Harrison LeCaine Hall for more than 1 hour.";
-					http_response_code(406);
-				} else if ($hasBookingDurationRestriction && $duration > 1.5 && ($building == "Theological Hall")) { 
-					$result['msg'] = "As a student user, you cannot book a room in Theological Hall for more than 1.5 hours.";
-					http_response_code(406);
-				} else {
-
+					$bookingDurationError = true;
+				} 
+				if(!$bookingDurationError){
 					//determnes which week the booking was booked in
 					$week = determineWhichWeek($startDate);
 					$hoursRemaining = 0;
@@ -248,8 +291,8 @@
 							http_response_code(406);
 						}
 					}
-
 				}
+
 			}
 			else{//faculty & admin have unlimited hours
 				//create booking
@@ -274,6 +317,7 @@
 	function createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $hrsSource){
 
 		global $result;
+		global $building;
 		//echo $totalB;
 		//create a booking 
 		$sth = $db->prepare("INSERT INTO Bookings (uID, reason, otherDesc, numParticipants) VALUES (?,?,?,?)");	
@@ -310,13 +354,22 @@
 	//determnes which week the booking was booked in
 	//useful when returning hours to users after a booking was canceled
 	function determineWhichWeek($bookingDate){
-		//if today is Sunday, then must use Monday last week to retrieve hours for the current week
-		//TODO
 
-		//determine current date so you can determine where to return hours
-		$firstDay = date("Y-m-d", strtotime('monday this week'));  
-		$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
-		$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+		global $currentDate;
+		//if the current day is a sunday
+		if(date('N',strtotime($currentDate)) == 7){
+			//for some reason if it's sunday it detects tomorrow as the first monday
+			//determine current date so you can determine where to return hours
+			$firstDay = date("Y-m-d", strtotime('monday last week'));  
+			$firstDayNextWeek = date("Y-m-d", strtotime('monday this week'));
+			$firstDayWeek3 = date("Y-m-d", strtotime('monday next week'));
+		}
+		else{
+			//determine current date so you can determine where to return hours
+			$firstDay = date("Y-m-d", strtotime('monday this week'));  
+			$firstDayNextWeek = date("Y-m-d", strtotime('monday next week'));
+			$firstDayWeek3 = date("Y-m-d", strtotime('monday next week next week'));  
+		}
 
 		//if booking made in the current week
 		if($bookingDate >= $firstDay && $bookingDate < $firstDayNextWeek) {
@@ -417,14 +470,44 @@
 		return sizeof($queryOutput) != 0 && $queryOutput[0] == 'Yes';
 	}
 
-	function isOverDailyMusicMax($db, $uID, $totalBookingSlots, $bookingDate) {
+	//cannot book over 1 hour per day in any building
+	function isOverAllBuildingsDailyMusicMax($db, $uID, $totalBookingSlots, $bookingDate) {
 		// Music students can only book for an hour a day
-		$sth = $db->prepare("SELECT COUNT(*) FROM BookingSlots JOIN Bookings ON BookingSlots.bookingID = Bookings.bookingID 
-			JOIN Master ON Bookings.uID = Master.uID WHERE Bookings.uID = ? AND department = 'Music' AND bookingDate = ?");
+		$sth = $db->prepare("SELECT COUNT(*) FROM BookingSlots JOIN Bookings ON BookingSlots.bookingID = Bookings.bookingID WHERE Bookings.uID = ? AND bookingDate = ?");
 		$sth->execute(array($uID, $bookingDate));
 		$queryOutput = $sth->fetch(PDO::FETCH_NUM);
-		// print_r($queryOutput) ;
+		//print_r($queryOutput) ;
 		return (sizeof($queryOutput)) != 0 && (($queryOutput[0] + $totalBookingSlots) > 2);
+	}
+	
+	//cannot book over 1 hour per day in any music building (Harision & Chown)
+	function isOverMusicBuildingsDailyMusicMax($db, $uID, $totalBookingSlots, $bookingDate) {
+		// Music students can only book for an hour a day
+		$sth = $db->prepare("SELECT COUNT(*) FROM BookingSlots JOIN Bookings ON BookingSlots.bookingID = Bookings.bookingID JOIN Rooms ON BookingSlots.roomID = Rooms.roomID WHERE Bookings.uID = ? AND bookingDate = ? AND (Rooms.building = 'Harrison LeCaine Hall - Upper' || Rooms.building = 'Harrison LeCaine Hall - Lower' || Rooms.building = 'Chown Hall')");
+		$sth->execute(array($uID, $bookingDate));
+		$queryOutput = $sth->fetch(PDO::FETCH_NUM);
+		//print_r($queryOutput) ;
+		return (sizeof($queryOutput)) != 0 && (($queryOutput[0] + $totalBookingSlots) > 2);
+	}
+
+	//returns music, drama or both
+	function determineDepartment($db, $uID){
+		//Query to get group information
+		$sth = $db->prepare("SELECT Master.department FROM User JOIN Master ON Master.uID = User.uID WHERE User.uID = ?"); 
+		$sth->execute(array($uID));
+		$rows = $sth->fetchAll();
+		$departmentStr = "";
+		//Put result in an array 
+		foreach($rows as $row) {
+			if($departmentStr == ""){
+				$departmentStr = strtolower($row["department"]);
+			}else{
+				//they are in both departments
+				$departmentStr = "both";
+			}
+			
+		}
+		return $departmentStr;
 	}
 
 

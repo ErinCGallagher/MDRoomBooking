@@ -3,7 +3,7 @@
     <div class="building-search-bar" ng-init="confirmInitialLoad()">
    <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
         <p class="building-selection-title"><strong>{{building_selection}}</strong></p>
-        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select" ng-change="retrieveRooms()"></select>
+        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select dropdrown" ng-change="retrieveRooms()"></select>
    </div>
 
    <!-- alert after attempting to make a booking -->
@@ -17,7 +17,7 @@
 
    <div class="date-navigation-bar">
         <div class="date-picker-cal">
-            <button type="button" class="btn btn-default " ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+            <button type="button" class="btn btn-default cal-nav-btn" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
             <input 
                 ng-hide="true" 
                 type="text" 
@@ -206,7 +206,7 @@
                         <div ng-show="reason=='Course' || reason=='Coursework'">
                             <p><Strong>Course Code: </Strong> {{description}}</p>
                         </div>
-                        <div ng-show="userType != 'student'">
+                        <div ng-show="userType != 'student' && userType != 'nonbooking'">
                         <Strong> Booking User Information </Strong>
                             <div class="box">
                                 

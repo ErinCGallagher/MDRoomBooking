@@ -2,10 +2,10 @@
 
 <b style="font-size:22px;"><center>Key List<center></b>
 <div ng-show="showDate" class="set-date" ng-init="confirmInitialLoad()"><center>
-	<span  style="margin-top: 5em;b"  uib-tooltip= "Choose the date you would like to view the key list in the selector to the right, then press the 'Generate Key List' button" >
-	<img src="info-icon.png" style="width:3%;height:3%;"> </span><strong>Set Key Date:</strong>
-		<input type="date" ng-model="keyDate">
-		<button class="btn" ng-click="generateKeyList()"> Generate Key List </button>
+	<span uib-tooltip= "Choose the date you would like to view the key list in the selector to the right, then press the 'Generate Key List' button" >
+	<img src="info-icon.png" class="info-i"> </span><strong>Set Key Date:</strong>
+		<input type="date" ng-model="keyDate" class="dropdrown">
+		<button class="btn submit-style" ng-click="generateKeyList()"> Generate Key List </button>
 <center></div>
 
 <div ng-show="showDownload">
@@ -13,8 +13,8 @@
 	<div class="download">
     	<!--- <p>* To view a key list for a different day select the "Change Date" button *</p> -->
     	
-		<p style="font-size: 18px;"><span  style="margin-top: 5em;b"  uib-tooltip= "To generate the key list for a different date, select the 'Change Date' button on the right" >
-		<img src="info-icon.png" style="width:3%;height:3%;"></span> {{keyDate | date:'fullDate'}} <button class="btn" ng-click="removeKeyList()"> Change Date </button></p>
+		<p style="font-size: 18px;"><span uib-tooltip= "To generate the key list for a different date, select the 'Change Date' button on the right" >
+		<img src="info-icon.png" class="info-i"></span> {{keyDate | date:'fullDate'}} <button class="btn" ng-click="removeKeyList()"> Change Date </button></p>
 		<p><h5>
  		<a download href="./src/php/KeyList.txt"> Click Here to Download Key List For: {{keyDate | date:'fullDate'}} </a> </h5></p>
 	</div>

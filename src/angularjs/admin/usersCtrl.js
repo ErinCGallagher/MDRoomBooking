@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('UsersCtrl', UsersCtrl);
 
-function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, SharedVariableService) {
+function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSerivce, SharedVariableService, ConfirmationPopupService) {
 	$scope.pageClass = 'users';  //used to change pages in index.php
 	$scope.showUserInfo = false;
 	$scope.showNoUser= false;
@@ -48,7 +48,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 				*/
 				num = parseInt(userInfo[1].numGroups);	
 				num = num + 2;	
-				console.log(num);	
+				$scope.userGroups.splice(0,$scope.userGroups.length);
 				for (var i = 2; i < num; i++) {
 					//userInfo[i].startTime = new Date(userInfo[i].startTime)
 					if (userInfo[i].addHrsType == "week") {
@@ -75,6 +75,23 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 	
 	//cancel a booking, open modal for comfirmation
 	$scope.cancel = function(bookingInfo,recurring){
+	if(recurring){
+		var i = 0;
+		var j = 0;;
+		while(i < AdminUsersService.recurringUserBookings.length){
+			while(j < AdminUsersService.recurringUserBookings[i].recurringBooking.length){
+				if(AdminUsersService.recurringUserBookings[i].recurringBooking[j].bookingID == bookingInfo.bookingID){
+					bookingInfo.building = AdminUsersService.recurringUserBookings[i].building;
+					bookingInfo.reason = AdminUsersService.recurringUserBookings[i].reason;
+					bookingInfo.roomNum = AdminUsersService.recurringUserBookings[i].roomNum;
+					bookingInfo.time = AdminUsersService.recurringUserBookings[i].time;
+					bookingInfo.keyRequired = "N/A";
+				}
+				j++;
+			}
+			i++;
+		}
+	}
 
 	    var confirmCancelPopupInstance = $uibModal.open({
 	        templateUrl: 'confirmCancel.html',
@@ -153,11 +170,25 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, ConstantTextSerivce, Sh
 	    });
 	};
 
-	$scope.uploadMasterList = function(inputElem, dept) {
+	$scope.confirmUploadMasterList = function(inputElem, dept) {
+		var msg = "<div>Are you sure you want to replace the <b>" + dept + "</b> master list with <b>" + inputElem.files[0].name + "</b> ?"
+		+ "<br><br>This action may <b>delete users and their future bookings</b>." 
+		+ " Download the current master list <b>first</b> if you'd like a record of current users. All future bookings of removed users will be permanently deleted.</div>";
+		var functionInput = {inputElem:inputElem, department:dept};
+		var popupInstance = ConfirmationPopupService.open(uploadMasterList, functionInput, msg);
+		popupInstance.result.then(function () {
+			inputElem.value = null;
+		}, function () {
+			inputElem.value = null;
+		});
+	}
+
+	uploadMasterList = function(functionInput) {
+		var inputElem = functionInput.inputElem;
+		var dept = functionInput.department;
 		AdminUsersService.uploadMasterList(inputElem.files[0], dept)
 		.then(function(data){
 				openUploadPopup(data, dept);
-				inputElem.value = null;
 			},
 			function(errorMsg) {
 				alert(errorMsg); 

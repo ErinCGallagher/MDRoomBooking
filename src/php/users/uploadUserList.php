@@ -93,7 +93,9 @@
 						array_push($insertMasterArray, $netid, $department);
 
 						$curUserInfo = getCurUserInfo($db, $netid);
-						if (0 == sizeof($curUserInfo)) {
+						// check if user is already in User table. If they are, update their personal info if it's different
+						// if they are not in the User table, add them.
+						if (empty($curUserInfo)) {
 							//user not in User table, add them to user table
 							//('uID', 'firstName', 'lastName', 'class', 'curWeekHrs', 'nextWeekHrs', 'thirdWeekHrs', 'hasBookingDurationRestriction')
 							$insertUserString .= "(?, ?, ?, ?, ?, ?, ?, ?), ";
@@ -103,7 +105,6 @@
 							potentiallyUpdateUserInfo($db, $netid, $userData, $curUserInfo);
 						}
 
-						
 					} else {
 						$badEmailUsers[] = $user;
 					}
@@ -115,20 +116,17 @@
 			} else {
 				$badFormatUsers[] = $user;
 			}
-			//keep track of any users not added
-
 		}
 
 		//remove extra characters
 		$insertMasterString = chop($insertMasterString, ", ");
 		$insertUserString = chop($insertUserString, ", ");
 
-
 		/* update DB */
 
 		//insert users into master list
 		//use ignore so you don't have duplicates
-		if (sizeof($insertMasterArray) > 0) {
+		if (!empty($insertMasterArray)) {
 			$insertMasterQuery = "INSERT IGNORE INTO Master (uID, department) VALUES $insertMasterString";
 			$insertMasterStmt = $db->prepare($insertMasterQuery);
 			$insertMasterStmt->execute($insertMasterArray);
@@ -150,6 +148,22 @@
 		$deleteGroupQuery = "DELETE FROM Permission WHERE uID NOT IN (SELECT uID FROM Master)";
 		$deleteGroupStmt = $db->query($deleteGroupQuery);
 
+		//Remove future bookings of deleted users.
+		// Only remove bookings after today. Keep others for archival purposes.
+		// TODO: check current time and delete bookings later today as well.
+		$startDay = new DateTime();
+		$todayDate = date_format(new DateTime(), "Y-m-d"); 
+		$selectBookingsQuery = "SELECT DISTINCT Bookings.bookingID FROM Bookings JOIN BookingSlots ON BookingSlots.bookingID = Bookings.bookingID
+			WHERE bookingDate > '$todayDate' AND uID NOT IN (SELECT uID FROM Master) ";
+		$selectBookingsStmt = $db->query($selectBookingsQuery);
+		$bookingIDs = $selectBookingsStmt->fetchAll(PDO::FETCH_COLUMN, 0);
+		if (!empty($bookingIDs)) {
+			$arrayStr = implode(",", $bookingIDs);
+			$deleteSlotsQuery = "DELETE FROM BookingSlots WHERE bookingID IN ($arrayStr)";
+			$deleteSlotsStmt = $db->query($deleteSlotsQuery);
+			$deleteBookingsQuery = "DELETE FROM Bookings WHERE bookingID IN ($arrayStr)";
+			$deleteBookingsSlot = $db->query($deleteBookingsQuery);
+		}
 		$db->commit();
 		
 		$result = array();
@@ -158,8 +172,6 @@
 		$result["badFormatUsers"] = $badFormatUsers; 
 		$result["badClassUsers"] = $badClassUsers;
 		$result["badEmailUsers"] = $badEmailUsers;
-		// Another format?
-		// $result[0] = (object) array('numUsersInDept' => $insertMasterStmt->rowCount());
 		
 		//Convert to json
 		$json = json_encode($result);

@@ -17,8 +17,10 @@
 	margin-top: 15px !important;
 	display:inline-block;
 	margin:20px 10px 20px 20px;
-	padding:10px;
 	background-color:#c2d2d6;
+    border-radius: 3px;
+    padding: 15px 15px;
+}
 }
 
 
@@ -41,14 +43,10 @@
 }
 
 .search .time-picker-align{
-	display: flex;
-    justify-content: flex-start;
+    display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: row;
-    width: 450px;
-    min-width:450px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .search .fc-view-container{
@@ -59,6 +57,10 @@
 
 .search .fc-time-grid-container{
      height:100% !important;
+ }
+
+ .search .smaller-side-padding{
+    padding: 15px 10px;
  }
 
 
