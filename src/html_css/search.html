@@ -4,7 +4,7 @@
    <table>
    <tr>
 
-   		<td class="width50" colspan="2" >
+   		<td class="width50 smaller-side-padding" colspan="2">
    			<div class="form-inline">
    			<label class = "date-header"><strong>{{date_selection}}</strong></label>
    			<div class="input-group">
@@ -16,7 +16,7 @@
             </div>
            </div>
    		</td>
-   		<td class="width50" colspan="2">
+   		<td class="width50 smaller-side-padding" colspan="2">
    		<!-- building selection dropdown -->
 	   		<p class="building-selection-title"><strong>{{building_selection}} </strong></p>
 	        <select ng-model="selectedBuilding" ng-options="building as building for building in buildings track by building" class="building-select dropdrown" ng-change="retrieveRooms()"></select>
@@ -35,7 +35,8 @@
         
     </tr>
     <tr>
-    <td colspan="4">
+    <td colspan="4" class="default-padding">
+    <span uib-tooltip= "By selecting a contents box the system will find only rooms which contain all of the checked items. If no boxes are selected the system will find rooms that match your other search criteria."><img src="info-icon.png" class="info-i"></span>
     	<!-- contents check boxes -->
     	<label ng-repeat="content in contents">
 		  <input

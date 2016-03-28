@@ -27,7 +27,7 @@
 <div class="container">
     <form name="search" class="searchNet">
     	<p style="font-size: 16px"><strong>{{user_search_title}}</strong> <span  style="margin-top: 5em;b"  uib-tooltip= "Enter the NetID of the desired user in the box below, then hit the 'search' button to view user information: remaining hours, current groups, and current bookings" >
-    	<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
+    	<img src="info-icon.png" class="info-i"> </span></p>
     		<input name="userSearch" type="text" ng-model="userSearch" class="form-control textbox" required placeholder="Enter NetID" style="margin: 5px; margin-bottom:10px;"> 
     		<button class="btn modify-cancel-button submit-style" ng-click="searchUser()" ng-disabled="search.$invalid">{{search_button}}</button> 
     		
@@ -68,7 +68,7 @@
             <p><strong>Department(s): </strong> {{userDepartment}}</p>
             
              <p><span  style="margin-top: 5em;b"  uib-tooltip= "This represents the number of special and weekly hours a user has left for a given week. Please note: special hours may exist accross multiple weeks" >
-        <img src="info-icon.png" style="width:3%;height:3%;"> </span><strong>This Weeks Hours Remaining: </strong>{{curHrs}}</p>
+        <img src="info-icon.png" class="info-i"> </span><strong>This Weeks Hours Remaining: </strong>{{curHrs}}</p>
             <p><strong>Next Weeks Hours Remaining: </strong>{{nextHrs}}</p>
             <!--
             <p><strong>{{weekly_hrs_remain}} <u>{{this_week}}</u> {{week}} </strong> {{curWeekHrs}} </p>
