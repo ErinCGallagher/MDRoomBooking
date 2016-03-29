@@ -16,18 +16,6 @@
 		return $val;
 	}
 
-	// get netid from queen's email
-	function getNetId($email) {
-		$netid = false;
-
-		$email = strtolower(trim($email));
-		$isQueensEmail = strcmp('@queensu.ca', substr($email, -11)) == 0; //$email is a queen's email
-		if ($isQueensEmail) {
-			$netid = substr_replace($email, '', -11);
-		}
-		return $netid;
-	}
-
 	// get user info from table
 	function getCurUserInfo($db, $netid) {
 		$userInfoQuery = "SELECT firstName, lastName, class FROM User WHERE uID = ?";

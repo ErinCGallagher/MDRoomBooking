@@ -183,13 +183,17 @@
                 <h4 class="modal-title">Users Added to {{groupName}}</h4>
             </div>
             <div class="modal-body">
+                <div ng-show="addedUsers.length == 0 && usersAlreadyInGroup.length == 0 && usersNotInMaster.length == 0 && badEmailUsers.length == 0">
+                    <!-- No users added nor caused error -->
+                    <p><em>No users added. Please check file contents. If error persists, please contact system administrator.</em></p>
+                </div>
 
                 <div ng-show="addedUsers.length != 0">
                     <p><strong>Added Users:</strong>
                     <li ng-repeat="user in addedUsers">{{user}}</li></p>
                 </div>
 
-                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0 || badEmailUsers.length != 0"><br> </div>
                 <div ng-show="usersAlreadyInGroup.length != 0">
                     <p><strong>Users Already In Group (Not Re-Added):</strong>
                     <li ng-repeat="user in usersAlreadyInGroup">{{user}}</li></p>
@@ -198,7 +202,13 @@
                     <p><strong>Users Not In Master List (Not Added): </strong> 
                     <li ng-repeat="user in usersNotInMaster">{{user}}</li></p>
                 </div>
-                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+                <div ng-show="badEmailUsers.length != 0">
+                    <p><strong>Users With Invalid Email (Not Added):</strong> 
+                    <li ng-repeat="user in badEmailUsers">{{user}}</li>
+                    <em>Expected email format is <strong>netid@queensu.ca</strong></em></p>
+
+                </div>
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0 || badEmailUsers.length != 0"> <br></div>
 
                 <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
             </div>

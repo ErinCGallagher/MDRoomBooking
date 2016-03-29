@@ -192,7 +192,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 				openUploadPopup(data, dept);
 			},
 			function(errorMsg) {
-				alert(errorMsg); 
+				console.log(errorMsg); 
 			});
 	}
 

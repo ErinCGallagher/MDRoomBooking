@@ -94,6 +94,9 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 				},
 				usersNotInMaster: function () {
 					return data.usersNotInMaster;
+				},
+				badEmailUsers: function () {
+					return data.badEmailUsers;
 				}
 			}
 	    });
@@ -105,12 +108,13 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 };
 
 angular.module('mainApp').controller('AddUsersModalCtrl', AddUsersModalCtrl);
-function AddUsersModalCtrl ($scope, $uibModalInstance, groupName, addedUsers, usersAlreadyInGroup, usersNotInMaster) {
+function AddUsersModalCtrl ($scope, $uibModalInstance, groupName, addedUsers, usersAlreadyInGroup, usersNotInMaster, badEmailUsers) {
 
 	$scope.groupName = groupName;
 	$scope.addedUsers = addedUsers;
 	$scope.usersAlreadyInGroup = usersAlreadyInGroup;
 	$scope.usersNotInMaster = usersNotInMaster;
+	$scope.badEmailUsers = badEmailUsers;
 
 	$scope.cancel = function () {
 		$uibModalInstance.close();
