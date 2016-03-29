@@ -134,21 +134,31 @@
 	}
 	
 	function bookingRestrictionChange($user, $db) {
-			$rest = "SELECT hasBookingDurationRestriction FROM UGroups JOIN Permission ON UGroups.groupID = Permission.groupID AND uID = ? AND hasBookingDurationRestriction = 'YES'";
+
+		global $hasBookingDurationRestriction;
+			/*
+			$rest = "SELECT hasBookingDurationRestriction FROM UGroups JOIN Permission ON UGroups.groupID = Permission.groupID AND uID = ? AND hasBookingDurationRestriction = 'Yes'";
 			$stmt = $db->prepare($rest);
 			$stmt->execute(array($user));
 			//$spec = $stmt->fetchAll();
 	
 			if ($stmt->rowCount() > 0) {
-				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'YES' WHERE uID = ?";
+				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'Yes' WHERE uID = ?";
 				$restUpdateStmt = $db->prepare($restUpdateQuery);
 				$restUpdateStmt->execute(array($user));
 			}
 			else {
-				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'NO' WHERE uID = ?";
+				$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = 'No' WHERE uID = ?";
 				$restUpdateStmt = $db->prepare($restUpdateQuery);
 				$restUpdateStmt->execute(array($user));
 			}
+			*/
+
+			$restUpdateQuery = "UPDATE User SET hasBookingDurationRestriction = ? WHERE uID = ?";
+				$restUpdateStmt = $db->prepare($restUpdateQuery);
+				$restUpdateStmt->execute(array($hasBookingDurationRestriction,$user));
+
+			
 	}
 	//Save the old group info
 	$oldGroupInfo = getGroupInfo($db, $groupID);

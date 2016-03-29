@@ -3,7 +3,7 @@
             <button class="new-group-button" ng-click="newGroup()"> 
                 <span class="glyphicon glyphicon-plus" aria-label="New Group"></span>
             </button>
-            <span  style="margin-top: 5em;b"  uib-tooltip= "Select the '+' button on the left to create a new group or select a group from the list below to view more information about that group" >
+            <span uib-tooltip= "Select the '+' button on the left to create a new group or select a group from the list below to view more information about that group" >
 			<img src="info-icon.png" class="info-i"> </span>
 
     <div class="group-list">
@@ -17,14 +17,14 @@
     <div class="group-info">
         <p><strong>Group Name:</strong> {{groupName}}</p>
         <p><strong>Number of Users:</strong> {{numUsers}}</p>
-        <p><strong>Has Booking Duration Restriction:</strong> {{hasBookingDurationRestriction}} </p>
+        <p><strong>Restrict User Booking Durations:</strong> {{hasBookingDurationRestriction}} </p>
         <p><strong>Hours Type:</strong> {{addHrsType}} <strong>Hours:</strong> {{setHours}} </p>
         <p><strong>Start Date:</strong> {{setStartDate}} </p>
         <p><strong>End Date:</strong> {{setEndDate}} </p>
 
         <button class="btn submit-style small" ng-click="openViewUsersPopup()">Manage Users</button>
         <button class="btn submit-style small" ng-click="modifyGroup()">Modify Group</button>
-        <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group and cannot be deleted." >
+        <span ng-show="groupId == 1" uib-tooltip="The {{groupName}} is a special group and cannot be deleted." >
     	 <button class="btn submit-style small" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button></span>
         <button class="btn submit-style small" ng-click="confirmDeleteGroup()" ng-show="groupId != 1">Delete Group</button>
         <span uib-tooltip= "Manage Users: view all users, add users, delete users || Modify Group: Make changes to group settings || Delete Group: delete group and all permissions" >
@@ -43,9 +43,9 @@
 			<input name="gName" type="text" name="groupName" ng-init="newName='New Group'" ng-model="newName" class="form-control textbox" required >
 			<span ng-show="cGroup.gName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
 			
-			<p><strong>Has Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "> 
-				<span uib-tooltip= "if checked, allows users to make bookings longer than 1.5 hours at a time">
+			<p><strong>Restrict User Booking Durations:</strong>
+				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'Yes'" ng-true-value="'Yes'" ng-false-value="'No'" ng-change="changeRes() "> 
+				<span uib-tooltip= "if checked, users within this group will have their booking durations restricted. If unchecked this will override all the groups they belong to and remove all booking duration restrictions">
 				<img src="info-icon.png" class="info-i"> </span></p>
 			</div>
 			</br>
@@ -66,8 +66,7 @@
 			
 			</br>
 			<div class="boxed">
-			<p><h4>Duration Settings <span uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
-																					NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
+			<p><h4>Duration Settings <span uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
 				<img src="info-icon.png" class="info-i"> </span></h4></p>
 			<p><strong>Active Semester:</strong>
 				<input type="checkbox" ng-model="fall" ng-init="fall = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFall() ">Fall  
@@ -94,13 +93,13 @@
 			<img src="info-icon.png" class="info-i"> </span></h3></p>
            <div class="boxed">
             <p><strong>Group Name:</strong> 
-                <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group whose name cannot be modified." >
+                <span ng-show="groupId == 1" uib-tooltip="The {{groupName}} is a special group whose name cannot be modified." >
 				<input name=modName type="text" ng-readonly="groupId == 1" ng-model="newNameM" class="form-control textbox" required></span>
                 <input name=modName type="text" ng-show="groupId != 1" ng-model="newNameM" class="form-control textbox" required>
 				<span ng-show="modGroup.modName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
-			<p><strong>Remove Booking Duration Restriction:</strong>
-				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM()">
-				<span uib-tooltip= "If checked, all users within this group will have their room booking duration restrictions removed. This will override this restriction in all of a user's other groups.">
+			<p><strong>Restrict User Booking Durations:</strong>
+				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'Yes'"  ng-true-value="'Yes'" ng-false-value="'No'" ng-change="changeResM()">
+				<span uib-tooltip= "if checked, users within this group will have their booking durations restricted. If unchecked this will override all the groups they belong to and remove all booking duration restrictions">
 				<img src="info-icon.png" class="info-i"> </span></p>
 			</div>
 			</br>
@@ -120,8 +119,7 @@
 			</br>
 			
 			<div class="boxed">
-			<p><h4>Duration Settings <span uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
-																					NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
+			<p><h4>Duration Settings <span uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
 				<img src="info-icon.png" class="info-i"> </span></h4></p>
 			<p><strong>Active:</strong>
 				<input type="checkbox" ng-model="fallM" ng-init="fallM = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeFallM() ">Fall  
