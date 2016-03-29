@@ -2,8 +2,7 @@
 
 function userEmail(){
 	//$user = $_SESSION['netID'] . "@queensu.ca";
-	//$user = $_SERVER['HTTP_QUEENSU_MAIL'];
-	$user = "11lmb23@queensu.ca";
+	$user = $_SERVER['HTTP_QUEENSU_MAIL'];
 	return $user;
 }
 
@@ -83,7 +82,7 @@ function bookingConf($room, $building, $startDate, $startTime, $endTime, $reason
 	sendEmail($to, "Booking Confirmation", $msg2);
 	
 	//Admins must be notified of all bookings with Reason: Other
-	if ($notifyAdmin) {
+	if ($notifyAdmin == True) {
 		$name = $_SERVER['HTTP_COMMON_NAME'];
 		otherBooking($msg, $name, $to);
 	}
@@ -154,8 +153,12 @@ function otherBooking($msg, $name, $email) {
 	$msg2 .= "\nName: $name";
 	$msg2 .= "\nEmail: $email";
 	$msg = $msg2 . "\n\n" . $msg;
-	//$adminEmail = "";
-	//sendEmail($adminEmail, "Other Booking", $msg);
+	
+	$admins = getAdmins();
+	foreach ($admins as $adminEmail){
+		sendEmail($adminEmail, "Other Booking", $msg);
+	}
+
 }
 
 function sendEmail($to, $subject, $msg) {
@@ -165,6 +168,11 @@ function sendEmail($to, $subject, $msg) {
 		$msg = wordwrap($msg,70);
 		mail($to,$subject,$msg);
 	}
+}
+
+function getAdmins(){
+	$admins = array("11lmb23@queensu.ca");
+	return $admins;
 }
 
 
