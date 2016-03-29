@@ -24,7 +24,7 @@
 		$db->beginTransaction();
 
 		//remove group from Ugroups
-		$deleteQuery = "DELETE FROM Ugroups WHERE groupID = ?";
+		$deleteQuery = "DELETE FROM UGroups WHERE groupID = ?";
 		$deleteStmt = runQuery($db, $deleteQuery, array($groupID));
 
 		$db->commit();
