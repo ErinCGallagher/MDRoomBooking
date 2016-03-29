@@ -162,7 +162,7 @@ function otherBooking($msg, $name, $email) {
 }
 
 function sendEmail($to, $subject, $msg) {
-	if(null !== ['HTTP_QUEENSU_NETID']){
+	if(array_key_exists('HTTP_QUEENSU_NETID', $_SERVER)){
 		$msg .= "\n\nThis is an automatically generated notification. Please do not reply. For any questions or concerns, contact the School of Drama and Music administration.";
 		// use wordwrap() if lines are longer than 70 characters
 		$msg = wordwrap($msg,70);

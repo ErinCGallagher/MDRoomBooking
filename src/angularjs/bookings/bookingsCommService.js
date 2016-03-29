@@ -145,14 +145,14 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: selectedBuilding, 
 			 roomNum: dailyBookings[i].roomID,
-			 bookingUserType:dailyBookings[i].hrsSource.toLowerCase(),
 			 numPeople:dailyBookings[i].numParticipants,
 			 description:dailyBookings[i].otherDesc,
 			 color:colour
 			};
 
-			if(userType != "student"){ //user name only for Faculty & Admin users
+			if(userType != "student" && userType != "nonbooking"){ //user name only for Faculty & Admin users
 				formattedDailyBookings[i].userName = dailyBookings[i].firstName + " " + dailyBookings[i].lastName;
+				formattedDailyBookings[i].bookingUserType = dailyBookings[i].hrsSource.toLowerCase();
 			}
 			if(userType == "admin"){ //email
 				formattedDailyBookings[i].userEmail = dailyBookings[i].uID + "@queensu.ca";
@@ -259,7 +259,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: dailyBookings[i].building, 
 			 roomNum: dailyBookings[i].roomID,
-			 keyRequired:true
+			 keyRequired:dailyBookings[i].reqKey.toLowerCase()
 			};
 		}
 		return formattedDailyBookings;
@@ -277,7 +277,8 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 			 roomNum: bookings[i].room,
 			 time: bookings[i].time,
 			 reason:bookings[i].reason,
-			 weeksRemaining:bookings[i].weeksRemaining,  
+			 weeksRemaining:bookings[i].weeksRemaining, 
+			 keyRequired:bookings[i].reqKey, 
 			};
 
 			formattedDailyBookings[i].recurringBooking = [];

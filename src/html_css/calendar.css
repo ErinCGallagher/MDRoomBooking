@@ -48,11 +48,6 @@
 	text-align:center;
 }
 
-.calendar .fc-toolbar{
-	height: 10px;
-	margin:0px;
-}
-
 .calendar .previous-date-button, .calendar .next-date-button{
 	color: #666 !important;
     background-color: #eee;
