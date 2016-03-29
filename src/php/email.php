@@ -1,8 +1,8 @@
 <?php
 
 function userEmail(){
-	//$user = $_SESSION['netID'] . "@queensu.ca";
-	$user = $_SERVER['HTTP_QUEENSU_MAIL'];
+	$user = $_SESSION['netID'] . "@queensu.ca";
+	//$user = $_SERVER['HTTP_QUEENSU_MAIL'];
 	return $user;
 }
 
