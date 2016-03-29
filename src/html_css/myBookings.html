@@ -1,16 +1,19 @@
 <div ng-init="confirmInitialLoad()" class="info-container">
-	<div class="hours-remaining"> 
-	<span uib-tooltip= "As a student user your remaining weekly hours are calculated from Monday to Sunday inclusive. If you cancel a booking made after Sunday your hours will be returned to your next week remaining hours." ng-show="userType == 'student'"><img src="info-icon.png" class="info-i"></span>
-
-	<span uib-tooltip= "As a faculty or admin user you have unlimited room booking hours. Only student users have a specific number of room booking hours per week." ng-show="userType != 'student'"><img src="info-icon.png" class="info-i"></span>
-	    	{{hours_remain }}
-		<span>{{hours}}</span>
-	</div>
+	<div class="display-flex"></div>
 
 	<div class="user-information-cnontainer">
-		<div class="title">User Information </div>
-		<div class="info"><strong>{{user_name}} </strong>{{userName}}</div>
-		<div class="info"><strong>{{user_email}} </strong>{{email}}</div>
+		<div>
+			<div class="title">User Information </div>
+			<div class="info"><strong>{{user_name}} </strong>{{userName}}</div>
+			<div class="info"><strong>{{user_email}} </strong>{{email}}</div>
+		</div>
+	</div>
+	<div class="hours-remaining"> 
+		<span uib-tooltip= "As a student user your remaining weekly hours are calculated from Monday to Sunday inclusive. If you cancel a booking made after Sunday your hours will be returned to your next week remaining hours." ng-show="userType == 'student'"><img src="info-icon.png" class="info-i"></span>
+
+		<span uib-tooltip= "As a faculty or admin user you have unlimited room booking hours. Only student users have a specific number of room booking hours per week." ng-show="userType != 'student'"><img src="info-icon.png" class="info-i"></span>
+		    	{{hours_remain }}
+		<span>{{hours}}</span>
 	</div>
 </div>
 <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="10000" close="closeAlert($index)">{{alert.msg}}</uib-alert>
