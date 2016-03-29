@@ -12,7 +12,7 @@
 		<span uib-tooltip= "As a student user your remaining weekly hours are calculated from Monday to Sunday inclusive. If you cancel a booking made after Sunday your hours will be returned to your next week remaining hours." ng-show="userType == 'student'"><img src="info-icon.png" class="info-i"></span>
 
 		<span uib-tooltip= "As a faculty or admin user you have unlimited room booking hours. Only student users have a specific number of room booking hours per week." ng-show="userType != 'student'"><img src="info-icon.png" class="info-i"></span>
-		    	{{hours_remain }}
+		    	<strong>{{hours_remain }}</strong>
 		<span>{{hours}}</span>
 	</div>
 </div>
