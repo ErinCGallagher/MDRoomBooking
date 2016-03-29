@@ -46,8 +46,8 @@
                     <p ng-bind-html="msg"></p>
                 </div>
                
-                <button class="btn" ng-click="submit()">Continue</button>
-                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Cancel</button>
+                <button class="btn submit-style" ng-click="submit()">Continue</button>
+                <button type="submit" class="btn submit-style" style="position:center" ng-click="cancel()">Cancel</button>
             </div>
         </div>
     </script>  
@@ -121,7 +121,7 @@
            		 <td>{{ userBooking.roomNum }}</td>
                  <td>{{ userBooking.keyRequired }}</td>
            		 <td>{{ userBooking.reason }}</td>
-           		 <td><button ng-click="cancel(userBooking,false)" class="btn"> X </button></td>
+           		 <td><button ng-click="cancel(userBooking,false)" class="btn submit-style cancel-button"><i class="fa fa-times"></i></button></td>
        		 </tr>
 			 </table>       
     	</br>
@@ -150,11 +150,11 @@
                             <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.roomNum}}</td>
                             <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.keyRequired}}</td>
                             <td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.reason}}</td>
-                            <td><button ng-click="cancelAllRecur(reBooking)"> X </button></td>
+                            <td><button ng-click="cancelAllRecur(reBooking)" class="submit-style cancel-button"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr ng-repeat="booking in reBooking.recurringBooking" ng-show="activePosition == booking.recurringID">
                             <td colspan="7">{{booking.date | date:'EEE, MMM d yyyy'}}</td>
-                            <td colspan="1"><button ng-click="cancel(booking,true)"> X </button></td>
+                            <td colspan="1"><button ng-click="cancel(booking,true)" class="submit-style cancel-button"><i class="fa fa-times"></i></button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -185,8 +185,8 @@
                 <div style="margin-top:10px;"> After Cancellation you we be creditied the hours used for this booking.</div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel Booking</button>
-                <button type="submit" class="btn" ng-click="back()">Back</button>
+                <button type="submit" class="btn cancel submit-style" ng-click="cancelBooking()">Cancel Booking</button>
+                <button type="submit" class="btn submit-style" ng-click="back()">Back</button>
 
             </div>
     </script>  
@@ -213,8 +213,8 @@
                 
 
             <div class="modal-footer">
-                <button type="submit" class="btn cancel" ng-click="cancelBooking()">Cancel All Bookings</button>
-                <button type="submit" class="btn" ng-click="back()">Back</button>
+                <button type="submit" class="btn cancel submit-style" ng-click="cancelBooking()">Cancel All Bookings</button>
+                <button type="submit" class="btn submit-style" ng-click="back()">Back</button>
 
             </div>
     </script>  
@@ -254,7 +254,7 @@
                     <li ng-repeat="user in badFormatUsers" track by $index>{{user}}</li></p>
                 </div>
                 <div ng-show="badFormatUsers.length != 0 || badClassUsers.length != 0"> <br></div>
-                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
+                <button type="submit" class="btn submit-style" style="position:center" ng-click="cancel()">Ok</button>
             </div>
         </div>
     </script>  

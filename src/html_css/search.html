@@ -1,3 +1,4 @@
+<span uib-tooltip= "Search for at least a 30 minute available booking slot for a given building within a specified time period."><img src="info-icon.png" class="info-i"></span>
 <h1>{{search_explanation}}</h1>
 <div class="search-bar" ng-init="confirmInitialLoad()">
    <!-- ng-init ensures that the all initial load data has been loaded before loading the page-->
@@ -72,7 +73,7 @@
    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
    </div>
 
-        <!-- Make Booking Popup Template -->
+    <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
             <!-- Modal content-->
@@ -110,11 +111,11 @@
                                         </div>
                                         <p>
                                             <strong>Number of People: </strong>
-                                            <select ng-model="bookingDetails.selectedNumPeople" ng-options="num as num for num in bookingDetails.numPeople"></select>
+                                            <select ng-model="bookingDetails.selectedNumPeople" ng-options="num as num for num in bookingDetails.numPeople" class="dropdrown"></select>
                                         </p>
                                         <p>
                                             <strong>Reason</strong>
-                                            <select ng-model="bookingDetails.selectedReason" ng-options="reason as reason for reason in bookingDetails.reasons" ></select>
+                                            <select ng-model="bookingDetails.selectedReason" ng-options="reason as reason for reason in bookingDetails.reasons" class="dropdrown"></select>
                                         </p>
                                         <div ng-show="bookingDetails.selectedReason=='Other'">
                                             <Strong>Description: </Strong>
@@ -163,6 +164,7 @@
                                                 ng-required="bookingDetails.reccurBool == true"
                                                 max="bookingDetails.maxReccur"
                                                 min="2"
+                                                class="dropdrown"
                                               > 
                                               <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
                                               <p ng-show=" (bookingDetails.numWeeks < 2) && (bookingDetails.reccurBool == true)"> The number of weeks must exceed 1</p>
@@ -171,8 +173,8 @@
                                     
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn" ng-click="cancel()">Back</button>
-                                        <button type="submit" class="btn">Book Room</button>
+                                        <button class="btn submit-style" ng-click="cancel()">Back</button>
+                                        <button type="submit" class="btn submit-style">Book Room</button>
                                     </div>
                                 </form>
                              
@@ -193,7 +195,7 @@
                                  </div> 
                                  
                                  <div class="modal-footer">
-                                    <button class="btn" ng-click="cancel()">Exit</button>
+                                    <button class="btn submit-style" ng-click="cancel()">Exit</button>
                                  </div>
                             </uib-tab>   
                         </uib-tabset>
@@ -205,7 +207,7 @@
     </div>
 
 
-        <!-- View Booking Popup Template -->
+    <!-- View Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="viewBookingPopup.html">
             <!-- Modal content-->
@@ -246,15 +248,15 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn" ng-click="cancel()">Back</button>
+                    <button type="submit" class="btn submit-style cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">Cancel Booking</button>
+                    <button type="submit" class="btn submit-style" ng-click="cancel()">Back</button>
 
                 </div>
             </div>
         </script>  
     </div>
 
-        <!--Booking Confirmation Popup Template -->
+    <!--Booking Confirmation Popup Template -->
     <div>
         <script type="text/ng-template" id="bookingConfirmationPopup.html">
             <!-- Modal content-->
@@ -280,7 +282,7 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" ng-click="cancel()">Ok</button>
+                    <button type="submit" class="btn submit-style" ng-click="cancel()">Ok</button>
 
                 </div>
             </div>
@@ -316,9 +318,9 @@
                     <div ng-repeat="entry in failedBookings">{{entry | date:'MMM d yyyy'}}</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" ng-click="closePopup()" ng-show="success">Continue with successful bookings </button>
-                    <button type="submit" class="btn" ng-click="closePopup()" ng-show="!success">Ok </button>
-                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn" ng-click="cancelAll()">Cancel All Bookings</button>
+                    <button type="submit" class="btn submit-style" ng-click="closePopup()" ng-show="success">Continue with successful bookings </button>
+                    <button type="submit" class="btn submit-style" ng-click="closePopup()" ng-show="!success">Ok </button>
+                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn submit-style" ng-click="cancelAll()">Cancel All Bookings</button>
 
                 </div>
             </div>

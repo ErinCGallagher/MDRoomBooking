@@ -118,15 +118,17 @@ function AdminUsersService(CommService, $q){
 	//remove the enitre group if no more bookings remain
 	adminUsersService.updateSingleRecurringBooking = function(bookingID){
 		var i = 0;
-		var j = 0;;
+		var j = 0;
+		var len = -1;
 		while(i < adminUsersService.recurringUserBookings.length){
+			j = 0;
 			while(j < adminUsersService.recurringUserBookings[i].recurringBooking.length){
 				if(adminUsersService.recurringUserBookings[i].recurringBooking[j].bookingID == bookingID){
 					adminUsersService.recurringUserBookings[i].recurringBooking.splice(j, 1);
 					adminUsersService.recurringUserBookings[i].weeksRemaining -=1;
-					j = adminUsersService.recurringUserBookings[i].recurringBooking.length;
+					len = adminUsersService.recurringUserBookings[i].recurringBooking.length;
 				}
-				if(j == 0){//if no recurring bookings are left, cancel the entire group
+				if(len == 0){//if no recurring bookings are left, cancel the entire group
 					updateRecurringDisplay(adminUsersService.recurringUserBookings[i].recurringID);
 					i = adminUsersService.recurringUserBookings.length;
 					break;

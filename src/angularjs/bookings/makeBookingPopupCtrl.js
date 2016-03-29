@@ -118,7 +118,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
 
       else{ //search page
          
-         if($scope.bookingDetails.reccurBool.reccurBool){
+         if($scope.bookingDetails.reccurBool){
           //call booking service to send booking info to the database
           SearchService.bookRoomRecurring(bookingInfo)
             .then(function(response){

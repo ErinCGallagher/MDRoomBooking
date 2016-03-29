@@ -81,15 +81,17 @@ function MyBookingsService(CommService, $q, BookingsService,SharedVariableServic
 	//remove the enitre group if no more bookings remain
 	updateSingleRecurringBooking = function(bookingID){
 		var i = 0;
-		var j = 0;;
+		var j = 0;
+		var len = -1;
 		while(i < myBookingsService.recurringUserBookings.length){
+			j = 0;
 			while(j < myBookingsService.recurringUserBookings[i].recurringBooking.length){
 				if(myBookingsService.recurringUserBookings[i].recurringBooking[j].bookingID == bookingID){
 					myBookingsService.recurringUserBookings[i].recurringBooking.splice(j, 1);
 					myBookingsService.recurringUserBookings[i].weeksRemaining -=1;
-					j = myBookingsService.recurringUserBookings[i].recurringBooking.length;
+					len = myBookingsService.recurringUserBookings[i].recurringBooking.length;
 				}
-				if(j == 0){//if no recurring bookings are left, cancel the entire group
+				if(len == 0){//if no recurring bookings are left, cancel the entire group
 					updateRecurringDisplay(myBookingsService.recurringUserBookings[i].recurringID);
 					i = myBookingsService.recurringUserBookings.length;
 					break;

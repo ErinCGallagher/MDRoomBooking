@@ -27,7 +27,7 @@
         <span ng-show="groupId == 1" style="margin-top: 5em;b" uib-tooltip="The {{groupName}} is a special group and cannot be deleted." >
     	 <button class="btn submit-style small" ng-click="confirmDeleteGroup()" ng-disabled="groupId == 1">Delete Group</button></span>
         <button class="btn submit-style small" ng-click="confirmDeleteGroup()" ng-show="groupId != 1">Delete Group</button>
-        <span  style="margin-top: 5em;"  uib-tooltip= "Manage Users: view all users, add users, delete users || Modify Group: Make changes to group settings || Delete Group: delete group and all permissions" >
+        <span uib-tooltip= "Manage Users: view all users, add users, delete users || Modify Group: Make changes to group settings || Delete Group: delete group and all permissions" >
 		<img src="info-icon.png" class="info-i"> </span>
     </div>
 </div>
@@ -35,7 +35,7 @@
 <div ng-show="showNewGroup" class="container info-container">    
     <form name="cGroup" class="group-info">
     		<p><h3><strong><centre>Create A Group</centre></strong>
-    		<span  style="margin-top: 5em;"  uib-tooltip= "Fill out all fields below then select the 'Create Group' button, users may be added to a group once it has been created" >
+    		<span uib-tooltip= "Fill out all fields below then select the 'Create Group' button, users may be added to a group once it has been created" >
 			<img src="info-icon.png" class="info-i"> </span></h3></p>
             
             <div class="boxed">
@@ -45,20 +45,20 @@
 			
 			<p><strong>Has Booking Duration Restriction:</strong>
 				<input type="checkbox" ng-model="restriction" ng-init="restriction = 'NO'" ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeRes() "> 
-				<span  style="margin-top: 5em;"  uib-tooltip= "if checked, allows users to make bookings longer than 1.5 hours at a time">
-				<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
+				<span uib-tooltip= "if checked, allows users to make bookings longer than 1.5 hours at a time">
+				<img src="info-icon.png" class="info-i"> </span></p>
 			</div>
 			</br>
 			<div class="boxed">
-				<p><h4>Hours Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose type of hours and number of hours below">
+				<p><h4>Hours Settings <span uib-tooltip= "Choose type of hours and number of hours below">
 				<img src="info-icon.png" class="info-i"> </span></h4></p>
 				<p><input type="radio" ng-value="1" ng-init="addHrsType=1" ng-model="addHrsType"> 
-			<strong>Hours Per Week <span  style="margin-top: 5em;"  uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
-			<img src="info-icon.png" style="width:3%;height:3%;"> </span> </strong>
+			<strong>Hours Per Week <span uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
+			<img src="info-icon.png" class="info-i"> </span> </strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsType"> 
-			<strong>Special Hours <span  style="margin-top: 5em;"  uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
-			<img src="info-icon.png" style="width:3%;height:3%;"> </span></strong></p>
+			<strong>Special Hours <span uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
+			<img src="info-icon.png" class="info-i"> </span></strong></p>
 				<p><strong>Number of Hours:</strong>
 				<input name="newHrs" type="number" ng-init="hours=1" ng-model="hours" min=0 max=100 class="form-control textbox" required>
 				<span ng-show="cGroup.newHrs.$error.required"><font color="red">Please Enter # of Hours</font></span></p>
@@ -66,7 +66,7 @@
 			
 			</br>
 			<div class="boxed">
-			<p><h4>Duration Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
+			<p><h4>Duration Settings <span uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
 																					NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
 				<img src="info-icon.png" class="info-i"> </span></h4></p>
 			<p><strong>Active Semester:</strong>
@@ -90,7 +90,7 @@
 
 <div ng-show="showModGroup" class="container info-container">    
     <form name="modGroup" class="modify-group">
-		<p><h3><strong><centre>Modify Group</centre></strong><span  style="margin-top: 5em;"  uib-tooltip= "Make changes to the fields below, slelect the 'Save Group Modifications' button to save chnages and apply permissions to any users of the group" >
+		<p><h3><strong><centre>Modify Group</centre></strong><span uib-tooltip= "Make changes to the fields below, slelect the 'Save Group Modifications' button to save chnages and apply permissions to any users of the group" >
 			<img src="info-icon.png" class="info-i"> </span></h3></p>
            <div class="boxed">
             <p><strong>Group Name:</strong> 
@@ -98,29 +98,29 @@
 				<input name=modName type="text" ng-readonly="groupId == 1" ng-model="newNameM" class="form-control textbox" required></span>
                 <input name=modName type="text" ng-show="groupId != 1" ng-model="newNameM" class="form-control textbox" required>
 				<span ng-show="modGroup.modName.$error.required"><font color="red">Please Enter A Group Name</font></span></p>
-			<p><strong>Has Booking Duration Restriction:</strong>
+			<p><strong>Remove Booking Duration Restriction:</strong>
 				<input type="checkbox" ng-model="restrictionM" ng-init="restrictionM = 'NO'"  ng-true-value="'YES'" ng-false-value="'NO'" ng-change="changeResM()">
-				<span  style="margin-top: 5em;"  uib-tooltip= "if checked, allows users to make bookings longer than 1.5 hours at a time">
-				<img src="info-icon.png" style="width:3%;height:3%;"> </span></p>
+				<span uib-tooltip= "If checked, all users within this group will have their room booking duration restrictions removed. This will override this restriction in all of a user's other groups.">
+				<img src="info-icon.png" class="info-i"> </span></p>
 			</div>
 			</br>
 			<div class="boxed">
-				<p><h4>Hours Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose type of hours and number of hours below">
+				<p><h4>Hours Settings <span uib-tooltip= "Choose type of hours and number of hours below">
 				<img src="info-icon.png" class="info-i"> </span></h4></p>
 				<p><input type="radio" ng-value="1" ng-model="addHrsTypeM"> 
-			<strong>Hours Per Week <span  style="margin-top: 5em;"  uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
-			<img src="info-icon.png" style="width:3%;height:3%;"> </span> </strong>
+			<strong>Hours Per Week <span uib-tooltip= "'Hours per Week' gives the group members the entered hours at the start of each week">
+			<img src="info-icon.png" class="info-i"> </span> </strong>
 			<strong>  -- OR -- </strong>
 				<input type="radio" ng-value="2" ng-model="addHrsTypeM"> 
-			<strong>Special Hours <span  style="margin-top: 5em;"  uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
-			<img src="info-icon.png" style="width:3%;height:3%;"> </span></strong></p>
+			<strong>Special Hours <span uib-tooltip= "'Special Hours' gives the group members the total entered hours over the provided duration">
+			<img src="info-icon.png" class="info-i"> </span></strong></p>
 				<p><strong>Number of Hours:</strong><input name="modHrs" type="number" ng-model="hoursM" min=0 max=100 value=1 class="form-control textbox" required> 
 				<span ng-show="modGroup.modHrs.$error.required"><font color="red">Please Enter # of Hours</font></span></p>
 			</div>
 			</br>
 			
 			<div class="boxed">
-			<p><h4>Duration Settings <span  style="margin-top: 5em;"  uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
+			<p><h4>Duration Settings <span uib-tooltip= "Choose dates either by semester (Fall, Winter, Summer) OR by a start and end date 
 																					NOTE: if any of the semester checkboxes are checked those dates will be chosen" >
 				<img src="info-icon.png" class="info-i"> </span></h4></p>
 			<p><strong>Active:</strong>
@@ -183,13 +183,17 @@
                 <h4 class="modal-title">Users Added to {{groupName}}</h4>
             </div>
             <div class="modal-body">
+                <div ng-show="addedUsers.length == 0 && usersAlreadyInGroup.length == 0 && usersNotInMaster.length == 0 && badEmailUsers.length == 0">
+                    <!-- No users added nor caused error -->
+                    <p><em>No users added. Please check file contents. If error persists, please contact system administrator.</em></p>
+                </div>
 
                 <div ng-show="addedUsers.length != 0">
                     <p><strong>Added Users:</strong>
                     <li ng-repeat="user in addedUsers">{{user}}</li></p>
                 </div>
 
-                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0 || badEmailUsers.length != 0"><br> </div>
                 <div ng-show="usersAlreadyInGroup.length != 0">
                     <p><strong>Users Already In Group (Not Re-Added):</strong>
                     <li ng-repeat="user in usersAlreadyInGroup">{{user}}</li></p>
@@ -198,7 +202,13 @@
                     <p><strong>Users Not In Master List (Not Added): </strong> 
                     <li ng-repeat="user in usersNotInMaster">{{user}}</li></p>
                 </div>
-                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0"> <br></div>
+                <div ng-show="badEmailUsers.length != 0">
+                    <p><strong>Users With Invalid Email (Not Added):</strong> 
+                    <li ng-repeat="user in badEmailUsers">{{user}}</li>
+                    <em>Expected email format is <strong>netid@queensu.ca</strong></em></p>
+
+                </div>
+                <div ng-show="usersAlreadyInGroup.length != 0 || usersNotInMaster.length != 0 || badEmailUsers.length != 0"> <br></div>
 
                 <button type="submit" class="btn" style="position:center" ng-click="cancel()">Ok</button>
             </div>

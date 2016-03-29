@@ -80,6 +80,11 @@
 	margin:0px;
 }
 
+.cancel-button{
+	padding: 5px 10px !important;
+
+}
+
 /* box shadow on non active tabs*/
 .nav-tabs>li>a {
 	box-shadow: 0px -1px 3px #bfbfbf;

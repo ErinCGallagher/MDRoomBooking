@@ -21,8 +21,9 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 	getUserInfo = function(uID){
 		AdminUsersService.getUserInfo(uID)
 			.then(function(userInfo){
-			if (userInfo== "nothing") {
-				$scope.user = userInfo;
+			
+			if (userInfo[0] == "nothing") {
+				$scope.user = userInfo[1];
 				$scope.showUserInfo = false;
 				$scope.showNoUser= true;
 			}
@@ -191,7 +192,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 				openUploadPopup(data, dept);
 			},
 			function(errorMsg) {
-				alert(errorMsg); 
+				console.log(errorMsg); 
 			});
 	}
 

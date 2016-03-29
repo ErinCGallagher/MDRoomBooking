@@ -3,6 +3,7 @@
 	require_once("../connection.php");
 	require_once("groupFunctions.php");
 	require_once("../uploadFile.php");
+	require_once("../util.php");
 
 	//Get parameters from frontend
 	$groupID = $_POST['groupID'];
@@ -33,47 +34,55 @@
 	//Arrays to hold error users
 	$alreadyInGroupArray = array();
 	$notInMasterArray = array();
+	$badEmailUsers = array();
 	
 	foreach ($fileLines as $user) {
+		$netid = getNetId($user);
+		if ($netid) { //$netid != false
 		
-		if (!userInGroup($db, $user, $groupID)) {
-			// user is NOT already in group, continue with addition
+			if (!userInGroup($db, $netid, $groupID)) {
+				// user is NOT already in group, continue with addition
 
-			if (userInMasterList($db, $user)) {
+				if (userInMasterList($db, $netid)) {
 
-				array_push($usersAddedArray, $user);
+					array_push($usersAddedArray, $netid);
 
-				// add user to permissions table
-				// specialHrs = 0 if the group has weekly hours
-				$insertString .= "(?,?,?), ";
-				array_push($insertArray, $user, $groupID, $specialHrs);
+					// add user to permissions table
+					// specialHrs = 0 if the group has weekly hours
+					$insertString .= "(?,?,?), ";
+					array_push($insertArray, $netid, $groupID, $specialHrs);
 
-				if(groupHasCurWeekHours($groupInfo)) {
-					// if group has weekly hours that are currently active, 
-					// they should be immediately given to the user
-					$curWeekUpdateString .= "uID = ? OR ";
+					if(groupHasCurWeekHours($groupInfo)) {
+						// if group has weekly hours that are currently active, 
+						// they should be immediately given to the user
+						$curWeekUpdateString .= "uID = ? OR ";
+					}
+
+					if(groupHasNextWeekHours($groupInfo)) {
+						// if group has hours that are active next week, 
+						// they should be immediately given to the user
+						$nextWeekUpdateString .= "uID = ? OR ";
+					}
+
+					// deal with booking restriction
+					if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
+						$restUpdateString .= "uID = ? OR ";
+					}
+					
+					
+				} else {
+					// user not in master list
+					array_push($notInMasterArray, $netid);
 				}
 
-				if(groupHasNextWeekHours($groupInfo)) {
-					// if group has hours that are active next week, 
-					// they should be immediately given to the user
-					$nextWeekUpdateString .= "uID = ? OR ";
-				}
-
-				// deal with booking restriction
-				if(strcmp($groupInfo['hasBookingDurationRestriction'], 'No') == 0) {
-					$restUpdateString .= "uID = ? OR ";
-				}
-				
-				
 			} else {
-				// user not in master list
-				array_push($notInMasterArray, $user);
+				// user is in group, don't re-add
+				array_push($alreadyInGroupArray, $netid);
 			}
 
 		} else {
-			// user is in group, don't re-add
-			array_push($alreadyInGroupArray, $user);
+			//invalid email
+			array_push($badEmailUsers,$user);
 		}
 	}
 
@@ -132,6 +141,7 @@
 		$result["addedUsers"] = $usersAddedArray; 
 		$result["usersAlreadyInGroup"] = $alreadyInGroupArray;
 		$result["usersNotInMaster"] = $notInMasterArray; 
+		$result["badEmailUsers"] = $badEmailUsers;
 		
 		//Convert to json
 		$json = json_encode($result);
