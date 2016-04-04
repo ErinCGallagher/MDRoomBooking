@@ -10,7 +10,7 @@ include('checkBooking.php');
 
 
 //for testin1ecg5urposes only, use above otherwise
-$user = "11lmb23"; //check rb_sample.php for users to input here for testing
+$user = "11ecg5"; //check rb_sample.php for users to input here for testing
 
 
 $firstName = " ";

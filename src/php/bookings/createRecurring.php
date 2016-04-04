@@ -43,98 +43,107 @@
 	
 	$result = array();
 
-	try {
-
-		//begin transaction
-		$db->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$db->beginTransaction();
+	//don't need a transaction here because we handle conflicting bookings
 	
-		if($_SESSION["class"] == "NonBooking" || $_SESSION["class"] == "Student"){
-			http_response_code(403); //Invalid User
-		}else if (!in_array($reason, $reasonsList)) {
-			$result['msg'] = "The reason provided is not valid.";
-			http_response_code(403); //Invalid Entry
-		} else if (!in_array($numP, $numPeople)) {
-			$result['msg'] = "The number of people provided is not valid.";
-			http_response_code(403); //Invalid Entry
-		} else if (!array_key_exists($building, $allBuildings)) {
-			$result['msg'] = "Yhe building provided is not valid.";
-			http_response_code(403); //Invalid Entry (building)
-		} else if (!in_array($room, $_SESSION["buildings"][$building]['rooms'])) {
-			$result['msg'] = "The room provided is not valid.";
-			http_response_code(403); //Invalid Entry (room)
-		} else if ($startTime < $openTime ||  $endTime > $closeTime) {
-			//Booking is outside of building hours
-			$result['msg'] = "The building is not open during your booking.";
-			http_response_code(403);
-		} else {
-			
-			date_default_timezone_set('America/Toronto');
+	if($_SESSION["class"] == "NonBooking" || $_SESSION["class"] == "Student"){
+		http_response_code(403); //Invalid User
+	}else if (!in_array($reason, $reasonsList)) {
+		$result['msg'] = "The reason provided is not valid.";
+		http_response_code(403); //Invalid Entry
+	} else if (!in_array($numP, $numPeople)) {
+		$result['msg'] = "The number of people provided is not valid.";
+		http_response_code(403); //Invalid Entry
+	} else if (!array_key_exists($building, $allBuildings)) {
+		$result['msg'] = "The building provided is not valid.";
+		http_response_code(403); //Invalid Entry (building)
+	} else if (!in_array($room, $_SESSION["buildings"][$building]['rooms'])) {
+		$result['msg'] = "The room provided is not valid.";
+		http_response_code(403); //Invalid Entry (room)
+	} else if ($startTime < $openTime ||  $endTime > $closeTime) {
+		//Booking is outside of building hours
+		$result['msg'] = "The building is not open during your booking.";
+		http_response_code(403);
+	} else {
+		
+		date_default_timezone_set('America/Toronto');
 
-			$currentDate = date('Y-m-d');
-			$currentTime = date('H:i:s');
-			$class = $_SESSION['class'];
+		$currentDate = date('Y-m-d');
+		$currentTime = date('H:i:s');
+		$class = $_SESSION['class'];
+		
+		if ($currentDate > $startDate){
+			//Booking has already started or has already passed
+			//currently not working because of timezones
+			$result['msg'] = "You cannot make a booking in the past.";
+			http_response_code(406); //Invalid Entry
+		}
+		else if(($currentDate == $startDate) && ($currentTime > $startTime)){
+			$result['msg'] = "You cannot make a booking in the past.";
+			http_response_code(406); //Invalid Entry
+		}
+		else {
+			//faculty can only book for current semester
+			if ($class == "Faculty" && $totalWeeks <= weeksLeftInSemester($currentDate, $startDate)){
+				$canBook = True;
+			} else if ($class == "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
+				$result['msg'] = "Faculty may only make bookings in the current semester.";
+				http_response_code(406); //Invalid Entry
+			} else if ($class == "Admin") {
+				$canBook = True;
+			} else {
+				$canBook = False;
+				http_response_code(406); //Invalid Entry
+			}
 			
-			if ($currentDate > $startDate){
-				//Booking has already started or has already passed
-				//currently not working because of timezones
-				$result['msg'] = "You cannot make a booking in the past.";
-				http_response_code(406); //Invalid Entry
-			}
-			else if(($currentDate == $startDate) && ($currentTime > $startTime)){
-				$result['msg'] = "You cannot make a booking in the past.";
-				http_response_code(406); //Invalid Entry
-			}
-			else {
-				//faculty can only book for current semester
-				if ($class == "Faculty" && $totalWeeks <= weeksLeftInSemester($currentDate, $startDate)){
-					$canBook = True;
-				} else if ($class == "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
-					$result['msg'] = "Faculty may only make bookings in the current semester.";
-					http_response_code(406); //Invalid Entry
-				} else if ($class == "Admin") {
-					$canBook = True;
-				} else {
-					$canBook = False;
-					http_response_code(406); //Invalid Entry
+			if ($canBook) {			
+				//Array to hold blocks 
+				$blocks = [];
+				$sth = $db->prepare("SELECT blockID, endTime FROM Blocks WHERE startTime = ?");
+				$sth->execute(array($startTime));
+				$rows = $sth->fetchAll();
+				
+				foreach($rows as $row) {
+					$block = $row['blockID'];
+					$blocks[] = $block; //put starting block in blocks array
+					$blockend = $row['endTime'];
 				}
 				
-				if ($canBook) {			
-					//Array to hold blocks 
-					$blocks = [];
-					$sth = $db->prepare("SELECT blockID, endTime FROM Blocks WHERE startTime = ?");
-					$sth->execute(array($startTime));
+				//Get all blocks for booking 
+				$totalB = 1; //duration of the booking
+				while ($blockend != $endTime){
+					$block = $block + 1;
+					$totalB = $totalB + 1;
+					$blocks[] = $block;
+					
+					$sth = $db->prepare("SELECT endTime FROM Blocks WHERE blockID = ?");
+					$sth->execute(array($block));
 					$rows = $sth->fetchAll();
 					
 					foreach($rows as $row) {
-						$block = $row['blockID'];
-						$blocks[] = $block; //put starting block in blocks array
 						$blockend = $row['endTime'];
 					}
-					
-					//Get all blocks for booking 
-					$totalB = 1; //duration of the booking
-					while ($blockend != $endTime){
-						$block = $block + 1;
-						$totalB = $totalB + 1;
-						$blocks[] = $block;
-						
-						$sth = $db->prepare("SELECT endTime FROM Blocks WHERE blockID = ?");
-						$sth->execute(array($block));
-						$rows = $sth->fetchAll();
-						
-						foreach($rows as $row) {
-							$blockend = $row['endTime'];
-						}
-					}
-					
-					$datesCreated = array();
-					$datesFailed = array();
+				}
+				
+				$datesCreated = array();
+				$datesFailed = array();
 
-					//create first booking of total
-					$recurringID = -1;
-					$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
-					
+				//create first booking of total
+				$recurringID = -1;
+				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
+
+				//confirm the first booking was successful
+				$sth2 = $db->prepare("SELECT * FROM Bookings WHERE bookingID = ?");
+				$sth2->execute(array($bookingID));
+				$firstSuccessful = false;
+				while($row = $sth2->fetch(PDO::FETCH_ASSOC)) {
+					$firstSuccessful = true;
+				}
+				if(!$firstSuccessful){
+					$result['msg'] = "Your booking could not be completed because the original booking conflicted with another booking. Please refresh the browser and retry.";
+					http_response_code(406); //Invalid Entry
+				}
+				else{
+				
 					$sth = $db->prepare("UPDATE BookingSlots SET recurringID = ? WHERE bookingID = ?");
 					$sth->execute(array($bookingID, $bookingID));
 					
@@ -153,32 +162,18 @@
 					recurringConf($room, $building, $startTime, $endTime, $reason, $desc, $numP, $db, $datesCreated);
 				}
 			}
-		
 		}
-		$db->commit(); //end transaction
-		//Close the connection
-		$db = NULL;
-		//Convert to json
-		$json = json_encode($result);
-		
-		//echo the json string
-		echo $json;
-	}catch(Exception $e){ 
-	//catch transation error which is caught when 2 bookings are made at the same time
-		if (isset ($db)) {
-	       $db->rollback ();
-	    }
-
-		$result['msg'] = "Your booking could not be completed, please refresh the browser window and try again";
-		http_response_code(406);
-
-		//Close the connection
-		$db = NULL;
-		//Convert to json
-		$json = json_encode($result);
-		echo $json;
-
+	
 	}
+
+	//Close the connection
+	$db = NULL;
+	//Convert to json
+	$json = json_encode($result);
+	
+	//echo the json string
+	echo $json;
+	
 
 
 	//after determining the user has the hours to make a booking, insert the booking into the database
