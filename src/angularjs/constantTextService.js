@@ -45,7 +45,8 @@ angular
 		MY_REC_BOOKINGS : 	{NAME: "My Recurring Bookings"},
 		REC_INFO : 			{NAME: "Click Row To Expand Recurring Bookings"},
 		DAY_WEEK : 			{NAME: "Day of the Week"},
-		BOOKINGS_REMAIN : 	{NAME: "Bookings Remaining"},	
+		BOOKINGS_REMAIN : 	{NAME: "Bookings Remaining"},
+		DEPARTMENT : 		{NAME: "Department:"},	
 	},
 	USERS : {
 		UPLOAD_MUSIC : 		{NAME : "Upload Music List" },

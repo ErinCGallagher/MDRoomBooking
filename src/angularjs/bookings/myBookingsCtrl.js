@@ -8,6 +8,7 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 	$scope.hours = 0;
 	$scope.userName = SharedVariableService.name;
 	$scope.userType = SharedVariableService.userType;
+	$scope.department = SharedVariableService.department;
 	$scope.email = SharedVariableService.netID + "@queensu.ca";
 	$scope.bookings = MyBookingsService.userBookings;
 	$scope.recurringBookings = MyBookingsService.recurringUserBookings;
@@ -132,5 +133,5 @@ function MyBookingsCtrl($scope, $uibModal, $log, MyBookingsService, SharedVariab
 		$scope.rec_info = ConstantTextSerivce.MY_BOOKINGS.REC_INFO.NAME;
 		$scope.header_day_week = ConstantTextSerivce.MY_BOOKINGS.DAY_WEEK.NAME;
 		$scope.header_bookings_remain = ConstantTextSerivce.MY_BOOKINGS.BOOKINGS_REMAIN.NAME;
-
+		$scope.user_department = ConstantTextSerivce.MY_BOOKINGS.DEPARTMENT.NAME;
 };
