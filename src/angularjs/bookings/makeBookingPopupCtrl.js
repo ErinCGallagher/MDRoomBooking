@@ -178,7 +178,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   //if reccuring booking is chosen, return true if the number of reccurings is 
   //less than or equal to maxReccur
   reccurBoolValid = function(){
-    if($scope.bookingDetails.reccurBool.reccurBool){
+    if($scope.bookingDetails.reccurBool){
       if($scope.bookingDetails.numWeeks <= $scope.bookingDetails.maxReccur){
         return true;
       }

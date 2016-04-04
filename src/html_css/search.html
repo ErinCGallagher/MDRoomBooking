@@ -166,6 +166,8 @@
                                                 min="2"
                                                 class="dropdrown"
                                               > 
+                                              <span ng-show="bookingDetails.userType == 'faculty'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make. You may make recurring bookings for the current semester"><img src="info-icon.png" class="info-i"></span>
+                                              <span ng-show="bookingDetails.userType == 'admin'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make. You may create reccuring bookings for the entire academic year"><img src="info-icon.png" class="info-i"></span>
                                               <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
                                               <p ng-show=" (bookingDetails.numWeeks < 2) && (bookingDetails.reccurBool == true)"> The number of weeks must exceed 1</p>
                                             </div>
