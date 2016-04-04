@@ -161,6 +161,9 @@
 		$result["badClassUsers"] = $badClassUsers;
 		$result["badEmailUsers"] = $badEmailUsers;
 		
+		//Close the connection
+		$db = NULL;
+
 		//Convert to json
 		$json = json_encode($result);
 		// echo the json string
@@ -171,6 +174,8 @@
 	       $db->rollback ();
 	       echo "Error:  " . $e; 
 	    }
+	    //Close the connection
+		$db = NULL;
 	}
 ?>
 

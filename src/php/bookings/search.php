@@ -145,6 +145,9 @@ if ($sth->rowCount() > 0) {
 	$search = array();
 }
 
+//Close the connection
+$db = NULL;
+
 //Convert to json
 $json = json_encode($search);
 
