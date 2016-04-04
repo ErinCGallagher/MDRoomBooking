@@ -320,7 +320,8 @@
 		
 		//echo the json string
 		echo $json;
-	}catch(Exception $e){
+	}catch(Exception $e){ 
+	//catch transation error which is caught when 2 bookings are made at the same time
 		if (isset ($db)) {
 	       $db->rollback ();
 	    }
