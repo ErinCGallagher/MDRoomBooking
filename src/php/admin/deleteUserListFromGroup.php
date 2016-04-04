@@ -58,7 +58,7 @@
 			echo true;
 
 			//Close the connection
-			$db = NULL;
+			//$db = NULL;
 		} catch (Exception $e) { 
 			http_response_code(500); //Internal Server Error
 		    if (isset ($db)) {
@@ -66,7 +66,7 @@
 		       echo "Error:  " . $e; 
 		    }
 		    //Close the connection
-			$db = NULL;
+			//$db = NULL;
 		}
    }
 ?>
