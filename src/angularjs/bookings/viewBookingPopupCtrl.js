@@ -20,7 +20,7 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
   if(SharedVariableService.userType != "student" && SharedVariableService.userType != "nonbooking"){
     $scope.userName = booking.userName;
   }
-  if(SharedVariableService.userType == "admin"){
+  if(SharedVariableService.userType == "admin" || SharedVariableService.userType == "faculty"){
      $scope.userEmail = booking.userEmail;
   }
 
