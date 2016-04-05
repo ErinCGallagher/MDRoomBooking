@@ -224,11 +224,11 @@
 		$semester = currentSemester($currentDate);
 		$startDate = date('Y-m-d', strtotime($startDate));
 		$count = 0;
-		if ($semester = "Winter"){
+		if ($semester == "Winter"){
 			$endSem = date('Y-m-d', strtotime("April 30, " . date("Y")));
-		} else if ($semester = "Summer"){
+		} else if ($semester == "Summer"){
 			$endSem = date('Y-m-d', strtotime("August 31, " . date("Y")));
-		} else if ($semester = "Fall"){
+		} else if ($semester == "Fall"){
 			$endSem = date('Y-m-d', strtotime("December 31, " . date("Y")));
 		}
 		while ($startDate <= $endSem) {
