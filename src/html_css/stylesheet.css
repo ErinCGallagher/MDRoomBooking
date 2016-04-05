@@ -85,6 +85,28 @@
 
 }
 
+textarea.ng-invalid.ng-dirty {
+    border-color: #ff8080;
+    border-width:2px;
+}
+textarea.ng-invalid.ng-touched {
+    border-color: #ff8080;
+    border-width:2px;
+}
+
+input[type=text].ng-invalid.ng-dirty {
+    border-color: #ff8080;
+    border-width:2px;
+}
+input[type=text].ng-invalid.ng-touched {
+    border-color: #ff8080;
+    border-width:2px;
+}
+
+.help-block{
+	color:#ff4d4d !important;
+}
+
 /* box shadow on non active tabs*/
 .nav-tabs>li>a {
 	box-shadow: 0px -1px 3px #bfbfbf;

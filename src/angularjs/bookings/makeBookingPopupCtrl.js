@@ -16,6 +16,8 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.bookingDetails.date = dateTime.format("MMM D, YYYY");
   $scope.bookingDetails.startTime = dateTime.format("h:mm a");
   $scope.bookingDetails.description = "";
+  $scope.bookingDetails.performanceTitle = "";
+  $scope.bookingDetails.courseCode = "";
   $scope.bookingDetails.reccurBool = false;
   $scope.bookingDetails.userType = SharedVariableService.userType;
   
@@ -70,6 +72,15 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
       var endTimestamp = BookingsService.calclEndTime($scope.durations, "1.5 hour", dateTime);
       */
       $scope.endTime = endTimestamp.format("h:mm a");
+
+      //determine which reason was selected
+      if($scope.bookingDetails.selectedReason == "Performance"){
+        $scope.bookingDetails.description = $scope.bookingDetails.performanceTitle;
+      }
+      else if($scope.bookingDetails.selectedReason == "Course" || $scope.bookingDetails.selectedReason == "Coursework"){
+        $scope.bookingDetails.description = $scope.bookingDetails.courseCode;
+      }
+      //else it's description so do nothing
 
       var bookingInfo = {
           title: $scope.bookingDetails.selectedReason,
@@ -152,6 +163,18 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.cancel = function(){
     $scope.bookingDetails.cancelled = true;
     $uibModalInstance.dismiss('cancel');
+  }
+
+  $scope.$watch('bookingDetails.description', function() {
+        console.log(angular.isUndefined($scope.bookingDetails.description));
+    })
+
+  $scope.noError = function(){
+    if(angular.isUndefined($scope.bookingDetails.description) || $scope.bookingDetails.description.length > 150){
+      return true;
+    }else{
+      return false;
+    }
   }
 
    /* Date Picker */

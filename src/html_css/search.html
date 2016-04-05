@@ -73,6 +73,7 @@
    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
    </div>
 
+    
     <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
@@ -81,9 +82,9 @@
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
                     <div class="modal-title">
-                        <uib-tabset active="active" justified="true">
-                            <uib-tab index="0" heading="Book Room">
-                                 <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" >
+                    <uib-tabset active="active" justified="true">
+                  <uib-tab index="0" heading="Book Room">
+                       <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" novalidate>
                                     <div class="modal-body">
                                         <div class="book-room-info">
                                             <p><strong>Building:</strong> {{bookingDetails.building}}</p>
@@ -117,33 +118,39 @@
                                             <strong>Reason</strong>
                                             <select ng-model="bookingDetails.selectedReason" ng-options="reason as reason for reason in bookingDetails.reasons" class="dropdrown"></select>
                                         </p>
-                                        <div ng-show="bookingDetails.selectedReason=='Other'">
+                                        <div ng-show="bookingDetails.selectedReason=='Other'" class="form-group">
                                             <Strong>Description: </Strong>
-                                            <textarea 
-                                                name="description" 
+                                            <textarea
                                                 ng-model="bookingDetails.description" 
-                                                ng-maxlength="150" 
-                                                ng-required="bookingDetails.selectedReason=='Other'"></textarea>
-                                            <p ng-show="makeBookingForm.bookingDetails.description.$invalid && !makeBookingForm.bookingDetails.description.$pristine"> A description is required</p>
+                                                name="description"
+                                                ng-maxlength="21" 
+                                                ng-required="bookingDetails.selectedReason =='Other'"
+                                                class="form-control dropdrown"></textarea>
+                                                <p ng-show="makeBookingForm.description.$error.maxlength" class="help-block">You cannot exceed 150 characters in this field</p>
+                                                <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength" class="help-block">Please provide a description for your booking</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Performance'">
                                             <Strong>Performance Title: </Strong>
                                             <textarea 
-                                                name="description" 
-                                                ng-model="bookingDetails.description" 
+                                                name="performanceTitle" 
+                                                ng-model="bookingDetails.performanceTitle" 
                                                 ng-maxlength="200" 
-                                                ng-required="bookingDetails.selectedReason=='Performance'"></textarea>
-                                            <p ng-show="makeBookingForm.bookingDetails.description.$invalid && !makeBookingForm.bookingDetails.description.$pristine"> A description is required</p>
+                                                ng-required="bookingDetails.selectedReason=='Performance'"
+                                                class="form-control dropdrown"></textarea>
+                                                <p ng-show="makeBookingForm.performanceTitle.$error.maxlength" class="help-block">You cannot exceed 200 characters in this field</p>
+                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && !makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength" class="help-block">A Performance title is required</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'">
                                             <Strong>Course Code: </Strong>
-                                            <textarea 
+                                            <input type="text"
                                                 rows ="1" 
                                                 name="courseCode" 
-                                                ng-model="bookingDetails.description" 
+                                                ng-model="bookingDetails.courseCode" 
                                                 ng-maxlength="20" 
-                                                ng-required="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'"></textarea>
-                                            <p ng-show=" (makeBookingForm.$submitted) || (makeBookingForm.bookingDetails.courseCode.$invalid && !makeBookingForm.bookingDetails.courseCode.$pristine)"> A course code is required</p>
+                                                ng-required="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'"
+                                                class="dropdrown">
+                                                <p ng-show="makeBookingForm.courseCode.$error.maxlength" class="help-block">You cannot exceed 20 characters in this field</p>
+                                                <p ng-show="makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength" class="help-block">A course code is required</p>
                                         </div>
                                         <div class="box" ng-show="bookingDetails.userType !='student'">
                                             <div>
@@ -179,27 +186,27 @@
                                         <button type="submit" class="btn submit-style">Book Room</button>
                                     </div>
                                 </form>
-                             
-                             </uib-tab>
+                   
+                       </uib-tab>
                     
-                             <uib-tab index="1" heading="Room Information">
+                     <uib-tab index="1" heading="Room Information">
 
-                                 <div class="modal-body">
-                                    <p><strong>Building: </strong>{{infoBuilding}}</p>
-                                    <p><strong>Room #: </strong>{{roomID}}</p>
-                                    <p><strong>Capacity: </strong>{{capacity}}</p>
-                                    <p><strong>Fee: </strong>{{fee}}</p>
-                                    <p><strong>Requires Key: </strong>{{reqKey}}</p>
-                                    <p><strong>Room Setup: </strong>{{setup}}</p>
-                                    <p><strong>Contents: </strong>{{contents}}</p>
-                                    <p><strong>Open Time: </strong>{{openTime}}  <strong>Close Time: </strong>{{closeTime}}</p>
-                              
-                                 </div> 
-                                 
-                                 <div class="modal-footer">
-                                    <button class="btn submit-style" ng-click="cancel()">Exit</button>
-                                 </div>
-                            </uib-tab>   
+                       <div class="modal-body">
+                        <p><strong>Building: </strong>{{infoBuilding}}</p>
+                        <p><strong>Room #: </strong>{{roomID}}</p>
+                          <p><strong>Capacity: </strong>{{capacity}}</p>
+                          <p><strong>Fee: </strong>{{fee}}</p>
+                          <p><strong>Requires Key: </strong>{{reqKey}}</p>
+                          <p><strong>Room Setup: </strong>{{setup}}</p>
+                          <p><strong>Contents: </strong>{{contents}}</p>
+                          <p><strong>Open Time: </strong>{{openTime}}  <strong>Close Time: </strong>{{closeTime}}</p>
+                      
+                       </div> 
+                       
+                       <div class="modal-footer">
+                          <button class="btn submit-style" ng-click="cancel()">Exit</button>
+                       </div>
+                    </uib-tab>   
                         </uib-tabset>
                     </div>
                 </div>
@@ -275,6 +282,9 @@
                             <p><strong>Reason:</strong> {{reason}}</p>
                             <div ng-show="reason=='Other'">
                                 <p><Strong>Description: </Strong> {{description}}</p>
+                            </div>
+                            <div ng-show="reason=='Performance'">
+                                <p><Strong>Performance Title: </Strong> {{description}}</p>
                             </div>
                             <div ng-show="reason=='Course' || reason=='Coursework'">
                                 <p><Strong>Course Code: </Strong> {{description}}</p>
