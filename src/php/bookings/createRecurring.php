@@ -88,8 +88,12 @@
 			} else if ($class == "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
 				$result['msg'] = "Faculty may only make bookings in the current semester.";
 				http_response_code(406); //Invalid Entry
-			} else if ($class == "Admin") {
+			} else if ($class == "Admin" && $totalWeeks < 53) {
 				$canBook = True;
+			}else if ($class == "Admin" && $totalWeeks > 52) {
+				$canBook = False;
+				$result['msg'] = "Faculty may only make bookings 52 weeks in advance";
+				http_response_code(406); //Invalid Entry
 			} else {
 				$canBook = False;
 				http_response_code(406); //Invalid Entry
