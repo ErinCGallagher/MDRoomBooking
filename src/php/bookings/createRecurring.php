@@ -42,6 +42,8 @@
 	$closeTime = date('H:i:s', $closeTime);
 	
 	$result = array();
+
+	//don't need a transaction here because we handle conflicting bookings
 	
 	if($_SESSION["class"] == "NonBooking" || $_SESSION["class"] == "Student"){
 		http_response_code(403); //Invalid User
@@ -52,7 +54,7 @@
 		$result['msg'] = "The number of people provided is not valid.";
 		http_response_code(403); //Invalid Entry
 	} else if (!array_key_exists($building, $allBuildings)) {
-		$result['msg'] = "Yhe building provided is not valid.";
+		$result['msg'] = "The building provided is not valid.";
 		http_response_code(403); //Invalid Entry (building)
 	} else if (!in_array($room, $_SESSION["buildings"][$building]['rooms'])) {
 		$result['msg'] = "The room provided is not valid.";
@@ -86,8 +88,12 @@
 			} else if ($class == "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
 				$result['msg'] = "Faculty may only make bookings in the current semester.";
 				http_response_code(406); //Invalid Entry
-			} else if ($class == "Admin") {
+			} else if ($class == "Admin" && $totalWeeks < 53) {
 				$canBook = True;
+			}else if ($class == "Admin" && $totalWeeks > 52) {
+				$canBook = False;
+				$result['msg'] = "Faculty may only make bookings 52 weeks in advance";
+				http_response_code(406); //Invalid Entry
 			} else {
 				$canBook = False;
 				http_response_code(406); //Invalid Entry
@@ -128,27 +134,42 @@
 				//create first booking of total
 				$recurringID = -1;
 				$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
-				
-				$sth = $db->prepare("UPDATE BookingSlots SET recurringID = ? WHERE bookingID = ?");
-				$sth->execute(array($bookingID, $bookingID));
-				
-				$recurringID = $bookingID;
-				$created = 1;
-				//echo "<br> created = $created, total = $totalWeeks<br>";
-				while ($created <= $totalWeeks-1) {
-					$startDate = strtotime('+1 weeks', strtotime($startDate));
-					$startDate = date('Y-m-d', $startDate);
-					createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
-					$created = $created + 1;
+
+				//confirm the first booking was successful
+				$sth2 = $db->prepare("SELECT * FROM Bookings WHERE bookingID = ?");
+				$sth2->execute(array($bookingID));
+				$firstSuccessful = false;
+				while($row = $sth2->fetch(PDO::FETCH_ASSOC)) {
+					$firstSuccessful = true;
 				}
-				$result['success'] = $datesCreated;
-				$result['failed'] = $datesFailed;
-				$result['bookingID'] = $recurringID;
-				recurringConf($room, $building, $startTime, $endTime, $reason, $desc, $numP, $db, $datesCreated);
+				if(!$firstSuccessful){
+					$result['msg'] = "Your booking could not be completed because the original booking conflicted with another booking. Please refresh the browser and retry.";
+					http_response_code(406); //Invalid Entry
+				}
+				else{
+				
+					$sth = $db->prepare("UPDATE BookingSlots SET recurringID = ? WHERE bookingID = ?");
+					$sth->execute(array($bookingID, $bookingID));
+					
+					$recurringID = $bookingID;
+					$created = 1;
+					//echo "<br> created = $created, total = $totalWeeks<br>";
+					while ($created <= $totalWeeks-1) {
+						$startDate = strtotime('+1 weeks', strtotime($startDate));
+						$startDate = date('Y-m-d', $startDate);
+						createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class, $recurringID);
+						$created = $created + 1;
+					}
+					$result['success'] = $datesCreated;
+					$result['failed'] = $datesFailed;
+					$result['bookingID'] = $recurringID;
+					recurringConf($room, $building, $startTime, $endTime, $reason, $desc, $numP, $db, $datesCreated);
+				}
 			}
 		}
 	
 	}
+
 	//Close the connection
 	$db = NULL;
 	//Convert to json
@@ -156,6 +177,7 @@
 	
 	//echo the json string
 	echo $json;
+	
 
 
 	//after determining the user has the hours to make a booking, insert the booking into the database

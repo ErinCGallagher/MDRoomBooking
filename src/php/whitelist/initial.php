@@ -10,7 +10,7 @@ include('checkBooking.php');
 
 
 //for testin1ecg5urposes only, use above otherwise
-$user = "11ecg5"; //check rb_sample.php for users to input here for testing
+$user = "gd9"; //check rb_sample.php for users to input here for testing
 
 
 $firstName = " ";
@@ -18,15 +18,17 @@ $lastName = " ";
 
 $canBook = False; //nonbooking users are the only users who can't book rooms
 $department = 'Music'; //default department is Music
-$sth = $db->prepare("SELECT * FROM Master WHERE uID = ?");
+$sth = $db->prepare("SELECT department FROM Master WHERE uID = ?");
 $sth->execute(array($user));
+$departmentStr = "";
 //Loop through each returned row 
 while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	//if a user is found in the database then they can book a room
 	$canBook = True;
 	//determine user department (music or drama)
-	$department = $row['department'];
+	$departmentStr .= " ". $row["department"];
 }
+$department = $departmentStr;
 
 
 if ($canBook) {

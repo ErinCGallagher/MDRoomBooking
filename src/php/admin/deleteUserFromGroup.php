@@ -9,6 +9,8 @@
 	$groupID = $data->groupID;
 
 	deleteUserListFromGroup($groupID, array($uID));
+	//Close the connection
+	$db = NULL;
    
 ?>
 

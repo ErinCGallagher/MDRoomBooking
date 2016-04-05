@@ -147,12 +147,18 @@
 		$json = json_encode($result);
 		// echo the json string
 		echo $json;
+		//Close the connection
+		$db = NULL;
 	} catch (Exception $e) { 
 		http_response_code(500); //Internal Server Error
 	    if (isset ($db)) {
 	       $db->rollback ();
 	       echo "Error:  " . $e; 
 	    }
+	    //Close the connection
+		$db = NULL;
 	}
+
+	
 
 ?>

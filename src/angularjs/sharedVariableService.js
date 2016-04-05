@@ -13,6 +13,7 @@ function SharedVariableService($q, CommService){
 	sharedVariableService.netID = "11ecg5";
 	sharedVariableService.name = "Erin Gallagher";
 	sharedVariableService.defaultBuilding = "Harrison LeCaine Hall - Upper";
+	sharedVariableService.department = "Music";
 	sharedVariableService.initialLoadComplete = false;
 	sharedVariableService.reasonList = [];
 	sharedVariableService.numPeopleList = [];
@@ -40,6 +41,8 @@ function SharedVariableService($q, CommService){
 				for (var key in response.numPeopleList) {
 					sharedVariableService.numPeopleList.push(response.numPeopleList[key]);
 				}
+
+				sharedVariableService.department = response.department.toLowerCase();
 
 				if(response.department.toLowerCase() == "drama"){
 					sharedVariableService.defaultBuilding = "Theological Hall";

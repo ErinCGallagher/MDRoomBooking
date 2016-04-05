@@ -1,3 +1,9 @@
+.loading-text{
+    color: #668f99;
+    padding-top: 260px;
+    text-align: center;
+}
+
 .navbar-default{
 	margin-right: auto;
     margin-left: auto;
@@ -83,6 +89,28 @@
 .cancel-button{
 	padding: 5px 10px !important;
 
+}
+
+textarea.ng-invalid.ng-dirty {
+    border-color: #ff8080;
+    border-width:2px;
+}
+textarea.ng-invalid.ng-touched {
+    border-color: #ff8080;
+    border-width:2px;
+}
+
+input[type=text].ng-invalid.ng-dirty {
+    border-color: #ff8080;
+    border-width:2px;
+}
+input[type=text].ng-invalid.ng-touched {
+    border-color: #ff8080;
+    border-width:2px;
+}
+
+.help-block{
+	color:#ff4d4d !important;
 }
 
 /* box shadow on non active tabs*/

@@ -56,12 +56,17 @@
 
 			// don't need to encode value
 			echo true;
+
+			//Close the connection
+			//$db = NULL;
 		} catch (Exception $e) { 
 			http_response_code(500); //Internal Server Error
 		    if (isset ($db)) {
 		       $db->rollback ();
 		       echo "Error:  " . $e; 
 		    }
+		    //Close the connection
+			//$db = NULL;
 		}
    }
 ?>

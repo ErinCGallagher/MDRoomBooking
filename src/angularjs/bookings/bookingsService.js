@@ -327,10 +327,9 @@ function BookingsService(CommService, $q, SharedVariableService){
 		var startSemesterSummer = new Date(semesterTwoYear,04,01); //May 1st
 		var endSemesterSummer = new Date(semesterTwoYear,07,31); //August 31st
 
-		//can book reccuring booking over the entire year
+		//can book reccuring booking for 1 year from today
 		if(SharedVariableService.userType == "admin"){
-			var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterSummer.getTime())/oneDay);
-			var numWeeks = Math.floor(numDaysBetween/7);
+			var numWeeks = 52;
 
 		}
 		else{//if faculty, can book reccuring booking for the current semester

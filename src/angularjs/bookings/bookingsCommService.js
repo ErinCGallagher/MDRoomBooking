@@ -154,7 +154,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 				formattedDailyBookings[i].userName = dailyBookings[i].firstName + " " + dailyBookings[i].lastName;
 				formattedDailyBookings[i].bookingUserType = dailyBookings[i].hrsSource.toLowerCase();
 			}
-			if(userType == "admin"){ //email
+			if(userType == "admin" || userType == "faculty"){ //email
 				formattedDailyBookings[i].userEmail = dailyBookings[i].uID + "@queensu.ca";
 			}
 		}

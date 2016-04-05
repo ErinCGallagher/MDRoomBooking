@@ -92,8 +92,10 @@ function CalendarCtrl($scope, $uibModal,$compile, $log, $location, uiCalendarCon
     }
     else{
       //non-booking user
-      alert = { type: 'warning', msg: "You may not book rooms because you do not have room booking permissions"};
-      $scope.alerts.push(alert);
+      alert = { type: 'warning', msg: "You may not book rooms because you do not have room booking permissions. Please contact a Drama or Music Administrator for assistance."};
+      if($scope.alerts.length == 0){
+        $scope.alerts.push(alert);
+      }
     }
   }
 

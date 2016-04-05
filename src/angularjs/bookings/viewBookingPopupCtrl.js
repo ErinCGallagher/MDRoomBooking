@@ -19,9 +19,15 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
 
   if(SharedVariableService.userType != "student" && SharedVariableService.userType != "nonbooking"){
     $scope.userName = booking.userName;
+    if($scope.userName == "null"){
+      $scope.userName = "User was removed from the system"
+    }
   }
-  if(SharedVariableService.userType == "admin"){
+  if(SharedVariableService.userType == "admin" || SharedVariableService.userType == "faculty"){
      $scope.userEmail = booking.userEmail;
+     if($scope.userEmail == "null"){
+      $scope.userEmail = "User was removed from the system"
+    }
   }
 
   

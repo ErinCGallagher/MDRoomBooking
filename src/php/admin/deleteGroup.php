@@ -24,10 +24,13 @@
 		$db->beginTransaction();
 
 		//remove group from Ugroups
-		$deleteQuery = "DELETE FROM Ugroups WHERE groupID = ?";
+		$deleteQuery = "DELETE FROM UGroups WHERE groupID = ?";
 		$deleteStmt = runQuery($db, $deleteQuery, array($groupID));
 
 		$db->commit();
+
+		//Close the connection
+		$db = NULL;
 
 	} catch (Exception $e) { 
 		http_response_code(500); //Internal Server Error
@@ -35,6 +38,9 @@
 	       $db->rollback ();
 	       echo "Error:  " . $e; 
 	    }
+
+	    //Close the connection
+		$db = NULL;
 	}
    
 ?>

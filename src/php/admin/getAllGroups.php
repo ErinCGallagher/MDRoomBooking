@@ -9,6 +9,9 @@
 	  $result[] = $row;
 	}
 
+	//Close the connection
+	$db = NULL;
+
 	//Convert to json
 	$json = json_encode($result);
 	// echo the json string
