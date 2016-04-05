@@ -35,7 +35,7 @@
 	function downloadFile($department) {
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
 		header("Content-type: application/octet-stream"); 
-		header("Content-Disposition: attachment; filename='user_list_".$department.".csv'");
+		header("Content-Disposition: attachment; filename=\"user_list_".$department.".csv\"");
 		header("Content-Length: ".filesize('../../../user_list_'.$department.'.csv'));
 
 		readfile('../../../user_list_'.$department.'.csv');
