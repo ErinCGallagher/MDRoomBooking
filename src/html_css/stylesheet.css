@@ -1,3 +1,9 @@
+.loading-text{
+    color: #668f99;
+    padding-top: 260px;
+    text-align: center;
+}
+
 .navbar-default{
 	margin-right: auto;
     margin-left: auto;
