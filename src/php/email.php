@@ -185,8 +185,3 @@ function getAdmins(){
 
 
 ?>
-
-If you are booking a room in Harrison-LeCaine Hall that requires a key, please come to the Main Office during the following times for key pick up
-8:30 am-9:30 am (except Fridays)
-11:00 am - 12:00 noon
-2:30 pm - 3:30 pm
