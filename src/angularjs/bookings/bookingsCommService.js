@@ -247,14 +247,14 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		var formattedDailyBookings = [];
 
 		for(var i = 0; i<dailyBookings.length;i++){
+			var startTime = dailyBookings[i].bookingDate + "T" + dailyBookings[i].startTime;
+			var endTime = dailyBookings[i].bookingDate + "T" + dailyBookings[i].endTime;
 
-			var startTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].startTime;
-			var endTime = dailyBookings[i].bookingDate + " " + dailyBookings[i].endTime;
 
 			formattedDailyBookings[i] =  
 			{reason:dailyBookings[i].reason, 
-			 start:new Date(startTime),
-			 end:new Date(endTime),
+			 start:startTime,
+			 end:endTime,
 			 date:dailyBookings[i].bookingDate,
 			 bookingID:dailyBookings[i].bookingID, 
 			 building: dailyBookings[i].building, 
