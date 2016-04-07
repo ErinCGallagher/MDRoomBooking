@@ -113,6 +113,15 @@ input[type=text].ng-invalid.ng-touched {
     border-color: #ff8080;
     border-width:2px;
 }
+
+input[type=number].ng-invalid.ng-dirty {
+    border-color: #ff8080;
+    border-width:2px;
+}
+input[type=number].ng-invalid.ng-touched {
+    border-color: #ff8080;
+    border-width:2px;
+}
 .ng-submitted input.ng-invalid{
 	border-color: #ff8080;
     border-width:2px;

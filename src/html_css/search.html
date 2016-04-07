@@ -74,7 +74,7 @@
    </div>
 
     
-        <!-- Make Booking Popup Template -->
+    <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
             <!-- Modal content-->
@@ -123,22 +123,24 @@
                                             <textarea
                                                 ng-model="bookingDetails.description" 
                                                 name="description"
-                                                ng-maxlength="21" 
+                                                ng-maxlength="100" 
                                                 ng-required="bookingDetails.selectedReason =='Other'"
                                                 class="form-control dropdrown"></textarea>
                                                 <p ng-show="makeBookingForm.description.$error.maxlength" class="help-block">You cannot exceed 150 characters in this field</p>
                                                 <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength" class="help-block">Please provide a description for your booking</p>
+                                                 <p ng-show="makeBookingForm.description.$invalid && makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength && bookingDetails.submitted" class="help-block">Please provide a description for your booking</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Performance'">
                                             <Strong>Performance Title: </Strong>
                                             <textarea 
                                                 name="performanceTitle" 
                                                 ng-model="bookingDetails.performanceTitle" 
-                                                ng-maxlength="200" 
+                                                ng-maxlength="100" 
                                                 ng-required="bookingDetails.selectedReason=='Performance'"
                                                 class="form-control dropdrown"></textarea>
                                                 <p ng-show="makeBookingForm.performanceTitle.$error.maxlength" class="help-block">You cannot exceed 200 characters in this field</p>
                                                 <p ng-show="makeBookingForm.performanceTitle.$invalid && !makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength" class="help-block">A Performance title is required</p>
+                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength && bookingDetails.submitted" class="help-block">A Performance title is required</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'">
                                             <Strong>Course Code: </Strong>
@@ -151,6 +153,7 @@
                                                 class="dropdrown">
                                                 <p ng-show="makeBookingForm.courseCode.$error.maxlength" class="help-block">You cannot exceed 20 characters in this field</p>
                                                 <p ng-show="makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength" class="help-block">A course code is required</p>
+                                                <p ng-show="makeBookingForm.courseCode.$invalid && makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength && bookingDetails.submitted" class="help-block">A course code is required</p>
                                         </div>
                                         <div class="box" ng-show="bookingDetails.userType !='student'">
                                             <div>
@@ -162,7 +165,7 @@
                                                 ng-model="bookingDetails.reccurBool"
                                               > 
                                             </div>
-                                            <div>
+                                            <div ng-show="bookingDetails.reccurBool">
                                                 <Strong> Number of Weeks: </Strong>
                                               <input
                                                 type="number"
@@ -175,8 +178,11 @@
                                               > 
                                               <span ng-show="bookingDetails.userType == 'faculty'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make. You may make recurring bookings for the current semester"><img src="info-icon.png" class="info-i"></span>
                                               <span ng-show="bookingDetails.userType == 'admin'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make. You may create reccuring bookings for the entire academic year"><img src="info-icon.png" class="info-i"></span>
-                                              <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
-                                              <p ng-show=" (bookingDetails.numWeeks < 2) && (bookingDetails.reccurBool == true)"> The number of weeks must exceed 1</p>
+                                              <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)" class="help-block"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$error.min" class="help-block"> The number of weeks must exceed 1</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$invalid && makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$invalid && !makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$error.number" class="help-block">not a valid number</p>
                                             </div>
                                         </div>
                                     

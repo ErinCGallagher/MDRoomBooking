@@ -145,15 +145,16 @@
                                                 ng-model="bookingDetails.numWeeks"
                                                 ng-required="bookingDetails.reccurBool == true"
                                                 max="bookingDetails.maxReccur"
-                                                ng-minlength="2"
+                                                min="2"
                                                 class="dropdrown"
                                               > 
                                               <span ng-show="bookingDetails.userType == 'faculty'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make. You may make recurring bookings for the current semester"><img src="info-icon.png" class="info-i"></span>
                                               <span ng-show="bookingDetails.userType == 'admin'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make. You may create reccuring bookings for the entire academic year"><img src="info-icon.png" class="info-i"></span>
                                               <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)" class="help-block"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$error.minlength" class="help-block"> The number of weeks must exceed 1</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$invalid && makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.minlength && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$invalid && !makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.minlength && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$error.min" class="help-block"> The number of weeks must exceed 1</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$invalid && makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$invalid && !makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$error.number" class="help-block">not a valid number</p>
                                             </div>
                                         </div>
                                     
