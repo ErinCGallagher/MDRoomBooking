@@ -78,6 +78,8 @@ function bookingConf($room, $building, $startDate, $startTime, $endTime, $reason
 	} elseif ($reason == "Coursework" || $reason == "Course") {
 		$msg .= "\nCourse Code: $desc"; 
 	}
+
+
 	$msg2 .= $msg;
 	sendEmail($to, "Booking Confirmation", $msg2);
 	
@@ -163,6 +165,12 @@ function otherBooking($msg, $name, $email) {
 
 function sendEmail($to, $subject, $msg) {
 	if(array_key_exists('HTTP_QUEENSU_NETID', $_SERVER)){
+
+		$msg .= "\n\nIf you are booking a room in Harrison-LeCaine Hall that requires a key, please come to the Main Office during the following times for key pick up";
+		$msg .= "\n8:30 am-9:30 am (except Fridays)";
+		$msg .= "\n11:00 am - 12:00 noon";
+		$msg .= "\n2:30 pm - 3:30 pm";
+
 		$msg .= "\n\nThis is an automatically generated notification. Please do not reply. For any questions or concerns, contact the School of Drama and Music administration.";
 		// use wordwrap() if lines are longer than 70 characters
 		$msg = wordwrap($msg,70);
@@ -177,3 +185,8 @@ function getAdmins(){
 
 
 ?>
+
+If you are booking a room in Harrison-LeCaine Hall that requires a key, please come to the Main Office during the following times for key pick up
+8:30 am-9:30 am (except Fridays)
+11:00 am - 12:00 noon
+2:30 pm - 3:30 pm

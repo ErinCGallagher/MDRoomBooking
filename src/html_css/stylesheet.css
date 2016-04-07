@@ -64,6 +64,9 @@
 
 .confirmation-error{
 	color:red;
+	font-size: 17px;
+    width: 95%;
+
 }
 
 .fully-transparent{
@@ -134,6 +137,8 @@ input[type=number].ng-invalid.ng-touched {
 td.fc-widget-content{
 	cursor:pointer;
 }
+
+
 
 .modal-body.information-header td{
 	padding: 3px 6px;
