@@ -293,6 +293,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		return q.promise;
 	}
 
+	//determine the current semester and provide a max number of reccuring bookings
+	//note january is 00, feb is 01 etc..
 	bookingsService.determineMaxReccuringWeeks = function(reccuringStartDate){
 
 		var oneDay = 24*60*60*1000
@@ -309,7 +311,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		}
 		//if the current Month is between January & April Inclusive
 		//it's second semester 
-		else if(currentDate.getMonth() >= 0 && currentDate.getMonth() <= 3){
+		else if(currentDate.getMonth() >= 0 && currentDate.getMonth() <= 2){
 			semesterTwoYear = currentDate.getFullYear(); //currently in smester 2
 			currentSemester = "winter";
 		}
@@ -323,8 +325,8 @@ function BookingsService(CommService, $q, SharedVariableService){
 		var startSemesterOne = new Date(currentDate.getFullYear(),08,01); //Sept 1st
 		var endSemesterOne = new Date(currentDate.getFullYear(),11,31); //December 31st
 		var startSemesterTwo = new Date(semesterTwoYear,00,01); //Jan 1st
-		var endSemesterTwo = new Date(semesterTwoYear,03,31); //April 31st
-		var startSemesterSummer = new Date(semesterTwoYear,04,01); //May 1st
+		var endSemesterTwo = new Date(semesterTwoYear,02,31); //April 31st
+		var startSemesterSummer = new Date(semesterTwoYear,03,01); //May 1st
 		var endSemesterSummer = new Date(semesterTwoYear,07,31); //August 31st
 
 		//can book reccuring booking for 1 year from today
@@ -337,11 +339,12 @@ function BookingsService(CommService, $q, SharedVariableService){
 				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterOne.getTime())/oneDay);
 				var numWeeks = Math.floor(numDaysBetween/7);
 			}
-			else if(currentSemester = "winter"){
+			else if(currentSemester == "winter"){
 				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterTwo.getTime())/oneDay);
 				var numWeeks = Math.floor(numDaysBetween/7);
 			}
 			else{ //currentSemester == "summer"
+				console.log("summer");
 				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterSummer.getTime())/oneDay);
 				var numWeeks = Math.floor(numDaysBetween/7);
 			}
