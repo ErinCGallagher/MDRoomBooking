@@ -178,6 +178,19 @@ td.fc-widget-content{
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 
+.col-xs-12{
+	padding:0px !important;
+	margin: 0 0 10px;
+}
+
+.col-sm-6.col-xs-12{
+	padding:0px !important;
+}
+
+.date-column.end-date{
+	margin-top: 40px;
+}
+
 /* All Buttons */
 button.submit-style {
 	display: inline-block;
@@ -247,3 +260,17 @@ button.submit-style.small {
 	    margin-top:20px;
 	}
 }
+
+ /* ----------- iPhone 5 and 5S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+ 	.date-column.end-date{
+		margin-top: 0px;
+	} 	
+}
+
+

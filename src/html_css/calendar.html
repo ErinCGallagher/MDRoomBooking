@@ -61,14 +61,14 @@
                                         <div class="book-room-info">
                                             <p><strong>Building:</strong> {{bookingDetails.building}}</p>
                                             <p><strong>Room #:</strong> {{bookingDetails.roomNum}}</p>
-                                            <table>
-                                                <tr>
-                                                    <td class="date-column"><strong>Start Date:</strong> {{bookingDetails.date}}</td>
-                                                    <td class="date-column"><strong>Start Time:</strong> {{bookingDetails.startTime}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="date-column"><strong>End Date:</strong> {{bookingDetails.date}}</td>
-                                                    <td class="end-time date-column"><div><strong>End Time: </strong></div>
+                                            <div>
+                                                <div class="col-xs-12">
+                                                    <div class="date-column col-sm-6 col-xs-12"><strong>Start Date:</strong> {{bookingDetails.date}}</div>
+                                                    <div class="date-column col-sm-6 col-xs-12"><strong>Start Time:</strong> {{bookingDetails.startTime}}</div>
+                                                </div>
+                                                <div class="col-xs-12">
+                                                    <div class="date-column col-sm-6 col-xs-12 end-date"><strong>End Date:</strong> {{bookingDetails.date}}</div>
+                                                    <div class="end-time date-column col-sm-6 col-xs-12"><div><strong>End Time: </strong></div>
                                                     <div><uib-timepicker 
                                                         ng-model="timeInfo.myTime" 
                                                         ng-change="changed()" 
@@ -78,9 +78,9 @@
                                                         show-meridian="ismeridian" 
                                                         max='maxTime' 
                                                         min='minTime' ></uib-timepicker></div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <p>
                                             <strong>Number of People: </strong>
