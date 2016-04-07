@@ -122,6 +122,20 @@ input[type=text].ng-invalid.ng-touched {
 	color:#ff4d4d !important;
 }
 
+td.fc-widget-content{
+	cursor:pointer;
+}
+
+.modal-body.information-header td{
+	padding: 3px 6px;
+}
+
+..nav-tabs.nav-justified {
+    width: 93%;
+    border-bottom: 0;
+}
+
+
 /* box shadow on non active tabs*/
 .nav-tabs>li>a {
 	box-shadow: 0px -1px 3px #bfbfbf;

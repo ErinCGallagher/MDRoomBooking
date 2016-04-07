@@ -49,14 +49,16 @@
 }
 
 .calendar .previous-date-button, .calendar .next-date-button{
-	color: #666 !important;
-    background-color: #eee;
+	color: #333 !important;
+    background-color: #fff;
+    border-color: #ccc;
+    padding-right: 2px;
     font-size: 23px !important;
     padding: 0px 0px;
-    border-radius: 5px;
+    border-radius: 4px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,0,0,0.2);
     border-bottom-width: 2px;
     width: 36px;
 }

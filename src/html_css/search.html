@@ -74,7 +74,7 @@
    </div>
 
     
-    <!-- Make Booking Popup Template -->
+        <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
             <!-- Modal content-->
@@ -191,16 +191,17 @@
                     
                      <uib-tab index="1" heading="Room Information">
 
-                       <div class="modal-body">
-                        <p><strong>Building: </strong>{{infoBuilding}}</p>
-                        <p><strong>Room #: </strong>{{roomID}}</p>
-                          <p><strong>Capacity: </strong>{{capacity}}</p>
-                          <p><strong>Fee: </strong>{{fee}}</p>
-                          <p><strong>Requires Key: </strong>{{reqKey}}</p>
-                          <p><strong>Room Setup: </strong>{{setup}}</p>
-                          <p><strong>Contents: </strong>{{contents}}</p>
-                          <p><strong>Open Time: </strong>{{openTime}}  <strong>Close Time: </strong>{{closeTime}}</p>
-                      
+                       <div class="modal-body information-header">
+                                     <table>
+                              <tr><td><strong>Building: </strong></td><td>{{infoBuilding}}</td></tr>
+                              <tr><td><strong>Room #: </strong></td><td>{{roomID}}</td></tr>
+                              <tr><td><strong>Capacity: </strong></td><td>{{capacity}}</td></tr>
+                                <tr><td><strong>Fee: </strong></td><td>{{fee}}</td></tr>
+                                <tr><td><strong>Requires Key: </strong></td><td>{{reqKey}}</td></tr>
+                                <tr><td><strong>Room Setup: </strong></td><td>{{setup}}</td></tr>
+                                <tr><td><strong>Contents: </strong></td><td>{{contents}}</td></tr>
+                                <tr><td><strong>Building Hours: </strong></td><td>{{openTime}}  <strong> - </strong>{{closeTime}}</td></tr>
+                            </table>
                        </div> 
                        
                        <div class="modal-footer">
