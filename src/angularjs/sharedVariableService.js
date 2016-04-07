@@ -44,7 +44,7 @@ function SharedVariableService($q, CommService){
 
 				sharedVariableService.department = response.department.toLowerCase();
 
-				if(response.department.toLowerCase() == "drama"){
+				if(response.department.toLowerCase().trim() == "drama"){
 					sharedVariableService.defaultBuilding = "Theological Hall";
 				}
 				
