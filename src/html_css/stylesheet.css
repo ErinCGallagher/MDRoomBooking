@@ -130,9 +130,13 @@ td.fc-widget-content{
 	padding: 3px 6px;
 }
 
-..nav-tabs.nav-justified {
-    width: 93%;
+.nav-tabs.nav-justified {
+    width: 93% !important;
     border-bottom: 0;
+}
+
+.textarea.form-control{
+	max-width:100%;
 }
 
 

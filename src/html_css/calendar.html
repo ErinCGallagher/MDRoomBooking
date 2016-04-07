@@ -100,6 +100,7 @@
                                                 class="form-control dropdrown"></textarea>
                                                 <p ng-show="makeBookingForm.description.$error.maxlength" class="help-block">You cannot exceed 150 characters in this field</p>
                                                 <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength" class="help-block">Please provide a description for your booking</p>
+                                                 <p ng-show="makeBookingForm.description.$invalid && makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength && bookingDetails.submitted" class="help-block">Please provide a description for your booking</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Performance'">
                                             <Strong>Performance Title: </Strong>
@@ -111,6 +112,7 @@
                                                 class="form-control dropdrown"></textarea>
                                                 <p ng-show="makeBookingForm.performanceTitle.$error.maxlength" class="help-block">You cannot exceed 200 characters in this field</p>
                                                 <p ng-show="makeBookingForm.performanceTitle.$invalid && !makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength" class="help-block">A Performance title is required</p>
+                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength && bookingDetails.submitted" class="help-block">A Performance title is required</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'">
                                             <Strong>Course Code: </Strong>
@@ -123,6 +125,7 @@
                                                 class="dropdrown">
                                                 <p ng-show="makeBookingForm.courseCode.$error.maxlength" class="help-block">You cannot exceed 20 characters in this field</p>
                                                 <p ng-show="makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength" class="help-block">A course code is required</p>
+                                                <p ng-show="makeBookingForm.courseCode.$invalid && makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength && bookingDetails.submitted" class="help-block">A course code is required</p>
                                         </div>
                                         <div class="box" ng-show="bookingDetails.userType !='student'">
                                             <div>

@@ -20,6 +20,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   $scope.bookingDetails.courseCode = "";
   $scope.bookingDetails.reccurBool = false;
   $scope.bookingDetails.userType = SharedVariableService.userType;
+  $scope.bookingDetails.submitted = false;
   
   $scope.bookingDetails.cancelled = false; //informs if the user cancelled out of the popup
   loadRoomInfo = function(){
@@ -57,6 +58,7 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
   
   //submit the booking to the database and notify user if successfully booked
   $scope.submitBooking = function (validForm) {
+    $scope.bookingDetails.submitted = true;
 
     //confirm the form is valid before preceeding to try and make the booking
     if(validForm && !$scope.bookingDetails.cancelled && reccurBoolValid()){
