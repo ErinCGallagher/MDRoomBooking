@@ -53,16 +53,18 @@
 	<p class="myBookings-header">{{rec_info}}</p>
 	<div class="bookings">
 		<table>
-			<tr>
-				<th>{{header_day_week}}</th>
-				<th>{{header_time}}</th>
-				<th>{{header_bookings_remain}}</th>
-				<th>{{header_building_name}}</th>
-				<th>{{header_room_num}}</th>
-				<th>{{header_key_req}}</th>
-				<th>{{header_reason}}</th>
-				<th>{{header_click_cancel}}</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>{{header_day_week}}</th>
+					<th>{{header_time}}</th>
+					<th>{{header_bookings_remain}}</th>
+					<th>{{header_building_name}}</th>
+					<th>{{header_room_num}}</th>
+					<th>{{header_key_req}}</th>
+					<th>{{header_reason}}</th>
+					<th>{{header_click_cancel}}</th>
+				</tr>
+			</thead>
 			<tbody ng-repeat="reBooking in recurringBookings">
 				<tr >
 					<td ng-click="toggleDetail(reBooking.recurringID)">{{reBooking.dayOfWeek}}</td>

@@ -145,4 +145,102 @@
 	.calendar .date-text {
 		font-size:165%;
 	}
+
+	/* the css below makes the calendar work on a phone*/
+	/* ensure it is not too small*/
+
+	.calendar .calendar-tabs-container{
+		width:100%;
+		overflow:scroll;
+	}
+
+	.calendar .nav-tabs{
+		min-width:740px;
+	}
+
+	.calendar .fc{
+		max-width:740px;
+	}
+
+	.calendar .fc-view-container {
+    	min-width: 740px;
+    }
+
+
+    @media screen and (max-width: 350px) {
+	.calendar .building-search-bar{
+		margin:20px 3px 20px 3px;
+		text-align: center;
+	}
+
+	.calendar .date-navigation-bar {
+	    text-align: center;
+	    font-size: 10px;
+	}
+
+	.calendar .date-text {
+		font-size:165%;
+	}
+	/* the css below makes the calendar work on a phone*/
+	/* ensure it is not too small*/
+
+	.calendar .calendar-tabs-container{
+		width:100%;
+		overflow:scroll;
+	}
+
+	.calendar .nav-tabs{
+		min-width:740px;
+	}
+
+	.calendar .fc{
+		max-width:740px;
+	}
+
+	.calendar .fc-view-container {
+    	min-width: 740px;
+    }
+ }
+
+ /* ----------- iPhone 5 and 5S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  	
+	.calendar .building-search-bar{
+		margin:20px 3px 20px 3px;
+		text-align: center;
+	}
+
+	.calendar .date-navigation-bar {
+	    text-align: center;
+	    font-size: 10px;
+	}
+
+	.calendar .date-text {
+		font-size:165%;
+	}
+	/* the css below makes the calendar work on a phone*/
+	/* ensure it is not too small*/
+
+	.calendar .calendar-tabs-container{
+		width:100%;
+		overflow:scroll;
+	}
+
+	.calendar .nav-tabs{
+		min-width:740px;
+	}
+
+	.calendar .fc{
+		max-width:740px;
+	}
+
+	.calendar .fc-view-container {
+    	min-width: 740px;
+    }
+
 }

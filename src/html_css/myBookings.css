@@ -1,10 +1,11 @@
 
 .myBookings .hours-remaining{
     font-size: 130%;
-    padding: 15px 15px;
-    min-width: 340px;
+    padding: 15px 0px;
+    min-width: 306px;
     border-radius: 4px;
-    flex:1;
+    flex: 1;
+    text-align: center;
 }
 
 .myBookings .display-flex{
@@ -46,10 +47,6 @@
     margin:10px;
 }
 
-.myBookings tbody{
-    height: 200px;
-    overflow-y: scroll;
-}
 
 .myBookings th{
 	text-align: center;
@@ -66,4 +63,48 @@
 
 .myBookings .float-right{
     float:right;
+}
+
+/* ----------- iPhone 5 and 5S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+    .myBookings .hours-remaining{
+        font-size: 110%;
+        padding: 15px 0px;
+        min-width: 306px;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .myBookings .display-flex{
+        flex:0;
+    }
+
+    .myBookings .user-information-cnontainer{
+        text-align: center;
+        font-size: 110%;
+    }
+
+    .myBookings .info-container {
+        width: 100%;
+        display:block !important;
+    }
+
+    .myBookings .bookings {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        overflow: scroll;
+    }
+
+    .myBookings table {
+        margin: 10px;
+        min-width: 740px;
+    }
+    
 }

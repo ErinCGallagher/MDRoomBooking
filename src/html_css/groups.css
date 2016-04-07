@@ -4,11 +4,12 @@
 
 .groups .container {
 	border-style:solid;
-	border-radius: 25px;
+	border-radius: 10px;
 	margin: 20px;
 	float: left;
   	width: 45%;
   	overflow: hidden;
+  	padding:15px;
 }
 
 .groups .group-info {
@@ -36,8 +37,18 @@
 }
 
 .groups .new-group-button {
-	border-radius: 15px;
-    padding: 5px 10px;
+	display: inline-block;
+    color: #666 !important;
+    background-color: #eee;
+    letter-spacing: 2px;
+    font-size: 14px !important;
+    padding: 8px 10px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-bottom-width: 2px;
+    padding-left: 12px;
 }
 
 .groups .textbox {
@@ -49,11 +60,15 @@
 .boxed {
     font-size: 110%;
     text-align: left;
-    border: solid 3px;
-    padding: 10px 20px;
+    border-radius:4px;
+    padding: 15px 15px;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     background-color: #c2d2d6;
+}
+
+.groups .modified-header{
+	font-size: 20px;
 }
 

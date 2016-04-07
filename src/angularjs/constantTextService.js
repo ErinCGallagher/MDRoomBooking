@@ -71,7 +71,7 @@ angular
 		SPEC_HRS_REMAIN : 	{NAME: "Special Hours Remaining"},
 		START_DATE : 		{NAME: "Start Date"},
 		END_DATE : 			{NAME: "End Date"},
-		DURATION_RESTRICT : {NAME: "Has Duration Restriction"},
+		DURATION_RESTRICT : {NAME: "Restrict User Booking Duartion"},
 		
 	},
 

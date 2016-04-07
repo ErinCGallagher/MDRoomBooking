@@ -19,8 +19,8 @@
         <p><strong>Number of Users:</strong> {{numUsers}}</p>
         <p><strong>Restrict User Booking Durations:</strong> {{hasBookingDurationRestriction}} </p>
         <p><strong>Hours Type:</strong> {{addHrsType}} <strong>Hours:</strong> {{setHours}} </p>
-        <p><strong>Start Date:</strong> {{setStartDate}} </p>
-        <p><strong>End Date:</strong> {{setEndDate}} </p>
+        <p><strong>Start Date:</strong> {{setStartDate | date:'EEE, MMM d, y'}} </p>
+        <p><strong>End Date:</strong> {{setEndDate | date:'EEE, MMM d, y'}} </p>
 
         <button class="btn submit-style small" ng-click="openViewUsersPopup()">Manage Users</button>
         <button class="btn submit-style small" ng-click="modifyGroup()">Modify Group</button>
@@ -89,7 +89,7 @@
 
 <div ng-show="showModGroup" class="container info-container">    
     <form name="modGroup" class="modify-group">
-		<p><h3><strong><centre>Modify Group</centre></strong><span uib-tooltip= "Make changes to the fields below, slelect the 'Save Group Modifications' button to save chnages and apply permissions to any users of the group" >
+		<p><h3 class="modified-header"><strong><centre>Modify Group</centre></strong><span uib-tooltip= "Make changes to the fields below, slelect the 'Save Group Modifications' button to save chnages and apply permissions to any users of the group" >
 			<img src="info-icon.png" class="info-i"> </span></h3></p>
            <div class="boxed">
             <p><strong>Group Name:</strong> 
@@ -164,9 +164,9 @@
                 </div>
 
                 <input type="file" style="display:none" id="addUsersFile" name="file" ng-model="selectedFile" onchange="angular.element(this).scope().addUsers(this)" />
-                <button class="btn" onclick="document.getElementById('addUsersFile').click();">Add Users</button>
-                <button class="btn" ng-click="confirmDeleteAllUsersFromGroup()">Remove All Users</button>
-                <button type="submit" class="btn" style="position:center" ng-click="cancel()">Done</button>
+                <button class="btn submit-style" onclick="document.getElementById('addUsersFile').click();">Add Users</button>
+                <button class="btn submit-style" ng-click="confirmDeleteAllUsersFromGroup()">Remove All Users</button>
+                <button type="submit" class="btn submit-style" style="position:center" ng-click="cancel()">Done</button>
             </div>
         </div>
     </script>  
