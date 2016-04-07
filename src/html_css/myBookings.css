@@ -46,6 +46,11 @@
     margin:10px;
 }
 
+.myBookings tbody{
+    height: 200px;
+    overflow-y: scroll;
+}
+
 .myBookings th{
 	text-align: center;
     padding: 15px;

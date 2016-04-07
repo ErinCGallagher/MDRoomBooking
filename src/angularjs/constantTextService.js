@@ -7,7 +7,7 @@ angular
 		INVALID_INITIAL_LOAD : 		{NAME : "could not retrieve all initial setup information" },
 	},
 	CALENDAR : {
-		BUILDING_SELECTION : 		{NAME : "Select A Building" },
+		BUILDING_SELECTION : 		{NAME : "Select a Building" },
 	},
 	NAV_BAR : {
 		CALENDAR : 		{NAME : "CALENDAR" },

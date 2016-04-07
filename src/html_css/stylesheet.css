@@ -113,6 +113,15 @@ input[type=text].ng-invalid.ng-touched {
     border-color: #ff8080;
     border-width:2px;
 }
+
+input[type=number].ng-invalid.ng-dirty {
+    border-color: #ff8080;
+    border-width:2px;
+}
+input[type=number].ng-invalid.ng-touched {
+    border-color: #ff8080;
+    border-width:2px;
+}
 .ng-submitted input.ng-invalid{
 	border-color: #ff8080;
     border-width:2px;
@@ -121,6 +130,24 @@ input[type=text].ng-invalid.ng-touched {
 .help-block{
 	color:#ff4d4d !important;
 }
+
+td.fc-widget-content{
+	cursor:pointer;
+}
+
+.modal-body.information-header td{
+	padding: 3px 6px;
+}
+
+.nav-tabs.nav-justified {
+    width: 93% !important;
+    border-bottom: 0;
+}
+
+.textarea.form-control{
+	max-width:100%;
+}
+
 
 /* box shadow on non active tabs*/
 .nav-tabs>li>a {
