@@ -41,6 +41,12 @@
 	require '../uploadFile.php';
 	$fileLines = processFile();
 
+	if (!$fileLines) {
+		//error occured with file upload
+		http_response_code(400); //Bad request
+		die();
+	}
+
 	$defaultHrs = getDepartmentDefaultWeeklyHours($db, $department);
 
 	try {
@@ -172,7 +178,7 @@
 		http_response_code(500); //Internal Server Error
 	    if (isset ($db)) {
 	       $db->rollback ();
-	       echo "Error:  " . $e; 
+	       echo "Error:  Something went wrong with uploading the user list."; 
 	    }
 	    //Close the connection
 		$db = NULL;

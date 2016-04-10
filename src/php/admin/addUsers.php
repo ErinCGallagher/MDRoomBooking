@@ -12,6 +12,12 @@
 	// each element should be the userID of a user to be added to the group
 	$fileLines = processFile();
 
+	if (!$fileLines) {
+		//error occured with file upload
+		http_response_code(400); //Bad request
+		die();
+	}
+
 	// array of group info containing (addHrsType, hours, hasBookingDurationRestriction, startDate, endDate)
 	$groupInfo = getGroupInfo($db, $groupID);
 
@@ -153,7 +159,7 @@
 		http_response_code(500); //Internal Server Error
 	    if (isset ($db)) {
 	       $db->rollback ();
-	       echo "Error:  " . $e; 
+	       echo "Error:  Something went wrong with adding user to the group."; 
 	    }
 	    //Close the connection
 		$db = NULL;

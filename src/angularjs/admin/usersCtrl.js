@@ -192,7 +192,7 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 				openUploadPopup(data, dept);
 			},
 			function(errorMsg) {
-				console.log(errorMsg); 
+				alert("The following unexpected error occured. Please inform a system administrator.\n\n" + errorMsg);
 			});
 	}
 
