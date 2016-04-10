@@ -138,4 +138,17 @@
 		}
 	}
 
+	// given groupID, returns array of with the uID of each user in group
+	// returns an empty array if there are no users in group or if error occurs
+	function getAllUsersInGroup($db, $groupID) {
+		$selectQuery = "SELECT uID FROM Permission WHERE groupID = ?";
+		$selectStmt = runQuery($db, $selectQuery, array($groupID));
+		$userArray = $selectStmt->fetchAll(PDO::FETCH_COLUMN,0);
+		if ($userArray) { //not false, no error occurred
+			return $userArray; //returns array of uIDs or an empty array if there are none.
+		} else {
+			return array(); //return empty array if error occurs
+		}
+	}
+
 ?>
