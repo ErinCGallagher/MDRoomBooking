@@ -83,10 +83,30 @@
 		}
 		else {
 			//faculty can only book for current semester
-			if ($class == "Faculty" && $totalWeeks <= weeksLeftInSemester($currentDate, $startDate)){
-				$canBook = True;
-			} else if ($class == "Faculty" && $totalWeeks > weeksLeftInSemester($currentDate, $startDate)){
-				$result['msg'] = "Faculty may only make bookings in the current semester.";
+			$bookingSem = currentSemester($startDate);
+			$currentSem = currentSemester($currentDate);
+			$addMonth = date("Y-m-d", strtotime("+1 month", strtotime($currentDate)));
+			$semInMonth = currentSemester($addMonth);
+			
+			if (($class == "Faculty") && ($currentSem == $bookingSem)){ //Current Semester
+				if ($totalWeeks <= weeksLeftInSemester($currentDate, $startDate)){
+					$canBook = True;
+				} else {
+					$result['msg'] = "You may only book within one semester at a time.";
+					$canBook = False;
+					http_response_code(406); //Invalid Entry
+				}
+			} else if (($class == "Faculty") && ($semInMonth == $bookingSem)){ //Within Month of Next Semester
+				if ($totalWeeks <= weeksLeftInSemester($startDate, $startDate)) {
+					$canBook = True;
+				} else {
+					$result['msg'] = "You may only book within one semester at a time.";
+					$canBook = False;
+					http_response_code(406); //Invalid Entry
+				}	
+			} else if (($class == "Faculty") && ($currentSem != $bookingSem) && ($semInMonth != $bookingSem)) {	
+				$result['msg'] = "You may only make booking for the current semester. You may start making bookings for the next semester one month in advance.";
+				$canBook = False;
 				http_response_code(406); //Invalid Entry
 			} else if ($class == "Admin" && $totalWeeks < 53) {
 				$canBook = True;
@@ -96,6 +116,7 @@
 				http_response_code(406); //Invalid Entry
 			} else {
 				$canBook = False;
+				$result['msg'] = "There has been an unexpected error with your booking. Please try again.";
 				http_response_code(406); //Invalid Entry
 			}
 			
