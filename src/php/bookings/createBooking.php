@@ -312,6 +312,7 @@
 						} else if ($bookingSem == $semInMonth) { //book within 1 month of next semester
 							$canBook = True;
 						} else { //Booking too far in advance
+							$result['msg'] = "You may only make booking for the current semester. You may start making bookings for the next semester one month in advance.";
 							$canBook = False;
 						}
 					} else { //Admin
