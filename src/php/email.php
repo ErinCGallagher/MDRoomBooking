@@ -180,6 +180,7 @@ function sendEmail($to, $subject, $msg) {
 
 function getAdmins(){
 	$admins = array("11lmb23@queensu.ca");
+	//$admins = array("belloa@queensu.ca","isonk@queensu.ca","redisha@queensu.ca");
 	return $admins;
 }
 
