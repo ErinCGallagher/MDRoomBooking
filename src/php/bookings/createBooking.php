@@ -302,11 +302,31 @@
 
 				}
 				else{//faculty & admin have unlimited hours
-					//create booking
-					$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class);
-					//Send bookingID to front end
-					$result['bookingID'] = $bookingID;
-				} //else faculty & admin have unlimited hours
+					if ($class == "Faculty"){
+						$bookingSem = currentSemester($startDate);
+						$currentSem = currentSemester($currentDate);
+						$addMonth = date("Y-m-d", strtotime("+1 month", strtotime($currentDate)));
+						$semInMonth = currentSemester($addMonth);
+						if ($bookingSem == $currentSem) { //booking in current semester
+							$canBook = True;
+						} else if ($bookingSem == $semInMonth) { //book within 1 month of next semester
+							$canBook = True;
+						} else { //Booking too far in advance
+							$canBook = False;
+						}
+					} else { //Admin
+						$canBook = True;
+					}
+				
+					if ($canBook){
+						//create booking
+						$bookingID = createBookingInDB($db,$uID,$reason,$desc,$numP,$blocks, $startDate, $room, $totalB, $startTime, $endDate, $endTime, $class);
+						//Send bookingID to front end
+						$result['bookingID'] = $bookingID;
+					} else {
+						http_response_code(406);
+					}
+				}
 				
 			}
 		
@@ -336,6 +356,18 @@
 		echo $json;
 
 	}
+	
+	function currentSemester($currentDate) {
+		$currentDate = date('m-d', strtotime($currentDate));
+		if ($currentDate <= date('m-d', strtotime("April 30"))){
+			$semester = "Winter";
+		} else if ($currentDate <= date('m-d', strtotime("August 31"))) {
+			$semester = "Summer";
+		} else {
+			$semester = "Fall";
+		}
+		return $semester;
+	}	
 
 
 	//after determining the user has the hours to make a booking, insert the booking into the database
