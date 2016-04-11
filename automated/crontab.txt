@@ -1,32 +1,32 @@
+# WHEN EDITING THIS CRONTAB:
+# Ensure line endings are unix (open in vim and run ":set ff=unix")
+# Ensure shell scripts are executable
+# Use full file paths or add to the PATH variable
+# Cron jobs execute in the /bin/sh shell, NOT bash!
+
 # Unwanted output is piped to dev/null (ie command >/dev/null)
 # Error messages are sent to the MAILTO addresses
 
-#MAILTO="belloa@queensu.ca,isonk@queensu.ca,redisha@queensu.ca"
-#MAILTO="shannon.klett@gmail.com,11ecg5@queensu.ca,11lmb23@queensu.ca,12ajf@queensu.ca"
-MAILTO="shannon.klett@gmail.com"
+MAILTO="isonk@queensu.ca,redisha@queensu.ca"
 PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking:/usr/local/bin:/usr/bin:/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/automated
 
 # ORDER OF ARGUMENTS
 # min hour day month day-of-week(0-7) command-to-execute
 
-# FOR DEBUGGING - writes output to log file every minute
-# * * * * * pwd var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
-# * * * * * echo "Hello School of Drama and Music Room Booking System Administrator. Please check that the automated semester update script ran as intended. Look at a booking from the previous semester and check that the user id is replaced by either Student, Admin, or Faculty. If it is not, please contact ITServices and ask them to check the automated scripts. Thanks! -School of Drama and Music Room Booking System"
+# FOR DEBUGGING:
+# * * * * * pwd var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log # writes output to log file every minute
 
-# TEST weekly script
-* * * * * runWeekly.sh >/dev/null
+# POSSIBLE WEEKLY MESSAGE:
+# echo "Hello School of Drama and Music Room Booking System Administrator. Something went wrong with the automated script that updates weekly hours. Please contact ITServices and ask them to check the automated scripts. Thanks! -School of Drama and Music Room Booking System"
 
-# TEST semester script
-# * * * * * runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+# Update weekly hours script runs every Monday at 12:01am
+1 0 * * 1 runWeekly.sh >/dev/null
 
-# Update weekly hours script runs once every Monday
-1 0 * * 2 usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runWeekly.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+# Archive fall data runs every Jan 1 at 12:05am
+5 0 1 1 * runSemester.sh >/dev/null; >&2 echo "Hello School of Drama and Music Room Booking System Administrator. Please check that the automated semester update script ran as intended. Look at a booking from the previous semester and check that the user id is replaced by either Student, Admin, or Faculty. If it is not, please contact ITServices and ask them to check the automated scripts. Thanks! -School of Drama and Music Room Booking System"
 
-# Archive fall data runs once every Jan 1
-# 5 0 1 1 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+# Archive winter data runs every May 1 at 12:05am
+5 0 1 5 * runSemester.sh >/dev/null; >&2 echo "Hello School of Drama and Music Room Booking System Administrator. Please check that the automated semester update script ran as intended. Look at a booking from the previous semester and check that the user id is replaced by either Student, Admin, or Faculty. If it is not, please contact ITServices and ask them to check the automated scripts. Thanks! -School of Drama and Music Room Booking System"
 
-# Archive winter data runs once every May 1
-# 5 0 1 5 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
-
-# Archive summer data runs once every Sept 1
-# 5 0 1 9 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+# Archive summer data runs every Sept 1 at 12:05am
+5 0 1 9 * runSemester.sh >/dev/null; >&2 echo "Hello School of Drama and Music Room Booking System Administrator. Please check that the automated semester update script ran as intended. Look at a booking from the previous semester and check that the user id is replaced by either Student, Admin, or Faculty. If it is not, please contact ITServices and ask them to check the automated scripts. Thanks! -School of Drama and Music Room Booking System"
