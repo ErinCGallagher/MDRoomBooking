@@ -1,8 +1,9 @@
-# Output from cron will be sent to the MAILTO address
-# pipe unwanted output to dev/null (ie command >/dev/null)
+# Unwanted output is piped to dev/null (ie command >/dev/null)
+# Error messages are sent to the MAILTO addresses
+
+#MAILTO="belloa@queensu.ca,isonk@queensu.ca,redisha@queensu.ca"
 #MAILTO="shannon.klett@gmail.com,11ecg5@queensu.ca,11lmb23@queensu.ca,12ajf@queensu.ca"
 MAILTO="shannon.klett@gmail.com"
-#unsure if this path thing actually does anything
 PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking:/usr/local/bin:/usr/bin:/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/automated
 
 # ORDER OF ARGUMENTS
@@ -10,13 +11,13 @@ PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking:/usr/local/bin:/usr/bi
 
 # FOR DEBUGGING - writes output to log file every minute
 # * * * * * pwd var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
-# * * * * * echo "Hi QSpace Administrator. Please check that the semester script ran. Look at a booking from the previous semester and check that the user id is replaced by either Student, Admin, or Faculty. Thanks! Shannon."
+# * * * * * echo "Hello School of Drama and Music Room Booking System Administrator. Please check that the automated semester update script ran as intended. Look at a booking from the previous semester and check that the user id is replaced by either Student, Admin, or Faculty. If it is not, please contact ITServices and ask them to check the automated scripts. Thanks! -School of Drama and Music Room Booking System"
 
 # TEST weekly script
-# * * * * * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runWeekly.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+* * * * * runWeekly.sh >/dev/null
 
 # TEST semester script
-# * * * * * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
+# * * * * * runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
 
 # Update weekly hours script runs once every Monday
 1 0 * * 2 usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runWeekly.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
@@ -29,5 +30,3 @@ PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking:/usr/local/bin:/usr/bi
 
 # Archive summer data runs once every Sept 1
 # 5 0 1 9 * usr/bin/cd /home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking/automated; runSemester.sh var1 var2 &>>/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/cron.log
-
-
