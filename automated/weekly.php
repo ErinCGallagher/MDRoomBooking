@@ -64,6 +64,7 @@
 		}
 	
 		$db->commit();
+		$db = NULL;
 
 	} catch (Exception $e) { 
 		http_response_code(500); //Internal Server Error
@@ -71,6 +72,7 @@
 	       $db->rollback ();
 	       echo "Error:  " . $e; 
 	    }
+	    $db = NULL;
 	}
 
 ?>
