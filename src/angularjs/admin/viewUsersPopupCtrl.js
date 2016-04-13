@@ -2,12 +2,15 @@ angular
 .module('mainApp')
 .controller('ViewUsersModalCtrl', ViewUsersModalCtrl);
 
+//This popup appears after a user clicks the "Manage Users" button on the Groups page.
+//Admins can view users in the group, then add or remove users
 function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationPopupService, AdminGroupsService, groupId, groupName) {
 
 	$scope.groupId = groupId;
 	$scope.groupName = groupName;
 	$scope.userList;
 
+	// get current users in group
 	getUsers = function() {
 		AdminGroupsService.getUsersInGroup($scope.groupId)
 			.then(function(data){
@@ -18,7 +21,7 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 			});
 	}
 
-	getUsers();
+	getUsers(); //called when popup initially opened
 
 	$scope.addUsers = function(inputElem) {
 		AdminGroupsService.addUsers(inputElem.files[0], $scope.groupId)
@@ -78,6 +81,8 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 		$uibModalInstance.close();
 	};
 
+
+	// Open popup after adding users to group - shows result of addition.
 	openUsersPopup = function(data){
 		var popupInstance = $uibModal.open({
 			templateUrl: 'addUsersPopup.html',
@@ -102,11 +107,12 @@ function ViewUsersModalCtrl ($scope, $uibModal, $uibModalInstance, ConfirmationP
 	    });
 
 	    popupInstance.result.then(function () {
-			getUsers();
+			getUsers(); // update user list displayed
 		});
 	};
 };
 
+// Popup that appears after adding users to group - shows result of addition.
 angular.module('mainApp').controller('AddUsersModalCtrl', AddUsersModalCtrl);
 function AddUsersModalCtrl ($scope, $uibModalInstance, groupName, addedUsers, usersAlreadyInGroup, usersNotInMaster, badEmailUsers) {
 

@@ -142,9 +142,8 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 	}
 	
 	
-
+	//Open popup after uploading new user list. Shows end result of upload.
 	openUploadPopup = function(data, dept){
-
 	    var popupInstance = $uibModal.open({
 			templateUrl: 'uploadPopup.html',
 			controller: 'ModalInstanceCtrl',
@@ -250,9 +249,8 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 
 
 		
-
+//Popup that opens after uploading a new user list
 angular.module('mainApp').controller('ModalInstanceCtrl', ModalInstanceCtrl);
-
 function ModalInstanceCtrl ($scope, $uibModalInstance, department, numUsersInDept, numUsersDeleted, badFormatUsers, badClassUsers, badEmailUsers) {
 
 	$scope.department = department;

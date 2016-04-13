@@ -26,7 +26,7 @@ function GroupsCtrl($scope, $uibModal, ConfirmationPopupService, AdminGroupsServ
 			});
 	}
 
-	getAllGroups();
+	getAllGroups(); //called on initial page load
 
 	$scope.newGroup = function(){
 		$scope.newName = "New Group";
