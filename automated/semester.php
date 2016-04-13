@@ -51,8 +51,7 @@
 			$db->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			$db->beginTransaction();
-			// echo 
-
+			
 			$updateBookingIdsQuery = "UPDATE Bookings JOIN BookingSlots ON Bookings.bookingID = BookingSlots.bookingID
 								SET uID = CASE hrsSource
 									WHEN 'Admin' THEN 'Admin'
