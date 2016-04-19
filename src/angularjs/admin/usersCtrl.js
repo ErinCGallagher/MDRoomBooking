@@ -1,3 +1,4 @@
+//written by Erin Gallagher & Lexi Flynn
 angular
 .module('mainApp')
 .controller('UsersCtrl', UsersCtrl);
@@ -43,10 +44,6 @@ function UsersCtrl($scope, $uibModal, AdminUsersService, $log, ConstantTextSeriv
 				}
 				$scope.userDepartment = userInfo.department;
 				
-				/*
-				$scope.curWeekHrs = userInfo[0].curWeekHrs;
-				$scope.nextWeekHrs = userInfo.data[0].nextWeekHrs;
-				*/
 				num = parseInt(userInfo[1].numGroups);	
 				num = num + 2;	
 				$scope.userGroups.splice(0,$scope.userGroups.length);

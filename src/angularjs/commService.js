@@ -1,3 +1,4 @@
+//written by Erin Gallagher, Shannon Klett & Lexi Flynn
 angular
 .module('mainApp')
 .service('CommService', CommService);

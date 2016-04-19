@@ -1,5 +1,5 @@
 <?php
-
+	//written by Shannon Klett & Lexi Flynn
 	require_once("../connection.php");
 	require_once("groupFunctions.php");
 	require_once("../uploadFile.php");

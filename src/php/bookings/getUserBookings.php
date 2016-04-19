@@ -1,5 +1,5 @@
 <?php
-		
+//written by Erin Gallagher
 //Database connection variables
 include('../connection.php');	
 session_start();

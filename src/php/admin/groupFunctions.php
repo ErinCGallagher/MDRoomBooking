@@ -1,5 +1,5 @@
 <?php
-
+	//written by Shannon Klett & Lexi Flynn
 	// check if user is  already in group
 	function userInGroup($db, $user, $groupID) {
 		$checkGroupQuery = "SELECT uID FROM Permission WHERE uID = ? AND groupID = ?";

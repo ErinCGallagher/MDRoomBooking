@@ -1,5 +1,5 @@
 <?php
-
+	//written by Shannon Klett & Lexi Flynn
 	include('../connection.php');
 	
 	$stmt = $db->query('SELECT groupID, groupName FROM UGroups');

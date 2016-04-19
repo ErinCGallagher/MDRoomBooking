@@ -1,3 +1,4 @@
+//written by Erin Gallagher
 angular
 .module('mainApp')
 .service('SharedVariableService', SharedVariableService);

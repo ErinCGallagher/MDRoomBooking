@@ -1,5 +1,5 @@
 <?php
-
+	//written by Laura Brooks
 	include('../connection.php');
 
 	//Get post data stream 

@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	//TODO, put stuff in PHP functions (CLEAN UP)
+	//written by Laura Brooks
 
 	//Database connection
 	include('../connection.php');

@@ -1,4 +1,5 @@
 <?php
+//written by Laura Brooks
 //can run with rb_load
 mysqli_query($cxn,"drop table Rooms;");
 

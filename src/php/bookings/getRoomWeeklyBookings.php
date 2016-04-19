@@ -1,5 +1,5 @@
 <?php
-		
+//written by Laura Brooks
 //Database connection variables
 include('../connection.php');	
 

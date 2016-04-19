@@ -1,4 +1,5 @@
 <?php
+//written by Shannon Klett & Lexi Flynn
 	include("../connection.php");
 	require_once("deleteUserListFromGroup.php");
 

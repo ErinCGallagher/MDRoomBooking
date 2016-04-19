@@ -1,5 +1,5 @@
 <?php
-
+	//written by Shannon Klett & Lexi Flynn
 	include('../connection.php');
 	
 	//set default time to UTC so it does not count daylight savings

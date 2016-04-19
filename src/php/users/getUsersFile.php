@@ -1,4 +1,5 @@
 <?php
+	//written by Shannon Klett & Lexi Flynn
 	require_once('../connection.php');
 	require_once('../util.php');
 

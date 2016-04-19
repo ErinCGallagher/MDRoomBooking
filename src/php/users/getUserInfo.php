@@ -1,6 +1,6 @@
 
 <?php
-
+	//written by Shannon Klett & Lexi Flynn
 	include('../connection.php');
 
 	//Get post data stream 

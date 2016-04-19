@@ -1,4 +1,5 @@
 <?php
+//written by Laura Brooks
 include('../connection.php');
 
 //Get post datastream from front end

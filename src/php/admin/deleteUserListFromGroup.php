@@ -1,5 +1,5 @@
 <?php
-
+	//written by Shannon Klett & Lexi Flynn
 	function deleteUserListFromGroup ($db, $groupID, $userArray){
 		if (sizeof($userArray) == 0) {
 			return;

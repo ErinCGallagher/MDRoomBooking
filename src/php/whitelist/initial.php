@@ -1,4 +1,5 @@
 <?php
+//written by Erin Gallagher & Laura Brooks
 session_start();
 
 include('../connection.php');

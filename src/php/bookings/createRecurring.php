@@ -1,4 +1,5 @@
 <?php
+	//written by Laura Brooks & Erin Gallagher
 	session_start();
 
 	//Database connection
