@@ -244,13 +244,26 @@
 	function weeksLeftInSemester($currentDate, $startDate) {
 		$semester = currentSemester($currentDate);
 		$startDate = date('Y-m-d', strtotime($startDate));
+		$currentDate = date('Y-m-d', strtotime($currentDate));
 		$count = 0;
 		if ($semester == "Winter"){
 			$endSem = date('Y-m-d', strtotime("April 30, " . date("Y")));
+			$nextSem = date('Y-m-d', strtotime("April 1, " . date("Y")));
+			if($currentDate >= $nextSem){//can start booking for next semester
+				$endSem = date('Y-m-d', strtotime("August 31, " . date("Y")));
+			}
 		} else if ($semester == "Summer"){
 			$endSem = date('Y-m-d', strtotime("August 31, " . date("Y")));
+			$nextSem = date('Y-m-d', strtotime("August 1, " . date("Y")));
+			if($currentDate >= strtotime("August 1, " . date("Y"))){//can start booking for next semester
+				$endSem = date('Y-m-d', strtotime("December 31, " . date("Y")));
+			}
 		} else if ($semester == "Fall"){
 			$endSem = date('Y-m-d', strtotime("December 31, " . date("Y")));
+			$nextSem = date('Y-m-d', strtotime("April 30, " . date("Y")));
+			if($currentDate >= strtotime("December 1, " . date("Y"))){//can start booking for next semester
+				$endSem = date('Y-m-d', strtotime("April 30, " . date("Y")));
+			}
 		}
 		while ($startDate <= $endSem) {
 			$count = $count + 1;

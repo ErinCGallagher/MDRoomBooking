@@ -40,8 +40,6 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		      roomID: roomInformation.roomNum,  
 		      numParticipants: roomInformation.numPeople, 
 		      otherDesc:roomInformation.description,
-		      recurringBooking:roomInformation.recurringBooking, //true or false
-          	  totalWeeks:roomInformation.numWeeksRecur //including the current week
 		    };
 		console.log(data);
 
@@ -81,7 +79,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 		    	console.log(response);
 		    })
 		    .error(function(responseDate) { //request to the php scirpt failed
-		    	return responseDate.status;
+		    	console.log(responseDate.status);
 		    });
 		 return promisePost;
 
@@ -227,7 +225,7 @@ bookingCommService.getWeeklyBookingsFromDb = function(start, end, building){
 
 	}
 
-	//retrieves all the users bookings that occur before the current date and time
+	//retrieves all the users bookings that occur after the current date and time
 	bookingCommService.retrieveUserBookings = function(uID){
 		var data = {uID:uID}
 		var promisePost =  $http.post('src/php/bookings/getUserBookings.php', data)
