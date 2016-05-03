@@ -7,7 +7,7 @@
 # Unwanted output is piped to dev/null (ie command >/dev/null)
 # Error messages are sent to the MAILTO addresses
 
-MAILTO="isonk@queensu.ca,redisha@queensu.ca"
+MAILTO="erin.catherine.gallagher@gmail,shannon.klett@gmail.com"
 PATH=/home/users/DMRoomBoooking/wwws/artsci/DMRoomBooking:/usr/local/bin:/usr/bin:/home/users/DMRoomBooking/wwws/artsci/DMRoomBooking/automated
 
 # ORDER OF ARGUMENTS
