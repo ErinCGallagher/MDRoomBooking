@@ -81,38 +81,6 @@
 
     <body ng-app="mainApp" ng-controller="AppCtrl">
 
-    <div class="select-user-type" style="text-align:center;">
-    <strong> Version Number: 6.1</strong>
-    <table style="text-align:center; width:100%;">
-        <tr>
-            <!--
-            <td>
-                 <strong>Temporary: Select User Type</strong>
-            </td>
-            -->
-            <td>
-                <strong> Please report bugs here:</strong> <a href="http://goo.gl/forms/y59QQTPL1r" target="_blank">Form </a> 
-            </td>
-        </tr>
-        <tr>
-            <!--
-            <td>
-                <form>
-                 <input type="radio" ng-model="userPermision" value="nonbooking"> Non Booking 
-                <input type="radio" ng-model="userPermision" value="Student"> Student 
-                <input type="radio" ng-model="userPermision" value="Faculty"> Faculty 
-                <input type="radio" ng-model="userPermision" value="Admin" ng-value="admin" > Admin
-                </form>
-            </td>
-            -->
-                <td>
-            <strong>Please provide user expereince feedback here: </strong><a href="http://goo.gl/forms/rqFljWplgb" target="_blank">Form </a> 
-            </td>
-        </tr>
-            
-    </table>
-    </div>
-
     <!-- https://github.com/IronSummitMedia/startbootstrap-agency -->
 
 <nav class="navbar navbar-default navbar-centered" ng-if="$route.current.activetab != null">
