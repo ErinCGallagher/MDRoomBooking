@@ -1,8 +1,11 @@
 <?php
 
 function userEmail(){
-	$user = $_SESSION['netID'] . "@queensu.ca";
-	//$user = $_SERVER['HTTP_QUEENSU_MAIL'];
+	//this line is for testing purposes only
+	// $user = $_SESSION['netID'] . "@queensu.ca";
+
+	//this line is for production
+	$user = $_SERVER['HTTP_QUEENSU_MAIL'];
 	return $user;
 }
 
@@ -179,8 +182,8 @@ function sendEmail($to, $subject, $msg) {
 }
 
 function getAdmins(){
-	$admins = array("11lmb23@queensu.ca");
-	//$admins = array("belloa@queensu.ca","isonk@queensu.ca","redisha@queensu.ca");
+	///$admins = array("11lmb23@queensu.ca");
+	$admins = array("belloa@queensu.ca","isonk@queensu.ca","redisha@queensu.ca");
 	return $admins;
 }
 
