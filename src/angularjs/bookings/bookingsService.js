@@ -311,7 +311,7 @@ function BookingsService(CommService, $q, SharedVariableService){
 		}
 		//if the current Month is between January & April Inclusive
 		//it's second semester 
-		else if(currentDate.getMonth() >= 0 && currentDate.getMonth() <= 2){
+		else if(currentDate.getMonth() >= 0 && currentDate.getMonth() <= 3){
 			semesterTwoYear = currentDate.getFullYear(); //currently in smester 2
 			currentSemester = "winter";
 		}
@@ -325,28 +325,57 @@ function BookingsService(CommService, $q, SharedVariableService){
 		var startSemesterOne = new Date(currentDate.getFullYear(),08,01); //Sept 1st
 		var endSemesterOne = new Date(currentDate.getFullYear(),11,31); //December 31st
 		var startSemesterTwo = new Date(semesterTwoYear,00,01); //Jan 1st
-		var endSemesterTwo = new Date(semesterTwoYear,02,31); //April 31st
+		var endSemesterTwo = new Date(semesterTwoYear,03,31); //April 31st
 		var startSemesterSummer = new Date(semesterTwoYear,03,01); //May 1st
 		var endSemesterSummer = new Date(semesterTwoYear,07,31); //August 31st
+
+		var fallEarlyBookingDate = new Date(currentDate.getFullYear(),07,1); //August 1st
+		var WinterEarlyBookingDate = new Date(currentDate.getFullYear(),11,1); //December 1st
+		var SummerEarlyBookingDate = new Date(currentDate.getFullYear(),03,1); //April 1st
 
 		//can book reccuring booking for 1 year from today
 		if(SharedVariableService.userType == "admin"){
 			var numWeeks = 52;
 
 		}
+		//determine the semester for room booking hours
+		//if it's 1 month from the next semester they can start booking in advance
 		else{//if faculty, can book reccuring booking for the current semester
 			if(currentSemester == "fall"){
 				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterOne.getTime())/oneDay);
 				var numWeeks = Math.floor(numDaysBetween/7);
+				//they can start booking for the winter semester
+				//it's December 1st
+				if(currentDate.getMonth() == 11 && currentDate.getDate() >= 1){
+					var numDaysBetween = Math.round(Math.abs(WinterEarlyBookingDate.getTime() - endSemesterTwo.getTime())/oneDay);
+					var extraWeeks = Math.floor(numDaysBetween/7);
+					numWeeks += extraWeeks;
+				}
 			}
 			else if(currentSemester == "winter"){
 				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterTwo.getTime())/oneDay);
 				var numWeeks = Math.floor(numDaysBetween/7);
+
+				//they can start booking for the summer semester
+				//it's April 1st
+				if(currentDate.getMonth() == 3 && currentDate.getDate() >= 1){
+					var numDaysBetween = Math.round(Math.abs(SummerEarlyBookingDate.getTime() - endSemesterSummer.getTime())/oneDay);
+					var extraWeeks = Math.floor(numDaysBetween/7);
+					numWeeks += extraWeeks;
+				}
 			}
 			else{ //currentSemester == "summer"
 				console.log("summer");
 				var numDaysBetween = Math.round(Math.abs(startDate.getTime() - endSemesterSummer.getTime())/oneDay);
 				var numWeeks = Math.floor(numDaysBetween/7);
+
+				//they can start booking for the fall semester
+				//it's August 1st
+				if(currentDate.getMonth() == 7 && currentDate.getDate() >= 1){
+					var numDaysBetween = Math.round(Math.abs(fallEarlyBookingDate.getTime() - endSemesterOne.getTime())/oneDay);
+					var extraWeeks = Math.floor(numDaysBetween/7);
+					numWeeks += extraWeeks;
+				}
 			}
 		}
 
