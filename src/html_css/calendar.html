@@ -46,7 +46,7 @@
        </div>
     </div>
 
-    <!-- Make Booking Popup Template -->
+            <!-- Make Booking Popup Template -->
     <div>
         <script type="text/ng-template" id="makeBookingPopup.html">
             <!-- Modal content-->
@@ -54,21 +54,21 @@
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
                     <div class="modal-title">
-            		    <uib-tabset active="active" justified="true">
-       						<uib-tab index="0" heading="Book Room">
-       						     <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" novalidate>
+                    <uib-tabset active="active" justified="true">
+                  <uib-tab index="0" heading="Book Room">
+                       <form name="makeBookingForm" class="book-Room" ng-submit="submitBooking(makeBookingForm.$valid)" novalidate>
                                     <div class="modal-body">
                                         <div class="book-room-info">
-                                            <p><strong>Building:</strong> {{bookingDetails.building}}</p>
-                                            <p><strong>Room #:</strong> {{bookingDetails.roomNum}}</p>
+                                            <p><strong>{{building_name}}</strong> {{bookingDetails.building}}</p>
+                                            <p><strong>{{room_num}}</strong> {{bookingDetails.roomNum}}</p>
                                             <div>
                                                 <div class="col-xs-12">
-                                                    <div class="date-column col-sm-6 col-xs-12"><strong>Start Date:</strong> {{bookingDetails.date}}</div>
-                                                    <div class="date-column col-sm-6 col-xs-12"><strong>Start Time:</strong> {{bookingDetails.startTime}}</div>
+                                                    <div class="date-column col-sm-6 col-xs-12"><strong>{{start_date}}</strong> {{bookingDetails.date}}</div>
+                                                    <div class="date-column col-sm-6 col-xs-12"><strong>{{start_time}}</strong> {{bookingDetails.startTime}}</div>
                                                 </div>
                                                 <div class="col-xs-12">
-                                                    <div class="date-column col-sm-6 col-xs-12 end-date"><strong>End Date:</strong> {{bookingDetails.date}}</div>
-                                                    <div class="end-time date-column col-sm-6 col-xs-12"><div><strong>End Time: </strong></div>
+                                                    <div class="date-column col-sm-6 col-xs-12 end-date"><strong>{{end_date}}</strong> {{bookingDetails.date}}</div>
+                                                    <div class="end-time date-column col-sm-6 col-xs-12"><div><strong>{{end_time}} </strong></div>
                                                     <div><uib-timepicker 
                                                         ng-model="timeInfo.myTime" 
                                                         ng-change="changed()" 
@@ -83,39 +83,39 @@
                                             </div>
                                         </div>
                                         <p>
-                                            <strong>Number of People: </strong>
+                                            <strong>{{num_people}} </strong>
                                             <select ng-model="bookingDetails.selectedNumPeople" ng-options="num as num for num in bookingDetails.numPeople" class="dropdrown"></select>
                                         </p>
                                         <p>
-                                            <strong>Reason</strong>
+                                            <strong>{{reason}}</strong>
                                             <select ng-model="bookingDetails.selectedReason" ng-options="reason as reason for reason in bookingDetails.reasons" class="dropdrown"></select>
                                         </p>
                                         <div ng-show="bookingDetails.selectedReason=='Other'" class="form-group">
-                                            <Strong>Description: </Strong>
+                                            <Strong>{{description}} </Strong>
                                             <textarea
                                                 ng-model="bookingDetails.description" 
                                                 name="description"
                                                 ng-maxlength="100" 
                                                 ng-required="bookingDetails.selectedReason =='Other'"
                                                 class="form-control dropdrown"></textarea>
-                                                <p ng-show="makeBookingForm.description.$error.maxlength" class="help-block">You cannot exceed 150 characters in this field</p>
-                                                <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength" class="help-block">Please provide a description for your booking</p>
-                                                 <p ng-show="makeBookingForm.description.$invalid && makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength && bookingDetails.submitted" class="help-block">Please provide a description for your booking</p>
+                                                <p ng-show="makeBookingForm.description.$error.maxlength" class="help-block">{{error_descript_exceed}}</p>
+                                                <p ng-show="makeBookingForm.description.$invalid && !makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength" class="help-block">{{error_descript_req}}</p>
+                                                 <p ng-show="makeBookingForm.description.$invalid && makeBookingForm.description.$pristine && !makeBookingForm.description.$error.maxlength && bookingDetails.submitted" class="help-block">{{error_descript_req}}</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Performance'">
-                                            <Strong>Performance Title: </Strong>
+                                            <Strong>{{performance_title}} </Strong>
                                             <textarea 
                                                 name="performanceTitle" 
                                                 ng-model="bookingDetails.performanceTitle" 
                                                 ng-maxlength="100" 
                                                 ng-required="bookingDetails.selectedReason=='Performance'"
                                                 class="form-control dropdrown"></textarea>
-                                                <p ng-show="makeBookingForm.performanceTitle.$error.maxlength" class="help-block">You cannot exceed 200 characters in this field</p>
-                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && !makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength" class="help-block">A Performance title is required</p>
-                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength && bookingDetails.submitted" class="help-block">A Performance title is required</p>
+                                                <p ng-show="makeBookingForm.performanceTitle.$error.maxlength" class="help-block">{{error_descript_exceed}}</p>
+                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && !makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength" class="help-block">{{error_performance_req}}</p>
+                                                <p ng-show="makeBookingForm.performanceTitle.$invalid && makeBookingForm.performanceTitle.$pristine && !makeBookingForm.performanceTitle.$error.maxlength && bookingDetails.submitted" class="help-block">{{error_performance_req}}</p>
                                         </div>
                                         <div ng-show="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'">
-                                            <Strong>Course Code: </Strong>
+                                            <Strong>{{course_code}} </Strong>
                                             <input type="text"
                                                 rows ="1" 
                                                 name="courseCode" 
@@ -123,13 +123,13 @@
                                                 ng-maxlength="20" 
                                                 ng-required="bookingDetails.selectedReason=='Course' || bookingDetails.selectedReason=='Coursework'"
                                                 class="dropdrown">
-                                                <p ng-show="makeBookingForm.courseCode.$error.maxlength" class="help-block">You cannot exceed 20 characters in this field</p>
-                                                <p ng-show="makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength" class="help-block">A course code is required</p>
-                                                <p ng-show="makeBookingForm.courseCode.$invalid && makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength && bookingDetails.submitted" class="help-block">A course code is required</p>
+                                                <p ng-show="makeBookingForm.courseCode.$error.maxlength" class="help-block">{{error_course_exceed}}</p>
+                                                <p ng-show="makeBookingForm.courseCode.$invalid && !makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength" class="help-block">{{error_course_req}}</p>
+                                                <p ng-show="makeBookingForm.courseCode.$invalid && makeBookingForm.courseCode.$pristine && !makeBookingForm.courseCode.$error.maxlength && bookingDetails.submitted" class="help-block">{{error_course_req}}</p>
                                         </div>
                                         <div class="box" ng-show="bookingDetails.userType !='student'">
                                             <div>
-                                                <Strong> Recurring Booking: </Strong>
+                                                <Strong> {{rec_booking}} </Strong>
                                               <input
                                                 type="checkbox"
                                                 name="reccurBool"
@@ -140,7 +140,7 @@
                                               <span ng-show="bookingDetails.userType == 'admin'" uib-tooltip= "You may create reccuring bookings for the entire academic year"><img src="info-icon.png" class="info-i"></span> 
                                             </div>
                                             <div ng-show="bookingDetails.reccurBool">
-                                                <Strong> Number of Weeks: </Strong>
+                                                <Strong>{{num_weeks}} </Strong>
                                               <input
                                                 type="number"
                                                 name="numWeeks"
@@ -152,42 +152,42 @@
                                               > 
                                               <span ng-show="bookingDetails.userType == 'faculty'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make."><img src="info-icon.png" class="info-i"></span>
                                               <span ng-show="bookingDetails.userType == 'admin'" uib-tooltip= "Please include the original booking when calculating the number of reccuring bookings you would like to make."><img src="info-icon.png" class="info-i"></span>
-                                              <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)" class="help-block"> The number of weeks cannot exceed {{bookingDetails.maxReccur}}</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$error.min" class="help-block"> The number of weeks must exceed 1</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$invalid && makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$invalid && !makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">Please provide a number of weeks</p>
-                                              <p ng-show="makeBookingForm.numWeeks.$error.number" class="help-block">not a valid number</p>
+                                              <p ng-show=" (bookingDetails.numWeeks > bookingDetails.maxReccur) && (bookingDetails.reccurBool == true)" class="help-block"> {{num_weeks_max}} {{bookingDetails.maxReccur}}</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$error.min" class="help-block"> {{num_weeks_min}}</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$invalid && makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">{{num_weeks_req}}</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$invalid && !makeBookingForm.numWeeks.$pristine && !makeBookingForm.numWeeks.$error.min && bookingDetails.submitted" class="help-block">{{num_weeks_req}}</p>
+                                              <p ng-show="makeBookingForm.numWeeks.$error.number" class="help-block">{{error_weeks_valid}}</p>
                                             </div>
                                         </div>
                                     
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn submit-style" ng-click="cancel()">Back</button>
-                                        <button type="submit" class="btn submit-style">Book Room</button>
+                                        <button class="btn submit-style" ng-click="cancel()">{{back_button}}</button>
+                                        <button type="submit" class="btn submit-style">{{book_button}}</button>
                                     </div>
                                 </form>
-       						 
-       				         </uib-tab>
+                   
+                       </uib-tab>
                     
-            				 <uib-tab index="1" heading="Room Information">
+                     <uib-tab index="1" heading="Room Information">
 
-            				 	 <div class="modal-body information-header">
+                       <div class="modal-body information-header">
                                      <table>
-                    				 	<tr><td><strong>Building: </strong></td><td>{{infoBuilding}}</td></tr>
-                    				 	<tr><td><strong>Room #: </strong></td><td>{{roomID}}</td></tr>
-                    				 	<tr><td><strong>Capacity: </strong></td><td>{{capacity}}</td></tr>
-                        				<tr><td><strong>Fee: </strong></td><td>{{fee}}</td></tr>
-                        				<tr><td><strong>Requires Key: </strong></td><td>{{reqKey}}</td></tr>
-                        				<tr><td><strong>Room Setup: </strong></td><td>{{setup}}</td></tr>
-                        				<tr><td><strong>Contents: </strong></td><td>{{contents}}</td></tr>
-                        				<tr><td><strong>Building Hours: </strong></td><td>{{openTime}}  <strong> - </strong>{{closeTime}}</td></tr>
-                				    </table>
-            				 	 </div> 
-            				 	 
-            				 	 <div class="modal-footer">
-            				 	  	<button class="btn submit-style" ng-click="cancel()">Exit</button>
-            				 	 </div>
-            				</uib-tab> 	 
+                              <tr><td><strong>{{roomInfo_building_name}} </strong></td><td>{{infoBuilding}}</td></tr>
+                              <tr><td><strong>{{roomInfo_room_num}} </strong></td><td>{{roomID}}</td></tr>
+                              <tr><td><strong>{{roomInfo_capacity}} </strong></td><td>{{capacity}}</td></tr>
+                                <tr><td><strong>{{roomInfo_fee}} </strong></td><td>{{fee}}</td></tr>
+                                <tr><td><strong>{{roomInfo_key_req}} </strong></td><td>{{reqKey}}</td></tr>
+                                <tr><td><strong>{{roomInfo_room_setup}} </strong></td><td>{{setup}}</td></tr>
+                                <tr><td><strong>{{roomInfo_contents}} </strong></td><td>{{contents}}</td></tr>
+                                <tr><td><strong>{{roomInfo_building_hrs}} </strong></td><td>{{openTime}}  <strong> - </strong>{{closeTime}}</td></tr>
+                            </table>
+                       </div> 
+                       
+                       <div class="modal-footer">
+                          <button class="btn submit-style" ng-click="cancel()">{{roomInfo_exit_buton}}</button>
+                       </div>
+                    </uib-tab>   
                         </uib-tabset>
                     </div>
                 </div>
@@ -204,40 +204,40 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title">Booking Information</h4>
+                    <h4 class="modal-title">{{popup_info_title}}</h4>
                 </div>
                 <div class="modal-body">
                     <form class="book-Room">
                         <div class="book-room-info">
-                            <p><strong>Building:</strong> {{building}}</p>
-                            <p><strong>Room #:</strong> {{roomNum}}</p>
-                            <p><strong>Date:</strong> {{date}}</p>
-                            <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
-                        <p><strong>Number of People: </strong> {{numPeople}}</p>
-                        <p><strong>Reason:</strong> {{reason}}</p>
+                            <p><strong>{{popup_building_name}}</strong> {{building}}</p>
+                            <p><strong>{{popup_room_num}}</strong> {{roomNum}}</p>
+                            <p><strong>{{popup_date}}</strong> {{date}}</p>
+                            <p><strong>{{popup_time}}</strong> {{startTime}} - {{endTime}}</p>
+                        <p><strong>{{popup_num_people}} </strong> {{numPeople}}</p>
+                        <p><strong>{{popup_reason}}</strong> {{reason}}</p>
                         <div ng-show="reason=='Other'">
-                            <p><Strong>Description: </Strong> {{description}}</p>
+                            <p><Strong>{{popup_descript}} </Strong> {{description}}</p>
                         </div>
                         <div ng-show="reason=='Performance'">
-                            <p><Strong>Performance Title: </Strong> {{description}}</p>
+                            <p><Strong>{{popup_performance_title}} </Strong> {{description}}</p>
                         </div>
                         <div ng-show="reason=='Course' || reason=='Coursework'">
-                            <p><Strong>Course Code: </Strong> {{description}}</p>
+                            <p><Strong>{{popup_course_code}} </Strong> {{description}}</p>
                         </div>
                         <div ng-show="userType != 'student' && userType != 'nonbooking'">
-                        <Strong> Booking User Information </Strong>
+                        <Strong> {{popup_user_info_title}} </Strong>
                             <div class="box">
                                 
-                                 <p><strong>Name:</strong> {{userName}}</p>
-                                 <p><strong>Type:</strong> {{bookingUserType}}</p>
-                                 <p><strong>Email:</strong> {{userEmail}}</p>
+                                 <p><strong>{{popup_name}}</strong> {{userName}}</p>
+                                 <p><strong>{{popup_type}}</strong> {{bookingUserType}}</p>
+                                 <p><strong>{{popup_email}}</strong> {{userEmail}}</p>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn submit-style cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">Cancel Booking</button>
-                    <button type="submit" class="btn submit-style" ng-click="cancel()">Back</button>
+                    <button type="submit" class="btn submit-style cancel" ng-show="userType=='admin'" ng-click="cancelBooking()">{{popup_cancel_button}}</button>
+                    <button type="submit" class="btn submit-style" ng-click="cancel()">{{popup_back_button}}</button>
 
                 </div>
             </div>
@@ -255,32 +255,31 @@
                 </div>
                 <div class="modal-body confirmation-body">
                         <div class="book-room-info">
-                            <p><strong>Building:</strong> {{building}}</p>
-                            <p><strong>Room #:</strong> {{roomNum}}</p>
-                            <p><strong>Date:</strong> {{date}}</p>
-                            <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
-                            <p><strong>Number of People: </strong> {{numPeople}}</p>
-                            <p><strong>Reason:</strong> {{reason}}</p>
+                            <p><strong>{{popup_building_name}}</strong> {{building}}</p>
+                            <p><strong>{{popup_room_num}}</strong> {{roomNum}}</p>
+                            <p><strong>{{popup_date}}</strong> {{date}}</p>
+                            <p><strong>{{popup_time}}</strong> {{startTime}} - {{endTime}}</p>
+                            <p><strong>{{popup_num_people}} </strong> {{numPeople}}</p>
+                            <p><strong>{{popup_reason}}</strong> {{reason}}</p>
                             <div ng-show="reason=='Other'">
-                                <p><Strong>Description: </Strong> {{description}}</p>
+                                <p><Strong>{{popup_descript}} </Strong> {{description}}</p>
                             </div>
                             <div ng-show="reason=='Performance'">
-                                <p><Strong>Performance Title: </Strong> {{description}}</p>
+                                <p><Strong>{{popup_performance_title}} </Strong> {{description}}</p>
                             </div>
                             <div ng-show="reason=='Course' || reason=='Coursework'">
-                                <p><Strong>Course Code: </Strong> {{description}}</p>
+                                <p><Strong>{{popup_course_code}} </Strong> {{description}}</p>
                             </div>
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn submit-style" ng-click="cancel()">Ok</button>
+                    <button type="submit" class="btn submit-style" ng-click="cancel()">{{popup_ok_button}}</button>
 
                 </div>
             </div>
         </script>  
     </div>
-
-    <!--Recurring Booking Confirmation Popup Template -->
+        <!--Recurring Booking Confirmation Popup Template -->
     <div>
         <script type="text/ng-template" id="recurringBookingConfirmationPopup.html">
             <!-- Modal content-->
@@ -291,27 +290,27 @@
                 </div>
                 <div class="modal-body confirmation-body">
                     <div class="book-room-info">
-                        <p><strong>Building:</strong> {{building}}</p>
-                        <p><strong>Room #:</strong> {{roomNum}}</p>
-                        <p><strong>Time:</strong> {{startTime}} - {{endTime}}</p>
+                        <p><strong>{{popup_building_name}}</strong> {{building}}</p>
+                        <p><strong>{{popup_room_num}}</strong> {{roomNum}}</p>
+                        <p><strong>{{popup_time}}</strong> {{startTime}} - {{endTime}}</p>
                     </div>
                 </div>
                 <div class="box confirmPop green" ng-show="success">
                     <div>
-                        <Strong> Successful Bookings: </Strong>
+                        <Strong> {{success_title}} </Strong>
                     </div>
                     <div ng-repeat="entry in successfulBookings">{{entry | date:'MMM d, yyyy'}}</div>
                 </div>
                 <div class="box confirmPop red" ng-show="!allBookingsSucceeded">
                     <div>
-                        <Strong> Failed Bookings: </Strong>
+                        <Strong> {{failed_title}} </Strong>
                     </div>
                     <div ng-repeat="entry in failedBookings">{{entry | date:'MMM d yyyy'}}</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn submit-style" ng-click="closePopup()" ng-show="success">Continue with successful bookings </button>
-                    <button type="submit" class="btn submit-style" ng-click="closePopup()" ng-show="!success">Ok </button>
-                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn submit-style" ng-click="cancelAll()">Cancel All Bookings</button>
+                    <button type="submit" class="btn submit-style" ng-click="closePopup()" ng-show="success">{{continue_button}} </button>
+                    <button type="submit" class="btn submit-style" ng-click="closePopup()" ng-show="!success">{{ok_button}} </button>
+                    <button ng-show="!allBookingsSucceeded" type="submit" class="btn submit-style" ng-click="cancelAll()">{{cancel_button}}</button>
 
                 </div>
             </div>

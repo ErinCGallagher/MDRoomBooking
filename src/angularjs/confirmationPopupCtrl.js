@@ -15,4 +15,4 @@ function ConfirmationPopupCtrl ($scope, $uibModalInstance, submitFunction, submi
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};
-};
+  };

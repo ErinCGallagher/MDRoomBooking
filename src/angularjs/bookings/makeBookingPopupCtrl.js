@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('MakeBookingPopupCtrl', MakeBookingPopupCtrl);
 
-function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService,  $uibModal) {
+function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dateTime, sourcePage, BookingsService, SearchService, SharedVariableService,  ConstantTextSerivce, $uibModal) {
 
   $scope.bookingDetails = {};
   $scope.bookingDetails.building = building;
@@ -308,5 +308,43 @@ function MakeBookingPopupCtrl ($scope, $uibModalInstance, building, roomNum, dat
     });
   };
 
+  // Constant Text 
+
+  //make booking
+  $scope.building_name = ConstantTextSerivce.POPUP_BOOK.BUILDING.NAME;
+  $scope.room_num = ConstantTextSerivce.POPUP_BOOK.ROOM_NUM.NAME;
+  $scope.start_date = ConstantTextSerivce.POPUP_BOOK.START_DATE.NAME;
+  $scope.start_time = ConstantTextSerivce.POPUP_BOOK.START_TIME.NAME;
+  $scope.end_date = ConstantTextSerivce.POPUP_BOOK.END_DATE.NAME;
+  $scope.end_time = ConstantTextSerivce.POPUP_BOOK.END_TIME.NAME;
+  $scope.num_people = ConstantTextSerivce.POPUP_BOOK.NUM_PEOPLE.NAME;
+  $scope.reason = ConstantTextSerivce.POPUP_BOOK.REASON.NAME;
+  $scope.description = ConstantTextSerivce.POPUP_BOOK.DESCRIPT.NAME;
+  $scope.error_descript_exceed = ConstantTextSerivce.POPUP_BOOK.ERROR_DESCR_EXCEED.NAME;
+  $scope.error_descript_req = ConstantTextSerivce.POPUP_BOOK.ERROR_DESCR_REQ.NAME;
+  $scope.performance_title = ConstantTextSerivce.POPUP_BOOK.PERFORMANCE_TITLE.NAME;
+  $scope.error_performance_req = ConstantTextSerivce.POPUP_BOOK.ERROR_PERFOR_REQ.NAME;
+  $scope.course_code= ConstantTextSerivce.POPUP_BOOK.COURSE_CODE.NAME;
+  $scope.error_course_exceed = ConstantTextSerivce.POPUP_BOOK.ERROR_COURSE_EXCEED.NAME;
+  $scope.error_course_req = ConstantTextSerivce.POPUP_BOOK.ERROR_COURSE_REQ.NAME;
+  $scope.rec_booking = ConstantTextSerivce.POPUP_BOOK.REC_BOOKING.NAME;
+  $scope.num_weeks = ConstantTextSerivce.POPUP_BOOK.NUM_WEEKS.NAME;
+  $scope.num_weeks_max = ConstantTextSerivce.POPUP_BOOK.ERROR_WEEKS_MAX.NAME;
+  $scope.num_weeks_min = ConstantTextSerivce.POPUP_BOOK.ERROR_WEEKS_MIN.NAME;
+  $scope.num_weeks_req = ConstantTextSerivce.POPUP_BOOK.ERROR_WEEKS_REQ.NAME;
+  $scope.error_weeks_valid = ConstantTextSerivce.POPUP_BOOK.ERROR_WEEKS_VALID.NAME;
+  $scope.back_button = ConstantTextSerivce.POPUP_BOOK.BACK_BUTTON.NAME;
+  $scope.book_button = ConstantTextSerivce.POPUP_BOOK.BOOK_BUTTON.NAME;
+
+//room info tab
+  $scope.roomInfo_building_name = ConstantTextSerivce.POPUP_ROOM_INFO.BUILDING.NAME;
+  $scope.roomInfo_room_num = ConstantTextSerivce.POPUP_ROOM_INFO.ROOM_NUM.NAME;
+  $scope.roomInfo_capacity = ConstantTextSerivce.POPUP_ROOM_INFO.CAPACITY.NAME;
+  $scope.roomInfo_fee = ConstantTextSerivce.POPUP_ROOM_INFO.FEE.NAME;
+  $scope.roomInfo_key_req = ConstantTextSerivce.POPUP_ROOM_INFO.REQ_KEY.NAME;
+  $scope.roomInfo_room_setup = ConstantTextSerivce.POPUP_ROOM_INFO.ROOM_SETUP.NAME;
+  $scope.roomInfo_contents = ConstantTextSerivce.POPUP_ROOM_INFO.CONTENTS.NAME;
+  $scope.roomInfo_building_hrs = ConstantTextSerivce.POPUP_ROOM_INFO.BUILDING_HRS.NAME;
+  $scope.roomInfo_exit_buton = ConstantTextSerivce.POPUP_ROOM_INFO.EXIT_BUTTON.NAME;
  
 };

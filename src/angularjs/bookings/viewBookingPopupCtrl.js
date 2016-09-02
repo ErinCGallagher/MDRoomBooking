@@ -2,7 +2,7 @@ angular
 .module('mainApp')
 .controller('ViewBookingPopupCtrl', ViewBookingPopupCtrl);
 
-function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, BookingsService, SharedVariableService, SearchService) {
+function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, BookingsService, SharedVariableService, SearchService, ConstantTextSerivce) {
 
   $scope.building = booking.building;
   $scope.roomNum = booking.roomNum;
@@ -64,4 +64,24 @@ function ViewBookingPopupCtrl ($scope, $uibModalInstance, booking, sourcePage, B
     }
 
   };
+
+  //constant text service
+
+  //view booking
+  $scope.popup_info_title = ConstantTextSerivce.POPUP_VIEW_BOOKING.BOOKING_INFO_TITLE.NAME;
+  $scope.popup_building_name = ConstantTextSerivce.POPUP_VIEW_BOOKING.BUILDING.NAME;
+  $scope.popup_room_num = ConstantTextSerivce.POPUP_VIEW_BOOKING.ROOM_NUM.NAME;
+  $scope.popup_date = ConstantTextSerivce.POPUP_VIEW_BOOKING.DATE.NAME;
+  $scope.popup_time = ConstantTextSerivce.POPUP_VIEW_BOOKING.TIME.NAME;
+  $scope.popup_num_people = ConstantTextSerivce.POPUP_VIEW_BOOKING.NUM_PEOPLE.NAME;
+  $scope.popup_reason = ConstantTextSerivce.POPUP_VIEW_BOOKING.REASON.NAME;
+  $scope.popup_descript = ConstantTextSerivce.POPUP_VIEW_BOOKING.DESCRIPT.NAME;
+  $scope.popup_performance_title = ConstantTextSerivce.POPUP_VIEW_BOOKING.PERFORMANCE_TITLE.NAME;
+  $scope.popup_course_code = ConstantTextSerivce.POPUP_VIEW_BOOKING.COURSE_CODE.NAME;
+  $scope.popup_user_info_title = ConstantTextSerivce.POPUP_VIEW_BOOKING.BOOKING_USER_INFO.NAME;
+  $scope.popup_name = ConstantTextSerivce.POPUP_VIEW_BOOKING.NAME.NAME;
+  $scope.popup_type = ConstantTextSerivce.POPUP_VIEW_BOOKING.TYPE.NAME;
+  $scope.popup_email = ConstantTextSerivce.POPUP_VIEW_BOOKING.EMAIL.NAME;
+  $scope.popup_cancel_button = ConstantTextSerivce.POPUP_VIEW_BOOKING.CANCEL_BUTTON.NAME;
+  $scope.popup_back_button = ConstantTextSerivce.POPUP_VIEW_BOOKING.BACK_BUTTON.NAME;
 };

@@ -280,6 +280,5 @@ function SearchCtrl($scope, uiCalendarConfig, $uibModal, $log, SharedVariableSer
   $scope.search_button = ConstantTextSerivce.SEARCH.SEARCH_BUTTON.NAME;
   $scope.search_explanation = ConstantTextSerivce.SEARCH.SEARCH_EXPLA.NAME;
   $scope.no_results = ConstantTextSerivce.SEARCH.NO_RESULTS.NAME;
-
 };
 
